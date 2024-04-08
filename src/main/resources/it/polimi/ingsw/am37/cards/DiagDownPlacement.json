@@ -1,0 +1,14 @@
+[
+  {
+    "id" : 88,
+    "points" : 2,
+    "otherResource" : "PLANT",
+    "cardColorThatTriggersCheck" : "PLANT"
+  },
+  {
+    "id" : 90,
+    "points" : 2,
+    "otherResource" : "INSECT",
+    "cardColorThatTriggersCheck" : "INSECT"
+  }
+]

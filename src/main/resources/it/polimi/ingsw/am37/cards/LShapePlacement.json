@@ -1,0 +1,46 @@
+[
+  {
+    "id" : 91,
+    "points" : 3,
+    "otherResource" : "FUNGI",
+    "cardColorThatTriggersCheck" : "PLANT",
+    "direction" : "TOPLEFT",
+    "requestedPosition": {
+      "x": -1,
+      "y": 3
+    }
+  },
+  {
+    "id" : 92,
+    "points" : 3,
+    "otherResource" : "PLANT",
+    "cardColorThatTriggersCheck" : "INSECT",
+    "direction" : "TOPRIGHT",
+    "requestedPosition": {
+      "x": 1,
+      "y": 3
+    }
+  },
+  {
+    "id" : 93,
+    "points" : 3,
+    "otherResource" : "ANIMAL",
+    "cardColorThatTriggersCheck" : "FUNGI",
+    "direction" : "BOTTOMLEFT",
+    "requestedPosition": {
+      "x": -1,
+      "y": -3
+    }
+  },
+  {
+    "id" : 94,
+    "points" : 3,
+    "otherResource" : "INSECT",
+    "cardColorThatTriggersCheck" : "ANIMAL",
+    "direction" : "BOTTOMRIGHT",
+    "requestedPosition": {
+      "x": 1,
+      "y": -3
+    }
+  }
+]

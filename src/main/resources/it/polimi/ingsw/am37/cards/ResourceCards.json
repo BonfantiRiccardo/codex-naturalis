@@ -1,0 +1,1922 @@
+[
+  {
+    "id" : 1,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI"
+    }
+  },
+  {
+    "id" : 2,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI"
+    }
+  },
+  {
+    "id" : 3,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        }
+      },
+      "mainResource": "FUNGI",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI"
+    }
+  },
+  {
+    "id" : 4,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        }
+      },
+      "mainResource": "FUNGI",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI"
+    }
+  },
+  {
+    "id" : 5,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "QUILL"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        }
+      },
+      "mainResource": "FUNGI",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI"
+    }
+  },
+  {
+    "id" : 6,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "INKWELL"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        }
+      },
+      "mainResource": "FUNGI",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI"
+    }
+  },
+  {
+    "id" : 7,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "MANUSCRIPT"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI"
+    }
+  },
+  {
+    "id" : 8,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI"
+    }
+  },
+  {
+    "id" : 9,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "TOPRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI"
+    }
+  },
+  {
+    "id" : 10,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "FUNGI"
+    }
+  },
+  {
+    "id" : 11,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT"
+    }
+  },
+  {
+    "id" : 12,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT"
+    }
+  },
+  {
+    "id" : 13,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        }
+      },
+      "mainResource": "PLANT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT"
+    }
+  },
+  {
+    "id" : 14,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        }
+      },
+      "mainResource": "PLANT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT"
+    }
+  },
+  {
+    "id" : 15,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "QUILL"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        }
+      },
+      "mainResource": "PLANT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT"
+    }
+  },
+  {
+    "id" : 16,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "INKWELL"
+        }
+      },
+      "mainResource": "PLANT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT"
+    }
+  },
+  {
+    "id" : 17,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "MANUSCRIPT"
+        },
+        "TOPRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        }
+      },
+      "mainResource": "PLANT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT"
+    }
+  },
+  {
+    "id" : 18,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT"
+    }
+  },
+  {
+    "id" : 19,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        }
+      },
+      "mainResource": "PLANT",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT"
+    }
+  },
+  {
+    "id" : 20,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "PLANT"
+    }
+  },
+  {
+    "id" : 21,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL"
+    }
+  },
+  {
+    "id" : 22,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        }
+      },
+      "mainResource": "ANIMAL",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL"
+    }
+  },
+  {
+    "id" : 23,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "TOPRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL"
+    }
+  },
+  {
+    "id" : 24,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        }
+      },
+      "mainResource": "ANIMAL",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL"
+    }
+  },
+  {
+    "id" : 25,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "INKWELL"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        }
+      },
+      "mainResource": "ANIMAL",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL"
+    }
+  },
+  {
+    "id" : 26,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "MANUSCRIPT"
+        }
+      },
+      "mainResource": "ANIMAL",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL"
+    }
+  },
+  {
+    "id" : 27,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "QUILL"
+        },
+        "TOPRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        }
+      },
+      "mainResource": "ANIMAL",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL"
+    }
+  },
+  {
+    "id" : 28,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL"
+    }
+  },
+  {
+    "id" : 29,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        }
+      },
+      "mainResource": "ANIMAL",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL"
+    }
+  },
+  {
+    "id" : 30,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "ANIMAL"
+    }
+  },
+  {
+    "id" : 31,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT"
+    }
+  },
+  {
+    "id" : 32,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        }
+      },
+      "mainResource": "INSECT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT"
+    }
+  },
+  {
+    "id" : 33,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "TOPRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT"
+    }
+  },
+  {
+    "id" : 34,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        }
+      },
+      "mainResource": "INSECT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT"
+    }
+  },
+  {
+    "id" : 35,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "QUILL"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "ANIMAL"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        }
+      },
+      "mainResource": "INSECT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT"
+    }
+  },
+  {
+    "id" : 36,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "MANUSCRIPT"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "FUNGI"
+        }
+      },
+      "mainResource": "INSECT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT"
+    }
+  },
+  {
+    "id" : 37,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "PLANT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "INKWELL"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT",
+      "pointsGivenOnPlacement": 0,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT"
+    }
+  },
+  {
+    "id" : 38,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "TOPRIGHT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT"
+    }
+  },
+  {
+    "id" : 39,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        }
+      },
+      "mainResource": "INSECT",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT"
+    }
+  },
+  {
+    "id" : 40,
+    "front": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": false,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "INSECT"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT",
+      "pointsGivenOnPlacement": 1,
+      "resourcePlacementCondition" : null,
+      "bonus": null
+    },
+    "back": {
+      "corners": {
+        "TOPLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "TOPRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMLEFT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        },
+        "BOTTOMRIGHT": {
+          "isVisible": true,
+          "resource": "EMPTY"
+        }
+      },
+      "mainResource": "INSECT"
+    }
+  }
+]
