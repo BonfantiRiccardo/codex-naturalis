@@ -1,0 +1,5 @@
+NOTA: Questa repository è composta da pochi, grossi commit iniziali poiché essendo tutti i componenti del gruppo poco pratici con git e GitHub abbiamo voluto fare parecchi test su una nostra repository privata, in modo tale da non "sporcare" quella ufficiale.
+
+Mancano le implementazioni delle carte obiettivo che richiedono un certo tipo di piazzamento, come anche il testing.
+
+Mancano l'implementazione del Kingdom, Player e GameModel, come anche il testing.

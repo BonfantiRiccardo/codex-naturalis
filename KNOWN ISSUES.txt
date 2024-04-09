@@ -1,3 +1,0 @@
-Mancano le implementazioni delle carte obiettivo che richiedono un certo tipo di piazzamento, come anche la loro javadoc e il testing.
-
-Mancano l'implementazione del Kingdom, Player e GameModel, come anche la loro javadoc e il testing.

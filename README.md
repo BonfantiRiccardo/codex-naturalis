@@ -7,6 +7,8 @@ Guarda le specifiche [qui](assets/requirements.pdf) e leggi le regole del gioco:
 
 Per la documentazione riguardante il progetto si veda la [cartella deliverables](deliverables)
 
+Guarda il file dei problemi noti: [Known Issues](KNOWN_ISSUES.txt)
+
 ## Team (Gruppo 37)
 
 - [Dario Aliprandi](https://github.com/dario747)

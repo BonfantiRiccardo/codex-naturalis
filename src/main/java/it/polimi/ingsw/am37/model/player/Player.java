@@ -8,7 +8,6 @@ import it.polimi.ingsw.am37.model.game.GameModel;
 import it.polimi.ingsw.am37.model.sides.*;
 
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * The Player class contains all the information and behaviour of a user of the application.
@@ -35,7 +34,7 @@ public class Player {
     /**
      * The startCard attribute is a reference to the start card that the player receives at the beginning of the game.
      */
-    private Card startCard;
+    private StartCard startCard;
     /**
      * The privateObjective attribute is the ObjectiveCard that the player chooses at the beginning of the game.
      */
@@ -132,7 +131,7 @@ public class Player {
      * @param startCard A card of type startCard.
      * @throws AlreadyAssignedException This attribute cannot be assigned twice.
      */
-    public void setStartCard(Card startCard) throws AlreadyAssignedException {
+    public void setStartCard(StartCard startCard) throws AlreadyAssignedException {
         if(this.startCard != null) {
             throw new AlreadyAssignedException("The startCard has already been assigned");
         } else {
@@ -140,8 +139,13 @@ public class Player {
         }
     }
 
+    /**
+     * The chooseStartCardSide() waits for the player to choose the StartCard Side he wants to place down and then calls
+     * the instantiateMyKingdom(sC, startSide) method to create the Players Kingdom.
+     */
     public void chooseStartCardSide() {
         //TODO
+        //talks to controller that sends request to client
     }
 
     /**
@@ -164,12 +168,7 @@ public class Player {
         if(this.privateObjective != null) {
             throw new AlreadyAssignedException("The privateObjective has already been assigned");
         } else {
-            Scanner in = new Scanner(System.in);
-            System.out.println("Choose one of these two objective (type 0 for the first and 1 for the second):");
-            System.out.println(privateObjective[0]);
-            System.out.println(privateObjective[1]);
-            this.privateObjective = privateObjective[in.nextInt()];
-            System.out.println("You chose: " + this.privateObjective);
+            this.privateObjective = privateObjective[0]; //talks to the controller and asks client which card
         }
     }
 
@@ -182,6 +181,13 @@ public class Player {
         return privateObjective;
     }
 
+    /**
+     * The instantiateMyKingdom(sC, startSide) method creates a new Kingdom for the Player with the StartCard and Side
+     * that are given as parameters.
+     * @param sC The StartCard that the Player drew.
+     * @param startSide The StartCard Side that the Player chose.
+     * @throws AlreadyAssignedException Throws this exception if the Kingdom has already been created.
+     */
     private void instantiateMyKingdom(StartCard sC, Side startSide) throws AlreadyAssignedException {
         if (this.myKingdom != null) {
             throw new AlreadyAssignedException("The Kingdom cannot be created twice");
@@ -197,7 +203,11 @@ public class Player {
         return myKingdom;
     }
 
-
+    /**
+     * The drawCardFromDeck(deck) method adds a Card to the hand of the player by drawing it from the deck given as a
+     * parameter.
+     * @param deck The deck from which the Player has chosen to draw the Card.
+     */
     public void drawCardFromDeck(Deck deck) {
         //TODO
         //check se la lista hand ha 3 carte allora ritorna "Impossibile pescare le carte in mano sono già 3"
@@ -205,6 +215,12 @@ public class Player {
         //altrimenti hand.add(deck.drawCard());
     }
 
+    /**
+     * The drawCardFromAvailable(card) method adds the available Card chosen by the player to his hand. Then it removes
+     * the available Card from the list of available Cards and draws a new Card from the corresponding deck and adds it
+     * to the available Cards.
+     * @param card The card that the Player wants to draw.
+     */
     public void drawCardFromAvailable(Card card) {
         //TODO
         //check se la lista hand ha 3 carte allora ritorna "Impossibile pescare le carte in mano sono già 3"
@@ -212,6 +228,16 @@ public class Player {
         //altrimenti hand.add(card);        game.getAvail..().remove(card);     game.getAvail..().add(deck.drawCard());
     }
 
+    /**
+     * The placeCard(placed, position) method checks if the Side given as a parameter is the Side of one of the Card in
+     * the Player's hand, then it checks if the Position given as a parameter is part of the list of currently active
+     * positions in the Kingdom. Finally, it checks for any given placementCondition of the Card (only if the Side
+     * placed is a Front) and if it is fulfilled it places the Card and updates the Kingdom by calling the
+     * updateKingdom() method. If any of these check fails it doesn't place the Card and lets the player know that the
+     * command failed.
+     * @param placed The Side of the Card that the Player wants to place.
+     * @param position The Position where the Player wants to place the Side.
+     */
     public void placeCard(Side placed, Position position) {
         //TODO
         //controllo sulla piazzabilità dalla lista di posizioni, se tutto ok linko i corner delle carte sotto al side
@@ -225,6 +251,11 @@ public class Player {
         //chiama addPoints per aggiornare i punti passando placed
     }
 
+    /**
+     * The addPoints(placed) method is called by the placeCard(placed, position) method if the command is successful and
+     * only if the Side placed is a Front. It updates the points of the Player in the scoreboard.
+     * @param placed The Side that the Player placed.
+     */
     private void addPoints(Side placed) {
         //TODO
         //controlla se e quanti sono i punti da aggiungere a seguito del piazzamento di questa carta

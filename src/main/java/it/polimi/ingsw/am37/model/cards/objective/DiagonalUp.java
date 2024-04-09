@@ -6,9 +6,22 @@ import it.polimi.ingsw.am37.model.sides.Side;
 
 import java.util.List;
 
+/**
+ * The DiagonalUp class represents the objective cards that require an ascending diagonal (from left to right) of
+ * cards of the same colour in order to be fulfilled. It is a subclass of the PlacementBoundObjective abstract class.
+ */
 public class DiagonalUp extends PlacementBoundObjective {
-    public DiagonalUp(int id, int points, Resource otherResource, Resource cardColorThatTriggersCheck) {
-        super(id, points, otherResource, cardColorThatTriggersCheck);
+    /**
+     * The DiagonalUp(id, points, otherResource, cardColourThatTriggersCheck) constructor uses the constructor of the
+     * superclass to assign the id, the points, the otherResource and the cardColourThatTriggersCheck attributes to
+     * the ones given as parameters.
+     *  @param id An integer to uniquely identify the card.
+     *  @param points An integer that represents the points given per completion.
+     *  @param otherResource A Resource that is needed apart from the main resource that triggers the check.
+     *  @param cardColourThatTriggersCheck A Resource that triggers the check for the requested pattern.
+     */
+    public DiagonalUp(int id, int points, Resource otherResource, Resource cardColourThatTriggersCheck) {
+        super(id, points, otherResource, cardColourThatTriggersCheck);
     }
 
     /**
@@ -24,8 +37,8 @@ public class DiagonalUp extends PlacementBoundObjective {
         cards = kingdom.getPlacedSides();
 
         for(Side s: cards){
-            if(s.getMainResource().equals(getCardColorThatTriggersCheck()) && !s.getUsedDiagonal()){
-                while (s.getTR().getLinkedSide()!=null && s.getTR().getLinkedSide().getMainResource().equals(getCardColorThatTriggersCheck()) && !s.getTR().getLinkedSide().getUsedDiagonal()){
+            if(s.getMainResource().equals(getCardColourThatTriggersCheck()) && !s.getUsedDiagonal()){
+                while (s.getTR().getLinkedSide()!=null && s.getTR().getLinkedSide().getMainResource().equals(getCardColourThatTriggersCheck()) && !s.getTR().getLinkedSide().getUsedDiagonal()){
                     s=s.getTR().getLinkedSide();
                 }
                 if(s.getBL().getLinkedSide()!=null){
