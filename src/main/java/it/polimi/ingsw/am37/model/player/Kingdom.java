@@ -52,6 +52,9 @@ public class Kingdom {
             onFieldResources.put(r, 0);
         }
 
+        startCardSide.placeInPosition(0,0);
+        impossiblePositions.add(new Position(0,0));
+
         for (Direction d : startCardSide.getCorners().keySet()) {
             if (startCardSide.getCorners().get(d).getVisibility()) {
                 activePositions.add(createPosition(d, startCardSide.getPositionInKingdom()));
@@ -122,6 +125,25 @@ public class Kingdom {
      * @param sidePlaced The Side of the Card that the player has placed.
      */
     private void updateOnFieldResources(Side sidePlaced) {       //DA RIFARE CON LE DIREZIONI
+
+        for (Direction d : sidePlaced.getCorners().keySet()) {
+            if(!sidePlaced.getCorners().get(d).getResource().equals(Resource.EMPTY)) {
+                onFieldResources.replace(sidePlaced.getCorners().get(d.opposite()).getResource(), onFieldResources.get(sidePlaced.getCorners().get(d.opposite()).getResource()) + 1);
+            }
+
+            for (Side s: placedSides) {
+                if(createPosition(d, sidePlaced.getPositionInKingdom()).getX() == s.getPositionInKingdom().getX() &&
+                        createPosition(d, sidePlaced.getPositionInKingdom()).getY() == s.getPositionInKingdom().getY()) {
+                    s.getCorners().get(d.opposite()).setLinkedSide(sidePlaced);
+                    if(!s.getCorners().get(d.opposite()).getResource().equals(Resource.EMPTY)) {
+                        onFieldResources.replace(s.getCorners().get(d.opposite()).getResource(), onFieldResources.get(s.getCorners().get(d.opposite()).getResource()) - 1);
+                    }
+                }
+            }
+
+        }
+        //NON è GESTITO IL CASO BACK, NON HO MODO DI SAPERE SE IL SIDE è BACK E NON POSSO FARE CAST PROPRIO PER QUESTO.
+
         if (!sidePlaced.getTL().getResource().equals(Resource.EMPTY)) {
             if (!onFieldResources.containsKey(sidePlaced.getTL().getResource())) {
                 onFieldResources.put(sidePlaced.getTL().getResource(), 1);
@@ -166,13 +188,16 @@ public class Kingdom {
      */
     private void updateActivePositions(Side sidePlaced, Position position) {
         activePositions.remove(position);
+        impossiblePositions.add(position);
 
         for (Direction d : sidePlaced.getCorners().keySet()) {
+            Position toAdd = createPosition(d, sidePlaced.getPositionInKingdom());
             if (sidePlaced.getCorners().get(d).getVisibility()) {
-                if (!impossiblePositions.contains(position)) {
+                if (!impossiblePositions.contains(toAdd) && !activePositions.contains(toAdd)) {
                     activePositions.add(createPosition(d, sidePlaced.getPositionInKingdom()));
                 }
-            } else if (!sidePlaced.getCorners().get(d).getVisibility()) {
+            } else if (!sidePlaced.getCorners().get(d).getVisibility() && !impossiblePositions.contains(toAdd)) {
+                activePositions.remove(toAdd);
                 impossiblePositions.add(createPosition(d, sidePlaced.getPositionInKingdom()));
             }
         }
@@ -201,4 +226,3 @@ public class Kingdom {
         };
     }
 }
-

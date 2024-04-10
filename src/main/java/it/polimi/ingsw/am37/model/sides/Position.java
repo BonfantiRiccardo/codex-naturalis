@@ -38,4 +38,14 @@ public class Position {
     public int getY() {
         return y;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != Position.class) {
+            return false;
+        } else {
+            Position compare = (Position) obj;
+            return this.x == compare.x && this.y == compare.y;
+        }
+    }
 }

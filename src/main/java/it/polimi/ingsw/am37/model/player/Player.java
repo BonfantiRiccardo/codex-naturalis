@@ -146,6 +146,11 @@ public class Player {
     public void chooseStartCardSide() {
         //TODO
         //talks to controller that sends request to client
+        try {   //METHOD STUB FOR TESTING
+            instantiateMyKingdom(startCard, startCard.getFront());
+        } catch (AlreadyAssignedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

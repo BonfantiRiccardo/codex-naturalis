@@ -62,7 +62,7 @@
         },
         "TOPRIGHT": {
           "isVisible": true,
-          "resource": "INKQUELL"
+          "resource": "INKWELL"
         },
         "BOTTOMLEFT": {
           "isVisible": false,

@@ -19,5 +19,14 @@ public enum Direction {
     /**
      * The BOTTOMRIGHT value indicates that we will consider the top left Corner of the Card.
      */
-    BOTTOMRIGHT
+    BOTTOMRIGHT;
+
+    public Direction opposite() {
+        return switch(this) {
+            case TOPLEFT -> Direction.BOTTOMRIGHT;
+            case TOPRIGHT -> Direction.BOTTOMLEFT;
+            case BOTTOMLEFT -> Direction.TOPRIGHT;
+            case BOTTOMRIGHT -> Direction.TOPLEFT;
+        };
+    }
 }

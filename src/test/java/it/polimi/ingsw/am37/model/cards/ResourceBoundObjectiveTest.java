@@ -1,7 +1,14 @@
 package it.polimi.ingsw.am37.model.cards;
 
-import it.polimi.ingsw.am37.model.cards.objective.ResourcesBoundObjective;
+import it.polimi.ingsw.am37.model.cards.objective.*;
+import it.polimi.ingsw.am37.model.cards.placeable.*;
+import it.polimi.ingsw.am37.model.decks.*;
+import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.game.Resource;
+import it.polimi.ingsw.am37.model.player.*;
+import it.polimi.ingsw.am37.model.sides.*;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Hashtable;
@@ -9,33 +16,100 @@ import java.util.Hashtable;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ResourceBoundObjectiveTest {
-    ResourcesBoundObjective trisRes = new ResourcesBoundObjective(95, 2, createTableRes());
-    ResourcesBoundObjective trisGold = new ResourcesBoundObjective(99, 3, createTableTrisGold());
-    ResourcesBoundObjective duoGold = new ResourcesBoundObjective(101, 2, createTableDuoGold());
-    ResourcesBoundObjective none = new ResourcesBoundObjective(1, 0, null);
+    CardCreator cc = new CardCreator();
+    Player p = new Player("Riccardo", Token.BLUE);
+    Deck rD = new ResourceDeck(cc);
+    Deck sD = new StartDeck(cc);
+    Deck gD = new GoldDeck(cc);
+    ResourcesBoundObjective rC1;
+    ResourcesBoundObjective rC2;
+    ResourcesBoundObjective rC3;
 
-    public Hashtable<Resource, Integer> myResPoints(){
-        Hashtable<Resource, Integer> placemCond = new Hashtable<>();
-        placemCond.put(Resource.FUNGI, 14);
-        placemCond.put(Resource.INKWELL, 11);
-        placemCond.put(Resource.QUILL, 5);
-        placemCond.put(Resource.MANUSCRIPT, 7);
-        placemCond.put(Resource.PLANT, 1);
-        placemCond.put(Resource.ANIMAL, 5);
-        placemCond.put(Resource.INSECT, 1);
-        return placemCond;
+    @BeforeEach
+    void setupKingdom() {
+        StartCard sC;
+        try {
+            sC = (StartCard) sD.drawCard();
+        } catch (NoCardsException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            p.setStartCard(sC);
+        } catch (AlreadyAssignedException e) {
+            throw new RuntimeException(e);
+        }
+        p.chooseStartCardSide();
+        Side placed = sC.getFront();
+
+
+        ResourceCard rC;
+        try {
+            rC = (ResourceCard) rD.drawCard();
+        } catch (NoCardsException e) {
+            throw new RuntimeException(e);
+        }
+        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
+        Position pos = p.getMyKingdom().getActivePositions().get(0);
+        rC.getBack().placeInPosition(pos.getX(), pos.getY());
+
+        for (Direction d: Direction.values()) {
+            if (createPosition(d, placed.getPositionInKingdom()).equals(rC.getBack().getPositionInKingdom())) {
+                placed.getCorners().get(d).setLinkedSide(rC.getBack());
+            }
+        }
+
+        p.getMyKingdom().updateKingdom(rC.getBack(), pos);
+
+
+        GoldCard gC;
+        try {
+            gC = (GoldCard) gD.drawCard();
+        } catch (NoCardsException e) {
+            throw new RuntimeException(e);
+        }
+        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
+        Position pos2 = p.getMyKingdom().getActivePositions().get(0);
+        gC.getFront().placeInPosition(pos2.getX(), pos2.getY());
+
+        for (Direction d: Direction.values()) {
+            Position check = createPosition(d, pos2);
+            if (check.equals(placed.getPositionInKingdom()))
+                placed.getCorners().get(d.opposite()).setLinkedSide(gC.getFront());
+            else if (check.equals(rC.getBack().getPositionInKingdom()))
+                rC.getBack().getCorners().get(d.opposite()).setLinkedSide(gC.getFront());
+        }
+
+        p.getMyKingdom().updateKingdom(gC.getFront(), pos2);
     }
 
-    public Hashtable<Resource, Integer> myResNoPoints(){
-        Hashtable<Resource, Integer> placemCond = new Hashtable<>();
-        placemCond.put(Resource.FUNGI, 2);
-        placemCond.put(Resource.PLANT, 13);
-        placemCond.put(Resource.INKWELL, 1);
-        placemCond.put(Resource.QUILL, 5);
-        placemCond.put(Resource.ANIMAL, 15);
-        placemCond.put(Resource.INSECT, 1);
-        placemCond.put(Resource.MANUSCRIPT, 0);
-        return placemCond;
+    @BeforeEach
+    void setupObjectives () {
+        rC1  = new ResourcesBoundObjective(95,2, createTableRes());
+        rC2  = new ResourcesBoundObjective(99,3, createTableTrisGold());
+        rC3  = new ResourcesBoundObjective(101,2, createTableDuoGold());
+    }
+
+    /*WAITING FOR METHOD updateOnFieldResources IMPLEMENTATION TO BE COMPLETED*/
+    @Test
+    void testResourceObjective() {
+        int check1 = rC1.calculateNumOfCompletion(p.getMyKingdom());
+        assertTrue(p.getMyKingdom().getOnFieldResources().get(Resource.FUNGI) >= check1*3);
+        int check2 = rC1.calculateNumOfCompletion(p.getMyKingdom());
+        assertTrue(p.getMyKingdom().getOnFieldResources().get(Resource.INKWELL) >= check2 ||
+                p.getMyKingdom().getOnFieldResources().get(Resource.QUILL) >= check2 ||
+                p.getMyKingdom().getOnFieldResources().get(Resource.MANUSCRIPT) >= check2);
+        int check3 = rC1.calculateNumOfCompletion(p.getMyKingdom());
+        assertTrue(p.getMyKingdom().getOnFieldResources().get(Resource.INKWELL) >= check3*2);
+    }
+
+    public Position createPosition(Direction d, Position p) {
+        return switch (d) {
+            case Direction.TOPLEFT -> new Position(p.getX() - 1, p.getY() + 1);
+            case Direction.TOPRIGHT -> new Position(p.getX() + 1, p.getY() + 1);
+            case Direction.BOTTOMLEFT -> new Position(p.getX() - 1, p.getY() - 1);
+            case Direction.BOTTOMRIGHT -> new Position(p.getX() + 1, p.getY() - 1);
+        };
     }
 
     public Hashtable<Resource, Integer> createTableRes(){
@@ -51,32 +125,10 @@ public class ResourceBoundObjectiveTest {
         placemCond.put(Resource.MANUSCRIPT, 1);
         return placemCond;
     }
+
     public Hashtable<Resource, Integer> createTableDuoGold(){
         Hashtable<Resource, Integer> placemCond = new Hashtable<>();
         placemCond.put(Resource.INKWELL, 2);
         return placemCond;
     }
-
-    /*
-    NEEDS KINGDOM STUB
-    @Test
-    void trisResTest() {
-        assertEquals(4, trisRes.calculatePointsToGive(myResPoints()));
-        assertEquals(0, trisRes.calculatePointsToGive(myResNoPoints()));
-    }
-
-    @Test
-    void trisGoldTest() {
-        assertEquals(5, trisGold.calculatePointsToGive(myResPoints()));
-        assertEquals(0, trisGold.calculatePointsToGive(myResNoPoints()));
-    }
-
-    @Test
-    void duoGoldTest() {
-        assertEquals(5, duoGold.calculatePointsToGive(myResPoints()));
-        assertEquals(0, duoGold.calculatePointsToGive(myResNoPoints()));
-    }
-
-    NEEDS KINGDOM STUB
-    */
 }
