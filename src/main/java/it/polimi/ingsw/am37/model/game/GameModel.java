@@ -222,7 +222,7 @@ public class GameModel {
         for (Player p : participantsInOrder) {
            s.submit(() -> {
                /*try {*/
-                   giveStartCard(p);
+              //     giveStartCard(p);
               /* } catch (NoCardsException | AlreadyAssignedException e) {
                    throw new RuntimeException(e);
                }*/
@@ -242,7 +242,7 @@ public class GameModel {
         for (Player p : participantsInOrder) {
             s1.submit(() -> {
                 /*try {*/
-                    giveObjectiveCards(p);
+                //    giveObjectiveCards(p);
                 /*} catch (NoCardsException | AlreadyAssignedException e) {
                     throw new RuntimeException(e);
                 }*/
@@ -254,30 +254,35 @@ public class GameModel {
         setCurrentPhase(GamePhase.PLAYING);
     }
 
-    private void setAvailableCards() {
-        //TODO (sia gold che resource nello stesso)
+    private void setAvailableCards() throws NoCardsException {
+        while(getAvailableGCards().size() < 2)
+            availableGCards.add((GoldCard) gDeck.drawCard());
+
+        while(getAvailableRCards().size() < 2)
+            availableRCards.add((ResourceCard) rDeck.drawCard());
     }
 
-    private void setPublicObjectives() {
-        //TODO
+    private void setPublicObjectives() throws NoCardsException {
+        publicObjectives[0] = (ObjectiveCard) oDeck.drawCard();
+        publicObjectives[1] = (ObjectiveCard) oDeck.drawCard();
+    }
+    private void createHand(Player p) throws NoCardsException, AlreadyAssignedException {
+        List<Card> hand = new ArrayList<>();
+        hand.add(rDeck.drawCard());
+        hand.add(rDeck.drawCard());
+        hand.add(gDeck.drawCard());
+        p.setHand(hand);
     }
 
-    private void createHand(Player p) {
-        //TODO
+    private void giveStartCard(Player p) throws NoCardsException, AlreadyAssignedException {
+        p.setStartCard((StartCard) sDeck.drawCard());
     }
 
-    private void giveStartCard(Player p) /*throws NoCardsException, AlreadyAssignedException*/ {
-        //TODO
-        /*p.setStartCard((StartCard) sDeck.drawCard());
-        p.chooseStartCardSide();*/
-    }
-
-    private void giveObjectiveCards(Player p) /*throws NoCardsException, AlreadyAssignedException*/ {
-        //TODO
-        /*ObjectiveCard[] oc = new ObjectiveCard[] {};
-        oc[0] = (ObjectiveCard) oDeck.drawCard();
-        oc[1] = (ObjectiveCard) oDeck.drawCard();
-        p.chooseObjective(oc);*/
+    private void giveObjectiveCards(Player p) throws NoCardsException, AlreadyAssignedException {
+        ObjectiveCard[] twoObjCards = new ObjectiveCard[2];
+        twoObjCards[0] = (ObjectiveCard) oDeck.drawCard();
+        twoObjCards[1] = (ObjectiveCard) oDeck.drawCard();
+        p.chooseObjective(twoObjCards);
     }
 
     /**
