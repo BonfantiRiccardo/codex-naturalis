@@ -221,11 +221,11 @@ public class GameModel {
         ExecutorService s = Executors.newFixedThreadPool(4);
         for (Player p : participantsInOrder) {
            s.submit(() -> {
-               /*try {*/
-              //     giveStartCard(p);
-              /* } catch (NoCardsException | AlreadyAssignedException e) {
+               try {
+                   giveStartCard(p);
+               } catch (NoCardsException | AlreadyAssignedException e) {
                    throw new RuntimeException(e);
-               }*/
+               }
            });
         }
         s.shutdown();
@@ -241,11 +241,11 @@ public class GameModel {
         ExecutorService s1 = Executors.newFixedThreadPool(4);
         for (Player p : participantsInOrder) {
             s1.submit(() -> {
-                /*try {*/
-                //    giveObjectiveCards(p);
-                /*} catch (NoCardsException | AlreadyAssignedException e) {
+                try {
+                    giveObjectiveCards(p);
+                } catch (NoCardsException | AlreadyAssignedException e) {
                     throw new RuntimeException(e);
-                }*/
+                }
             });
         }
         s1.shutdown();
@@ -255,14 +255,17 @@ public class GameModel {
     }
 
     private void setAvailableCards() throws NoCardsException {
-        while(getAvailableGCards().size() < 2)
+        availableGCards = new ArrayList<>();
+        availableRCards = new ArrayList<>();
+        while(getAvailableGCards() == null || getAvailableGCards().size() < 2)
             availableGCards.add((GoldCard) gDeck.drawCard());
 
-        while(getAvailableRCards().size() < 2)
+        while(getAvailableRCards() == null || getAvailableRCards().size() < 2)
             availableRCards.add((ResourceCard) rDeck.drawCard());
     }
 
     private void setPublicObjectives() throws NoCardsException {
+        publicObjectives = new ObjectiveCard[2];
         publicObjectives[0] = (ObjectiveCard) oDeck.drawCard();
         publicObjectives[1] = (ObjectiveCard) oDeck.drawCard();
     }
