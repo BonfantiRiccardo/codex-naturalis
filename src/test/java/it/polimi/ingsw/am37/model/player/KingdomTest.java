@@ -7,6 +7,7 @@ import it.polimi.ingsw.am37.model.decks.*;
 import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.sides.*;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,7 +62,7 @@ class KingdomTest {
             }
         }
 
-        p.getMyKingdom().updateKingdom(rC.getBack(), pos);
+        p.getMyKingdom().updateKingdom(rC, rC.getBack(), pos);
 
         assertEquals(2, p.getMyKingdom().getPlacedSides().size());
         assertSame(placed, p.getMyKingdom().getPlacedSides().get(0));
@@ -86,7 +87,7 @@ class KingdomTest {
                 rC.getBack().getCorners().get(d.opposite()).setLinkedSide(gC.getFront());
         }
 
-        p.getMyKingdom().updateKingdom(gC.getFront(), pos2);
+        p.getMyKingdom().updateKingdom(gC, gC.getFront(), pos2);
 
         assertEquals(3, p.getMyKingdom().getPlacedSides().size());
         assertSame(placed, p.getMyKingdom().getPlacedSides().get(0));
@@ -136,7 +137,7 @@ class KingdomTest {
             }
         }
 
-        p.getMyKingdom().updateKingdom(rC.getBack(), pos);
+        p.getMyKingdom().updateKingdom(rC, rC.getBack(), pos);
 
         for (Direction d: Direction.values()) {
             if (placed.getCorners().get(d).getVisibility() && placed.getCorners().get(d).getLinkedSide() == null) {
@@ -169,7 +170,7 @@ class KingdomTest {
                 rC.getBack().getCorners().get(d.opposite()).setLinkedSide(gC.getFront());
         }
 
-        p.getMyKingdom().updateKingdom(gC.getFront(), pos2);
+        p.getMyKingdom().updateKingdom(gC, gC.getFront(), pos2);
 
         for (Direction d: Direction.values()) {
             if (placed.getCorners().get(d).getVisibility() && placed.getCorners().get(d).getLinkedSide() == null) {
@@ -231,7 +232,7 @@ class KingdomTest {
             }
         }
 
-        p.getMyKingdom().updateKingdom(rC.getBack(), pos);
+        p.getMyKingdom().updateKingdom(rC, rC.getBack(), pos);
 
         assertTrue(p.getMyKingdom().getImpossiblePositions().contains(rC.getBack().getPositionInKingdom()));
         for (Direction d: Direction.values()) {
@@ -265,7 +266,7 @@ class KingdomTest {
                 rC.getBack().getCorners().get(d.opposite()).setLinkedSide(gC.getFront());
         }
 
-        p.getMyKingdom().updateKingdom(gC.getFront(), pos2);
+        p.getMyKingdom().updateKingdom(gC, gC.getFront(), pos2);
 
         assertTrue(p.getMyKingdom().getImpossiblePositions().contains(gC.getFront().getPositionInKingdom()));
         for (Direction d: Direction.values()) {
@@ -296,89 +297,89 @@ class KingdomTest {
         };
     }
 
-
-
-@Test
-void testUpdateOnFieldResources() {
-    StartCard sC;
-    try {
-        sC = (StartCard) sD.drawCard();
-    } catch (NoCardsException e) {
-        throw new RuntimeException(e);
-    }
-
-    try {
-        p.setStartCard(sC);
-    } catch (AlreadyAssignedException e) {
-        throw new RuntimeException(e);
-    }
-    p.chooseStartCardSide();
-
-    Side placed = sC.getFront();    //STUB PLACES FRONT
-
-    for (Direction d: Direction.values()) {
-        if (placed.getCorners().get(d).getVisibility()) {
-            assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
-        } else if (!placed.getCorners().get(d).getVisibility())
-            assertFalse(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
-    }
-    assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getMainResource()));
-
-    //per il back della startcard come facciamo?
-
-    ResourceCard rC;
-    try {
-        rC = (ResourceCard) rD.drawCard();
-    } catch (NoCardsException e) {
-        throw new RuntimeException(e);
-    }
-    //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
-    Position pos = p.getMyKingdom().getActivePositions().get(0);
-    rC.getBack().placeInPosition(pos.getX(), pos.getY());
-
-    for (Direction d : Direction.values()) {
-        if (createPosition(d, placed.getPositionInKingdom()).equals(rC.getBack().getPositionInKingdom())) {
-            placed.getCorners().get(d).setLinkedSide(rC.getBack());
+    //DA RIVEDERE
+    @RepeatedTest(value = 100) //@Test
+    void testUpdateOnFieldResources() {
+        StartCard sC;
+        try {
+            sC = (StartCard) sD.drawCard();
+        } catch (NoCardsException e) {
+            throw new RuntimeException(e);
         }
+
+        try {
+            p.setStartCard(sC);
+        } catch (AlreadyAssignedException e) {
+            throw new RuntimeException(e);
+        }
+        p.chooseStartCardSide();
+
+        Side placed = sC.getFront();    //STUB PLACES FRONT
+
+        for (Direction d: Direction.values()) {
+            if (placed.getCorners().get(d).getVisibility()) {
+                assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
+            } else if (!placed.getCorners().get(d).getVisibility())
+                assertFalse(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
+        }
+        assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getMainResource()));
+
+        //per il back della startcard come facciamo?
+
+        ResourceCard rC;
+        try {
+            rC = (ResourceCard) rD.drawCard();
+        } catch (NoCardsException e) {
+            throw new RuntimeException(e);
+        }
+        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
+        Position pos = p.getMyKingdom().getActivePositions().get(0);
+        rC.getBack().placeInPosition(pos.getX(), pos.getY());
+
+        for (Direction d : Direction.values()) {
+            if (createPosition(d, placed.getPositionInKingdom()).equals(rC.getBack().getPositionInKingdom())) {
+                placed.getCorners().get(d).setLinkedSide(rC.getBack());
+            }
+        }
+
+        p.getMyKingdom().updateKingdom(rC, rC.getBack(), pos);
+
+        for (Direction d: Direction.values()) {
+            if (placed.getCorners().get(d).getVisibility()) {
+                assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
+            } else if (!placed.getCorners().get(d).getVisibility())
+                assertFalse(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
+        }
+        assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getMainResource()));
+
+
+        GoldCard gC;
+        try {
+            gC = (GoldCard) gD.drawCard();
+        } catch (NoCardsException e) {
+            throw new RuntimeException(e);
+        }
+        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
+        Position pos2 = p.getMyKingdom().getActivePositions().get(0);
+        gC.getFront().placeInPosition(pos2.getX(), pos2.getY());
+
+        for (Direction d : Direction.values()) {
+            Position check = createPosition(d, pos2);
+            if (check.equals(placed.getPositionInKingdom()))
+                placed.getCorners().get(d.opposite()).setLinkedSide(gC.getFront());
+            else if (check.equals(rC.getBack().getPositionInKingdom()))
+                rC.getBack().getCorners().get(d.opposite()).setLinkedSide(gC.getFront());
+        }
+
+        p.getMyKingdom().updateKingdom(gC, gC.getFront(), pos2);
+
+        for (Direction d: Direction.values()) {
+            if (placed.getCorners().get(d).getVisibility()) {
+                assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
+            } else if (!placed.getCorners().get(d).getVisibility())
+                assertFalse(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
+        }
+        assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getMainResource()));
+
     }
-
-    p.getMyKingdom().updateKingdom(rC.getBack(), pos);
-
-    for (Direction d: Direction.values()) {
-        if (placed.getCorners().get(d).getVisibility()) {
-            assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
-        } else if (!placed.getCorners().get(d).getVisibility())
-            assertFalse(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
-    }
-    assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getMainResource()));
-
-
-    GoldCard gC;
-    try {
-        gC = (GoldCard) gD.drawCard();
-    } catch (NoCardsException e) {
-        throw new RuntimeException(e);
-    }
-    //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
-    Position pos2 = p.getMyKingdom().getActivePositions().get(0);
-    gC.getFront().placeInPosition(pos2.getX(), pos2.getY());
-
-    for (Direction d : Direction.values()) {
-        Position check = createPosition(d, pos2);
-        if (check.equals(placed.getPositionInKingdom()))
-            placed.getCorners().get(d.opposite()).setLinkedSide(gC.getFront());
-        else if (check.equals(rC.getBack().getPositionInKingdom()))
-            rC.getBack().getCorners().get(d.opposite()).setLinkedSide(gC.getFront());
-    }
-
-    p.getMyKingdom().updateKingdom(gC.getFront(), pos2);
-
-    for (Direction d: Direction.values()) {
-        if (placed.getCorners().get(d).getVisibility()) {
-            assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
-        } else if (!placed.getCorners().get(d).getVisibility())
-            assertFalse(p.getMyKingdom().getOnFieldResources().contains(placed.getCorners().get(d).getResource()));
-    }
-    assertTrue(p.getMyKingdom().getOnFieldResources().contains(placed.getMainResource()));
-
-}}
+}

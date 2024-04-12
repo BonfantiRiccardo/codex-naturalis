@@ -4,8 +4,7 @@ import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.decks.*;
-import it.polimi.ingsw.am37.model.exceptions.AlreadyAssignedException;
-import it.polimi.ingsw.am37.model.exceptions.NoCardsException;
+import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.player.Player;
 
 import java.util.ArrayList;
@@ -51,12 +50,12 @@ public class GameModel {
      * The availableRCards attribute is a list of exactly 2 Resource Card that are visible to all players and can be
      * drawn instead of drawing from a deck. If a player draws from the list, a new Resource Card is added to it.
      */
-    private List<ResourceCard> availableRCards;
+    private List<StandardCard> availableRCards;
     /**
      * The availableGCards attribute is a list of exactly 2 Gold Card that are visible to all players and can be
      * drawn instead of drawing from a deck. If a player draws from the list, a new Gold Card is added to it.
      */
-    private List<GoldCard> availableGCards;
+    private List<StandardCard> availableGCards;
     /**
      * The publicObjectives attribute is an array of exactly 2 Objective Card that contains the public objectives that
      * anyone can complete in order to get points.
@@ -179,7 +178,7 @@ public class GameModel {
      * The getAvailableRCards() method returns the list of currently available ResourceCards.
      * @return The availableRCards attribute.
      */
-    public List<ResourceCard> getAvailableRCards() {
+    public List<StandardCard> getAvailableRCards() {
         return availableRCards;
     }
 
@@ -187,7 +186,7 @@ public class GameModel {
      * The getAvailableGCards() method returns the list of currently available GoldCards.
      * @return The availableGCards attribute.
      */
-    public List<GoldCard> getAvailableGCards() {
+    public List<StandardCard> getAvailableGCards() {
         return availableGCards;
     }
 
@@ -218,19 +217,19 @@ public class GameModel {
     public void preparationPhase() throws InterruptedException, NoCardsException, AlreadyAssignedException {
         setAvailableCards();
 
-        ExecutorService s = Executors.newFixedThreadPool(4);
+        //ExecutorService s = Executors.newFixedThreadPool(4);
         for (Player p : participantsInOrder) {
-           s.submit(() -> {
-               try {
+           /*s.submit(() -> {
+               try {*/
                    giveStartCard(p);
-               } catch (NoCardsException | AlreadyAssignedException e) {
+               /*} catch (NoCardsException | AlreadyAssignedException e) {
                    throw new RuntimeException(e);
                }
-           });
+           });*/
         }
-        s.shutdown();
+        /*s.shutdown();
         while(!s.awaitTermination(1, TimeUnit.SECONDS));
-        s.close();
+        s.close();*/
 
         for (Player p : participantsInOrder) {
             createHand(p);
@@ -238,29 +237,29 @@ public class GameModel {
 
         setPublicObjectives();
 
-        ExecutorService s1 = Executors.newFixedThreadPool(4);
+        //ExecutorService s1 = Executors.newFixedThreadPool(4);
         for (Player p : participantsInOrder) {
-            s1.submit(() -> {
-                try {
+            /*s1.submit(() -> {
+                try {*/
                     giveObjectiveCards(p);
-                } catch (NoCardsException | AlreadyAssignedException e) {
+                /*} catch (NoCardsException | AlreadyAssignedException e) {
                     throw new RuntimeException(e);
                 }
-            });
+            });*/
         }
-        s1.shutdown();
-        while(!s1.awaitTermination(1, TimeUnit.SECONDS));
+        /*s1.shutdown();
+        while(!s1.awaitTermination(1, TimeUnit.SECONDS));*/
 
         setCurrentPhase(GamePhase.PLAYING);
     }
 
     private void setAvailableCards() throws NoCardsException {
-        availableGCards = new ArrayList<>();
         availableRCards = new ArrayList<>();
-        while(getAvailableGCards() == null || getAvailableGCards().size() < 2)
+        availableGCards = new ArrayList<>();
+        while(getAvailableGCards().size() < 2)
             availableGCards.add((GoldCard) gDeck.drawCard());
 
-        while(getAvailableRCards() == null || getAvailableRCards().size() < 2)
+        while(getAvailableRCards().size() < 2)
             availableRCards.add((ResourceCard) rDeck.drawCard());
     }
 
@@ -270,15 +269,16 @@ public class GameModel {
         publicObjectives[1] = (ObjectiveCard) oDeck.drawCard();
     }
     private void createHand(Player p) throws NoCardsException, AlreadyAssignedException {
-        List<Card> hand = new ArrayList<>();
-        hand.add(rDeck.drawCard());
-        hand.add(rDeck.drawCard());
-        hand.add(gDeck.drawCard());
+        List<StandardCard> hand = new ArrayList<>();
+        hand.add((StandardCard) rDeck.drawCard());
+        hand.add((StandardCard) rDeck.drawCard());
+        hand.add((StandardCard) gDeck.drawCard());
         p.setHand(hand);
     }
 
     private void giveStartCard(Player p) throws NoCardsException, AlreadyAssignedException {
         p.setStartCard((StartCard) sDeck.drawCard());
+        p.chooseStartCardSide();
     }
 
     private void giveObjectiveCards(Player p) throws NoCardsException, AlreadyAssignedException {
@@ -355,9 +355,20 @@ public class GameModel {
 
     /**
      * The setDisconnected(p) method adds the Player p given as a parameter to the list of disconnectedPlayers.
-     * @param p The Player that has to be added to the disconnectedPlayer
+     * @param p The Player that has to be added to the disconnectedPlayers.
      */
     public void setDisconnected(Player p) {
-        //TODO
+        disconnectedPlayers.add(p);
+        p.setDisconnected(true);
+    }
+
+    /**
+     * The reconnect(p) method removes the Player given as a parameter from the disconnectedPlayers list and sets his
+     * isDisconnected attribute to false.
+     * @param p The Player that has to be removed from the disconnectedPlayers.
+     */
+    public void reconnect(Player p) {
+        disconnectedPlayers.remove(p);
+        p.setDisconnected(false);
     }
 }

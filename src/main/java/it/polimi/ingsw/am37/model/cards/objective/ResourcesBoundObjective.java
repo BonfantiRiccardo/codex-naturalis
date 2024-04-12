@@ -37,7 +37,7 @@ public class ResourcesBoundObjective extends ObjectiveCard {
     public int calculateNumOfCompletion(Kingdom kingdom) {
         int completion = 0;
         boolean check = true;
-        Hashtable<Resource, Integer> tmp = kingdom.getOnFieldResources();
+        Hashtable<Resource, Integer> tmp = new Hashtable<>(kingdom.getOnFieldResources());
         while (check) {
             int count = 0;
             for (Resource r: resourceNeeded.keySet()) {

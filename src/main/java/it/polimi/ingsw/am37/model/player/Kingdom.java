@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am37.model.player;
 
 import it.polimi.ingsw.am37.model.cards.objective.Direction;
+import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.sides.*;
@@ -57,12 +58,12 @@ public class Kingdom {
 
         for (Direction d : startCardSide.getCorners().keySet()) {
             if (startCardSide.getCorners().get(d).getVisibility()) {
-                activePositions.add(createPosition(d, startCardSide.getPositionInKingdom()));
+                activePositions.add(d.createPosition(startCardSide.getPositionInKingdom()));
                 if (startCardSide.getCorners().get(d).getResource() != Resource.EMPTY) {
                     onFieldResources.put(startCardSide.getCorners().get(d).getResource(), onFieldResources.get(startCardSide.getCorners().get(d).getResource()) + 1);
                 }
             } else if (!startCardSide.getCorners().get(d).getVisibility()) {
-                impossiblePositions.add(createPosition(d, startCardSide.getPositionInKingdom()));
+                impossiblePositions.add(d.createPosition(startCardSide.getPositionInKingdom()));
             }
         }
 
@@ -110,11 +111,12 @@ public class Kingdom {
     /**
      * The updateKingdom(sidePlaced, position) method is called every time the player successfully places a Card and
      * invokes private methods that update the current state of the Kingdom.
+     * @param card The Card that the Player has placed down.
      * @param sidePlaced The Side of the Card that the player has placed.
      * @param position The Position where the Card is placed.
      */
-    public void updateKingdom(Side sidePlaced, Position position) {
-        updateOnFieldResources(sidePlaced);
+    public void updateKingdom(StandardCard card, Side sidePlaced, Position position) {
+        updateOnFieldResources(card, sidePlaced);
         updatePlacedSides(sidePlaced);
         updateActivePositions(sidePlaced, position);
     }
@@ -122,61 +124,25 @@ public class Kingdom {
     /**
      * The updateOnFieldResources(sidePlaced) method updates the table of Resources of the Player adding the ones
      * present on the Side of the Card placed and removing the ones covered by this Card's placement.
+     * @param card The Card that the Player has placed down.
      * @param sidePlaced The Side of the Card that the player has placed.
      */
-    private void updateOnFieldResources(Side sidePlaced) {       //DA RIFARE CON LE DIREZIONI
+    private void updateOnFieldResources(StandardCard card, Side sidePlaced) {
+        if (card.getFront().equals(sidePlaced)) {
+            for (Direction d : Direction.values()) {
+                if (!sidePlaced.getCorners().get(d).getResource().equals(Resource.EMPTY)) {
+                    onFieldResources.replace(sidePlaced.getCorners().get(d).getResource(), onFieldResources.get(sidePlaced.getCorners().get(d).getResource()) + 1);
+                }
 
-        for (Direction d : sidePlaced.getCorners().keySet()) {
-            if(!sidePlaced.getCorners().get(d).getResource().equals(Resource.EMPTY)) {
-                onFieldResources.replace(sidePlaced.getCorners().get(d.opposite()).getResource(), onFieldResources.get(sidePlaced.getCorners().get(d.opposite()).getResource()) + 1);
-            }
-
-            for (Side s: placedSides) {
-                if(createPosition(d, sidePlaced.getPositionInKingdom()).getX() == s.getPositionInKingdom().getX() &&
-                        createPosition(d, sidePlaced.getPositionInKingdom()).getY() == s.getPositionInKingdom().getY()) {
-                    s.getCorners().get(d.opposite()).setLinkedSide(sidePlaced);
-                    if(!s.getCorners().get(d.opposite()).getResource().equals(Resource.EMPTY)) {
-                        onFieldResources.replace(s.getCorners().get(d.opposite()).getResource(), onFieldResources.get(s.getCorners().get(d.opposite()).getResource()) - 1);
+                for (Side s : placedSides) {
+                    if (s.getCorners().get(d).getLinkedSide() != null) {
+                        if (s.getCorners().get(d).getLinkedSide().equals(sidePlaced) && !s.getCorners().get(d).getResource().equals(Resource.EMPTY))
+                            onFieldResources.replace(s.getCorners().get(d).getResource(), onFieldResources.get(s.getCorners().get(d).getResource()) - 1);
                     }
                 }
             }
-
-        }
-        //NON è GESTITO IL CASO BACK, NON HO MODO DI SAPERE SE IL SIDE è BACK E NON POSSO FARE CAST PROPRIO PER QUESTO.
-
-        if (!sidePlaced.getTL().getResource().equals(Resource.EMPTY)) {
-            if (!onFieldResources.containsKey(sidePlaced.getTL().getResource())) {
-                onFieldResources.put(sidePlaced.getTL().getResource(), 1);
-            } else {
-                onFieldResources.replace(sidePlaced.getTL().getResource(), onFieldResources.get(sidePlaced.getTL().getResource()) + 1);
-            }
-        }
-        if (!sidePlaced.getTR().getResource().equals(Resource.EMPTY)) {
-            if (!onFieldResources.containsKey(sidePlaced.getTR().getResource())) {
-                onFieldResources.put(sidePlaced.getTR().getResource(), 1);
-            } else {
-                onFieldResources.replace(sidePlaced.getTR().getResource(), onFieldResources.get(sidePlaced.getTR().getResource()) + 1);
-            }
-        }
-        if (!sidePlaced.getBL().getResource().equals(Resource.EMPTY)) {
-            if (!onFieldResources.containsKey(sidePlaced.getBL().getResource())) {
-                onFieldResources.put(sidePlaced.getBL().getResource(), 1);
-            } else {
-                onFieldResources.replace(sidePlaced.getBL().getResource(), onFieldResources.get(sidePlaced.getBL().getResource()) + 1);
-            }
-        }
-        if (!sidePlaced.getBR().getResource().equals(Resource.EMPTY)) {
-            if (!onFieldResources.containsKey(sidePlaced.getBR().getResource())) {
-                onFieldResources.put(sidePlaced.getBR().getResource(), 1);
-            } else {
-                onFieldResources.replace(sidePlaced.getBR().getResource(), onFieldResources.get(sidePlaced.getBR().getResource()) + 1);
-            }
-        }
-        if (!onFieldResources.containsKey(sidePlaced.getMainResource())) {
-            onFieldResources.put(sidePlaced.getMainResource(), 1);
-        } else {
+        } else if (card.getBack().equals(sidePlaced))
             onFieldResources.replace(sidePlaced.getMainResource(), onFieldResources.get(sidePlaced.getMainResource()) + 1);
-        }
     }
 
     /**
@@ -191,14 +157,14 @@ public class Kingdom {
         impossiblePositions.add(position);
 
         for (Direction d : sidePlaced.getCorners().keySet()) {
-            Position toAdd = createPosition(d, sidePlaced.getPositionInKingdom());
+            Position toAdd = d.createPosition(sidePlaced.getPositionInKingdom());
             if (sidePlaced.getCorners().get(d).getVisibility()) {
                 if (!impossiblePositions.contains(toAdd) && !activePositions.contains(toAdd)) {
-                    activePositions.add(createPosition(d, sidePlaced.getPositionInKingdom()));
+                    activePositions.add(d.createPosition(sidePlaced.getPositionInKingdom()));
                 }
             } else if (!sidePlaced.getCorners().get(d).getVisibility() && !impossiblePositions.contains(toAdd)) {
                 activePositions.remove(toAdd);
-                impossiblePositions.add(createPosition(d, sidePlaced.getPositionInKingdom()));
+                impossiblePositions.add(d.createPosition(sidePlaced.getPositionInKingdom()));
             }
         }
     }
@@ -211,18 +177,4 @@ public class Kingdom {
         this.placedSides.add(sidePlaced);
     }
 
-    /**
-     * The createPosition(d, p) method creates a new Position based on the direction that is given as a parameter.
-     * @param d The Direction relative to the placed Side where the Position needs to be created.
-     * @param p The Position of the Side that has just been placed.
-     * @return A new Position, relative to the Position of the Side, that is in the Direction given as parameter.
-     */
-    private Position createPosition(Direction d, Position p) {
-        return switch (d) {
-            case Direction.TOPLEFT -> new Position(p.getX() - 1, p.getY() + 1);
-            case Direction.TOPRIGHT -> new Position(p.getX() + 1, p.getY() + 1);
-            case Direction.BOTTOMLEFT -> new Position(p.getX() - 1, p.getY() - 1);
-            case Direction.BOTTOMRIGHT -> new Position(p.getX() + 1, p.getY() - 1);
-        };
-    }
 }

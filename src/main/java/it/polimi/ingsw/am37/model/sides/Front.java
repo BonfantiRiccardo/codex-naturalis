@@ -78,7 +78,7 @@ public class Front extends Side {
      * enough resources in the Kingdom to be able to place the GoldCard by confronting the amount of resources in the
      * Hashtable myRes given as parameter and the Hashtable resourcePlacementCondition.
      * @param myRes A Hash Table that contains how many visible resources the player has in his Kingdom.
-     * @return A boolean that indicates if the GoldCard can or can't be played.
+     * @return A boolean that indicates if the Card can or can't be played.
      */
     public boolean isPlacementConditionSatisfied (Hashtable<Resource, Integer> myRes) {
         boolean check;
@@ -87,7 +87,7 @@ public class Front extends Side {
             for (Resource s : resourcePlacementCondition.keySet()) {
                 if (myRes.containsKey(s)) {
                     check = myRes.get(s) >= resourcePlacementCondition.get(s);
-                }else check = false;        //forse si può togliere questo else perchè le risorse ci sono sempre tutte
+                }else check = false;
                 if (!check)
                     break;
             }

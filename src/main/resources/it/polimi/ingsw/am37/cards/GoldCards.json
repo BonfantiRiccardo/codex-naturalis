@@ -23,10 +23,8 @@
       "mainResource": "FUNGI",
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
-        "PLANT": 0,
         "ANIMAL": 1,
-        "FUNGI": 2,
-        "INSECT": 0
+        "FUNGI": 2
       },
       "bonus": "QUILL"
     },
@@ -77,9 +75,7 @@
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
         "PLANT": 1,
-        "ANIMAL": 0,
-        "FUNGI": 2,
-        "INSECT": 0
+        "FUNGI": 2
       },
       "bonus": "INKWELL"
     },
@@ -129,8 +125,6 @@
       "mainResource": "FUNGI",
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
         "FUNGI": 2,
         "INSECT": 1
       },
@@ -182,10 +176,8 @@
       "mainResource": "FUNGI",
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
-        "PLANT": 0,
         "ANIMAL": 1,
-        "FUNGI": 3,
-        "INSECT": 0
+        "FUNGI": 3
       },
       "bonus": "CORNER"
     },
@@ -236,9 +228,7 @@
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
         "PLANT": 1,
-        "ANIMAL": 0,
-        "FUNGI": 3,
-        "INSECT": 0
+        "FUNGI": 3
       },
       "bonus": "CORNER"
     },
@@ -288,8 +278,6 @@
       "mainResource": "FUNGI",
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
         "FUNGI": 3,
         "INSECT": 1
       },
@@ -341,10 +329,7 @@
       "mainResource": "FUNGI",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
-        "FUNGI": 3,
-        "INSECT": 0
+        "FUNGI": 3
       },
       "bonus": null
     },
@@ -394,10 +379,7 @@
       "mainResource": "FUNGI",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
-        "FUNGI": 3,
-        "INSECT": 0
+        "FUNGI": 3
       },
       "bonus": null
     },
@@ -447,10 +429,7 @@
       "mainResource": "FUNGI",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
-        "FUNGI": 3,
-        "INSECT": 0
+        "FUNGI": 3
       },
       "bonus": null
     },
@@ -500,10 +479,7 @@
       "mainResource": "FUNGI",
       "pointsGivenOnPlacement": 5,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
-        "FUNGI": 5,
-        "INSECT": 0
+        "FUNGI": 5
       },
       "bonus": null
     },
@@ -554,8 +530,6 @@
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
         "PLANT": 2,
-        "ANIMAL": 0,
-        "FUNGI": 0,
         "INSECT": 1
       },
       "bonus": "QUILL"
@@ -607,9 +581,7 @@
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
         "PLANT": 2,
-        "ANIMAL": 0,
-        "FUNGI": 1,
-        "INSECT": 0
+        "FUNGI": 1
       },
       "bonus": "MANUSCRIPT"
     },
@@ -660,9 +632,7 @@
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
         "PLANT": 2,
-        "ANIMAL": 1,
-        "FUNGI": 0,
-        "INSECT": 0
+        "ANIMAL": 1
       },
       "bonus": "INKWELL"
     },
@@ -713,8 +683,6 @@
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
         "PLANT": 3,
-        "ANIMAL": 0,
-        "FUNGI": 0,
         "INSECT": 1
       },
       "bonus": "CORNER"
@@ -766,9 +734,7 @@
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
         "PLANT": 3,
-        "ANIMAL": 1,
-        "FUNGI": 0,
-        "INSECT": 0
+        "ANIMAL": 1
       },
       "bonus": "CORNER"
     },
@@ -819,9 +785,7 @@
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
         "PLANT": 3,
-        "ANIMAL": 0,
-        "FUNGI": 1,
-        "INSECT": 0
+        "FUNGI": 1
       },
       "bonus": "CORNER"
     },
@@ -871,10 +835,7 @@
       "mainResource": "PLANT",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 3,
-        "ANIMAL": 0,
-        "FUNGI": 0,
-        "INSECT": 0
+        "PLANT": 3
       },
       "bonus": null
     },
@@ -924,10 +885,7 @@
       "mainResource": "PLANT",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 3,
-        "ANIMAL": 0,
-        "FUNGI": 0,
-        "INSECT": 0
+        "PLANT": 3
       },
       "bonus": null
     },
@@ -977,10 +935,7 @@
       "mainResource": "PLANT",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 3,
-        "ANIMAL": 0,
-        "FUNGI": 0,
-        "INSECT": 0
+        "PLANT": 3
       },
       "bonus": null
     },
@@ -1030,10 +985,7 @@
       "mainResource": "PLANT",
       "pointsGivenOnPlacement": 5,
       "resourcePlacementCondition": {
-        "PLANT": 5,
-        "ANIMAL": 0,
-        "FUNGI": 0,
-        "INSECT": 0
+        "PLANT": 5
       },
       "bonus": null
     },
@@ -1083,9 +1035,7 @@
       "mainResource": "ANIMAL",
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
-        "PLANT": 0,
         "ANIMAL": 2,
-        "FUNGI": 0,
         "INSECT": 1
       },
       "bonus": "INKWELL"
@@ -1137,9 +1087,7 @@
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
         "PLANT": 1,
-        "ANIMAL": 2,
-        "FUNGI": 0,
-        "INSECT": 0
+        "ANIMAL": 2
       },
       "bonus": "MANUSCRIPT"
     },
@@ -1189,10 +1137,8 @@
       "mainResource": "ANIMAL",
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
-        "PLANT": 0,
         "ANIMAL": 2,
-        "FUNGI": 1,
-        "INSECT": 0
+        "FUNGI": 1
       },
       "bonus": "QUILL"
     },
@@ -1242,9 +1188,7 @@
       "mainResource": "ANIMAL",
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
-        "PLANT": 0,
         "ANIMAL": 3,
-        "FUNGI": 0,
         "INSECT": 1
       },
       "bonus": "CORNER"
@@ -1295,10 +1239,8 @@
       "mainResource": "ANIMAL",
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
-        "PLANT": 0,
         "ANIMAL": 3,
-        "FUNGI": 1,
-        "INSECT": 0
+        "FUNGI": 1
       },
       "bonus": "CORNER"
     },
@@ -1349,9 +1291,7 @@
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
         "PLANT": 1,
-        "ANIMAL": 3,
-        "FUNGI": 0,
-        "INSECT": 0
+        "ANIMAL": 3
       },
       "bonus": "CORNER"
     },
@@ -1401,10 +1341,7 @@
       "mainResource": "ANIMAL",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 3,
-        "FUNGI": 0,
-        "INSECT": 0
+        "ANIMAL": 3
       },
       "bonus": null
     },
@@ -1454,10 +1391,7 @@
       "mainResource": "ANIMAL",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 3,
-        "FUNGI": 0,
-        "INSECT": 0
+        "ANIMAL": 3
       },
       "bonus": null
     },
@@ -1507,10 +1441,7 @@
       "mainResource": "ANIMAL",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 3,
-        "FUNGI": 0,
-        "INSECT": 0
+        "ANIMAL": 3
       },
       "bonus": null
     },
@@ -1560,10 +1491,7 @@
       "mainResource": "ANIMAL",
       "pointsGivenOnPlacement": 5,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 5,
-        "FUNGI": 0,
-        "INSECT": 0
+        "ANIMAL": 5
       },
       "bonus": null
     },
@@ -1614,8 +1542,6 @@
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
         "PLANT": 1,
-        "ANIMAL": 0,
-        "FUNGI": 0,
         "INSECT": 2
       },
       "bonus": "QUILL"
@@ -1666,9 +1592,7 @@
       "mainResource": "INSECT",
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
-        "PLANT": 0,
         "ANIMAL": 1,
-        "FUNGI": 0,
         "INSECT": 2
       },
       "bonus": "MANUSCRIPT"
@@ -1719,8 +1643,6 @@
       "mainResource": "INSECT",
       "pointsGivenOnPlacement": 1,
       "resourcePlacementCondition": {
-        "PLANT": 1,
-        "ANIMAL": 0,
         "FUNGI": 1,
         "INSECT": 2
       },
@@ -1772,9 +1694,7 @@
       "mainResource": "INSECT",
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
-        "PLANT": 0,
         "ANIMAL": 1,
-        "FUNGI": 0,
         "INSECT": 3
       },
       "bonus": "CORNER"
@@ -1826,8 +1746,6 @@
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
         "PLANT": 1,
-        "ANIMAL": 0,
-        "FUNGI": 0,
         "INSECT": 3
       },
       "bonus": "CORNER"
@@ -1878,8 +1796,6 @@
       "mainResource": "INSECT",
       "pointsGivenOnPlacement": 2,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
         "FUNGI": 1,
         "INSECT": 3
       },
@@ -1931,9 +1847,6 @@
       "mainResource": "INSECT",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
-        "FUNGI": 0,
         "INSECT": 3
       },
       "bonus": null
@@ -1984,9 +1897,6 @@
       "mainResource": "INSECT",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
-        "FUNGI": 0,
         "INSECT": 3
       },
       "bonus": null
@@ -2037,9 +1947,6 @@
       "mainResource": "INSECT",
       "pointsGivenOnPlacement": 3,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
-        "FUNGI": 0,
         "INSECT": 3
       },
       "bonus": null
@@ -2090,9 +1997,6 @@
       "mainResource": "INSECT",
       "pointsGivenOnPlacement": 5,
       "resourcePlacementCondition": {
-        "PLANT": 0,
-        "ANIMAL": 0,
-        "FUNGI": 0,
         "INSECT": 5
       },
       "bonus": null

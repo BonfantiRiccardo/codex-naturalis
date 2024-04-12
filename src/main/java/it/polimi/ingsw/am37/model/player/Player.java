@@ -1,10 +1,11 @@
 package it.polimi.ingsw.am37.model.player;
 
 import it.polimi.ingsw.am37.model.cards.*;
-import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
+import it.polimi.ingsw.am37.model.cards.objective.*;
+import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.decks.Deck;
-import it.polimi.ingsw.am37.model.exceptions.AlreadyAssignedException;
-import it.polimi.ingsw.am37.model.game.GameModel;
+import it.polimi.ingsw.am37.model.exceptions.*;
+import it.polimi.ingsw.am37.model.game.*;
 import it.polimi.ingsw.am37.model.sides.*;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class Player {
      * The hand attribute is the list of cards that the player currently has at its disposal, meaning that he can place
      * these cards.
      */
-    private List<Card> hand;
+    private List<StandardCard> hand;
     /**
      * The startCard attribute is a reference to the start card that the player receives at the beginning of the game.
      */
@@ -38,7 +39,7 @@ public class Player {
     /**
      * The privateObjective attribute is the ObjectiveCard that the player chooses at the beginning of the game.
      */
-    private  Card privateObjective;
+    private ObjectiveCard privateObjective;
     /**
      * The myKingdom attribute is a reference to the kingdom (also called play area) of the player. The Kingdom contains
      * the sides of the cards placed by the player and his resources.
@@ -107,7 +108,7 @@ public class Player {
      * @param hand A list of card that will become the initial hand of the player.
      * @throws AlreadyAssignedException This attribute cannot be assigned twice.
      */
-    public void setHand(List<Card> hand) throws AlreadyAssignedException {
+    public void setHand(List<StandardCard> hand) throws AlreadyAssignedException {
         if(this.hand != null) {
             throw new AlreadyAssignedException("The hand has already been created");
         } else {
@@ -119,7 +120,7 @@ public class Player {
      * The getHand() method returns the current hand of the player, which is a list of three GameCards.
      * @return The hand attribute.
      */
-    public List<Card> getHand() {
+    public List<StandardCard> getHand() {
         return hand;
     }
 
@@ -169,10 +170,10 @@ public class Player {
      * @param privateObjective An array of two ObjectiveCards.
      * @throws AlreadyAssignedException This attribute cannot be assigned twice.
      */
-    public void chooseObjective(Card[] privateObjective) throws AlreadyAssignedException {
+    public void chooseObjective(ObjectiveCard[] privateObjective) throws AlreadyAssignedException {
         if(this.privateObjective != null) {
             throw new AlreadyAssignedException("The privateObjective has already been assigned");
-        } else {
+        } else {    //TODO: METHOD STUB FOR TESTING
             this.privateObjective = privateObjective[0]; //talks to the controller and asks client which card
         }
     }
@@ -213,11 +214,14 @@ public class Player {
      * parameter.
      * @param deck The deck from which the Player has chosen to draw the Card.
      */
-    public void drawCardFromDeck(Deck deck) {
-        //TODO
-        //check se la lista hand ha 3 carte allora ritorna "Impossibile pescare le carte in mano sono già 3"
-
-        //altrimenti hand.add(deck.drawCard());
+    public void drawCardFromDeck(Deck deck) throws NoCardsException {
+        if (hand.size() >= 3)
+            System.out.println("You cannot draw, you already have 3 Cards in your hand");
+        else {
+            hand.add((StandardCard) deck.drawCard());
+            System.out.println("Your hand now: ");
+            for (StandardCard sC : hand) System.out.println(sC.toString());
+        }
     }
 
     /**
@@ -226,11 +230,32 @@ public class Player {
      * to the available Cards.
      * @param card The card that the Player wants to draw.
      */
-    public void drawCardFromAvailable(Card card) {
-        //TODO
-        //check se la lista hand ha 3 carte allora ritorna "Impossibile pescare le carte in mano sono già 3"
+    public void drawCardFromAvailable(StandardCard card) throws NoCardsException {
+        if (hand.size() >= 3)
+            System.out.println("You cannot draw, you already have 3 Cards in your hand");
+        else if (game.getAvailableGCards().contains(card)) {
+            hand.add(card);
+            game.getAvailableGCards().remove(card);
+            if (!game.getGDeck().isEmpty()) {
+                game.getAvailableGCards().add((StandardCard) game.getGDeck().drawCard());
+            } else if (!game.getRDeck().isEmpty()) {
+                game.getAvailableGCards().add((StandardCard) game.getRDeck().drawCard());
+            }
+            System.out.println("Your hand now: ");
+            for (StandardCard sC : hand) System.out.println(sC.toString());
 
-        //altrimenti hand.add(card);        game.getAvail..().remove(card);     game.getAvail..().add(deck.drawCard());
+        } else if (game.getAvailableRCards().contains(card)) {
+            hand.add(card);
+            game.getAvailableRCards().remove(card);
+            if (!game.getRDeck().isEmpty()) {
+                game.getAvailableRCards().add((StandardCard) game.getRDeck().drawCard());
+            } else if (!game.getGDeck().isEmpty()) {
+                game.getAvailableRCards().add((StandardCard) game.getGDeck().drawCard());
+            }
+            System.out.println("Your hand now: ");
+            for (StandardCard sC : hand) System.out.println(sC.toString());
+        } else
+            System.out.println("The Card you want to draw is not available");
     }
 
     /**
@@ -240,20 +265,50 @@ public class Player {
      * placed is a Front) and if it is fulfilled it places the Card and updates the Kingdom by calling the
      * updateKingdom() method. If any of these check fails it doesn't place the Card and lets the player know that the
      * command failed.
-     * @param placed The Side of the Card that the Player wants to place.
+     * @param card The Card that the Player wants to place from his hand.
+     * @param toPlace The Side of the Card that the Player wants to place.
      * @param position The Position where the Player wants to place the Side.
      */
-    public void placeCard(Side placed, Position position) {
-        //TODO
-        //controllo sulla piazzabilità dalla lista di posizioni, se tutto ok linko i corner delle carte sotto al side
-        // piazzato (li trovo tramite posizioni adiacenti)
-        //aggiunge placed alla lista di sides piazzati in kingdom
-        //aggiungo le nuove posizioni aperte e aggiorno la lista di quelle impossibili
-        //aggiorno le risorse visibili
+    public void placeCard(StandardCard card, Side toPlace, Position position) {
+        int cornersLinked = 0;
 
-        //altrimenti dà errore di piazzamento
+        if (!hand.contains(card)) {
+            System.out.println("You do not possess this Card, you cannot place it.");
+        } else if (hand.contains(card) && !myKingdom.getActivePositions().contains(position)) {
+            System.out.println("You cannot place the Card in this position.");
+        } else if (hand.contains(card) && myKingdom.getActivePositions().contains(position)) {
+            if (card.getFront().equals(toPlace)) {
+                Front f = (Front) toPlace;
+                if (f.isPlacementConditionSatisfied(myKingdom.getOnFieldResources())) {
+                    toPlace.placeInPosition(position.getX(), position.getY());              //OVERLOAD THE METHOD TO NOT DUPLICATE CODE
+                    hand.remove(card);
+                    for (Side s : myKingdom.getPlacedSides()) {
+                        for (Direction d : Direction.values()) {
+                            if (d.createPosition(s.getPositionInKingdom()).equals(position)) {
+                                s.getCorners().get(d).setLinkedSide(toPlace);
+                                cornersLinked++;
+                            }
+                        }
+                    }
+                    addPoints(f, cornersLinked);
+                    myKingdom.updateKingdom(card, toPlace, position);
 
-        //chiama addPoints per aggiornare i punti passando placed
+                } else
+                    System.out.println("You don't have enough resources to satisfy the placement condition for the front of this card, you cannot place it.");
+            } else if (card.getBack().equals(toPlace)) {
+                toPlace.placeInPosition(position.getX(), position.getY());
+                hand.remove(card);
+                for (Side s : myKingdom.getPlacedSides()) {
+                    for (Direction d : Direction.values()) {
+                        if (d.createPosition(s.getPositionInKingdom()).equals(position))
+                            s.getCorners().get(d).setLinkedSide(toPlace);
+                    }
+                }
+                myKingdom.updateKingdom(card, toPlace, position);
+            } else
+                System.out.println("The Side given as a parameter does not belong to the Card given as a parameter, you cannot place it.");
+
+        }
     }
 
     /**
@@ -261,12 +316,23 @@ public class Player {
      * only if the Side placed is a Front. It updates the points of the Player in the scoreboard.
      * @param placed The Side that the Player placed.
      */
-    private void addPoints(Side placed) {
-        //TODO
-        //controlla se e quanti sono i punti da aggiungere a seguito del piazzamento di questa carta
+    private void addPoints(Front placed, int cornersLinked) {
+        int toAdd = 0;
 
-        //currPoints = game.getScoreboard().getParticipantsPoints().get(token);
-        //game.getScoreboard().getParticipantsPoints().replace(token, currPoints + toAdd)
+        if (placed.getBonus() == null)
+            toAdd = placed.getPointsGivenOnPlacement();
+        else if (placed.getBonus().equals(Bonus.CORNER))
+            toAdd = placed.getPointsGivenOnPlacement() * cornersLinked;
+        else {
+            if (placed.getBonus().equals(Bonus.INKWELL)) {
+                toAdd = (myKingdom.getOnFieldResources().get(Resource.INKWELL) + 1) * placed.getPointsGivenOnPlacement();
+            } else if (placed.getBonus().equals(Bonus.QUILL)) {
+                toAdd = (myKingdom.getOnFieldResources().get(Resource.QUILL) + 1) * placed.getPointsGivenOnPlacement();
+            } else if (placed.getBonus().equals(Bonus.MANUSCRIPT))
+                toAdd = (myKingdom.getOnFieldResources().get(Resource.MANUSCRIPT) + 1) * placed.getPointsGivenOnPlacement();
+        }
+
+        game.getScoreboard().addPoints(token, toAdd);
     }
 
     /**

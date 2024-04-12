@@ -9,6 +9,7 @@ import it.polimi.ingsw.am37.model.player.*;
 import it.polimi.ingsw.am37.model.sides.*;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.Hashtable;
@@ -59,7 +60,7 @@ public class ResourceBoundObjectiveTest {
             }
         }
 
-        p.getMyKingdom().updateKingdom(rC.getBack(), pos);
+        p.getMyKingdom().updateKingdom(rC, rC.getBack(), pos);
 
 
         GoldCard gC;
@@ -80,7 +81,7 @@ public class ResourceBoundObjectiveTest {
                 rC.getBack().getCorners().get(d.opposite()).setLinkedSide(gC.getFront());
         }
 
-        p.getMyKingdom().updateKingdom(gC.getFront(), pos2);
+        p.getMyKingdom().updateKingdom(gC, gC.getFront(), pos2);
     }
 
     @BeforeEach
@@ -90,16 +91,16 @@ public class ResourceBoundObjectiveTest {
         rC3  = new ResourcesBoundObjective(101,2, createTableDuoGold());
     }
 
-    /*WAITING FOR METHOD updateOnFieldResources IMPLEMENTATION TO BE COMPLETED*/
     @Test
+    //@RepeatedTest(value = 10)
     void testResourceObjective() {
         int check1 = rC1.calculateNumOfCompletion(p.getMyKingdom());
         assertTrue(p.getMyKingdom().getOnFieldResources().get(Resource.FUNGI) >= check1*3);
-        int check2 = rC1.calculateNumOfCompletion(p.getMyKingdom());
+        int check2 = rC2.calculateNumOfCompletion(p.getMyKingdom());
         assertTrue(p.getMyKingdom().getOnFieldResources().get(Resource.INKWELL) >= check2 ||
                 p.getMyKingdom().getOnFieldResources().get(Resource.QUILL) >= check2 ||
                 p.getMyKingdom().getOnFieldResources().get(Resource.MANUSCRIPT) >= check2);
-        int check3 = rC1.calculateNumOfCompletion(p.getMyKingdom());
+        int check3 = rC3.calculateNumOfCompletion(p.getMyKingdom());
         assertTrue(p.getMyKingdom().getOnFieldResources().get(Resource.INKWELL) >= check3*2);
     }
 
