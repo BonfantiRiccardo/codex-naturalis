@@ -37,8 +37,8 @@ public class DiagonalUp extends PlacementBoundObjective {
         cards = kingdom.getPlacedSides();
 
         for(Side s: cards){
-            if(s.getMainResource().equals(getCardColourThatTriggersCheck()) && !s.getUsedDiagonal()){
-                while (s.getTR().getLinkedSide()!=null && s.getTR().getLinkedSide().getMainResource().equals(getCardColourThatTriggersCheck()) && !s.getTR().getLinkedSide().getUsedDiagonal()){
+            if(s.getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getUsedDiagonal()){
+                while (s.getTR().getLinkedSide()!=null && s.getTR().getLinkedSide().getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getTR().getLinkedSide().getUsedDiagonal()){
                     s=s.getTR().getLinkedSide();
                 }
                 if(s.getBL().getLinkedSide()!=null){

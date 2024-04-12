@@ -37,8 +37,33 @@ public class DiagonalDown extends PlacementBoundObjective {
         cards = kingdom.getPlacedSides();
 
         for(Side s: cards){
-            if(s.getMainResource().equals(getCardColourThatTriggersCheck()) && !s.getUsedDiagonal()){
-                while (s.getTL().getLinkedSide()!=null && s.getTL().getLinkedSide().getMainResource().equals(getCardColourThatTriggersCheck()) && !s.getTL().getLinkedSide().getUsedDiagonal()){
+            if(s.getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getUsedDiagonal()){
+                while (s.getTL().getLinkedSide()!=null && s.getTL().getLinkedSide().getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getTL().getLinkedSide().getUsedDiagonal()){
+                    s=s.getTL().getLinkedSide();
+                }
+                if(s.getBR().getLinkedSide()!=null){
+                    if(s.getBR().getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getBR().getLinkedSide().getUsedDiagonal()){
+                        if(s.getBR().getLinkedSide().getBR().getLinkedSide()!=null){
+                            if(s.getBR().getLinkedSide().getBR().getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getBR().getLinkedSide().getBR().getLinkedSide().getUsedDiagonal()){
+                                numSatisfied++;
+                                s.setUsedDiagonal(true);
+                                s.getBR().getLinkedSide().setUsedDiagonal(true);
+                                s.getBR().getLinkedSide().getBR().getLinkedSide().setUsedDiagonal(true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return numSatisfied;
+    }
+
+    public int calculateNumOfCompletionTest(List<Side> placedsides){
+        int numSatisfied=0;
+
+        for(Side s: placedsides){
+            if(s.getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getUsedDiagonal()){
+                while (s.getTL().getLinkedSide()!=null && s.getTL().getLinkedSide().getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getTL().getLinkedSide().getUsedDiagonal()){
                     s=s.getTL().getLinkedSide();
                 }
                 if(s.getBR().getLinkedSide()!=null){

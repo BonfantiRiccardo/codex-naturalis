@@ -55,10 +55,32 @@ public class LShape extends PlacementBoundObjective {
         cards = kingdom.getPlacedSides();
 
         for(Side s: cards){
-            if(s.getMainResource().equals(getCardColourThatTriggersCheck()) && !s.getUsedLCorner()){
+            if(s.getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getUsedLCorner()){
                 if(s.getCorners().get(direction).getLinkedSide()!=null){
                     if(s.getCorners().get(direction).getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getCorners().get(direction).getLinkedSide().getUsedLLeg()){
                         for(Side check: cards){
+                            if(check.getMainResource().equals(getOtherResource()) && !check.getUsedLLeg() && check.getPositionInKingdom().getX()==s.getPositionInKingdom().getX()+requestedPosition.getX() && check.getPositionInKingdom().getY()==s.getPositionInKingdom().getY()+requestedPosition.getY()){
+                                numSatisfied++;
+                                check.setUsedLLeg(true);
+                                s.getCorners().get(direction).getLinkedSide().setUsedLLeg(true);
+                                s.setUsedLCorner(true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return numSatisfied;
+    }
+
+    public int calculateNumOfCompletionTest(List<Side> placedsides) {
+        int numSatisfied=0;
+
+        for(Side s: placedsides){
+            if(s.getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getUsedLCorner()){
+                if(s.getCorners().get(direction).getLinkedSide()!=null){
+                    if(s.getCorners().get(direction).getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getCorners().get(direction).getLinkedSide().getUsedLLeg()){
+                        for(Side check: placedsides){
                             if(check.getMainResource().equals(getOtherResource()) && !check.getUsedLLeg() && check.getPositionInKingdom().getX()==s.getPositionInKingdom().getX()+requestedPosition.getX() && check.getPositionInKingdom().getY()==s.getPositionInKingdom().getY()+requestedPosition.getY()){
                                 numSatisfied++;
                                 check.setUsedLLeg(true);
