@@ -16,6 +16,7 @@ module it.polimi.ingsw.am37 {
     exports it.polimi.ingsw.am37.model.game;
     exports it.polimi.ingsw.am37.model.player;
     exports it.polimi.ingsw.am37.model.sides;
+    exports it.polimi.ingsw.am37.controller;
 
     opens it.polimi.ingsw.am37.model.cards to com.google.gson;
     opens it.polimi.ingsw.am37.model.cards.objective to com.google.gson;

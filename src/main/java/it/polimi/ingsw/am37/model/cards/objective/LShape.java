@@ -73,26 +73,20 @@ public class LShape extends PlacementBoundObjective {
         return numSatisfied;
     }
 
-    public int calculateNumOfCompletionTest(List<Side> placedsides) {
-        int numSatisfied=0;
+    /**
+     * The getDirection() method returns the requested Direction of the second card in order for the objective to be fulfilled.
+     * @return The value of the direction attribute.
+     */
+    public Direction getDirection() {
+        return direction;
+    }
 
-        for(Side s: placedsides){
-            if(s.getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getUsedLCorner()){
-                if(s.getCorners().get(direction).getLinkedSide()!=null){
-                    if(s.getCorners().get(direction).getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getCorners().get(direction).getLinkedSide().getUsedLLeg()){
-                        for(Side check: placedsides){
-                            if(check.getMainResource().equals(getOtherResource()) && !check.getUsedLLeg() && check.getPositionInKingdom().getX()==s.getPositionInKingdom().getX()+requestedPosition.getX() && check.getPositionInKingdom().getY()==s.getPositionInKingdom().getY()+requestedPosition.getY()){
-                                numSatisfied++;
-                                check.setUsedLLeg(true);
-                                s.getCorners().get(direction).getLinkedSide().setUsedLLeg(true);
-                                s.setUsedLCorner(true);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return numSatisfied;
+    /**
+     * The getRequestedPosition() method returns the requested Position of the third card in order for the objective to be fulfilled.
+     * @return The value of the requestedPosition attribute.
+     */
+    public Position getRequestedPosition() {
+        return requestedPosition;
     }
 
     @Override

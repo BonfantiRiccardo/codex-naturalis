@@ -4,6 +4,7 @@ import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Kingdom;
 import it.polimi.ingsw.am37.model.sides.Side;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,50 +33,42 @@ public class DiagonalDown extends PlacementBoundObjective {
      */
     public int calculateNumOfCompletion(Kingdom kingdom){
         int numSatisfied=0;
-        List<Side> cards;
+        List<Side> cards = new ArrayList<>();
 
-        cards = kingdom.getPlacedSides();
+        for (Side s: kingdom.getPlacedSides())
+            if (s.getMainResource().equals(cardColourThatTriggersCheck))
+                cards.add(s);
 
-        for(Side s: cards){
-            if(s.getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getUsedDiagonal()){
-                while (s.getTL().getLinkedSide()!=null && s.getTL().getLinkedSide().getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getTL().getLinkedSide().getUsedDiagonal()){
-                    s=s.getTL().getLinkedSide();
-                }
-                if(s.getBR().getLinkedSide()!=null){
-                    if(s.getBR().getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getBR().getLinkedSide().getUsedDiagonal()){
-                        if(s.getBR().getLinkedSide().getBR().getLinkedSide()!=null){
-                            if(s.getBR().getLinkedSide().getBR().getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getBR().getLinkedSide().getBR().getLinkedSide().getUsedDiagonal()){
-                                numSatisfied++;
-                                s.setUsedDiagonal(true);
-                                s.getBR().getLinkedSide().setUsedDiagonal(true);
-                                s.getBR().getLinkedSide().getBR().getLinkedSide().setUsedDiagonal(true);
-                            }
+        for (Side s: cards) {
+            if (!s.getUsedDiagonal()) {
+                boolean foundTop = false;
+                Side previous;
+                while (!foundTop) {
+                    previous = s;
+                    for (Side goToTop: cards) {
+                        if (!goToTop.getUsedDiagonal() && Direction.TOPLEFT.createPosition(s.getPositionInKingdom()).equals(goToTop.getPositionInKingdom())) {
+                            s = goToTop; break;
+                        } else if (goToTop.getUsedDiagonal() && Direction.TOPLEFT.createPosition(s.getPositionInKingdom()).equals(goToTop.getPositionInKingdom())) {
+                            foundTop = true;
+                            break;
                         }
                     }
+                    if (s.equals(previous))
+                        foundTop = true;
                 }
-            }
-        }
-        return numSatisfied;
-    }
 
-    public int calculateNumOfCompletionTest(List<Side> placedsides){
-        int numSatisfied=0;
-
-        for(Side s: placedsides){
-            if(s.getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getUsedDiagonal()){
-                while (s.getTL().getLinkedSide()!=null && s.getTL().getLinkedSide().getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getTL().getLinkedSide().getUsedDiagonal()){
-                    s=s.getTL().getLinkedSide();
-                }
-                if(s.getBR().getLinkedSide()!=null){
-                    if(s.getBR().getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getBR().getLinkedSide().getUsedDiagonal()){
-                        if(s.getBR().getLinkedSide().getBR().getLinkedSide()!=null){
-                            if(s.getBR().getLinkedSide().getBR().getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getBR().getLinkedSide().getBR().getLinkedSide().getUsedDiagonal()){
+                for (Side s2: cards) {
+                    if (!s2.getUsedDiagonal() && Direction.BOTTOMRIGHT.createPosition(s.getPositionInKingdom()).equals(s2.getPositionInKingdom())) {
+                        for (Side s3: cards){
+                            if(!s3.getUsedDiagonal() && Direction.BOTTOMRIGHT.createPosition(s2.getPositionInKingdom()).equals(s3.getPositionInKingdom())){
                                 numSatisfied++;
                                 s.setUsedDiagonal(true);
-                                s.getBR().getLinkedSide().setUsedDiagonal(true);
-                                s.getBR().getLinkedSide().getBR().getLinkedSide().setUsedDiagonal(true);
+                                s2.setUsedDiagonal(true);
+                                s3.setUsedDiagonal(true);
+                                break;
                             }
                         }
+                        break;
                     }
                 }
             }

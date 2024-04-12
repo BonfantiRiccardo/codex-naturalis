@@ -4,6 +4,7 @@ import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Kingdom;
 import it.polimi.ingsw.am37.model.sides.Side;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,31 +32,47 @@ public class DiagonalUp extends PlacementBoundObjective {
      * @return The number of times the objective is satisfied by the player.
      */
     public int calculateNumOfCompletion(Kingdom kingdom){
-        int numSatisfied=0;
-        List<Side> cards;
+        int numSatisfied = 0;
+        List<Side> cards = new ArrayList<>();
 
-        cards = kingdom.getPlacedSides();
+        for (Side s: kingdom.getPlacedSides())
+            if (s.getMainResource().equals(cardColourThatTriggersCheck))
+                cards.add(s);
 
-        for(Side s: cards){
-            if(s.getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getUsedDiagonal()){
-                while (s.getTR().getLinkedSide()!=null && s.getTR().getLinkedSide().getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getTR().getLinkedSide().getUsedDiagonal()){
-                    s=s.getTR().getLinkedSide();
+        for (Side s: cards) {
+            if (!s.getUsedDiagonal()) {
+                boolean foundTop = false;
+                Side previous;
+                while (!foundTop) {
+                    previous = s;
+                    for (Side goToTop: cards) {
+                        if (!goToTop.getUsedDiagonal() && Direction.TOPRIGHT.createPosition(s.getPositionInKingdom()).equals(goToTop.getPositionInKingdom())) {
+                            s = goToTop; break;
+                        } else if (goToTop.getUsedDiagonal() && Direction.TOPRIGHT.createPosition(s.getPositionInKingdom()).equals(goToTop.getPositionInKingdom())) {
+                            foundTop = true;
+                            break;
+                        }
+                    }
+                    if (s.equals(previous))
+                        foundTop = true;
                 }
-                if(s.getBL().getLinkedSide()!=null){
-                    if(s.getBL().getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getBL().getLinkedSide().getUsedDiagonal()){
-                        if(s.getBL().getLinkedSide().getBL().getLinkedSide()!=null){
-                            if(s.getBL().getLinkedSide().getBL().getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getBL().getLinkedSide().getBL().getLinkedSide().getUsedDiagonal()){
+
+                for (Side s2: cards) {
+                    if (!s2.getUsedDiagonal() && Direction.BOTTOMLEFT.createPosition(s.getPositionInKingdom()).equals(s2.getPositionInKingdom())) {
+                        for (Side s3: cards){
+                            if(!s3.getUsedDiagonal() && Direction.BOTTOMLEFT.createPosition(s2.getPositionInKingdom()).equals(s3.getPositionInKingdom())){
                                 numSatisfied++;
                                 s.setUsedDiagonal(true);
-                                s.getBL().getLinkedSide().setUsedDiagonal(true);
-                                s.getBL().getLinkedSide().getBL().getLinkedSide().setUsedDiagonal(true);
+                                s2.setUsedDiagonal(true);
+                                s3.setUsedDiagonal(true);
+                                break;
                             }
                         }
+                        break;
                     }
                 }
             }
         }
         return numSatisfied;
-
     }
 }

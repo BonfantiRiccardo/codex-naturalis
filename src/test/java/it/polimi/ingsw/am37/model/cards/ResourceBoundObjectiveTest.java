@@ -8,9 +8,8 @@ import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.*;
 import it.polimi.ingsw.am37.model.sides.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
 
 import java.util.Hashtable;
 
@@ -50,7 +49,6 @@ public class ResourceBoundObjectiveTest {
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
-        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
         Position pos = p.getMyKingdom().getActivePositions().get(0);
         rC.getBack().placeInPosition(pos.getX(), pos.getY());
 
@@ -69,7 +67,6 @@ public class ResourceBoundObjectiveTest {
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
-        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
         Position pos2 = p.getMyKingdom().getActivePositions().get(0);
         gC.getFront().placeInPosition(pos2.getX(), pos2.getY());
 
@@ -91,8 +88,8 @@ public class ResourceBoundObjectiveTest {
         rC3  = new ResourcesBoundObjective(101,2, createTableDuoGold());
     }
 
-    @Test
-    //@RepeatedTest(value = 10)
+    //@Test
+    @RepeatedTest(value = 10)
     void testResourceObjective() {
         int check1 = rC1.calculateNumOfCompletion(p.getMyKingdom());
         assertTrue(p.getMyKingdom().getOnFieldResources().get(Resource.FUNGI) >= check1*3);

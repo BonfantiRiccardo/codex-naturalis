@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am37.model.cards;
 
-import it.polimi.ingsw.am37.model.cards.objective.*;
+import it.polimi.ingsw.am37.model.cards.objective.DiagonalUp;
+import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
 import it.polimi.ingsw.am37.model.exceptions.AlreadyAssignedException;
@@ -15,10 +16,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class DiagonalDownTest {
+class DiagonalUpTest {
+
     Player p = new Player("Ricky", Token.BLUE);
     GameModel g = new GameModel(createListOfPlayer());
 
@@ -30,12 +31,12 @@ public class DiagonalDownTest {
 
     @Test
     void createAndGetTest() {
-        DiagonalDown du = new DiagonalDown(88,2, Resource.PLANT, Resource.PLANT);
+        DiagonalUp du = new DiagonalUp(89,2, Resource.ANIMAL, Resource.ANIMAL);
 
-        assertEquals(88, du.getId());
+        assertEquals(89, du.getId());
         assertEquals(2, du.getPointsGiven());
-        assertSame(Resource.PLANT, du.getOtherResource());
-        assertSame(Resource.PLANT, du.getCardColourThatTriggersCheck());
+        assertSame(Resource.ANIMAL, du.getOtherResource());
+        assertSame(Resource.ANIMAL, du.getCardColourThatTriggersCheck());
 
         System.out.println(du);
     }
@@ -50,7 +51,7 @@ public class DiagonalDownTest {
         ObjectiveCard oC = (ObjectiveCard) g.getODeck().drawCard();
         boolean check = false;
         while (!check) {
-            if (oC.getClass().equals(DiagonalDown.class))
+            if (oC.getClass().equals(DiagonalUp.class))
                 check = true;
             else
                 oC = (ObjectiveCard) g.getODeck().drawCard();
@@ -59,9 +60,9 @@ public class DiagonalDownTest {
         StandardCard rC = (StandardCard) g.getRDeck().drawCard();
         check = false;
         while (!check) {
-            if (rC.getBack().getMainResource().equals(((DiagonalDown) oC).getCardColourThatTriggersCheck())) {
-                 rC.getBack().placeInPosition(1, 1);
-                 sC.getFront().getTR().setLinkedSide(rC.getBack());
+            if (rC.getBack().getMainResource().equals(((DiagonalUp) oC).getCardColourThatTriggersCheck())) {
+                rC.getBack().placeInPosition(-1, 1);
+                sC.getFront().getTL().setLinkedSide(rC.getBack());
                 check = true;
             } else
                 rC = (StandardCard) g.getRDeck().drawCard();
@@ -72,9 +73,9 @@ public class DiagonalDownTest {
         StandardCard rC2 = (StandardCard) g.getRDeck().drawCard();
         check = false;
         while (!check) {
-            if (rC2.getBack().getMainResource().equals(((DiagonalDown) oC).getOtherResource())) {
-                rC2.getBack().placeInPosition(2, 0);
-                rC.getBack().getBR().setLinkedSide(rC2.getBack());
+            if (rC2.getBack().getMainResource().equals(((DiagonalUp) oC).getOtherResource())) {
+                rC2.getBack().placeInPosition(-2, 0);
+                rC.getBack().getBL().setLinkedSide(rC2.getBack());
                 check = true;
             } else
                 rC2 = (StandardCard) g.getRDeck().drawCard();
@@ -84,9 +85,9 @@ public class DiagonalDownTest {
         StandardCard rC3 = (StandardCard) g.getRDeck().drawCard();
         check = false;
         while (!check) {
-            if (rC3.getBack().getMainResource().equals(((DiagonalDown) oC).getOtherResource())) {
-                rC3.getBack().placeInPosition(3,-1);
-                rC2.getBack().getBR().setLinkedSide(rC3.getBack());
+            if (rC3.getBack().getMainResource().equals(((DiagonalUp) oC).getOtherResource())) {
+                rC3.getBack().placeInPosition(-3,-1);
+                rC2.getBack().getBL().setLinkedSide(rC3.getBack());
                 check = true;
             } else
                 rC3 = (StandardCard) g.getRDeck().drawCard();
@@ -95,50 +96,9 @@ public class DiagonalDownTest {
         p.getMyKingdom().updateKingdom(rC3, rC3.getBack(), rC3.getBack().getPositionInKingdom());
 
         assertSame(1, oC.calculateNumOfCompletion(p.getMyKingdom()));
-
-
-        /*placedSides = new ArrayList<>();
-
-        dside1ok.placeInPosition(0,0);
-        dside2ok.placeInPosition(1,-1);
-        dside3ok.placeInPosition(2,-2);
-        dside4no.placeInPosition(3,-3);
-        dside1no.placeInPosition(2,0);
-        dside2no.placeInPosition(3, 1);
-        dside3no.placeInPosition(1, 8);
-        dside5no.placeInPosition(4,-4);
-        dside6no.placeInPosition(5,-5);
-
-        d1_2.setLinkedSide(dside2ok);
-        d2_1.setLinkedSide(dside1ok);
-        d2_3.setLinkedSide(dside3ok);
-        d3_2.setLinkedSide(dside2ok);
-        d3_n4.setLinkedSide(dside4no);
-        dn4_3.setLinkedSide(dside3ok);
-        d2_n1.setLinkedSide(dside1no);
-        dn1_2.setLinkedSide(dside2ok);
-        dn1_n2.setLinkedSide(dside2no);
-        dn2_n1.setLinkedSide(dside1no);
-        dn4_n5.setLinkedSide(dside5no);
-        dn5_n4.setLinkedSide(dside4no);
-        dn5_n6.setLinkedSide(dside6no);
-        dn6_n5.setLinkedSide(dside5no);
-
-        placedSides.add(dside1ok);
-        placedSides.add(dside2ok);
-        placedSides.add(dside3ok);
-        placedSides.add(dside1no);
-        placedSides.add(dside2no);
-        placedSides.add(dside3no);
-        placedSides.add(dside4no);
-        placedSides.add(dside5no);
-        placedSides.add(dside6no);
-
-        assertSame(2, diagonal.calculateNumOfCompletionTest(placedSides));*/
     }
 
     @RepeatedTest(value = 5)
-    //@Test
     void calculateNumOfCompletionTest2() throws NoCardsException, AlreadyAssignedException {
         StartCard sC = (StartCard) g.getSDeck().drawCard();
 
@@ -147,7 +107,7 @@ public class DiagonalDownTest {
         ObjectiveCard oC = (ObjectiveCard) g.getODeck().drawCard();
         boolean check = false;
         while (!check) {
-            if (oC.getClass().equals(DiagonalDown.class))
+            if (oC.getClass().equals(DiagonalUp.class))
                 check = true;
             else
                 oC = (ObjectiveCard) g.getODeck().drawCard();
@@ -156,8 +116,8 @@ public class DiagonalDownTest {
         StandardCard rC = (StandardCard) g.getRDeck().drawCard();
         check = false;
         while (!check) {
-            if (rC.getBack().getMainResource().equals(((DiagonalDown) oC).getCardColourThatTriggersCheck())) {
-                rC.getBack().placeInPosition(1, 1);
+            if (rC.getBack().getMainResource().equals(((DiagonalUp) oC).getCardColourThatTriggersCheck())) {
+                rC.getBack().placeInPosition(-1, 1);
                 sC.getFront().getTR().setLinkedSide(rC.getBack());
                 check = true;
             } else
@@ -169,8 +129,8 @@ public class DiagonalDownTest {
         StandardCard rC2 = (StandardCard) g.getRDeck().drawCard();
         check = false;
         while (!check) {
-            if (rC2.getBack().getMainResource().equals(((DiagonalDown) oC).getOtherResource())) {
-                rC2.getBack().placeInPosition(2, 0);
+            if (rC2.getBack().getMainResource().equals(((DiagonalUp) oC).getOtherResource())) {
+                rC2.getBack().placeInPosition(-2, 0);
                 rC.getBack().getBR().setLinkedSide(rC2.getBack());
                 check = true;
             } else
@@ -181,8 +141,8 @@ public class DiagonalDownTest {
         StandardCard rC3 = (StandardCard) g.getRDeck().drawCard();
         check = false;
         while (!check) {
-            if (rC3.getBack().getMainResource().equals(((DiagonalDown) oC).getOtherResource())) {
-                rC3.getBack().placeInPosition(3,-1);
+            if (rC3.getBack().getMainResource().equals(((DiagonalUp) oC).getOtherResource())) {
+                rC3.getBack().placeInPosition(-3,-1);
                 rC2.getBack().getBR().setLinkedSide(rC3.getBack());
                 check = true;
             } else
@@ -196,9 +156,9 @@ public class DiagonalDownTest {
         StandardCard previous = rC;
         int x = 0;      int y = 2;
         while (done < 3) {
-            if (card.getBack().getMainResource().equals(((DiagonalDown) oC).getOtherResource())) {
+            if (card.getBack().getMainResource().equals(((DiagonalUp) oC).getOtherResource())) {
                 card.getBack().placeInPosition(x,y);
-                x--;
+                x++;
                 y++;
                 previous.getBack().getTL().setLinkedSide(card.getBack());
                 previous = card;

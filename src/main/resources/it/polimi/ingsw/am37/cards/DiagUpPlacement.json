@@ -1,14 +1,14 @@
 [
   {
     "id" : 87,
-    "points" : 2,
+    "pointsGivenPerCompletion" : 2,
     "otherResource" : "FUNGI",
-    "cardColorThatTriggersCheck" : "FUNGI"
+    "cardColourThatTriggersCheck" : "FUNGI"
   },
   {
     "id" : 89,
-    "points" : 2,
+    "pointsGivenPerCompletion" : 2,
     "otherResource" : "ANIMAL",
-    "cardColorThatTriggersCheck" : "ANIMAL"
+    "cardColourThatTriggersCheck" : "ANIMAL"
   }
 ]

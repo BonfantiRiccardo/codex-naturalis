@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.model.game;
 
+import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
@@ -22,6 +23,7 @@ public class GameModel {
      * The currentPhase attribute gives information about the current phase of the game.
      */
     private GamePhase currentPhase;
+    private /*final*/ GameController gameController;
     /**
      * The participantsInOrder attribute is a list of all the participants in the order of their turns.
      */
@@ -87,8 +89,9 @@ public class GameModel {
      * phase to preparation.
      * @param participantsInOrder A list of 2 to 4 player that are the participants of this instance of the game.
      */
-    public GameModel(List<Player> participantsInOrder) {
+    public GameModel(List<Player> participantsInOrder/*, GameController controller*/) {
         this.participantsInOrder = participantsInOrder;
+        /*this.gameController = controller;*/
 
         scoreboard = new Scoreboard(participantsInOrder);
         disconnectedPlayers = new ArrayList<>();
@@ -118,8 +121,12 @@ public class GameModel {
         return currentPhase;
     }
 
+    public GameController getController() {
+        return gameController;
+    }
+
     /**
-     * The setCurrentPhase(currentPhase) method updtates the value of the currentPhase attribute.
+     * The setCurrentPhase(currentPhase) method updates the value of the currentPhase attribute.
      * @param currentPhase A value of the GamePhase enumeration.
      */
     public void setCurrentPhase(GamePhase currentPhase) {       //private?
@@ -205,16 +212,12 @@ public class GameModel {
      * and then sets the public objectives. Finally, it gives the Players' two objective cards, it lets them choose
      * which one they want to keep (concurrently with threads) and once everyone is done it sets the current phase to
      * PLAYING.
-     * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is
-     *                              interrupted, either before or during the activity. Occasionally a method may wish to
-     *                              test whether the current thread has been interrupted, and if so, to immediately throw
-     *                              this exception.
      * @throws NoCardsException Thrown when the list of cards in the deck is empty, so that the user knows he will not
      *                          be able to draw again from this deck.
      * @throws AlreadyAssignedException Thrown when trying to assign an attribute that has already been assigned and
      *                                  can only be assigned once.
      */
-    public void preparationPhase() throws InterruptedException, NoCardsException, AlreadyAssignedException {
+    public void preparationPhase() throws NoCardsException, AlreadyAssignedException {
         setAvailableCards();
 
         //ExecutorService s = Executors.newFixedThreadPool(4);
@@ -222,14 +225,18 @@ public class GameModel {
            /*s.submit(() -> {
                try {*/
                    giveStartCard(p);
-               /*} catch (NoCardsException | AlreadyAssignedException e) {
+               /*} catch (InterruptedException e) {
                    throw new RuntimeException(e);
                }
-           });*/
+            });*/
         }
         /*s.shutdown();
         while(!s.awaitTermination(1, TimeUnit.SECONDS));
         s.close();*/
+
+        /*for (Player p: participantsInOrder)
+        *   chooseToken(p);
+        * */
 
         for (Player p : participantsInOrder) {
             createHand(p);
@@ -242,10 +249,10 @@ public class GameModel {
             /*s1.submit(() -> {
                 try {*/
                     giveObjectiveCards(p);
-                /*} catch (NoCardsException | AlreadyAssignedException e) {
+                /*} catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-            });*/
+             });*/
         }
         /*s1.shutdown();
         while(!s1.awaitTermination(1, TimeUnit.SECONDS));*/
@@ -268,6 +275,7 @@ public class GameModel {
         publicObjectives[0] = (ObjectiveCard) oDeck.drawCard();
         publicObjectives[1] = (ObjectiveCard) oDeck.drawCard();
     }
+    
     private void createHand(Player p) throws NoCardsException, AlreadyAssignedException {
         List<StandardCard> hand = new ArrayList<>();
         hand.add((StandardCard) rDeck.drawCard());

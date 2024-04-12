@@ -1,8 +1,10 @@
 package it.polimi.ingsw.am37.model.player;
 
+//import it.polimi.ingsw.am37.controller.GameController;
+import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.exceptions.*;
-import it.polimi.ingsw.am37.model.game.GameModel;
+import it.polimi.ingsw.am37.model.game.*;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.sides.Bonus;
 import it.polimi.ingsw.am37.model.sides.Position;
@@ -66,21 +68,28 @@ class PlayerTest {
     }
 
     @Test
-    void chooseStartCardSideTest() {
-        //TODO
+    void chooseStartCardSideTest() throws NoCardsException, AlreadyAssignedException {
+        assertNull(p.getMyKingdom());
+        GameModel g = new GameModel(createListOfPlayer());
+        StartCard sC = (StartCard) g.getSDeck().drawCard();
+        p.setStartCard(sC);
+
+        p.chooseStartCardSide();
+        assertNotNull(p.getMyKingdom());
+
     }
 
     @Test
-    void getSetPrivateObjectiveTest() {
-    }
+    void chooseObjectiveTest() throws NoCardsException {
+        assertNull(p.getPrivateObjective());
+        GameModel g = new GameModel(createListOfPlayer());
 
-    @Test
-    void chooseObjectiveTest() {
-        //TODO
-    }
+        ObjectiveCard[] param = new ObjectiveCard[2];
+        param[0] = (ObjectiveCard) g.getODeck().drawCard();
+        param[1] = (ObjectiveCard) g.getODeck().drawCard();
 
-    @Test
-    void getMyKingdom() {
+        p.chooseObjective(param);
+        assertNotNull(p.getPrivateObjective());
     }
 
     @Test
@@ -163,7 +172,7 @@ class PlayerTest {
     }
 
     //@Test
-    @RepeatedTest(value = 10)
+    @RepeatedTest(value = 100)
     void placeCardTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
         GameModel g = new GameModel(createListOfPlayer());
         g.preparationPhase();
@@ -234,7 +243,7 @@ class PlayerTest {
     }
 
     //@Test
-    @RepeatedTest(value = 10)
+    @RepeatedTest(value = 100)
     void addPointsTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
         GameModel g = new GameModel(createListOfPlayer());
         g.preparationPhase();

@@ -1,9 +1,9 @@
 [
   {
     "id" : 91,
-    "points" : 3,
+    "pointsGivenPerCompletion": 3,
     "otherResource" : "FUNGI",
-    "cardColorThatTriggersCheck" : "PLANT",
+    "cardColourThatTriggersCheck": "PLANT",
     "direction" : "TOPLEFT",
     "requestedPosition": {
       "x": -1,
@@ -12,9 +12,9 @@
   },
   {
     "id" : 92,
-    "points" : 3,
+    "pointsGivenPerCompletion": 3,
     "otherResource" : "PLANT",
-    "cardColorThatTriggersCheck" : "INSECT",
+    "cardColourThatTriggersCheck": "INSECT",
     "direction" : "TOPRIGHT",
     "requestedPosition": {
       "x": 1,
@@ -23,9 +23,9 @@
   },
   {
     "id" : 93,
-    "points" : 3,
+    "pointsGivenPerCompletion": 3,
     "otherResource" : "ANIMAL",
-    "cardColorThatTriggersCheck" : "FUNGI",
+    "cardColourThatTriggersCheck": "FUNGI",
     "direction" : "BOTTOMLEFT",
     "requestedPosition": {
       "x": -1,
@@ -34,9 +34,9 @@
   },
   {
     "id" : 94,
-    "points" : 3,
+    "pointsGivenPerCompletion": 3,
     "otherResource" : "INSECT",
-    "cardColorThatTriggersCheck" : "ANIMAL",
+    "cardColourThatTriggersCheck": "ANIMAL",
     "direction" : "BOTTOMRIGHT",
     "requestedPosition": {
       "x": 1,

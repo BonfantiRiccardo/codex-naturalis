@@ -1,78 +1,133 @@
 package it.polimi.ingsw.am37.model.cards;
 
-import it.polimi.ingsw.am37.model.cards.objective.Direction;
-import it.polimi.ingsw.am37.model.cards.objective.LShape;
-import it.polimi.ingsw.am37.model.game.Resource;
-import it.polimi.ingsw.am37.model.sides.Back;
-import it.polimi.ingsw.am37.model.sides.Corner;
+import it.polimi.ingsw.am37.model.cards.objective.*;
+import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
+import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
+import it.polimi.ingsw.am37.model.exceptions.*;
+import it.polimi.ingsw.am37.model.game.*;
+import it.polimi.ingsw.am37.model.player.Player;
+import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
-import it.polimi.ingsw.am37.model.sides.Side;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LShapeTest {
-    Position requested = new Position(-1, 3);
-    LShape lshape=new LShape(2, 3, Resource.FUNGI, Resource.PLANT, Direction.TOPLEFT, requested);
-    Corner useless=new Corner(true, Resource.EMPTY);
-    Corner l1_2=new Corner(true, Resource.EMPTY);
-    Corner l2_1=new Corner(true, Resource.EMPTY);
-    Corner l2_n4=new Corner(true, Resource.EMPTY);
-    Corner l3_n4=new Corner(true, Resource.EMPTY);
-    Corner ln4_2=new Corner(true, Resource.EMPTY);
-    Corner ln4_3=new Corner(true, Resource.EMPTY);
-    //n5
 
-    Corner ln1_n2=new Corner(true, Resource.EMPTY);
-    Corner ln1_n3=new Corner(true, Resource.EMPTY);
-    Corner ln2_n1=new Corner(true, Resource.EMPTY);
-    Corner ln3_n1=new Corner(true, Resource.EMPTY);
+    Player p = new Player("Ricky", Token.BLUE);
+    GameModel g = new GameModel(createListOfPlayer());
 
-    Side lside1ok=new Back(l1_2, useless, useless, useless, Resource.PLANT);
-    Side lside2ok=new Back(useless, l2_n4, useless, l2_1, Resource.FUNGI);
-    Side lside3ok=new Back(useless, useless, useless, l3_n4, Resource.FUNGI);
-    Side lside1no=new Back(ln1_n2, ln1_n3, useless, useless, Resource.PLANT);
-    Side lside2no=new Back(useless, useless, useless, ln2_n1, Resource.FUNGI);
-    Side lside3no=new Back(useless, useless, ln3_n1, useless, Resource.FUNGI);
-    Side lside4no=new Back(ln4_3, useless, ln4_2, useless, Resource.PLANT);
-    Side lside5no=new Back(useless, useless, useless, useless, Resource.FUNGI);
-    List<Side> placedSides=new ArrayList<>();
+    public List<Player> createListOfPlayer () {
+        List<Player> lOP = new ArrayList<>();
+        lOP.add(p);
+        return lOP;
+    }
 
     @Test
-    void calculateNumOfCompletion(){
+    void createAndGetTest() {
+        LShape ls = new LShape(93,3, Resource.ANIMAL, Resource.FUNGI, Direction.BOTTOMLEFT, new Position(-1,-3));
 
-        lside1ok.placeInPosition(10,10);
-        lside2ok.placeInPosition(9,11);
-        lside3ok.placeInPosition(9,13);
-        lside1no.placeInPosition(20,20);
-        lside2no.placeInPosition(19,21);
-        lside3no.placeInPosition(21,21);
-        lside4no.placeInPosition(10,12);
-        lside5no.placeInPosition(9,15);
+        assertEquals(93, ls.getId());
+        assertEquals(3, ls.getPointsGiven());
+        assertSame(Resource.ANIMAL, ls.getOtherResource());
+        assertSame(Resource.FUNGI, ls.getCardColourThatTriggersCheck());
+        assertSame(Direction.BOTTOMLEFT, ls.getDirection());
+        assertEquals(new Position(-1,-3), ls.getRequestedPosition());
+        System.out.println(ls);
+    }
 
-        l1_2.setLinkedSide(lside2ok);
-        l2_1.setLinkedSide(lside1ok);
-        l2_n4.setLinkedSide(lside4no);
-        l3_n4.setLinkedSide(lside4no);
-        ln4_2.setLinkedSide(lside2ok);
-        ln4_3.setLinkedSide(lside3ok);
-        ln1_n2.setLinkedSide(lside2no);
-        ln1_n3.setLinkedSide(lside3no);
-        ln2_n1.setLinkedSide(lside1no);
-        ln3_n1.setLinkedSide(lside1no);
+    //@Test
+    @RepeatedTest(value = 10)
+    void calculateNumOfCompletionTest() throws NoCardsException, AlreadyAssignedException {
+        StartCard sC = (StartCard) g.getSDeck().drawCard();
 
-        placedSides.add(lside1ok);
-        placedSides.add(lside2ok);
-        placedSides.add(lside3ok);
-        placedSides.add(lside1no);
-        placedSides.add(lside2no);
-        placedSides.add(lside3no);
-        placedSides.add(lside4no);
-        placedSides.add(lside5no);
+        p.instantiateMyKingdom(sC, sC.getFront());
 
-        assertSame(1, lshape.calculateNumOfCompletionTest(placedSides));
+        ObjectiveCard oC = (ObjectiveCard) g.getODeck().drawCard();
+        boolean check = false;
+        while (!check) {
+            if (oC.getClass().equals(LShape.class))
+                check = true;
+            else
+                oC = (ObjectiveCard) g.getODeck().drawCard();
+        }
+
+        StandardCard rC = (StandardCard) g.getRDeck().drawCard();
+        check = false;
+        while (!check) {
+            if (rC.getBack().getMainResource().equals(((LShape) oC).getCardColourThatTriggersCheck())) {
+                if (((LShape) oC).getDirection().equals(Direction.BOTTOMLEFT)) {
+                    rC.getBack().placeInPosition(-1, 1);
+                    sC.getFront().getTL().setLinkedSide(rC.getBack());
+                } else {
+                    rC.getBack().placeInPosition(1, 1);
+                    sC.getFront().getTR().setLinkedSide(rC.getBack());
+                }
+                check = true;
+            } else
+                rC = (StandardCard) g.getRDeck().drawCard();
+        }
+
+        p.getMyKingdom().updateKingdom(rC, rC.getBack(), rC.getBack().getPositionInKingdom());
+
+        StandardCard rC2 = (StandardCard) g.getRDeck().drawCard();
+        check = false;
+        while (!check) {
+            if (rC2.getBack().getMainResource().equals(((LShape) oC).getOtherResource())) {
+                for (Direction d: Direction.values()) {
+                    if (((LShape) oC).getDirection().equals(d)) {
+                        rC2.getBack().placeInPosition(d.createPosition(rC.getBack().getPositionInKingdom()).getX(), d.createPosition(rC.getBack().getPositionInKingdom()).getY());
+                        rC.getBack().getCorners().get(d).setLinkedSide(rC2.getBack());
+                    }
+                }
+                check = true;
+            } else if (!g.getRDeck().isEmpty())
+                rC2 = (StandardCard) g.getRDeck().drawCard();
+            else
+                rC2 = (StandardCard) g.getGDeck().drawCard();
+        }
+        p.getMyKingdom().updateKingdom(rC2, rC2.getBack(), rC2.getBack().getPositionInKingdom());
+
+        StandardCard support;
+        if (!g.getRDeck().isEmpty())
+            support = (StandardCard) g.getRDeck().drawCard();
+        else
+            support = (StandardCard) g.getGDeck().drawCard();
+        for (Direction d: Direction.values()) {
+            if (((LShape) oC).getDirection().equals(d)) {
+                support.getBack().placeInPosition(d.createPosition(rC2.getBack().getPositionInKingdom()).getX(), d.createPosition(rC2.getBack().getPositionInKingdom()).getY());
+                rC2.getBack().getCorners().get(d).setLinkedSide(support.getBack());
+            }
+        }
+        p.getMyKingdom().updateKingdom(support, support.getBack(), support.getBack().getPositionInKingdom());
+
+        StandardCard rC3 = (StandardCard) g.getRDeck().drawCard();
+        check = false;
+        while (!check) {
+            if (rC3.getBack().getMainResource().equals(((LShape) oC).getOtherResource())) {
+                rC3.getBack().placeInPosition(rC.getBack().getPositionInKingdom().getX() + ((LShape) oC).getRequestedPosition().getX(), rC.getBack().getPositionInKingdom().getY() + ((LShape) oC).getRequestedPosition().getY());
+                if (((LShape) oC).getDirection().equals(Direction.TOPLEFT))
+                    support.getBack().getTR().setLinkedSide(rC3.getBack());
+                else if (((LShape) oC).getDirection().equals(Direction.TOPRIGHT))
+                    support.getBack().getTL().setLinkedSide(rC3.getBack());
+                else if (((LShape) oC).getDirection().equals(Direction.BOTTOMLEFT))
+                    support.getBack().getBR().setLinkedSide(rC3.getBack());
+                else if (((LShape) oC).getDirection().equals(Direction.BOTTOMRIGHT))
+                    support.getBack().getBL().setLinkedSide(rC3.getBack());
+
+                check = true;
+            } else if (!g.getRDeck().isEmpty())
+                rC3 = (StandardCard) g.getRDeck().drawCard();
+            else
+                rC3 = (StandardCard) g.getGDeck().drawCard();
+        }
+
+        p.getMyKingdom().updateKingdom(rC3, rC3.getBack(), rC3.getBack().getPositionInKingdom());
+
+        assertSame(1, oC.calculateNumOfCompletion(p.getMyKingdom()));
     }
 }

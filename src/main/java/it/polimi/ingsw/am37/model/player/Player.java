@@ -60,7 +60,6 @@ public class Player {
         this.nickname = nickname;
         this.token = token;
         isDisconnected = false;
-
     }
 
     /**
@@ -145,11 +144,10 @@ public class Player {
      * the instantiateMyKingdom(sC, startSide) method to create the Players Kingdom.
      */
     public void chooseStartCardSide() {
-        //TODO
-        //talks to controller that sends request to client
-        try {   //METHOD STUB FOR TESTING
+        try {
             instantiateMyKingdom(startCard, startCard.getFront());
-        } catch (AlreadyAssignedException e) {
+            //game.getController().playerHasToChooseStartCardSide(this, startCard);//talks to controller that sends request to client
+        } catch (/*WrongGamePhaseException |*/ AlreadyAssignedException e) {
             throw new RuntimeException(e);
         }
     }
@@ -167,14 +165,27 @@ public class Player {
      * and if it hasn't it lets the player decide which card of the two given as a parameter he wants to keep as his
      * private objective. It is only called once, at the beginning of the game. If it is called a second time, the
      * method will throw an AlreadyAssignedException.
-     * @param privateObjective An array of two ObjectiveCards.
-     * @throws AlreadyAssignedException This attribute cannot be assigned twice.
+     * @param objectiveArray An array of two ObjectiveCards.
      */
-    public void chooseObjective(ObjectiveCard[] privateObjective) throws AlreadyAssignedException {
+    public void chooseObjective(ObjectiveCard[] objectiveArray) {
+        try {
+            setPrivateObjective(objectiveArray[0]);
+            //game.getController().playerHasToChooseObjective(this, objectiveArray); //talks to the controller and asks client which card
+        } catch (/*WrongGamePhaseException |*/ AlreadyAssignedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * The setPrivateObjective(c) method sets the Player's private ObjectiveCard to the one given as a parameter.
+     * @param c The ObjectiveCard that the player has chosen.
+     * @throws AlreadyAssignedException Throws this exception if the private Objective has already been assigned.
+     */
+    public void setPrivateObjective(ObjectiveCard c) throws AlreadyAssignedException {
         if(this.privateObjective != null) {
             throw new AlreadyAssignedException("The privateObjective has already been assigned");
-        } else {    //TODO: METHOD STUB FOR TESTING
-            this.privateObjective = privateObjective[0]; //talks to the controller and asks client which card
+        } else {
+            this.privateObjective = c;
         }
     }
 
@@ -194,7 +205,7 @@ public class Player {
      * @param startSide The StartCard Side that the Player chose.
      * @throws AlreadyAssignedException Throws this exception if the Kingdom has already been created.
      */
-    private void instantiateMyKingdom(StartCard sC, Side startSide) throws AlreadyAssignedException {
+    public void instantiateMyKingdom(StartCard sC, Side startSide) throws AlreadyAssignedException {
         if (this.myKingdom != null) {
             throw new AlreadyAssignedException("The Kingdom cannot be created twice");
         } else

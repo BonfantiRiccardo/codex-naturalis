@@ -1,14 +1,14 @@
 [
   {
     "id" : 88,
-    "points" : 2,
+    "pointsGivenPerCompletion" : 2,
     "otherResource" : "PLANT",
-    "cardColorThatTriggersCheck" : "PLANT"
+    "cardColourThatTriggersCheck" : "PLANT"
   },
   {
     "id" : 90,
-    "points" : 2,
+    "pointsGivenPerCompletion" : 2,
     "otherResource" : "INSECT",
-    "cardColorThatTriggersCheck" : "INSECT"
+    "cardColourThatTriggersCheck" : "INSECT"
   }
 ]

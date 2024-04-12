@@ -1,35 +1,35 @@
 [
   {
     "id" : 95,
-    "points" : 2,
+    "pointsGivenPerCompletion": 2,
     "resourceNeeded" : {
       "FUNGI" : 3
     }
   },
   {
     "id" : 96,
-    "points" : 2,
+    "pointsGivenPerCompletion": 2,
     "resourceNeeded" : {
       "PLANT" : 3
     }
   },
   {
     "id" : 97,
-    "points" : 2,
+    "pointsGivenPerCompletion": 2,
     "resourceNeeded" : {
       "ANIMAL" : 3
     }
   },
   {
     "id" : 98,
-    "points" : 2,
+    "pointsGivenPerCompletion": 2,
     "resourceNeeded" : {
       "INSECT" : 3
     }
   },
   {
     "id" : 99,
-    "points" : 3,
+    "pointsGivenPerCompletion": 3,
     "resourceNeeded" : {
       "QUILL" :  1,
       "INKWELL" :  1,
@@ -38,21 +38,21 @@
   },
   {
     "id" : 100,
-    "points" : 2,
+    "pointsGivenPerCompletion": 2,
     "resourceNeeded" : {
       "MANUSCRIPT" : 2
     }
   },
   {
     "id" : 101,
-    "points" : 2,
+    "pointsGivenPerCompletion": 2,
     "resourceNeeded" : {
       "INKWELL" : 2
     }
   },
   {
     "id" : 102,
-    "points" : 2,
+    "pointsGivenPerCompletion": 2,
     "resourceNeeded" : {
       "QUILL" : 2
     }

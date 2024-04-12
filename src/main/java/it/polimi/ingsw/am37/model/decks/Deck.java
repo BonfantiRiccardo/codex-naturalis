@@ -2,7 +2,9 @@ package it.polimi.ingsw.am37.model.decks;
 
 import it.polimi.ingsw.am37.model.cards.Card;
 import it.polimi.ingsw.am37.model.cards.CardCreator;
+import it.polimi.ingsw.am37.model.cards.placeable.GameCard;
 import it.polimi.ingsw.am37.model.exceptions.NoCardsException;
+import it.polimi.ingsw.am37.model.sides.Back;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,5 +64,20 @@ public abstract class Deck {
      */
     public boolean isEmpty() {
         return cards.isEmpty();
+    }
+
+    /**
+     * The firstBack() method returns the Back of the first Card of the list. It is needed to tell the view what is the
+     * colour of the Card that will be drawn next. If the deck contains Objective or Start Cards it returns null.
+     * @return The Back of the first Card of the list.
+     */
+    public Back firstBack() {
+        GameCard gc;
+        if (this.getClass().equals(ObjectiveDeck.class) || this.getClass().equals(StartDeck.class)) {
+            return null;
+        } else {
+            gc = (GameCard) cards.get(0);
+            return gc.getBack();
+        }
     }
 }
