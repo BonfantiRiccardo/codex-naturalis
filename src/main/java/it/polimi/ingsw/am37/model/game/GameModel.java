@@ -263,6 +263,10 @@ public class GameModel {
         setCurrentPhase(GamePhase.PLAYING);
     }
 
+    /**
+     *The method setAvailableCards sets up the list of available and cards that the player is able to see and can draw when in his turn.
+     * @throws NoCardsException if the deck ran out of cards.
+     */
     private void setAvailableCards() throws NoCardsException {
         availableRCards = new ArrayList<>();
         availableGCards = new ArrayList<>();
@@ -273,12 +277,22 @@ public class GameModel {
             availableRCards.add((ResourceCard) rDeck.drawCard());
     }
 
+    /**
+     * the method setPublicObjectives sets up the objectives the players have in common. All the players can see these objectives.
+     * @throws NoCardsException if the objectives deck ran out of cards.
+     */
     private void setPublicObjectives() throws NoCardsException {
         publicObjectives = new ObjectiveCard[2];
         publicObjectives[0] = (ObjectiveCard) oDeck.drawCard();
         publicObjectives[1] = (ObjectiveCard) oDeck.drawCard();
     }
 
+    /**
+     * the method createHand sets the starting cards the players will have in their hand right after placing the start card.
+     * @param p is the player whose hand is being set up.
+     * @throws NoCardsException if the deck ran out of cards.
+     * @throws AlreadyAssignedException if the player that invoked this method already has had his hand set up.
+     */
     private void createHand(Player p) throws NoCardsException, AlreadyAssignedException {
         List<StandardCard> hand = new ArrayList<>();
         hand.add((StandardCard) rDeck.drawCard());
@@ -287,11 +301,24 @@ public class GameModel {
         p.setHand(hand);
     }
 
+    /**
+     * the method giveStartCard gives the player the choice of the first card he's going to place, the starting card.
+     * @param p is the player whose starting card is being given.
+     * @throws NoCardsException if the deck ran out of cards.
+     * @throws AlreadyAssignedException if the player has already had his starting card.
+     */
     private void giveStartCard(Player p) throws NoCardsException, AlreadyAssignedException {
         p.setStartCard((StartCard) sDeck.drawCard());
         p.chooseStartCardSide();
     }
 
+    /**
+     * the method giveObjectiveCards gives each player the choice of their personal objectives. Every player will be able to see
+     * only their personal two objectives.
+     * @param p is the player who's choosing their objectives.
+     * @throws NoCardsException if the deck ran out of cards.
+     * @throws AlreadyAssignedException if the player already chose his objectives.
+     */
     private void giveObjectiveCards(Player p) throws NoCardsException, AlreadyAssignedException {
         ObjectiveCard[] twoObjCards = new ObjectiveCard[2];
         twoObjCards[0] = (ObjectiveCard) oDeck.drawCard();
