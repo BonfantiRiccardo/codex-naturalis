@@ -124,6 +124,9 @@ public class GameModel {
     public GameController getController() {
         return gameController;
     }
+    public void setController(GameController c) {
+        this.gameController = c;
+    }
 
     /**
      * The setCurrentPhase(currentPhase) method updates the value of the currentPhase attribute.
@@ -275,7 +278,7 @@ public class GameModel {
         publicObjectives[0] = (ObjectiveCard) oDeck.drawCard();
         publicObjectives[1] = (ObjectiveCard) oDeck.drawCard();
     }
-    
+
     private void createHand(Player p) throws NoCardsException, AlreadyAssignedException {
         List<StandardCard> hand = new ArrayList<>();
         hand.add((StandardCard) rDeck.drawCard());
@@ -301,7 +304,18 @@ public class GameModel {
      * of the player reaches 20 points, the method set the currentPhase to ENDGAME.
      */
     public void playingPhase() {
-        //TODO
+        //TODO: Testing
+        turnCounter = 1;
+        currentTurn = participantsInOrder.get(0);
+        while (true) {
+            gameController.notifyTurn(currentTurn);
+            if (scoreboard.getParticipantsPoints().get(currentTurn.getToken()) >= 20) {
+                break;
+            }
+            nextTurn();
+        }
+
+        setCurrentPhase(GamePhase.ENDGAME);
     }
 
     /**

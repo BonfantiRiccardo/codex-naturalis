@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.model.game;
 
+import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
@@ -15,11 +16,20 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameModelTest {
+    Player pl1 = new Player("Riccardo", Token.BLUE);
     GameModel g = new GameModel(createList());
-    //private final CardCreator cc = new CardCreator();
+
+
+    public List<Player> createList() {
+        List<Player> playerList = new ArrayList<>();
+        playerList.add(pl1);
+        playerList.add(new Player("Dario", Token.RED));
+        playerList.add(new Player("Alberto", Token.GREEN));
+        return playerList;
+    }
 
     @Test
-    public void preparationTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
+    void preparationTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
         g.preparationPhase();
 
         boolean objCheck = true;
@@ -65,13 +75,46 @@ class GameModelTest {
         }
     }
 
+    @Test
+    void playingTest() throws AlreadyAssignedException {
+        Player p = new Player("Riccardo", Token.BLUE);
+        Player p2 = new Player("Dario", Token.RED);
+        Player p3 = new Player("Alberto", Token.GREEN);
+        GameController c = new GameController(p, 3);
 
+        c.addPlayer(p2);
+        c.addPlayer(p3);
+        c.setGameInstance();
 
-        public List<Player> createList() {
-            List<Player> playerList = new ArrayList<>();
-            playerList.add(new Player("Riccardo", Token.BLUE));
-            playerList.add(new Player("Dario", Token.RED));
-            playerList.add(new Player("Alberto", Token.GREEN));
-            return playerList;
-        }
+        GameModel gm = c.getGameInstance();
+        gm.setController(c);
+
+        assertNull(gm.getCurrentTurn());
+        gm.playingPhase();
+
+        assertTrue(gm.getTurnCounter() > 0);
+        assertTrue(gm.getScoreboard().getParticipantsPoints().get(gm.getCurrentTurn().getToken()) >= 20);
+        assertEquals(gm.getCurrentPhase(), GamePhase.ENDGAME);
     }
+
+    @Test
+    void endgameTest() {}
+
+    @Test
+    void reconnectionTest() {
+        assertTrue(g.getDisconnectedPlayers().isEmpty());
+
+        g.setDisconnected(pl1);
+
+        assertEquals(1, g.getDisconnectedPlayers().size());
+        assertTrue(g.getDisconnectedPlayers().contains(pl1));
+        assertTrue(pl1.isDisconnected());
+
+        g.reconnect(pl1);
+
+        assertEquals(0, g.getDisconnectedPlayers().size());
+        assertFalse(g.getDisconnectedPlayers().contains(pl1));
+        assertFalse(pl1.isDisconnected());
+    }
+
+}
