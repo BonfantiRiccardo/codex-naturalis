@@ -194,7 +194,7 @@ public class Player {
      * points' final calculation after the endgame phase.
      * @return The privateObjective attribute.
      */
-    public Card getPrivateObjective() {
+    public ObjectiveCard getPrivateObjective() {
         return privateObjective;
     }
 

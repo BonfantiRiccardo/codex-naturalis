@@ -7,6 +7,7 @@ import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.decks.*;
 import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.player.Player;
+import it.polimi.ingsw.am37.model.player.Token;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -385,14 +386,6 @@ public class GameModel {
         //TODO
     }
 
-    /**
-     * The getGameWinner() method calculates everyone's final points and then returns the final scoreboard.
-     * @return The final Scoreboard of the game.
-     */
-    public Hashtable<Player, Integer> getGameWinner() {
-        //TODO
-        return null;
-    }
 
     /**
      * The getDisconnectedPlayers() method returns the list of player that are currently disconnected from the game.
@@ -419,5 +412,27 @@ public class GameModel {
     public void reconnect(Player p) {
         disconnectedPlayers.remove(p);
         p.setDisconnected(false);
+    }
+
+    /**
+     * The getGameWinner() method calculates everyone's final points and then returns the final scoreboard.
+     * @return The final Scoreboard of the game.
+     */
+    public Hashtable<Player, Integer> getGameWinner(){
+        Hashtable<Player, Integer> finalPoints = new Hashtable<Player, Integer>();
+        int points;
+        Hashtable<Token, Integer> playerPoints = scoreboard.getParticipantsPoints();
+
+        for(Player p:participantsInOrder){
+            points=playerPoints.get(p.getToken());
+            points=points+publicObjectives[0].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[0].getPointsGiven();
+            points=points+publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[1].getPointsGiven();
+            points=points+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom());
+            finalPoints.put(p, points);
+        }
+
+
+
+        return finalPoints;
     }
 }
