@@ -8,6 +8,7 @@ import it.polimi.ingsw.am37.model.decks.*;
 import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -384,26 +385,46 @@ public class GameModel {
      * show the results of the game and then set the currentPhase to FINISHED.
      */
     public void endGamePhase() {
-        //TODO
+
+        lastTurn=turnCounter+(participantsInOrder.size()-participantsInOrder.indexOf(currentTurn)-1)+participantsInOrder.size();
+
     }
 
     /**
      * The getGameWinner() method calculates everyone's final points and then returns the final scoreboard.
      * @return The final Scoreboard of the game.
      */
-    public Hashtable<Player, Integer> getGameWinner(){
-        Hashtable<Player, Integer> finalPoints = new Hashtable<>();
+    public PlayerPoints[] getGameWinner(){
+        //Hashtable<Player, Integer> finalPoints = new Hashtable<>();
+        //List<PlayerPoints> finalPoints= new ArrayList<>();
+        PlayerPoints[] finalPoints= new PlayerPoints[participantsInOrder.size()];
         int points;
         Hashtable<Token, Integer> playerPoints = scoreboard.getParticipantsPoints();
+        Integer i=0;
+        Integer j;
+        Integer compl;
+        PlayerPoints temp;
+
 
         for(Player p:participantsInOrder){
             points=playerPoints.get(p.getToken());
             points=points+publicObjectives[0].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[0].getPointsGiven();
             points=points+publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[1].getPointsGiven();
-            points=points+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom());
-            finalPoints.put(p, points);
+            points=points+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom())*p.getPrivateObjective().getPointsGiven();
+            compl=publicObjectives[0].calculateNumOfCompletion(p.getMyKingdom())+publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom())+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom());
+            //finalPoints.put(p, points);
+            finalPoints[i]=new PlayerPoints(p, points, compl);
+            for(j=i-1; j>=0; j-- ){
+                if(finalPoints[j].getPoints()==points){
+                    if(compl>finalPoints[j].getCompl()){
+                        temp=finalPoints[j];
+                        finalPoints[j]=finalPoints[i];
+                        finalPoints[i]=temp;
+                    }
+                }
+            }
+            i++;
         }
-
         return finalPoints;
     }
 
