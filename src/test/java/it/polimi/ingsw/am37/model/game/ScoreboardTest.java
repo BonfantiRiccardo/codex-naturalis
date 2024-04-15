@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.model.game;
 
+import it.polimi.ingsw.am37.model.exceptions.AlreadyAssignedException;
 import it.polimi.ingsw.am37.model.player.*;
 
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ScoreboardTest {
-    Scoreboard sb = new Scoreboard(createListOfPlayer());
+    List<Player> pList = createListOfPlayer();
+    Scoreboard sb = new Scoreboard(pList);
 
     /**
      * Tests the creation of the scoreboard object.
@@ -19,17 +21,15 @@ class ScoreboardTest {
     void getParticipantsPointsTest() {
         System.out.println(sb.getParticipantsPoints());
 
-        assertTrue(sb.getParticipantsPoints().containsKey(Token.BLUE));
-        assertTrue(sb.getParticipantsPoints().containsKey(Token.GREEN));
-        assertTrue(sb.getParticipantsPoints().containsKey(Token.YELLOW));
-        assertTrue(sb.getParticipantsPoints().containsKey(Token.RED));
+        assertTrue(sb.getParticipantsPoints().containsKey(pList.get(0)));
+        assertTrue(sb.getParticipantsPoints().containsKey(pList.get(1)));
+        assertTrue(sb.getParticipantsPoints().containsKey(pList.get(2)));
+        assertTrue(sb.getParticipantsPoints().containsKey(pList.get(3)));
 
-        assertFalse(sb.getParticipantsPoints().containsKey(Token.BLACK));
-
-        assertEquals(sb.getParticipantsPoints().get(Token.BLUE), 0);
-        assertEquals(sb.getParticipantsPoints().get(Token.GREEN), 0);
-        assertEquals(sb.getParticipantsPoints().get(Token.YELLOW), 0);
-        assertEquals(sb.getParticipantsPoints().get(Token.RED), 0);
+        assertEquals(sb.getParticipantsPoints().get(pList.get(0)), 0);
+        assertEquals(sb.getParticipantsPoints().get(pList.get(1)), 0);
+        assertEquals(sb.getParticipantsPoints().get(pList.get(2)), 0);
+        assertEquals(sb.getParticipantsPoints().get(pList.get(3)), 0);
 
     }
 
@@ -38,14 +38,14 @@ class ScoreboardTest {
      */
     @Test
     void addPointsTest() {
-        sb.addPoints(Token.BLUE, 3);
-        sb.addPoints(Token.YELLOW, 5);
-        sb.addPoints(Token.BLUE, 1);
+        sb.addPoints(pList.get(0), 3);
+        sb.addPoints(pList.get(1), 5);
+        sb.addPoints(pList.get(0), 1);
 
-        assertEquals(sb.getParticipantsPoints().get(Token.BLUE), 4);
-        assertEquals(sb.getParticipantsPoints().get(Token.YELLOW), 5);
-        assertEquals(sb.getParticipantsPoints().get(Token.RED), 0);
-        assertEquals(sb.getParticipantsPoints().get(Token.GREEN), 0);
+        assertEquals(sb.getParticipantsPoints().get(pList.get(0)), 4);
+        assertEquals(sb.getParticipantsPoints().get(pList.get(1)), 5);
+        assertEquals(sb.getParticipantsPoints().get(pList.get(2)), 0);
+        assertEquals(sb.getParticipantsPoints().get(pList.get(3)), 0);
         System.out.println(sb.getParticipantsPoints());
     }
 
@@ -55,10 +55,20 @@ class ScoreboardTest {
      */
     public List<Player> createListOfPlayer () {
         List<Player> lOP = new ArrayList<>();
-        lOP.add(new Player("Ricky", Token.BLUE));
-        lOP.add(new Player("Dario", Token.RED));
-        lOP.add(new Player("Alberto", Token.GREEN));
-        lOP.add(new Player("Marzio", Token.YELLOW));
+        lOP.add(new Player("Ricky"));
+        lOP.add(new Player("Dario"));
+        lOP.add(new Player("Alberto"));
+        lOP.add(new Player("Marzio"));
+
+        try {
+            lOP.get(0).setToken(Token.BLUE);
+            lOP.get(1).setToken(Token.RED);
+            lOP.get(2).setToken(Token.GREEN);
+            lOP.get(3).setToken(Token.YELLOW);
+        } catch (AlreadyAssignedException e) {
+            throw new RuntimeException(e);
+        }
+
         return lOP;
     }
 

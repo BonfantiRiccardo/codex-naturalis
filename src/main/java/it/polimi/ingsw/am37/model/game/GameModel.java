@@ -8,9 +8,9 @@ import it.polimi.ingsw.am37.model.decks.*;
 import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -33,7 +33,7 @@ public class GameModel {
     /**
      * The scoreboard attribute is a reference to the scoreboard of the game.
      */
-    private Scoreboard scoreboard;
+    private final Scoreboard scoreboard;
     /**
      * The gDeck attribute contains the Deck of Gold Cards that is used during the game.
      */
@@ -104,6 +104,7 @@ public class GameModel {
                 throw new RuntimeException(e);
             }
         }
+        scoreboard = new Scoreboard(participantsInOrder);
 
         CardCreator cardCreator = new CardCreator();
         sDeck = new StartDeck(cardCreator);
@@ -241,8 +242,6 @@ public class GameModel {
         for (Player p: participantsInOrder)
             chooseToken(p);
 
-        scoreboard = new Scoreboard(participantsInOrder);
-
         for (Player p : participantsInOrder) {
             createHand(p);
         }
@@ -265,10 +264,34 @@ public class GameModel {
         setCurrentPhase(GamePhase.PLAYING);
     }
 
-    private void chooseToken(Player p) {}
+    /**
+     * The chooseToken(p) method asks the player which token he wants and checks if anyone else has already chosen it.
+     * If no one has, it assigns the token to the player.
+     * @param p The player that has to choose the token.
+     * @throws AlreadyAssignedException Thrown when trying to assign the token once it has already been assigned.
+     */
+    private void chooseToken(Player p) throws AlreadyAssignedException {
+        for (Token t: Token.values()) {         //METHOD STUB FOR TESTING
+            if (!t.equals(Token.BLACK)) {
+                boolean check = true;
+                for (Player pl: participantsInOrder) {
+                    if (pl.getToken() != null && pl.getToken().equals(t)) {
+                        check = false;
+                        break;
+                    }
+                }
+                if (check) {
+                    p.setToken(t);
+                    break;
+                }
+            }
+        }
+        //gameController.playerHasToChooseToken(p);
+    }
 
     /**
-     *The method setAvailableCards sets up the list of available and cards that the player is able to see and can draw when in his turn.
+     * The method setAvailableCards sets up the list of available and cards that the player is able to see and can draw
+     * when in his turn.
      * @throws NoCardsException if the deck ran out of cards.
      */
     private void setAvailableCards() throws NoCardsException {
@@ -282,7 +305,8 @@ public class GameModel {
     }
 
     /**
-     * the method setPublicObjectives sets up the objectives the players have in common. All the players can see these objectives.
+     * The method setPublicObjectives sets up the objectives the players have in common. All the players can see these
+     * objectives.
      * @throws NoCardsException if the objectives deck ran out of cards.
      */
     private void setPublicObjectives() throws NoCardsException {
@@ -292,7 +316,8 @@ public class GameModel {
     }
 
     /**
-     * the method createHand sets the starting cards the players will have in their hand right after placing the start card.
+     * The method createHand sets the starting cards the players will have in their hand right after placing the start
+     * card.
      * @param p is the player whose hand is being set up.
      * @throws NoCardsException if the deck ran out of cards.
      * @throws AlreadyAssignedException if the player that invoked this method already has had his hand set up.
@@ -317,8 +342,8 @@ public class GameModel {
     }
 
     /**
-     * the method giveObjectiveCards gives each player the choice of their personal objectives. Every player will be able to see
-     * only their personal two objectives.
+     * the method giveObjectiveCards gives each player the choice of their personal objectives. Every player will be
+     * able to see only their personal two objectives.
      * @param p is the player who's choosing their objectives.
      * @throws NoCardsException if the deck ran out of cards.
      * @throws AlreadyAssignedException if the player already chose his objectives.
@@ -338,8 +363,14 @@ public class GameModel {
         turnCounter = 1;
         currentTurn = participantsInOrder.get(0);
         while (true) {
-            gameController.notifyTurn(currentTurn);
-            if (scoreboard.getParticipantsPoints().get(currentTurn.getToken()) >= 20) {
+            System.out.println("Notify the player");                                // STUB THAT RANDOMLY ASSIGNS POINTS
+            System.out.println("Player places card");                               // SO THAT THE METHOD STOPS LOOPING
+            //STUB TO RANDOMLY ADD POINTS TO THE PLAYER                             // EVENTUALLY
+            if (turnCounter % 5 == 0)                                               //
+                scoreboard.addPoints(currentTurn, 3);                        //
+            System.out.println("Player draws card");                                //
+            //gameController.notifyTurn(currentTurn);
+            if (scoreboard.getParticipantsPoints().get(currentTurn) >= 20) {
                 break;
             }
             nextTurn();
@@ -388,6 +419,9 @@ public class GameModel {
 
         lastTurn=turnCounter+(participantsInOrder.size()-participantsInOrder.indexOf(currentTurn)-1)+participantsInOrder.size();
 
+        System.out.println("This will be the last turn: " + lastTurn);
+        PlayerPoints[] finalResults = getGameWinner();
+        System.out.println(Arrays.toString(finalResults));
     }
 
     /**
@@ -399,15 +433,15 @@ public class GameModel {
         //List<PlayerPoints> finalPoints= new ArrayList<>();
         PlayerPoints[] finalPoints= new PlayerPoints[participantsInOrder.size()];
         int points;
-        Hashtable<Token, Integer> playerPoints = scoreboard.getParticipantsPoints();
-        Integer i=0;
-        Integer j;
-        Integer compl;
+        Hashtable<Player, Integer> playerPoints = scoreboard.getParticipantsPoints();
+        int i=0;
+        int j;
+        int compl;
         PlayerPoints temp;
 
 
         for(Player p:participantsInOrder){
-            points=playerPoints.get(p.getToken());
+            points=playerPoints.get(p);
             points=points+publicObjectives[0].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[0].getPointsGiven();
             points=points+publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[1].getPointsGiven();
             points=points+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom())*p.getPrivateObjective().getPointsGiven();
@@ -415,8 +449,8 @@ public class GameModel {
             //finalPoints.put(p, points);
             finalPoints[i]=new PlayerPoints(p, points, compl);
             for(j=i-1; j>=0; j-- ){
-                if(finalPoints[j].getPoints()==points){
-                    if(compl>finalPoints[j].getCompl()){
+                if(finalPoints[j].getPoints() == points){
+                    if(compl>finalPoints[j].getNumOfCompletion()){
                         temp=finalPoints[j];
                         finalPoints[j]=finalPoints[i];
                         finalPoints[i]=temp;

@@ -12,10 +12,10 @@ public class Scoreboard {
     /**
      * The participantsPoints attribute is a table that contains for every player their respective points.
      */
-    private final Hashtable<Token, Integer> participantsPoints;
+    private final Hashtable<Player, Integer> participantsPoints;
 
     /**
-     * The Scoreboard(participants) constructor creates a new Hashtable and adds all the participants tokens' (taken
+     * The Scoreboard(participants) constructor creates a new Hashtable and adds all the participants (taken
      * from the list given as a parameter) to the table while assigning them 0 points.
      * @param participants A list of all the participants to the game.
      */
@@ -23,7 +23,7 @@ public class Scoreboard {
         participantsPoints = new Hashtable<>();
 
         for (Player p : participants) {
-            participantsPoints.put(p.getToken(), 0);            //cicla sui partecipanti e crea la tabella dei punti
+            participantsPoints.put(p, 0);
         }
     }
 
@@ -31,19 +31,19 @@ public class Scoreboard {
      * The getParticipantsPoints() method returns the Hashtable containing the points of each player.
      * @return The Hashtable containing the participants tokens and their respective points.
      */
-    public Hashtable<Token, Integer> getParticipantsPoints() {
+    public Hashtable<Player, Integer> getParticipantsPoints() {
         return participantsPoints;
     }
 
     /**
      * The addPoints(t, points) method receives the token of a player and a number of points as parameters and adds
      * the points to the value already stored in the table.
-     * @param t The Token of a player.
+     * @param p The Player that scores the points.
      * @param points The number of points that needs to be added.
      */
-    public void addPoints(Token t, int points) {
-        int newPoints = participantsPoints.get(t) + points;
+    public void addPoints(Player p, int points) {
+        int newPoints = participantsPoints.get(p) + points;
 
-        participantsPoints.replace(t, newPoints);
+        participantsPoints.replace(p, newPoints);
     }
 }

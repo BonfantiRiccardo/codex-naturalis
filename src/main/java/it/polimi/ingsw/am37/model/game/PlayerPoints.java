@@ -5,23 +5,23 @@ import it.polimi.ingsw.am37.model.player.Player;
 public class PlayerPoints {
     Player player;
     Integer points;
-    Integer compl;
+    Integer completions;
 
-    public PlayerPoints(Player player,Integer points, Integer compl){
-        this.player=player;
-        this.points=points;
-        this.compl=compl;
-    }
-
-    public Integer getPoints() {
-        return points;
+    public PlayerPoints(Player player,Integer points, Integer completions){
+        this.player = player;
+        this.points = points;
+        this.completions = completions;
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public Integer getCompl() {
-        return compl;
+    public Integer getPoints() {
+        return points;
+    }
+
+    public Integer getNumOfCompletion() {
+        return completions;
     }
 }

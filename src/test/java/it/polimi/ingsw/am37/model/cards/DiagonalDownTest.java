@@ -7,8 +7,7 @@ import it.polimi.ingsw.am37.model.exceptions.AlreadyAssignedException;
 import it.polimi.ingsw.am37.model.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.model.game.GameModel;
 import it.polimi.ingsw.am37.model.game.Resource;
-import it.polimi.ingsw.am37.model.player.Player;
-import it.polimi.ingsw.am37.model.player.Token;
+import it.polimi.ingsw.am37.model.player.*;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
@@ -19,11 +18,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class DiagonalDownTest {
-    Player p = new Player("Ricky", Token.BLUE);
+    Player p = new Player("Ricky");
     GameModel g = new GameModel(createListOfPlayer());
 
     public List<Player> createListOfPlayer () {
         List<Player> lOP = new ArrayList<>();
+        try {
+            p.setToken(Token.BLUE);
+        } catch (AlreadyAssignedException e) {
+            throw new RuntimeException(e);
+        }
         lOP.add(p);
         return lOP;
     }

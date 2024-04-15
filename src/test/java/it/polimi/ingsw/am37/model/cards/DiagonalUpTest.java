@@ -20,11 +20,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DiagonalUpTest {
 
-    Player p = new Player("Ricky", Token.BLUE);
+    Player p = new Player("Ricky");
     GameModel g = new GameModel(createListOfPlayer());
 
     public List<Player> createListOfPlayer () {
         List<Player> lOP = new ArrayList<>();
+        try {
+            p.setToken(Token.BLUE);
+        } catch (AlreadyAssignedException e) {
+            throw new RuntimeException(e);
+        }
         lOP.add(p);
         return lOP;
     }

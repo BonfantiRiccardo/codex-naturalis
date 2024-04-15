@@ -16,7 +16,7 @@ import java.util.Hashtable;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KingdomTest {
-    Player p = new Player("Riccardo", Token.BLUE);
+    Player p = new Player("Riccardo");
 
     CardCreator cc = new CardCreator();
     Deck gD = new GoldDeck(cc);

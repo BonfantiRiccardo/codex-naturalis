@@ -55,9 +55,8 @@ public class Player {
      * parameters. It also sets the isDisconnected attribute to false.
      * @param nickname A string that uniquely identifies the player.
      */
-    public Player(String nickname, Token token) {
+    public Player(String nickname) {
         this.nickname = nickname;
-        this.token = token;
         isDisconnected = false;
     }
 
@@ -84,12 +83,12 @@ public class Player {
      * @param token A Token object.
      * @throws AlreadyAssignedException This attribute cannot be assigned twice.
      */
-    /*public void setToken(Token token) throws AlreadyAssignedException {
+    public void setToken(Token token) throws AlreadyAssignedException {
         if (this.token != null) {
             throw new AlreadyAssignedException("The token has already been chosen.");
         } else
             this.token = token;
-    }*/
+    }
 
     /**
      * The setGame(game) method checks if the player already has a linked game and if it hasn't, it links the player
@@ -355,7 +354,7 @@ public class Player {
                 toAdd = (myKingdom.getOnFieldResources().get(Resource.MANUSCRIPT) + 1) * placed.getPointsGivenOnPlacement();
         }
 
-        game.getScoreboard().addPoints(token, toAdd);
+        game.getScoreboard().addPoints(this, toAdd);
     }
 
     /**

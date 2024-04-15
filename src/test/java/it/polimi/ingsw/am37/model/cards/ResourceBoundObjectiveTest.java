@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ResourceBoundObjectiveTest {
     CardCreator cc = new CardCreator();
-    Player p = new Player("Riccardo", Token.BLUE);
+    Player p = new Player("Riccardo");
     Deck rD = new ResourceDeck(cc);
     Deck sD = new StartDeck(cc);
     Deck gD = new GoldDeck(cc);

@@ -16,15 +16,15 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameModelTest {
-    Player pl1 = new Player("Riccardo", Token.BLUE);
+    Player pl1 = new Player("Riccardo");
     GameModel g = new GameModel(createList());
 
 
     public List<Player> createList() {
         List<Player> playerList = new ArrayList<>();
         playerList.add(pl1);
-        playerList.add(new Player("Dario", Token.RED));
-        playerList.add(new Player("Alberto", Token.GREEN));
+        playerList.add(new Player("Dario"));
+        playerList.add(new Player("Alberto"));
         return playerList;
     }
 
@@ -76,6 +76,11 @@ class GameModelTest {
             assertEquals(2, handRes);
             assertEquals(1, handGold);
         }
+
+        for(Player p : g.getParticipants()){
+            assertNotNull(p.getToken());
+            assertNotEquals(p.getToken(), Token.BLACK);
+        }
     }
 
     /**
@@ -83,24 +88,11 @@ class GameModelTest {
      */
     @Test
     void playingTest() throws AlreadyAssignedException {
-        Player p = new Player("Riccardo", Token.BLUE);
-        Player p2 = new Player("Dario", Token.RED);
-        Player p3 = new Player("Alberto", Token.GREEN);
-        GameController c = new GameController(p, 3);
+        g.playingPhase();
 
-        c.addPlayer(p2);
-        c.addPlayer(p3);
-        c.setGameInstance();
-
-        GameModel gm = c.getGameInstance();
-        gm.setController(c);
-
-        assertNull(gm.getCurrentTurn());
-        gm.playingPhase();
-
-        assertTrue(gm.getTurnCounter() > 0);
-        assertTrue(gm.getScoreboard().getParticipantsPoints().get(gm.getCurrentTurn().getToken()) >= 20);
-        assertEquals(gm.getCurrentPhase(), GamePhase.ENDGAME);
+        assertTrue(g.getTurnCounter() > 0);
+        assertTrue(g.getScoreboard().getParticipantsPoints().get(g.getCurrentTurn()) >= 20);
+        assertEquals(g.getCurrentPhase(), GamePhase.ENDGAME);
     }
 
     /**

@@ -17,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing player attributes and methods")
 class PlayerTest {
-    Player p = new Player("Riccardo", Token.BLUE);
+    Player p = new Player("Riccardo");
+    Player p2 = new Player("Alberto");
 
     /**
      * Testing the get method for the nickname attribute.
@@ -32,8 +33,11 @@ class PlayerTest {
      * Testing the get and set method for the token attribute.
      */
     @Test
-    void getTokenTest() {
+    void getSetTokenTest() throws AlreadyAssignedException {
+        assertNull(p.getGame());
+        p.setToken(Token.BLUE);
         assertSame(Token.BLUE, p.getToken());
+        assertThrows(AlreadyAssignedException.class, () -> p.setToken(Token.RED));
     }
 
     /**
@@ -148,60 +152,67 @@ class PlayerTest {
         assertEquals(3, p.getHand().size());
     }
 
+    public List<Player> createListOfPlayer2 () {
+        List<Player> lOP = new ArrayList<>();
+        lOP.add(p2);
+        return lOP;
+    }
+
     /**
      * Tests all the possible outcomes of the invocation of the drawCardFromAvailable method.
      */
     @Test
-    void drawCardFromAvailableTest() throws AlreadyAssignedException, NoCardsException, InterruptedException {
-        GameModel g = new GameModel(createListOfPlayer());
+    void drawCardFromAvailableTest() throws AlreadyAssignedException, NoCardsException {
+        GameModel g = new GameModel(createListOfPlayer2());
         g.preparationPhase();
-        assertEquals(3, p.getHand().size());
-        System.out.println("The following text should be printed in the next line: \"You cannot draw, you already have 3 Cards in your hand\"");
-        p.drawCardFromAvailable(g.getAvailableGCards().get(0));
 
-        p.getHand().remove(0);      //EQUIVALENT TO placeCard()
-        assertEquals(2, p.getHand().size());
+        assertEquals(3, p2.getHand().size());
+        System.out.println("The following text should be printed in the next line: \"You cannot draw, you already have 3 Cards in your hand\"");
+        p2.drawCardFromAvailable(g.getAvailableGCards().get(0));
+
+        p2.getHand().remove(0);      //EQUIVALENT TO placeCard()
+        assertEquals(2, p2.getHand().size());
 
         System.out.println("The following text should be printed in the next line: \"The Card you want to draw is not available\"");
-        p.drawCardFromAvailable((StandardCard) g.getGDeck().drawCard());
-        assertEquals(2, p.getHand().size());
+        p2.drawCardFromAvailable((StandardCard) g.getGDeck().drawCard());
+        assertEquals(2, p2.getHand().size());
 
-        p.drawCardFromAvailable(g.getAvailableGCards().get(0));
-        assertEquals(3, p.getHand().size());
+        p2.drawCardFromAvailable(g.getAvailableGCards().get(0));
+        assertEquals(3, p2.getHand().size());
         assertEquals(2, g.getAvailableGCards().size());
 
 
-        p.getHand().remove(0);      //EQUIVALENT TO placeCard()
-        assertEquals(2, p.getHand().size());
+        p2.getHand().remove(0);      //EQUIVALENT TO placeCard()
+        assertEquals(2, p2.getHand().size());
 
         System.out.println("The following text should be printed in the next line: \"The Card you want to draw is not available\"");
-        p.drawCardFromAvailable((StandardCard) g.getRDeck().drawCard());
-        assertEquals(2, p.getHand().size());
+        p2.drawCardFromAvailable((StandardCard) g.getRDeck().drawCard());
+        assertEquals(2, p2.getHand().size());
 
-        p.drawCardFromAvailable(g.getAvailableRCards().get(0));
-        assertEquals(3, p.getHand().size());
+        p2.drawCardFromAvailable(g.getAvailableRCards().get(0));
+        assertEquals(3, p2.getHand().size());
         assertEquals(2, g.getAvailableGCards().size());
 
 
         while (!g.getGDeck().isEmpty()) g.getGDeck().drawCard();
         assertThrows(NoCardsException.class, () -> g.getGDeck().drawCard());
 
-        p.getHand().remove(0);      //EQUIVALENT TO placeCard()
-        assertEquals(2, p.getHand().size());
+        p2.getHand().remove(0);      //EQUIVALENT TO placeCard()
+        assertEquals(2, p2.getHand().size());
 
-        p.drawCardFromAvailable(g.getAvailableGCards().get(0));
-        assertEquals(3, p.getHand().size());
+        p2.drawCardFromAvailable(g.getAvailableGCards().get(0));
+        assertEquals(3, p2.getHand().size());
         assertEquals(2, g.getAvailableGCards().size());
 
 
         while (!g.getRDeck().isEmpty()) g.getRDeck().drawCard();
         assertThrows(NoCardsException.class, () -> g.getRDeck().drawCard());
 
-        p.getHand().remove(0);      //EQUIVALENT TO placeCard()
-        assertEquals(2, p.getHand().size());
+        p2.getHand().remove(0);      //EQUIVALENT TO placeCard()
+        assertEquals(2, p2.getHand().size());
 
-        p.drawCardFromAvailable(g.getAvailableGCards().get(0));
-        assertEquals(3, p.getHand().size());
+        p2.drawCardFromAvailable(g.getAvailableGCards().get(0));
+        assertEquals(3, p2.getHand().size());
         assertEquals(1, g.getAvailableGCards().size());
     }
 
@@ -212,9 +223,18 @@ class PlayerTest {
      */
     //@Test
     @RepeatedTest(value = 100)
-    void placeCardTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
+    void placeCardTest() throws NoCardsException, AlreadyAssignedException {
         GameModel g = new GameModel(createListOfPlayer());
-        g.preparationPhase();
+        List<StandardCard> hand = new ArrayList<>();
+        hand.add((StandardCard) g.getRDeck().drawCard());
+        hand.add((StandardCard) g.getRDeck().drawCard());
+        hand.add((StandardCard) g.getGDeck().drawCard());
+        g.getParticipants().get(0).setHand(hand);
+
+        StartCard sC = (StartCard) g.getSDeck().drawCard();
+        g.getParticipants().get(0).setStartCard(sC);
+        g.getParticipants().get(0).chooseStartCardSide();
+
         assertEquals(1, p.getMyKingdom().getPlacedSides().size());
 
         StandardCard notInHand = (StandardCard) g.getGDeck().drawCard();
@@ -287,7 +307,7 @@ class PlayerTest {
      */
     //@Test
     @RepeatedTest(value = 100)
-    void addPointsTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
+    void addPointsTest() throws NoCardsException, AlreadyAssignedException {
         GameModel g = new GameModel(createListOfPlayer());
         g.preparationPhase();
 
@@ -310,21 +330,21 @@ class PlayerTest {
 
         int numQ; int numI; int numM ;
 
-        int points = g.getScoreboard().getParticipantsPoints().get(p.getToken());
+        int points = g.getScoreboard().getParticipantsPoints().get(p);
         int i = 0;
         StandardCard toPlace = p.getHand().get(i);
         p.placeCard(p.getHand().get(i), p.getHand().get(i).getFront(), new Position(x,y));
         if (toPlace.getFront().isPlacementConditionSatisfied(p.getMyKingdom().getOnFieldResources())) {
-            assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points + toPlace.getFront().getPointsGivenOnPlacement());
+            assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + toPlace.getFront().getPointsGivenOnPlacement());
         } else {
             i++;
-            assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points);
+            assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points);
         }
 
         numQ = p.getMyKingdom().getOnFieldResources().get(Resource.QUILL); numI = p.getMyKingdom().getOnFieldResources().get(Resource.INKWELL);  numM = p.getMyKingdom().getOnFieldResources().get(Resource.MANUSCRIPT);
 
         if (i == 0) {
-            points = g.getScoreboard().getParticipantsPoints().get(p.getToken());
+            points = g.getScoreboard().getParticipantsPoints().get(p);
             if (toPlace.getFront().getTR().getVisibility()) {
                 x++;
                 y++;
@@ -346,22 +366,22 @@ class PlayerTest {
         int j = 0;
         if (toPlace.getFront().getIsPlaced()) {
             if (toPlace.getFront().getBonus() == Bonus.QUILL)
-                assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points + (numQ+1) * toPlace.getFront().getPointsGivenOnPlacement());
+                assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + (numQ+1) * toPlace.getFront().getPointsGivenOnPlacement());
             else if (toPlace.getFront().getBonus() == Bonus.INKWELL)
-                assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points + (numI+1) * toPlace.getFront().getPointsGivenOnPlacement());
+                assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + (numI+1) * toPlace.getFront().getPointsGivenOnPlacement());
             else if (toPlace.getFront().getBonus() == Bonus.MANUSCRIPT)
-                assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points + (numM+1) * toPlace.getFront().getPointsGivenOnPlacement());
+                assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + (numM+1) * toPlace.getFront().getPointsGivenOnPlacement());
             else
-                assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points + toPlace.getFront().getPointsGivenOnPlacement());
+                assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + toPlace.getFront().getPointsGivenOnPlacement());
         } else {
             j++;
-            assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points);
+            assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points);
         }
 
         numQ = p.getMyKingdom().getOnFieldResources().get(Resource.QUILL); numI = p.getMyKingdom().getOnFieldResources().get(Resource.INKWELL);  numM = p.getMyKingdom().getOnFieldResources().get(Resource.MANUSCRIPT);
 
         if (j == 0) {
-            points = g.getScoreboard().getParticipantsPoints().get(p.getToken());
+            points = g.getScoreboard().getParticipantsPoints().get(p);
             x = -1;
             y = 1;
         }
@@ -370,15 +390,15 @@ class PlayerTest {
         p.placeCard(p.getHand().get(i + j), p.getHand().get(i + j).getFront(), new Position(x,y));
         if (toPlace.getFront().getIsPlaced()) {
             if (toPlace.getFront().getBonus() == Bonus.QUILL)
-                assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points + (numQ+1) * toPlace.getFront().getPointsGivenOnPlacement());
+                assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + (numQ+1) * toPlace.getFront().getPointsGivenOnPlacement());
             else if (toPlace.getFront().getBonus() == Bonus.INKWELL)
-                assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points + (numI+1) * toPlace.getFront().getPointsGivenOnPlacement());
+                assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + (numI+1) * toPlace.getFront().getPointsGivenOnPlacement());
             else if (toPlace.getFront().getBonus() == Bonus.MANUSCRIPT)
-                assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points + (numM+1) * toPlace.getFront().getPointsGivenOnPlacement());
+                assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + (numM+1) * toPlace.getFront().getPointsGivenOnPlacement());
             else
-                assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points + toPlace.getFront().getPointsGivenOnPlacement());
+                assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + toPlace.getFront().getPointsGivenOnPlacement());
         } else {
-            assertEquals(g.getScoreboard().getParticipantsPoints().get(p.getToken()), points);
+            assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points);
         }
 
     }
