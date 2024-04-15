@@ -18,6 +18,9 @@ class StartCardTest {
             Resource.FUNGI), new Corner(true, Resource.ANIMAL),new Corner(true, Resource.INSECT), Resource.EMPTY),
             createList());
 
+    /**
+     * Testing get and toString methods.
+     */
     @Test
     public void startCardTest() {
         System.out.println("Carta start creata: ");

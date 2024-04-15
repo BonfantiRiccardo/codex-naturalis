@@ -23,6 +23,13 @@ class KingdomTest {
     Deck rD = new ResourceDeck(cc);
     Deck sD = new StartDeck(cc);
 
+    /**
+     * Test the correct placing of sides of the cards in the kingdom. It does not use the placeCard method of the Player
+     * class because it was implemented later and because it adds useless complexity to the test.
+     * The test initializes a kingdom by placing a StartCard Side (the Front). Then it places the Back of a ResourceCard,
+     * and finally it places a Front of a GoldCard (without checking for the condition).
+     * In the meantime it checks with assertions that the placedSides list is correctly updated.
+     */
     @Test
     void testPlacedSides() {
         StartCard sC;
@@ -93,6 +100,13 @@ class KingdomTest {
         assertSame(gC.getFront(), p.getMyKingdom().getPlacedSides().get(2));
     }
 
+    /**
+     * Test that the placing of sides of the cards in the kingdom is coherent with the activePositions list. It does not
+     * use the placeCard method of the Player class because it was implemented later and because it adds useless
+     * complexity to the test. The test initializes a kingdom by placing a StartCard Side (the Front). Then it places
+     * the Back of a ResourceCard, and finally it places a Front of a GoldCard (without checking for the condition).
+     * In the meantime it checks with assertions that the activePosition list is correctly updated.
+     */
     @Test
     void testActivePositions() {
         StartCard sC;
@@ -188,6 +202,13 @@ class KingdomTest {
         }
     }
 
+    /**
+     * Test that the placing of sides of the cards in the kingdom is coherent with the impossiblePositions list. It does
+     * not use the placeCard method of the Player class because it was implemented later and because it adds useless
+     * complexity to the test. The test initializes a kingdom by placing a StartCard Side (the Front). Then it places
+     * the Back of a ResourceCard, and finally it places a Front of a GoldCard (without checking for the condition).
+     * In the meantime it checks with assertions that the impossiblePositions list is correctly updated.
+     */
     @Test
     void testImpossiblePositions() {
         StartCard sC;
@@ -286,6 +307,9 @@ class KingdomTest {
 
     }
 
+    /**
+     * The same method was later implemented in the Direction Enum. See that for JavaDoc.
+     */
     public Position createPosition(Direction d, Position p) {
         return switch (d) {
             case Direction.TOPLEFT -> new Position(p.getX() - 1, p.getY() + 1);
@@ -295,7 +319,13 @@ class KingdomTest {
         };
     }
 
-    //DA RIVEDERE
+    /**
+     * Test that the placing of sides of the cards in the kingdom is coherent with the onFieldResources table. It does
+     * not use the placeCard method of the Player class because it was implemented later and because it adds useless
+     * complexity to the test. The test initializes a kingdom by placing a StartCard Side (the Front). Then it places
+     * the Back of a ResourceCard, and finally it places a Front of a GoldCard (without checking for the condition).
+     * In the meantime it checks with assertions that the onFieldResources table is correctly updated.
+     */
     @RepeatedTest(value = 100) //@Test
     void testUpdateOnFieldResources() {
         StartCard sC;

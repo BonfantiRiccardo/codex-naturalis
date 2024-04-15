@@ -13,6 +13,9 @@ class CornerTest {
             new Corner(true, Resource.PLANT),new Corner(true, Resource.EMPTY), Resource.PLANT, 2,
             createTable(), Bonus.CORNER);
 
+    /**
+     * Tests the get methods
+     */
     @Test
     void cornerGetsTest() {
         assertTrue(c.getVisibility());
@@ -21,6 +24,9 @@ class CornerTest {
         assertNull(c.getLinkedSide());
     }
 
+    /**
+     * Test the setLinkedSide method.
+     */
     @Test
     void setLinkedSideTest() {
         c.setLinkedSide(front);
@@ -30,7 +36,10 @@ class CornerTest {
         System.out.println(c.toString());
     }
 
-
+    /**
+     * Creates the table for the resource needed for placement attribute.
+     * @return the table for the resource needed for placement attribute.
+     */
     public Hashtable<Resource, Integer> createTable() {
         Hashtable<Resource, Integer> placCond = new Hashtable<>();
         placCond.put(Resource.FUNGI, 3);

@@ -13,6 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class CardCreatorTest {
     CardCreator cc = new CardCreator();
 
+    /**
+     * The cardCreationTest() tests that the creation of the gold and resource cards works as intended. If the creation
+     * fails the assertion will not be passed and the test will fail.
+     */
     @Test
     void cardCreationTest() {
         List<Card> rcList = cc.createCards("/it/polimi/ingsw/am37/cards/ResourceCards.json", new TypeToken<ArrayList<ResourceCard>>() {}.getType());

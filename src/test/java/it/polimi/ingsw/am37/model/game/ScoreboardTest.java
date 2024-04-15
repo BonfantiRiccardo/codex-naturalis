@@ -12,18 +12,30 @@ import static org.junit.jupiter.api.Assertions.*;
 class ScoreboardTest {
     Scoreboard sb = new Scoreboard(createListOfPlayer());
 
+    /**
+     * Tests the creation of the scoreboard object.
+     */
     @Test
     void getParticipantsPointsTest() {
         System.out.println(sb.getParticipantsPoints());
 
         assertTrue(sb.getParticipantsPoints().containsKey(Token.BLUE));
-        //...
+        assertTrue(sb.getParticipantsPoints().containsKey(Token.GREEN));
+        assertTrue(sb.getParticipantsPoints().containsKey(Token.YELLOW));
+        assertTrue(sb.getParticipantsPoints().containsKey(Token.RED));
+
         assertFalse(sb.getParticipantsPoints().containsKey(Token.BLACK));
 
         assertEquals(sb.getParticipantsPoints().get(Token.BLUE), 0);
-        //...
+        assertEquals(sb.getParticipantsPoints().get(Token.GREEN), 0);
+        assertEquals(sb.getParticipantsPoints().get(Token.YELLOW), 0);
+        assertEquals(sb.getParticipantsPoints().get(Token.RED), 0);
+
     }
 
+    /**
+     * Tests the addPoints(token, points) method.
+     */
     @Test
     void addPointsTest() {
         sb.addPoints(Token.BLUE, 3);
@@ -37,13 +49,16 @@ class ScoreboardTest {
         System.out.println(sb.getParticipantsPoints());
     }
 
-
+    /**
+     * Creates the list of participants.
+     * @return the list of participants
+     */
     public List<Player> createListOfPlayer () {
         List<Player> lOP = new ArrayList<>();
         lOP.add(new Player("Ricky", Token.BLUE));
-        lOP.add(new Player("Davide", Token.RED));
-        lOP.add(new Player("Lorenzo", Token.GREEN));
-        lOP.add(new Player("Luisa", Token.YELLOW));
+        lOP.add(new Player("Dario", Token.RED));
+        lOP.add(new Player("Alberto", Token.GREEN));
+        lOP.add(new Player("Marzio", Token.YELLOW));
         return lOP;
     }
 

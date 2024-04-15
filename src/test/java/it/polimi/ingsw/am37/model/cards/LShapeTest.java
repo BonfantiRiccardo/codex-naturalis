@@ -21,12 +21,19 @@ public class LShapeTest {
     Player p = new Player("Ricky", Token.BLUE);
     GameModel g = new GameModel(createListOfPlayer());
 
+    /**
+     * Generates the list of player that fills the game.
+     * @return The list of participants.
+     */
     public List<Player> createListOfPlayer () {
         List<Player> lOP = new ArrayList<>();
         lOP.add(p);
         return lOP;
     }
 
+    /**
+     * Tests the creation, get methods and toString method of the L Shape Objective Card.
+     */
     @Test
     void createAndGetTest() {
         LShape ls = new LShape(93,3, Resource.ANIMAL, Resource.FUNGI, Direction.BOTTOMLEFT, new Position(-1,-3));
@@ -40,6 +47,12 @@ public class LShapeTest {
         System.out.println(ls);
     }
 
+    /**
+     * Tests 10 times that the calculateNumOfCompletion(kingdom) method returns the correct number if 3 random cards of
+     * the correct colour are placed in a way that fulfills the objective requirement.
+     * @throws NoCardsException if the deck is empty.
+     * @throws AlreadyAssignedException if the kingdom of the player has already been assigned.
+     */
     //@Test
     @RepeatedTest(value = 10)
     void calculateNumOfCompletionTest() throws NoCardsException, AlreadyAssignedException {

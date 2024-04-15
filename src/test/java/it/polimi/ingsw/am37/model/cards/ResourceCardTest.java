@@ -14,6 +14,9 @@ class ResourceCardTest {
             null, null), new Back(new Corner(true, Resource.EMPTY),new Corner(true,
             Resource.EMPTY), new Corner(true, Resource.EMPTY),new Corner(true, Resource.EMPTY), Resource.PLANT));
 
+    /**
+     * Testing get and toString methods.
+     */
     @Test
     public void goldCardTest() {
         System.out.println("Carta oro creata: ");

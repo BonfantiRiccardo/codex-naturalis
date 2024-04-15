@@ -29,6 +29,9 @@ class DiagonalUpTest {
         return lOP;
     }
 
+    /**
+     * Tests the creation, get methods and toString method of the Diagonal Up Objective Card.
+     */
     @Test
     void createAndGetTest() {
         DiagonalUp du = new DiagonalUp(89,2, Resource.ANIMAL, Resource.ANIMAL);
@@ -41,6 +44,12 @@ class DiagonalUpTest {
         System.out.println(du);
     }
 
+    /**
+     * Tests 5 times that the calculateNumOfCompletion(kingdom) method returns the correct number if 3 random cards of
+     * the correct colour are placed in a way that fulfills the objective requirement.
+     * @throws NoCardsException if the deck is empty.
+     * @throws AlreadyAssignedException if the kingdom of the player has already been assigned.
+     */
     //@Test
     @RepeatedTest(value = 5)
     void calculateNumOfCompletionTest1() throws NoCardsException, AlreadyAssignedException {
@@ -98,6 +107,12 @@ class DiagonalUpTest {
         assertSame(1, oC.calculateNumOfCompletion(p.getMyKingdom()));
     }
 
+    /**
+     * Tests 5 times that the calculateNumOfCompletion(kingdom) method returns the correct number if 6 random cards of
+     * the correct colour are placed in a way that fulfills the objective requirement twice.
+     * @throws NoCardsException if the deck is empty.
+     * @throws AlreadyAssignedException if the kingdom of the player has already been assigned.
+     */
     @RepeatedTest(value = 5)
     void calculateNumOfCompletionTest2() throws NoCardsException, AlreadyAssignedException {
         StartCard sC = (StartCard) g.getSDeck().drawCard();

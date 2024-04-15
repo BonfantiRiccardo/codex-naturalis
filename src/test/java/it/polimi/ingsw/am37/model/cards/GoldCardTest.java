@@ -16,6 +16,9 @@ class GoldCardTest {
                 createTable(), null), new Back(new Corner(true, Resource.EMPTY),new Corner(true,
                 Resource.EMPTY), new Corner(true, Resource.EMPTY),new Corner(true, Resource.EMPTY), Resource.PLANT));
 
+    /**
+     * Tests the toString and get methods of a Gold card.
+     */
     @Test
     public void goldCardTest() {
         System.out.println("Carta oro creata: ");

@@ -19,17 +19,26 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
     Player p = new Player("Riccardo", Token.BLUE);
 
+    /**
+     * Testing the get method for the nickname attribute.
+     */
     @Test
     @DisplayName("Testing nickname")
     void getNicknameTest() {
         assertSame("Riccardo", p.getNickname());
     }
 
+    /**
+     * Testing the get and set method for the token attribute.
+     */
     @Test
     void getTokenTest() {
         assertSame(Token.BLUE, p.getToken());
     }
 
+    /**
+     * Testing the get and set method for the game attribute.
+     */
     @Test
     void setGetGameTest() {
         assertNull(p.getGame());
@@ -38,12 +47,19 @@ class PlayerTest {
         assertThrows(AlreadyAssignedException.class, () -> p.setGame(g));
     }
 
+    /**
+     * Creates a list of exactly one player.
+     */
     public List<Player> createListOfPlayer () {
         List<Player> lOP = new ArrayList<>();
         lOP.add(p);
         return lOP;
     }
 
+    /**
+     * Tests the creation of the hand attribute of the Player.
+     * @throws AlreadyAssignedException Tests the Exception after creating the hand.
+     */
     @Test
     void setGetHandTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getHand());
@@ -57,6 +73,10 @@ class PlayerTest {
         assertThrows(AlreadyAssignedException.class, () -> p.setHand(hand));
     }
 
+    /**
+     * Tests the set and get of the startCard attribute of the Player.
+     * @throws AlreadyAssignedException Tests the Exception after assigning the card.
+     */
     @Test
     void setStartCardTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getStartCard());
@@ -67,6 +87,10 @@ class PlayerTest {
         assertThrows(AlreadyAssignedException.class, () -> p.setStartCard((StartCard) g.getSDeck().drawCard()));
     }
 
+    /**
+     * Tests the creation of the myKingdom attribute of the Player.
+     * @throws AlreadyAssignedException Tests the Exception after creating the kingdom.
+     */
     @Test
     void chooseStartCardSideTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getMyKingdom());
@@ -77,8 +101,12 @@ class PlayerTest {
         p.chooseStartCardSide();
         assertNotNull(p.getMyKingdom());
 
+        assertThrows(AlreadyAssignedException.class, () -> p.instantiateMyKingdom(sC, sC.getFront()));
     }
 
+    /**
+     * Tests the set and get of the privateObjective attribute of the Player.
+     */
     @Test
     void chooseObjectiveTest() throws NoCardsException {
         assertNull(p.getPrivateObjective());
@@ -92,6 +120,9 @@ class PlayerTest {
         assertNotNull(p.getPrivateObjective());
     }
 
+    /**
+     * Tests all the possible outcomes of the invocation of the drawCardFromDeck method.
+     */
     @Test
     void drawCardFromDeckTest() throws NoCardsException, AlreadyAssignedException {
         GameModel g = new GameModel(createListOfPlayer());
@@ -117,6 +148,9 @@ class PlayerTest {
         assertEquals(3, p.getHand().size());
     }
 
+    /**
+     * Tests all the possible outcomes of the invocation of the drawCardFromAvailable method.
+     */
     @Test
     void drawCardFromAvailableTest() throws AlreadyAssignedException, NoCardsException, InterruptedException {
         GameModel g = new GameModel(createListOfPlayer());
@@ -171,6 +205,11 @@ class PlayerTest {
         assertEquals(1, g.getAvailableGCards().size());
     }
 
+    /**
+     * Tests all the possible outcomes of the invocation of the placeCard method. It starts with easy assertion that
+     * regulate the error messages and then creates a kingdom such that is always possible to place a GoldCard's Front
+     * in order to test the isPlacementConditionSatisfied method.
+     */
     //@Test
     @RepeatedTest(value = 100)
     void placeCardTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
@@ -242,6 +281,10 @@ class PlayerTest {
 
     }
 
+    /**
+     * Tests all the possible outcomes of the invocation of the addPoints method. It creates a kingdom such that is
+     * possible to place the Front of a GoldCard and assert if the points were added correctly.
+     */
     //@Test
     @RepeatedTest(value = 100)
     void addPointsTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
@@ -340,6 +383,9 @@ class PlayerTest {
 
     }
 
+    /**
+     * Tests the get and set methods for the isDisconnected attribute.
+     */
     @Test
     void testConnection() {
         assertFalse(p.isDisconnected());

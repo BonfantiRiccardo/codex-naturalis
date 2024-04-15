@@ -12,6 +12,9 @@ public class BackTest {
     Back backGold = new Back(new Corner (true, Resource.EMPTY), new Corner (true , Resource.EMPTY),
             new Corner(true, Resource.EMPTY), new Corner(true, Resource.EMPTY), Resource.ANIMAL);
 
+    /**
+     * Tests the toString method.
+     */
     @Test
     void toStringTest() {
         System.out.println(backResource.toString());

@@ -13,6 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DeckTest {
 
     private final CardCreator cc = new CardCreator();
+
+    /**
+     * Tests the creation and initialization of the resource deck, the drawCard, firstBack and isEmpty method and the
+     * correct way to handle the NoCardsException.
+     */
     @Test
     public void testResourceDeck() {
         StandardCard testCard;
@@ -38,6 +43,10 @@ public class DeckTest {
         assertTrue(rDeck.isEmpty());
     }
 
+    /**
+     * Tests the creation and initialization of the objective deck, the drawCard, firstBack and isEmpty method and the
+     * correct way to handle the NoCardsException.
+     */
     @Test
     public void testObjectiveDeck () {
         ObjectiveCard testCard;
@@ -63,6 +72,10 @@ public class DeckTest {
         assertTrue(oDeck.isEmpty());
     }
 
+    /**
+     * Tests the creation and initialization of the start deck, the drawCard, firstBack and isEmpty method and the
+     * correct way to handle the NoCardsException.
+     */
     @Test
     public void testStartDeck () {
         StartCard testCard;
@@ -88,6 +101,10 @@ public class DeckTest {
         assertTrue(sDeck.isEmpty());
     }
 
+    /**
+     * Tests the creation and initialization of the gold deck, the drawCard, firstBack and isEmpty method and the
+     * correct way to handle the NoCardsException.
+     */
     @Test
     public void testGoldDeck () {
         StandardCard testCard;

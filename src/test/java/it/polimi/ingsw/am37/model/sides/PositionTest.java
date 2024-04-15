@@ -9,6 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PositionTest {
     Position p = new Position(-3,2);
+
+    /**
+     * Test the get and equals method of the position.
+     */
     @Test
     void positionGetsTest() {
         assertEquals(-3, p.getX());

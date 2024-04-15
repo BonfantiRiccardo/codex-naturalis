@@ -28,6 +28,9 @@ class GameModelTest {
         return playerList;
     }
 
+    /**
+     * Tests the preparationPhase method by checking that the Cards were drawn and assigned correctly.
+     */
     @Test
     void preparationTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
         g.preparationPhase();
@@ -75,6 +78,9 @@ class GameModelTest {
         }
     }
 
+    /**
+     * Tests the playing phase method by checking that the turn flow progresses as expected.
+     */
     @Test
     void playingTest() throws AlreadyAssignedException {
         Player p = new Player("Riccardo", Token.BLUE);
@@ -97,9 +103,16 @@ class GameModelTest {
         assertEquals(gm.getCurrentPhase(), GamePhase.ENDGAME);
     }
 
+    /**
+     * Tests the endgame Phase method by asserting that the calculation for the last turn is correct and that once the
+     * last turn is reached the getGameWinner method is called, and we can declare the winner.
+     */
     @Test
     void endgameTest() {}
 
+    /**
+     * Tests the set and get method for the disconnectedPlayer list.
+     */
     @Test
     void reconnectionTest() {
         assertTrue(g.getDisconnectedPlayers().isEmpty());

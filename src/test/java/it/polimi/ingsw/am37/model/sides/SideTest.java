@@ -48,6 +48,9 @@ class SideTest {
         return myRes;
     }
 
+    /**
+     * Test the get methods for the corners in side.
+     */
     @Test
     void sidesGetCornerTest() {
         assertSame(side.getTL(), side.getCorners().get(Direction.TOPLEFT));
@@ -101,6 +104,9 @@ class SideTest {
         assertSame(Resource.PLANT, back.getMainResource());
     }
 
+    /**
+     * Test the get and set methods for the usage of the side in objectives.
+     */
     @Test
     void sideUsedGetSetTest() {
         assertFalse(side.getUsedLLeg());
@@ -140,6 +146,9 @@ class SideTest {
         assertFalse(side.getUsedDiagonal());
     }
 
+    /**
+     * Test the placement of the side in various positions by calling the correct setter methods.
+     */
     @Test
     void sidePlacingTest () {
         assertFalse(front.getIsPlaced());
@@ -171,6 +180,9 @@ class SideTest {
         assertSame(side, back.getBR().getLinkedSide());
     }
 
+    /**
+     * Tests the toString method.
+     */
     @Test
     void toStringTest () {
         System.out.println(side.toString());

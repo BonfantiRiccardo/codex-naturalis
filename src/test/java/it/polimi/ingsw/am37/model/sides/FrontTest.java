@@ -23,12 +23,19 @@ public class FrontTest {
         return placemCond;
     }
 
+    /**
+     * Tests the get methods of the front of the resource card.
+     */
     @Test
     void resourceGetsTest() {
         assertSame(0, frontResource.getPointsGivenOnPlacement());
         assertNull(frontResource.getResourcePlacementCondition());
         assertNull(frontResource.getBonus());
     }
+
+    /**
+     * Tests the get methods of the front of the gold card.
+     */
     @Test
     void goldGetsTest(){
         assertSame(1, frontGold.getPointsGivenOnPlacement());
@@ -43,6 +50,7 @@ public class FrontTest {
         myRes.put(Resource.INSECT, 3);
         return myRes;
     }
+
     public Hashtable<Resource, Integer> notEnoughResourcesTable() {
         Hashtable<Resource, Integer> myRes = new Hashtable<>();
         myRes.put(Resource.PLANT, 1);
@@ -50,6 +58,7 @@ public class FrontTest {
         myRes.put(Resource.INSECT, 3);
         return myRes;
     }
+
     public Hashtable<Resource, Integer> missingResourcesTable() {
         Hashtable<Resource, Integer> myRes = new Hashtable<>();
         myRes.put(Resource.ANIMAL, 2);
@@ -57,27 +66,42 @@ public class FrontTest {
         return myRes;
     }
 
+    /**
+     * Test the placement conditions given a table that satisfies them.
+     */
     @Test
     void placementConditionSatisfied() {
         assertTrue(frontGold.isPlacementConditionSatisfied(enoughResourcesTable()));
     }
 
+    /**
+     * Test the placement conditions given a table that does not satisfy them.
+     */
     @Test
     void placementConditionNotSatisfied() {
         assertFalse(frontGold.isPlacementConditionSatisfied((notEnoughResourcesTable())));
     }
 
+    /**
+     * Test the placement conditions given a table that satisfies them.
+     */
     @Test
     void placementConditionMissingResource() {
         assertFalse(frontGold.isPlacementConditionSatisfied((missingResourcesTable())));
     }
 
+    /**
+     * Test the placement condition of a resource card (it should be null), which should always return true.
+     */
     @Test
     void placementConditionResource() {
         assertTrue(frontResource.isPlacementConditionSatisfied((enoughResourcesTable())));
         assertTrue(frontResource.isPlacementConditionSatisfied((notEnoughResourcesTable())));
     }
 
+    /**
+     * Testing toString method.
+     */
     @Test
     void toStringTest() {
         System.out.println(frontGold.toString());

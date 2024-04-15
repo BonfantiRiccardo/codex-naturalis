@@ -22,7 +22,7 @@ public class Player {
      * The token attribute represents the player colour and is one of the values of the Token Enumeration.
      * It also uniquely identifies the player.
      */
-    private final Token token;
+    private Token token;
     /**
      * The game attribute references the game that the player is participating to.
      */
@@ -54,7 +54,6 @@ public class Player {
      * The Player(nickname, token) constructor sets the nickname and the token of the player to the ones given as
      * parameters. It also sets the isDisconnected attribute to false.
      * @param nickname A string that uniquely identifies the player.
-     * @param token A Token object that uniquely identifies the player.
      */
     public Player(String nickname, Token token) {
         this.nickname = nickname;
@@ -77,6 +76,20 @@ public class Player {
     public Token getToken() {
         return token;
     }
+
+    /**
+     * The setToken(token)method checks if the player already has a linked token and if it hasn't, it links the player
+     * to the token he has chosen, which is given as a parameter. It is only called once, at the beginning of
+     * the game. If it is called a second time, the method will throw an AlreadyAssignedException.
+     * @param token A Token object.
+     * @throws AlreadyAssignedException This attribute cannot be assigned twice.
+     */
+    /*public void setToken(Token token) throws AlreadyAssignedException {
+        if (this.token != null) {
+            throw new AlreadyAssignedException("The token has already been chosen.");
+        } else
+            this.token = token;
+    }*/
 
     /**
      * The setGame(game) method checks if the player already has a linked game and if it hasn't, it links the player
@@ -125,9 +138,8 @@ public class Player {
 
     /**
      * The setStartCard(startCard) method checks if the startCard has already been assigned to the player and if it
-     * hasn't it assigns the startCard attribute to the card given as a parameter. *It also lets him choose a side of
-     * the card to place. Finally, it creates the player's kingdom... * It is only called once, at the beginning of the
-     * game. If it is called a second time, the method will throw an AlreadyAssignedException.
+     * hasn't it assigns the startCard attribute to the card given as a parameter. It is only called once, at the
+     * beginning of the game. If it is called a second time, the method will throw an AlreadyAssignedException.
      * @param startCard A card of type startCard.
      * @throws AlreadyAssignedException This attribute cannot be assigned twice.
      */

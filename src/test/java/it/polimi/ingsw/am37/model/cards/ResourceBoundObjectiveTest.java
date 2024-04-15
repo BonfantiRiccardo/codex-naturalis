@@ -25,6 +25,9 @@ public class ResourceBoundObjectiveTest {
     ResourcesBoundObjective rC2;
     ResourcesBoundObjective rC3;
 
+    /**
+     * Creates a kingdom with 3 cards placed.
+     */
     @BeforeEach
     void setupKingdom() {
         StartCard sC;
@@ -81,6 +84,9 @@ public class ResourceBoundObjectiveTest {
         p.getMyKingdom().updateKingdom(gC, gC.getFront(), pos2);
     }
 
+    /**
+     * Creates 3 different Resource Objective Cards.
+     */
     @BeforeEach
     void setupObjectives () {
         rC1  = new ResourcesBoundObjective(95,2, createTableRes());
@@ -88,6 +94,9 @@ public class ResourceBoundObjectiveTest {
         rC3  = new ResourcesBoundObjective(101,2, createTableDuoGold());
     }
 
+    /**
+     * Test 10 times if the objectives are fulfilled given the kingdom
+     */
     //@Test
     @RepeatedTest(value = 10)
     void testResourceObjective() {
@@ -101,6 +110,12 @@ public class ResourceBoundObjectiveTest {
         assertTrue(p.getMyKingdom().getOnFieldResources().get(Resource.INKWELL) >= check3*2);
     }
 
+    /**
+     * method to create the position that corresponds to a direction (later implemented in Direction Enum).
+     * @param d Direction.
+     * @param p Base position.
+     * @return New position.
+     */
     public Position createPosition(Direction d, Position p) {
         return switch (d) {
             case Direction.TOPLEFT -> new Position(p.getX() - 1, p.getY() + 1);
@@ -110,12 +125,20 @@ public class ResourceBoundObjectiveTest {
         };
     }
 
+    /**
+     * Table of resources for objective 1.
+     * @return Table
+     */
     public Hashtable<Resource, Integer> createTableRes(){
         Hashtable<Resource, Integer> placemCond = new Hashtable<>();
         placemCond.put(Resource.FUNGI, 3);
         return placemCond;
     }
 
+    /**
+     * Table of resources for objective 2.
+     * @return Table
+     */
     public Hashtable<Resource, Integer> createTableTrisGold(){
         Hashtable<Resource, Integer> placemCond = new Hashtable<>();
         placemCond.put(Resource.INKWELL, 1);
@@ -124,6 +147,10 @@ public class ResourceBoundObjectiveTest {
         return placemCond;
     }
 
+    /**
+     * Table of resources for objective 3.
+     * @return Table
+     */
     public Hashtable<Resource, Integer> createTableDuoGold(){
         Hashtable<Resource, Integer> placemCond = new Hashtable<>();
         placemCond.put(Resource.INKWELL, 2);

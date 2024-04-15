@@ -28,18 +28,27 @@ public class DiagonalDownTest {
         return lOP;
     }
 
+    /**
+     * Tests the creation, get methods and toString method of the Diagonal Down Objective Card.
+     */
     @Test
     void createAndGetTest() {
-        DiagonalDown du = new DiagonalDown(88,2, Resource.PLANT, Resource.PLANT);
+        DiagonalDown dd = new DiagonalDown(88,2, Resource.PLANT, Resource.PLANT);
 
-        assertEquals(88, du.getId());
-        assertEquals(2, du.getPointsGiven());
-        assertSame(Resource.PLANT, du.getOtherResource());
-        assertSame(Resource.PLANT, du.getCardColourThatTriggersCheck());
+        assertEquals(88, dd.getId());
+        assertEquals(2, dd.getPointsGiven());
+        assertSame(Resource.PLANT, dd.getOtherResource());
+        assertSame(Resource.PLANT, dd.getCardColourThatTriggersCheck());
 
-        System.out.println(du);
+        System.out.println(dd);
     }
 
+    /**
+     * Tests 5 times that the calculateNumOfCompletion(kingdom) method returns the correct number if 3 random cards of
+     * the correct colour are placed in a way that fulfills the objective requirement.
+     * @throws NoCardsException if the deck is empty.
+     * @throws AlreadyAssignedException if the kingdom of the player has already been assigned.
+     */
     //@Test
     @RepeatedTest(value = 5)
     void calculateNumOfCompletionTest1() throws NoCardsException, AlreadyAssignedException {
@@ -96,47 +105,14 @@ public class DiagonalDownTest {
 
         assertSame(1, oC.calculateNumOfCompletion(p.getMyKingdom()));
 
-
-        /*placedSides = new ArrayList<>();
-
-        dside1ok.placeInPosition(0,0);
-        dside2ok.placeInPosition(1,-1);
-        dside3ok.placeInPosition(2,-2);
-        dside4no.placeInPosition(3,-3);
-        dside1no.placeInPosition(2,0);
-        dside2no.placeInPosition(3, 1);
-        dside3no.placeInPosition(1, 8);
-        dside5no.placeInPosition(4,-4);
-        dside6no.placeInPosition(5,-5);
-
-        d1_2.setLinkedSide(dside2ok);
-        d2_1.setLinkedSide(dside1ok);
-        d2_3.setLinkedSide(dside3ok);
-        d3_2.setLinkedSide(dside2ok);
-        d3_n4.setLinkedSide(dside4no);
-        dn4_3.setLinkedSide(dside3ok);
-        d2_n1.setLinkedSide(dside1no);
-        dn1_2.setLinkedSide(dside2ok);
-        dn1_n2.setLinkedSide(dside2no);
-        dn2_n1.setLinkedSide(dside1no);
-        dn4_n5.setLinkedSide(dside5no);
-        dn5_n4.setLinkedSide(dside4no);
-        dn5_n6.setLinkedSide(dside6no);
-        dn6_n5.setLinkedSide(dside5no);
-
-        placedSides.add(dside1ok);
-        placedSides.add(dside2ok);
-        placedSides.add(dside3ok);
-        placedSides.add(dside1no);
-        placedSides.add(dside2no);
-        placedSides.add(dside3no);
-        placedSides.add(dside4no);
-        placedSides.add(dside5no);
-        placedSides.add(dside6no);
-
-        assertSame(2, diagonal.calculateNumOfCompletionTest(placedSides));*/
     }
 
+    /**
+     * Tests 5 times that the calculateNumOfCompletion(kingdom) method returns the correct number if 6 random cards of
+     * the correct colour are placed in a way that fulfills the objective requirement twice.
+     * @throws NoCardsException if the deck is empty.
+     * @throws AlreadyAssignedException if the kingdom of the player has already been assigned.
+     */
     @RepeatedTest(value = 5)
     //@Test
     void calculateNumOfCompletionTest2() throws NoCardsException, AlreadyAssignedException {

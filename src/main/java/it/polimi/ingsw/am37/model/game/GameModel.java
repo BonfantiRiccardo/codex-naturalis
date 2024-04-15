@@ -32,7 +32,7 @@ public class GameModel {
     /**
      * The scoreboard attribute is a reference to the scoreboard of the game.
      */
-    private final Scoreboard scoreboard;
+    private Scoreboard scoreboard;
     /**
      * The gDeck attribute contains the Deck of Gold Cards that is used during the game.
      */
@@ -94,7 +94,6 @@ public class GameModel {
         this.participantsInOrder = participantsInOrder;
         /*this.gameController = controller;*/
 
-        scoreboard = new Scoreboard(participantsInOrder);
         disconnectedPlayers = new ArrayList<>();
 
         for (Player p : participantsInOrder) {
@@ -238,9 +237,10 @@ public class GameModel {
         while(!s.awaitTermination(1, TimeUnit.SECONDS));
         s.close();*/
 
-        /*for (Player p: participantsInOrder)
-        *   chooseToken(p);
-        * */
+        for (Player p: participantsInOrder)
+            chooseToken(p);
+
+        scoreboard = new Scoreboard(participantsInOrder);
 
         for (Player p : participantsInOrder) {
             createHand(p);
@@ -263,6 +263,8 @@ public class GameModel {
 
         setCurrentPhase(GamePhase.PLAYING);
     }
+
+    private void chooseToken(Player p) {}
 
     /**
      *The method setAvailableCards sets up the list of available and cards that the player is able to see and can draw when in his turn.
@@ -332,7 +334,6 @@ public class GameModel {
      * of the player reaches 20 points, the method set the currentPhase to ENDGAME.
      */
     public void playingPhase() {
-        //TODO: Testing
         turnCounter = 1;
         currentTurn = participantsInOrder.get(0);
         while (true) {
@@ -386,6 +387,25 @@ public class GameModel {
         //TODO
     }
 
+    /**
+     * The getGameWinner() method calculates everyone's final points and then returns the final scoreboard.
+     * @return The final Scoreboard of the game.
+     */
+    public Hashtable<Player, Integer> getGameWinner(){
+        Hashtable<Player, Integer> finalPoints = new Hashtable<>();
+        int points;
+        Hashtable<Token, Integer> playerPoints = scoreboard.getParticipantsPoints();
+
+        for(Player p:participantsInOrder){
+            points=playerPoints.get(p.getToken());
+            points=points+publicObjectives[0].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[0].getPointsGiven();
+            points=points+publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[1].getPointsGiven();
+            points=points+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom());
+            finalPoints.put(p, points);
+        }
+
+        return finalPoints;
+    }
 
     /**
      * The getDisconnectedPlayers() method returns the list of player that are currently disconnected from the game.
@@ -412,27 +432,5 @@ public class GameModel {
     public void reconnect(Player p) {
         disconnectedPlayers.remove(p);
         p.setDisconnected(false);
-    }
-
-    /**
-     * The getGameWinner() method calculates everyone's final points and then returns the final scoreboard.
-     * @return The final Scoreboard of the game.
-     */
-    public Hashtable<Player, Integer> getGameWinner(){
-        Hashtable<Player, Integer> finalPoints = new Hashtable<Player, Integer>();
-        int points;
-        Hashtable<Token, Integer> playerPoints = scoreboard.getParticipantsPoints();
-
-        for(Player p:participantsInOrder){
-            points=playerPoints.get(p.getToken());
-            points=points+publicObjectives[0].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[0].getPointsGiven();
-            points=points+publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[1].getPointsGiven();
-            points=points+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom());
-            finalPoints.put(p, points);
-        }
-
-
-
-        return finalPoints;
     }
 }
