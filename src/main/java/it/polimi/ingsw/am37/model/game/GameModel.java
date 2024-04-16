@@ -450,11 +450,11 @@ public class GameModel {
                     finalPoints[j+1]=temp;
                 }
                 else if(finalPoints[j].getPoints() == points){
-                        if(compl>finalPoints[j].getNumOfCompletion()){
-                            temp=finalPoints[j];
-                            finalPoints[j]=finalPoints[j+1];
-                            finalPoints[j+1]=temp;
-                        }
+                    if(compl>finalPoints[j].getNumOfCompletion()){
+                        temp=finalPoints[j];
+                        finalPoints[j]=finalPoints[j+1];
+                        finalPoints[j+1]=temp;
+                    }
                 }
             }
             i++;
