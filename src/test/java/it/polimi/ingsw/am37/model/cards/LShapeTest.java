@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.model.cards;
 
+import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
@@ -19,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LShapeTest {
 
     Player p = new Player("Ricky");
-    GameModel g = new GameModel(createListOfPlayer());
+    GameController c = new GameController(p, 1);
+    GameModel g = new GameModel(createListOfPlayer(), c);
 
     /**
      * Generates the list of player that fills the game.
@@ -61,20 +63,20 @@ public class LShapeTest {
     //@Test
     @RepeatedTest(value = 10)
     void calculateNumOfCompletionTest() throws NoCardsException, AlreadyAssignedException {
-        StartCard sC = (StartCard) g.getSDeck().drawCard();
+        StartCard sC = g.getSDeck().drawCard();
 
         p.instantiateMyKingdom(sC, sC.getFront());
 
-        ObjectiveCard oC = (ObjectiveCard) g.getODeck().drawCard();
+        ObjectiveCard oC = g.getODeck().drawCard();
         boolean check = false;
         while (!check) {
             if (oC.getClass().equals(LShape.class))
                 check = true;
             else
-                oC = (ObjectiveCard) g.getODeck().drawCard();
+                oC = g.getODeck().drawCard();
         }
 
-        StandardCard rC = (StandardCard) g.getRDeck().drawCard();
+        StandardCard rC = g.getRDeck().drawCard();
         check = false;
         while (!check) {
             if (rC.getBack().getMainResource().equals(((LShape) oC).getCardColourThatTriggersCheck())) {
@@ -87,12 +89,12 @@ public class LShapeTest {
                 }
                 check = true;
             } else
-                rC = (StandardCard) g.getRDeck().drawCard();
+                rC = g.getRDeck().drawCard();
         }
 
         p.getMyKingdom().updateKingdom(rC, rC.getBack(), rC.getBack().getPositionInKingdom());
 
-        StandardCard rC2 = (StandardCard) g.getRDeck().drawCard();
+        StandardCard rC2 = g.getRDeck().drawCard();
         check = false;
         while (!check) {
             if (rC2.getBack().getMainResource().equals(((LShape) oC).getOtherResource())) {
@@ -104,17 +106,17 @@ public class LShapeTest {
                 }
                 check = true;
             } else if (!g.getRDeck().isEmpty())
-                rC2 = (StandardCard) g.getRDeck().drawCard();
+                rC2 = g.getRDeck().drawCard();
             else
-                rC2 = (StandardCard) g.getGDeck().drawCard();
+                rC2 = g.getGDeck().drawCard();
         }
         p.getMyKingdom().updateKingdom(rC2, rC2.getBack(), rC2.getBack().getPositionInKingdom());
 
         StandardCard support;
         if (!g.getRDeck().isEmpty())
-            support = (StandardCard) g.getRDeck().drawCard();
+            support = g.getRDeck().drawCard();
         else
-            support = (StandardCard) g.getGDeck().drawCard();
+            support = g.getGDeck().drawCard();
         for (Direction d: Direction.values()) {
             if (((LShape) oC).getDirection().equals(d)) {
                 support.getBack().placeInPosition(d.createPosition(rC2.getBack().getPositionInKingdom()).getX(), d.createPosition(rC2.getBack().getPositionInKingdom()).getY());
@@ -123,7 +125,7 @@ public class LShapeTest {
         }
         p.getMyKingdom().updateKingdom(support, support.getBack(), support.getBack().getPositionInKingdom());
 
-        StandardCard rC3 = (StandardCard) g.getRDeck().drawCard();
+        StandardCard rC3 = g.getRDeck().drawCard();
         check = false;
         while (!check) {
             if (rC3.getBack().getMainResource().equals(((LShape) oC).getOtherResource())) {
@@ -139,9 +141,9 @@ public class LShapeTest {
 
                 check = true;
             } else if (!g.getRDeck().isEmpty())
-                rC3 = (StandardCard) g.getRDeck().drawCard();
+                rC3 = g.getRDeck().drawCard();
             else
-                rC3 = (StandardCard) g.getGDeck().drawCard();
+                rC3 = g.getGDeck().drawCard();
         }
 
         p.getMyKingdom().updateKingdom(rC3, rC3.getBack(), rC3.getBack().getPositionInKingdom());

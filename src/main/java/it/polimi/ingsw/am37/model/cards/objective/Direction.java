@@ -26,7 +26,7 @@ public enum Direction {
     /**
      * The opposite() method returns the opposite (both horizontally and vertically) Position relatively to the one
      * that calls the method.
-     * @return The opposite position relatively to the one calling the method.    d.opposite();
+     * @return The opposite position relatively to the one calling the method.
      */
     public Direction opposite() {
         return switch(this) {

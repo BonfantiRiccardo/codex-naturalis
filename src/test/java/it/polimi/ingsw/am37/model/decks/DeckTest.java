@@ -29,7 +29,7 @@ public class DeckTest {
         for (int i = 0; i < 40; i++) {
             try {
                 b = rDeck.firstBack();
-                testCard = (StandardCard) rDeck.drawCard();
+                testCard = rDeck.drawCard();
 
                 assertSame(b, testCard.getBack());
 
@@ -58,7 +58,7 @@ public class DeckTest {
         for (int i = 0; i < 16; i++) {
             try {
                 b = oDeck.firstBack();
-                testCard = (ObjectiveCard) oDeck.drawCard();
+                testCard = oDeck.drawCard();
 
                 assertNull(b);
 
@@ -87,7 +87,7 @@ public class DeckTest {
         for (int i = 0; i < 6; i++) {
             try {
                 b = sDeck.firstBack();
-                testCard = (StartCard) sDeck.drawCard();
+                testCard = sDeck.drawCard();
 
                 assertNull(b);
 
@@ -116,7 +116,7 @@ public class DeckTest {
         for (int i = 0; i < 40; i++) {
             try {
                 b = gDeck.firstBack();
-                testCard = (StandardCard) gDeck.drawCard();
+                testCard = gDeck.drawCard();
 
                 assertSame(b, testCard.getBack());
 

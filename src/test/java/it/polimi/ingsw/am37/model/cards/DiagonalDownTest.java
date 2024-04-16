@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.model.cards;
 
+import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
@@ -19,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class DiagonalDownTest {
     Player p = new Player("Ricky");
-    GameModel g = new GameModel(createListOfPlayer());
+    GameController c = new GameController(p, 1);
+    GameModel g = new GameModel(createListOfPlayer(), c);
 
     public List<Player> createListOfPlayer () {
         List<Player> lOP = new ArrayList<>();
@@ -56,20 +58,20 @@ public class DiagonalDownTest {
     //@Test
     @RepeatedTest(value = 5)
     void calculateNumOfCompletionTest1() throws NoCardsException, AlreadyAssignedException {
-        StartCard sC = (StartCard) g.getSDeck().drawCard();
+        StartCard sC = g.getSDeck().drawCard();
 
         p.instantiateMyKingdom(sC, sC.getFront());
 
-        ObjectiveCard oC = (ObjectiveCard) g.getODeck().drawCard();
+        ObjectiveCard oC = g.getODeck().drawCard();
         boolean check = false;
         while (!check) {
             if (oC.getClass().equals(DiagonalDown.class))
                 check = true;
             else
-                oC = (ObjectiveCard) g.getODeck().drawCard();
+                oC = g.getODeck().drawCard();
         }
 
-        StandardCard rC = (StandardCard) g.getRDeck().drawCard();
+        StandardCard rC = g.getRDeck().drawCard();
         check = false;
         while (!check) {
             if (rC.getBack().getMainResource().equals(((DiagonalDown) oC).getCardColourThatTriggersCheck())) {
@@ -77,12 +79,12 @@ public class DiagonalDownTest {
                  sC.getFront().getTR().setLinkedSide(rC.getBack());
                 check = true;
             } else
-                rC = (StandardCard) g.getRDeck().drawCard();
+                rC = g.getRDeck().drawCard();
         }
 
         p.getMyKingdom().updateKingdom(rC, rC.getBack(), rC.getBack().getPositionInKingdom());
 
-        StandardCard rC2 = (StandardCard) g.getRDeck().drawCard();
+        StandardCard rC2 = g.getRDeck().drawCard();
         check = false;
         while (!check) {
             if (rC2.getBack().getMainResource().equals(((DiagonalDown) oC).getOtherResource())) {
@@ -90,11 +92,11 @@ public class DiagonalDownTest {
                 rC.getBack().getBR().setLinkedSide(rC2.getBack());
                 check = true;
             } else
-                rC2 = (StandardCard) g.getRDeck().drawCard();
+                rC2 = g.getRDeck().drawCard();
         }
         p.getMyKingdom().updateKingdom(rC2, rC2.getBack(), rC2.getBack().getPositionInKingdom());
 
-        StandardCard rC3 = (StandardCard) g.getRDeck().drawCard();
+        StandardCard rC3 = g.getRDeck().drawCard();
         check = false;
         while (!check) {
             if (rC3.getBack().getMainResource().equals(((DiagonalDown) oC).getOtherResource())) {
@@ -102,7 +104,7 @@ public class DiagonalDownTest {
                 rC2.getBack().getBR().setLinkedSide(rC3.getBack());
                 check = true;
             } else
-                rC3 = (StandardCard) g.getRDeck().drawCard();
+                rC3 = g.getRDeck().drawCard();
         }
 
         p.getMyKingdom().updateKingdom(rC3, rC3.getBack(), rC3.getBack().getPositionInKingdom());
@@ -120,20 +122,20 @@ public class DiagonalDownTest {
     @RepeatedTest(value = 5)
     //@Test
     void calculateNumOfCompletionTest2() throws NoCardsException, AlreadyAssignedException {
-        StartCard sC = (StartCard) g.getSDeck().drawCard();
+        StartCard sC = g.getSDeck().drawCard();
 
         p.instantiateMyKingdom(sC, sC.getFront());
 
-        ObjectiveCard oC = (ObjectiveCard) g.getODeck().drawCard();
+        ObjectiveCard oC = g.getODeck().drawCard();
         boolean check = false;
         while (!check) {
             if (oC.getClass().equals(DiagonalDown.class))
                 check = true;
             else
-                oC = (ObjectiveCard) g.getODeck().drawCard();
+                oC = g.getODeck().drawCard();
         }
 
-        StandardCard rC = (StandardCard) g.getRDeck().drawCard();
+        StandardCard rC = g.getRDeck().drawCard();
         check = false;
         while (!check) {
             if (rC.getBack().getMainResource().equals(((DiagonalDown) oC).getCardColourThatTriggersCheck())) {
@@ -141,12 +143,12 @@ public class DiagonalDownTest {
                 sC.getFront().getTR().setLinkedSide(rC.getBack());
                 check = true;
             } else
-                rC = (StandardCard) g.getRDeck().drawCard();
+                rC = g.getRDeck().drawCard();
         }
 
         p.getMyKingdom().updateKingdom(rC, rC.getBack(), rC.getBack().getPositionInKingdom());
 
-        StandardCard rC2 = (StandardCard) g.getRDeck().drawCard();
+        StandardCard rC2 = g.getRDeck().drawCard();
         check = false;
         while (!check) {
             if (rC2.getBack().getMainResource().equals(((DiagonalDown) oC).getOtherResource())) {
@@ -154,11 +156,11 @@ public class DiagonalDownTest {
                 rC.getBack().getBR().setLinkedSide(rC2.getBack());
                 check = true;
             } else
-                rC2 = (StandardCard) g.getRDeck().drawCard();
+                rC2 = g.getRDeck().drawCard();
         }
         p.getMyKingdom().updateKingdom(rC2, rC2.getBack(), rC2.getBack().getPositionInKingdom());
 
-        StandardCard rC3 = (StandardCard) g.getRDeck().drawCard();
+        StandardCard rC3 = g.getRDeck().drawCard();
         check = false;
         while (!check) {
             if (rC3.getBack().getMainResource().equals(((DiagonalDown) oC).getOtherResource())) {
@@ -166,13 +168,13 @@ public class DiagonalDownTest {
                 rC2.getBack().getBR().setLinkedSide(rC3.getBack());
                 check = true;
             } else
-                rC3 = (StandardCard) g.getRDeck().drawCard();
+                rC3 = g.getRDeck().drawCard();
         }
 
         p.getMyKingdom().updateKingdom(rC3, rC3.getBack(), rC3.getBack().getPositionInKingdom());
 
         int done = 0;
-        StandardCard card = (StandardCard) g.getRDeck().drawCard();
+        StandardCard card = g.getRDeck().drawCard();
         StandardCard previous = rC;
         int x = 0;      int y = 2;
         while (done < 3) {
@@ -186,7 +188,7 @@ public class DiagonalDownTest {
                 p.getMyKingdom().updateKingdom(card, card.getBack(), card.getBack().getPositionInKingdom());
             }
 
-            card = (StandardCard) g.getRDeck().drawCard();
+            card = g.getRDeck().drawCard();
         }
 
         assertSame(2, oC.calculateNumOfCompletion(p.getMyKingdom()));

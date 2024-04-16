@@ -25,7 +25,7 @@ public abstract class PlacementBoundObjective extends ObjectiveCard {
      * @param id An integer to uniquely identify the card.
      * @param points An integer that represents the points given per completion.
      * @param otherResource A Resource that is needed apart from the main resource that triggers the check.
-     * @param cardColourThatTriggersCheck A Resource that triggers the check for the rquested pattern.
+     * @param cardColourThatTriggersCheck A Resource that triggers the check for the requested pattern.
      */
     public PlacementBoundObjective(int id, int points, Resource otherResource, Resource cardColourThatTriggersCheck) {
         super(id, points);

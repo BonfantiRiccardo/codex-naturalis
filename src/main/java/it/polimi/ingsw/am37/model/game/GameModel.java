@@ -10,12 +10,8 @@ import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * The GameModel class contains all the information and behaviour of an instance of the game.
@@ -25,7 +21,7 @@ public class GameModel {
      * The currentPhase attribute gives information about the current phase of the game.
      */
     private GamePhase currentPhase;
-    private /*final*/ GameController gameController;
+    private final GameController gameController;
     /**
      * The participantsInOrder attribute is a list of all the participants in the order of their turns.
      */
@@ -91,9 +87,9 @@ public class GameModel {
      * phase to preparation.
      * @param participantsInOrder A list of 2 to 4 player that are the participants of this instance of the game.
      */
-    public GameModel(List<Player> participantsInOrder/*, GameController controller*/) {
+    public GameModel(List<Player> participantsInOrder, GameController controller) {
         this.participantsInOrder = participantsInOrder;
-        /*this.gameController = controller;*/
+        this.gameController = controller;
 
         disconnectedPlayers = new ArrayList<>();
 
@@ -123,11 +119,12 @@ public class GameModel {
         return currentPhase;
     }
 
+    /**
+     * The getController() method returns the controller object that is linked to this instance of the game model.
+     * @return The gameController attribute.
+     */
     public GameController getController() {
         return gameController;
-    }
-    public void setController(GameController c) {
-        this.gameController = c;
     }
 
     /**
@@ -225,19 +222,9 @@ public class GameModel {
     public void preparationPhase() throws NoCardsException, AlreadyAssignedException {
         setAvailableCards();
 
-        //ExecutorService s = Executors.newFixedThreadPool(4);
         for (Player p : participantsInOrder) {
-           /*s.submit(() -> {
-               try {*/
-                   giveStartCard(p);
-               /*} catch (InterruptedException e) {
-                   throw new RuntimeException(e);
-               }
-            });*/
+            giveStartCard(p);
         }
-        /*s.shutdown();
-        while(!s.awaitTermination(1, TimeUnit.SECONDS));
-        s.close();*/
 
         for (Player p: participantsInOrder)
             chooseToken(p);
@@ -248,18 +235,9 @@ public class GameModel {
 
         setPublicObjectives();
 
-        //ExecutorService s1 = Executors.newFixedThreadPool(4);
         for (Player p : participantsInOrder) {
-            /*s1.submit(() -> {
-                try {*/
-                    giveObjectiveCards(p);
-                /*} catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-             });*/
+            giveObjectiveCards(p);
         }
-        /*s1.shutdown();
-        while(!s1.awaitTermination(1, TimeUnit.SECONDS));*/
 
         setCurrentPhase(GamePhase.PLAYING);
     }
@@ -298,10 +276,10 @@ public class GameModel {
         availableRCards = new ArrayList<>();
         availableGCards = new ArrayList<>();
         while(getAvailableGCards().size() < 2)
-            availableGCards.add((GoldCard) gDeck.drawCard());
+            availableGCards.add(gDeck.drawCard());
 
         while(getAvailableRCards().size() < 2)
-            availableRCards.add((ResourceCard) rDeck.drawCard());
+            availableRCards.add(rDeck.drawCard());
     }
 
     /**
@@ -311,8 +289,8 @@ public class GameModel {
      */
     private void setPublicObjectives() throws NoCardsException {
         publicObjectives = new ObjectiveCard[2];
-        publicObjectives[0] = (ObjectiveCard) oDeck.drawCard();
-        publicObjectives[1] = (ObjectiveCard) oDeck.drawCard();
+        publicObjectives[0] = oDeck.drawCard();
+        publicObjectives[1] = oDeck.drawCard();
     }
 
     /**
@@ -324,9 +302,9 @@ public class GameModel {
      */
     private void createHand(Player p) throws NoCardsException, AlreadyAssignedException {
         List<StandardCard> hand = new ArrayList<>();
-        hand.add((StandardCard) rDeck.drawCard());
-        hand.add((StandardCard) rDeck.drawCard());
-        hand.add((StandardCard) gDeck.drawCard());
+        hand.add(rDeck.drawCard());
+        hand.add(rDeck.drawCard());
+        hand.add(gDeck.drawCard());
         p.setHand(hand);
     }
 
@@ -337,7 +315,8 @@ public class GameModel {
      * @throws AlreadyAssignedException if the player has already had his starting card.
      */
     private void giveStartCard(Player p) throws NoCardsException, AlreadyAssignedException {
-        p.setStartCard((StartCard) sDeck.drawCard());
+        p.setStartCard(sDeck.drawCard());
+        //gameController.playerHasToChooseStartCardSide(p, p.getStartCard);
         p.chooseStartCardSide();
     }
 
@@ -346,12 +325,12 @@ public class GameModel {
      * able to see only their personal two objectives.
      * @param p is the player who's choosing their objectives.
      * @throws NoCardsException if the deck ran out of cards.
-     * @throws AlreadyAssignedException if the player already chose his objectives.
      */
-    private void giveObjectiveCards(Player p) throws NoCardsException, AlreadyAssignedException {
+    private void giveObjectiveCards(Player p) throws NoCardsException {
         ObjectiveCard[] twoObjCards = new ObjectiveCard[2];
-        twoObjCards[0] = (ObjectiveCard) oDeck.drawCard();
-        twoObjCards[1] = (ObjectiveCard) oDeck.drawCard();
+        twoObjCards[0] = oDeck.drawCard();
+        twoObjCards[1] = oDeck.drawCard();
+        //gameController.playerHasToChooseObjective(p, twoObjCards);
         p.chooseObjective(twoObjCards);
     }
 
@@ -361,7 +340,7 @@ public class GameModel {
      */
     public void playingPhase() {
         turnCounter = 1;
-        currentTurn = participantsInOrder.get(0);
+        currentTurn = participantsInOrder.getFirst();
         while (true) {
             System.out.println("Notify the player");                                // STUB THAT RANDOMLY ASSIGNS POINTS
             System.out.println("Player places card");                               // SO THAT THE METHOD STOPS LOOPING
@@ -405,7 +384,7 @@ public class GameModel {
         if (currIdx + 1 < participantsInOrder.size()) {
             currentTurn = participantsInOrder.get(currIdx + 1);
         } else {
-            currentTurn = participantsInOrder.get(0);
+            currentTurn = participantsInOrder.getFirst();
         }
     }
 
@@ -417,11 +396,29 @@ public class GameModel {
      */
     public void endGamePhase() {
 
+        nextTurn();
+
         lastTurn=turnCounter+(participantsInOrder.size()-participantsInOrder.indexOf(currentTurn)-1)+participantsInOrder.size();
 
+        while (turnCounter<=lastTurn) {
+            System.out.println("Notify the player");                                // STUB THAT RANDOMLY ASSIGNS POINTS
+            System.out.println("Player places card");                               // SO THAT THE METHOD STOPS LOOPING
+            //STUB TO RANDOMLY ADD POINTS TO THE PLAYER                             // EVENTUALLY
+            if (turnCounter % 5 == 0)                                               //
+                scoreboard.addPoints(currentTurn, 3);                        //
+            System.out.println("Player draws card");                                //
+            //gameController.notifyTurn(currentTurn);
+            nextTurn();
+        }
         System.out.println("This will be the last turn: " + lastTurn);
         PlayerPoints[] finalResults = getGameWinner();
-        System.out.println(Arrays.toString(finalResults));
+        for (PlayerPoints finalResult : finalResults) {
+            System.out.println(finalResult.getPlayer().getNickname());
+            System.out.println(finalResult.getPoints());
+            System.out.println(finalResult.getNumOfCompletion());
+        }
+
+        setCurrentPhase(GamePhase.FINISHED);
     }
 
     /**
