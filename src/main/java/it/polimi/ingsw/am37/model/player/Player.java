@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am37.model.player;
 
-import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.decks.Deck;
@@ -150,41 +149,13 @@ public class Player {
         }
     }
 
-    /**
-     * The chooseStartCardSide() waits for the player to choose the StartCard Side he wants to place down and then calls
-     * the instantiateMyKingdom(sC, startSide) method to create the Players Kingdom.
-     */
-    public void chooseStartCardSide() {
-        try {
-            instantiateMyKingdom(startCard, startCard.getFront());
-            //game.getController().playerHasToChooseStartCardSide(this, startCard);//talks to controller that sends request to client
-        } catch (/*WrongGamePhaseException |*/ AlreadyAssignedException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     /**
      * The getStartCard() method returns the startCard assigned to the player at the beginning of the game.
      * @return The startCard attribute.
      */
-    public Card getStartCard() {
+    public StartCard getStartCard() {
         return startCard;
-    }
-
-    /**
-     * The chooseObjective(privateObjective) method checks if the privateObjective has already been chosen by the player
-     * and if it hasn't it lets the player decide which card of the two given as a parameter he wants to keep as his
-     * private objective. It is only called once, at the beginning of the game. If it is called a second time, the
-     * method will throw an AlreadyAssignedException.
-     * @param objectiveArray An array of two ObjectiveCards.
-     */
-    public void chooseObjective(ObjectiveCard[] objectiveArray) {
-        try {
-            setPrivateObjective(objectiveArray[0]);
-            //game.getController().playerHasToChooseObjective(this, objectiveArray); //talks to the controller and asks client which card
-        } catch (/*WrongGamePhaseException |*/ AlreadyAssignedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**

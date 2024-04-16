@@ -31,7 +31,7 @@ class KingdomTest {
      * In the meantime it checks with assertions that the placedSides list is correctly updated.
      */
     @Test
-    void testPlacedSides() {
+    void testPlacedSides() throws AlreadyAssignedException {
         StartCard sC;
         try {
             sC = (StartCard) sD.drawCard();
@@ -44,7 +44,7 @@ class KingdomTest {
         } catch (AlreadyAssignedException e) {
             throw new RuntimeException(e);
         }
-        p.chooseStartCardSide();
+        p.instantiateMyKingdom(sC, sC.getFront());
         Side placed = sC.getFront();
 
         assertEquals(1, p.getMyKingdom().getPlacedSides().size());
@@ -57,7 +57,6 @@ class KingdomTest {
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
-        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
         Position pos = p.getMyKingdom().getActivePositions().get(0);
         rC.getBack().placeInPosition(pos.getX(), pos.getY());
 
@@ -80,7 +79,6 @@ class KingdomTest {
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
-        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
         Position pos2 = p.getMyKingdom().getActivePositions().get(0);
         gC.getFront().placeInPosition(pos2.getX(), pos2.getY());
 
@@ -108,7 +106,7 @@ class KingdomTest {
      * In the meantime it checks with assertions that the activePosition list is correctly updated.
      */
     @Test
-    void testActivePositions() {
+    void testActivePositions() throws AlreadyAssignedException {
         StartCard sC;
         try {
             sC = (StartCard) sD.drawCard();
@@ -121,7 +119,7 @@ class KingdomTest {
         } catch (AlreadyAssignedException e) {
             throw new RuntimeException(e);
         }
-        p.chooseStartCardSide();
+        p.instantiateMyKingdom(sC, sC.getFront());
 
         Side placed = sC.getFront();    //STUB PLACES FRONT
 
@@ -139,7 +137,6 @@ class KingdomTest {
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
-        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
         Position pos = p.getMyKingdom().getActivePositions().get(0);
         rC.getBack().placeInPosition(pos.getX(), pos.getY());
 
@@ -170,7 +167,6 @@ class KingdomTest {
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
-        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
         Position pos2 = p.getMyKingdom().getActivePositions().get(0);
         gC.getFront().placeInPosition(pos2.getX(), pos2.getY());
 
@@ -210,7 +206,7 @@ class KingdomTest {
      * In the meantime it checks with assertions that the impossiblePositions list is correctly updated.
      */
     @Test
-    void testImpossiblePositions() {
+    void testImpossiblePositions() throws AlreadyAssignedException {
         StartCard sC;
         try {
             sC = (StartCard) sD.drawCard();
@@ -223,7 +219,7 @@ class KingdomTest {
         } catch (AlreadyAssignedException e) {
             throw new RuntimeException(e);
         }
-        p.chooseStartCardSide();
+        p.instantiateMyKingdom(sC, sC.getFront());
 
         Side placed = sC.getFront();    //STUB PLACES FRONT
 
@@ -241,7 +237,6 @@ class KingdomTest {
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
-        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
         Position pos = p.getMyKingdom().getActivePositions().get(0);
         rC.getBack().placeInPosition(pos.getX(), pos.getY());
 
@@ -273,7 +268,6 @@ class KingdomTest {
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
-        //LEAVE UNTIL PLACECARD() METHOD IS IMPLEMENTED
         Position pos2 = p.getMyKingdom().getActivePositions().get(0);
         gC.getFront().placeInPosition(pos2.getX(), pos2.getY());
 
@@ -327,7 +321,7 @@ class KingdomTest {
      * In the meantime it checks with assertions that the onFieldResources table is correctly updated.
      */
     @RepeatedTest(value = 100) //@Test
-    void testUpdateOnFieldResources() {
+    void testUpdateOnFieldResources() throws AlreadyAssignedException {
         StartCard sC;
         try {
             sC = (StartCard) sD.drawCard();
@@ -340,7 +334,7 @@ class KingdomTest {
         } catch (AlreadyAssignedException e) {
             throw new RuntimeException(e);
         }
-        p.chooseStartCardSide();
+        p.instantiateMyKingdom(sC, sC.getFront());
 
         Side placed = sC.getFront();    //STUB PLACES FRONT
 

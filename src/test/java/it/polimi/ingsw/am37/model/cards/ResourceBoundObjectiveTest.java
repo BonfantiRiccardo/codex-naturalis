@@ -39,10 +39,11 @@ public class ResourceBoundObjectiveTest {
 
         try {
             p.setStartCard(sC);
+            p.instantiateMyKingdom(sC, sC.getFront());
         } catch (AlreadyAssignedException e) {
             throw new RuntimeException(e);
         }
-        p.chooseStartCardSide();
+
         Side placed = sC.getFront();
 
 

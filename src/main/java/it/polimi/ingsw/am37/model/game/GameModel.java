@@ -243,6 +243,37 @@ public class GameModel {
     }
 
     /**
+     * The method setAvailableCards sets up the list of available and cards that the player is able to see and can draw
+     * when in his turn.
+     * @throws NoCardsException if the deck ran out of cards.
+     */
+    private void setAvailableCards() throws NoCardsException {
+        availableRCards = new ArrayList<>();
+        availableGCards = new ArrayList<>();
+        while(getAvailableGCards().size() < 2)
+            availableGCards.add(gDeck.drawCard());
+
+        while(getAvailableRCards().size() < 2)
+            availableRCards.add(rDeck.drawCard());
+    }
+
+    /**
+     * the method giveStartCard gives the player the choice of the first card he's going to place, the starting card.
+     * @param p is the player whose starting card is being given.
+     * @throws NoCardsException if the deck ran out of cards.
+     * @throws AlreadyAssignedException if the player has already had his starting card.
+     */
+    private void giveStartCard(Player p) throws NoCardsException, AlreadyAssignedException {
+        p.setStartCard(sDeck.drawCard());
+        try {
+            //game.getController().playerHasToChooseStartCardSide(this, startCard);//talks to controller that sends request to client
+            p.instantiateMyKingdom(p.getStartCard(), p.getStartCard().getFront());
+        } catch (/*WrongGamePhaseException |*/ AlreadyAssignedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * The chooseToken(p) method asks the player which token he wants and checks if anyone else has already chosen it.
      * If no one has, it assigns the token to the player.
      * @param p The player that has to choose the token.
@@ -265,21 +296,6 @@ public class GameModel {
             }
         }
         //gameController.playerHasToChooseToken(p);
-    }
-
-    /**
-     * The method setAvailableCards sets up the list of available and cards that the player is able to see and can draw
-     * when in his turn.
-     * @throws NoCardsException if the deck ran out of cards.
-     */
-    private void setAvailableCards() throws NoCardsException {
-        availableRCards = new ArrayList<>();
-        availableGCards = new ArrayList<>();
-        while(getAvailableGCards().size() < 2)
-            availableGCards.add(gDeck.drawCard());
-
-        while(getAvailableRCards().size() < 2)
-            availableRCards.add(rDeck.drawCard());
     }
 
     /**
@@ -309,18 +325,6 @@ public class GameModel {
     }
 
     /**
-     * the method giveStartCard gives the player the choice of the first card he's going to place, the starting card.
-     * @param p is the player whose starting card is being given.
-     * @throws NoCardsException if the deck ran out of cards.
-     * @throws AlreadyAssignedException if the player has already had his starting card.
-     */
-    private void giveStartCard(Player p) throws NoCardsException, AlreadyAssignedException {
-        p.setStartCard(sDeck.drawCard());
-        //gameController.playerHasToChooseStartCardSide(p, p.getStartCard);
-        p.chooseStartCardSide();
-    }
-
-    /**
      * the method giveObjectiveCards gives each player the choice of their personal objectives. Every player will be
      * able to see only their personal two objectives.
      * @param p is the player who's choosing their objectives.
@@ -330,8 +334,12 @@ public class GameModel {
         ObjectiveCard[] twoObjCards = new ObjectiveCard[2];
         twoObjCards[0] = oDeck.drawCard();
         twoObjCards[1] = oDeck.drawCard();
-        //gameController.playerHasToChooseObjective(p, twoObjCards);
-        p.chooseObjective(twoObjCards);
+        try {
+            //game.getController().playerHasToChooseObjective(this, objectiveArray); //talks to the controller and asks client which card
+            p.setPrivateObjective(twoObjCards[0]);
+        } catch (/*WrongGamePhaseException |*/ AlreadyAssignedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

@@ -97,13 +97,13 @@ class PlayerTest {
      * @throws AlreadyAssignedException Tests the Exception after creating the kingdom.
      */
     @Test
-    void chooseStartCardSideTest() throws NoCardsException, AlreadyAssignedException {
+    void createKingdomTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getMyKingdom());
         GameModel g = new GameModel(createListOfPlayer(), c);
         StartCard sC = g.getSDeck().drawCard();
         p.setStartCard(sC);
 
-        p.chooseStartCardSide();
+        p.instantiateMyKingdom(sC, sC.getFront());
         assertNotNull(p.getMyKingdom());
 
         assertThrows(AlreadyAssignedException.class, () -> p.instantiateMyKingdom(sC, sC.getFront()));
@@ -113,7 +113,7 @@ class PlayerTest {
      * Tests the set and get of the privateObjective attribute of the Player.
      */
     @Test
-    void chooseObjectiveTest() throws NoCardsException {
+    void chooseObjectiveTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getPrivateObjective());
         GameModel g = new GameModel(createListOfPlayer(), c);
 
@@ -121,7 +121,7 @@ class PlayerTest {
         param[0] = g.getODeck().drawCard();
         param[1] = g.getODeck().drawCard();
 
-        p.chooseObjective(param);
+        p.setPrivateObjective(param[0]);
         assertNotNull(p.getPrivateObjective());
     }
 
@@ -235,7 +235,7 @@ class PlayerTest {
 
         StartCard sC = g.getSDeck().drawCard();
         g.getParticipants().get(0).setStartCard(sC);
-        g.getParticipants().get(0).chooseStartCardSide();
+        g.getParticipants().get(0).instantiateMyKingdom(sC, sC.getFront());
 
         assertEquals(1, p.getMyKingdom().getPlacedSides().size());
 
