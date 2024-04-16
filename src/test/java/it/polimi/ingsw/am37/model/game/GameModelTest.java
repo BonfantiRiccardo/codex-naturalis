@@ -87,12 +87,14 @@ class GameModelTest {
      * Tests the playing phase method by checking that the turn flow progresses as expected.
      */
     @Test
-    void playingTest() throws AlreadyAssignedException {
+    void playingTest()  {
         g.playingPhase();
 
         assertTrue(g.getTurnCounter() > 0);
         assertTrue(g.getScoreboard().getParticipantsPoints().get(g.getCurrentTurn()) >= 20);
         assertEquals(g.getCurrentPhase(), GamePhase.ENDGAME);
+        System.out.println("current: " + g.getTurnCounter());
+        System.out.println("current player:" + g.getCurrentTurn().getNickname());
     }
 
     /**
@@ -100,7 +102,14 @@ class GameModelTest {
      * last turn is reached the getGameWinner method is called, and we can declare the winner.
      */
     @Test
-    void endgameTest() {}
+    void endgameTest() throws NoCardsException, AlreadyAssignedException {
+        g.preparationPhase();
+        g.playingPhase();
+        assertEquals(95,g.getTurnCounter());
+        g.endGamePhase();
+        assertEquals(100, g.getTurnCounter());
+
+    }
 
     /**
      * Tests the set and get method for the disconnectedPlayer list.

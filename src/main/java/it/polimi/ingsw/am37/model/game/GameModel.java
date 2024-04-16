@@ -346,9 +346,8 @@ public class GameModel {
      * able to see only their personal two objectives.
      * @param p is the player who's choosing their objectives.
      * @throws NoCardsException if the deck ran out of cards.
-     * @throws AlreadyAssignedException if the player already chose his objectives.
      */
-    private void giveObjectiveCards(Player p) throws NoCardsException, AlreadyAssignedException {
+    private void giveObjectiveCards(Player p) throws NoCardsException {
         ObjectiveCard[] twoObjCards = new ObjectiveCard[2];
         twoObjCards[0] = (ObjectiveCard) oDeck.drawCard();
         twoObjCards[1] = (ObjectiveCard) oDeck.drawCard();
@@ -361,7 +360,7 @@ public class GameModel {
      */
     public void playingPhase() {
         turnCounter = 1;
-        currentTurn = participantsInOrder.get(0);
+        currentTurn = participantsInOrder.getFirst();
         while (true) {
             System.out.println("Notify the player");                                // STUB THAT RANDOMLY ASSIGNS POINTS
             System.out.println("Player places card");                               // SO THAT THE METHOD STOPS LOOPING
@@ -405,7 +404,7 @@ public class GameModel {
         if (currIdx + 1 < participantsInOrder.size()) {
             currentTurn = participantsInOrder.get(currIdx + 1);
         } else {
-            currentTurn = participantsInOrder.get(0);
+            currentTurn = participantsInOrder.getFirst();
         }
     }
 
@@ -417,11 +416,27 @@ public class GameModel {
      */
     public void endGamePhase() {
 
+        nextTurn();
+
         lastTurn=turnCounter+(participantsInOrder.size()-participantsInOrder.indexOf(currentTurn)-1)+participantsInOrder.size();
 
+        while (turnCounter<=lastTurn) {
+            System.out.println("Notify the player");                                // STUB THAT RANDOMLY ASSIGNS POINTS
+            System.out.println("Player places card");                               // SO THAT THE METHOD STOPS LOOPING
+            //STUB TO RANDOMLY ADD POINTS TO THE PLAYER                             // EVENTUALLY
+            if (turnCounter % 5 == 0)                                               //
+                scoreboard.addPoints(currentTurn, 3);                        //
+            System.out.println("Player draws card");                                //
+            //gameController.notifyTurn(currentTurn);
+            nextTurn();
+        }
         System.out.println("This will be the last turn: " + lastTurn);
         PlayerPoints[] finalResults = getGameWinner();
-        System.out.println(Arrays.toString(finalResults));
+        for (PlayerPoints finalResult : finalResults) {
+            System.out.println(finalResult.getPlayer().getNickname());
+            System.out.println(finalResult.getPoints());
+            System.out.println(finalResult.getNumOfCompletion());
+        }
     }
 
     /**
