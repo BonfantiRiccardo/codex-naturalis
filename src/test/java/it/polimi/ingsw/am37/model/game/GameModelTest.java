@@ -1,19 +1,14 @@
 package it.polimi.ingsw.am37.model.game;
 
-import com.sun.javafx.charts.ChartLayoutAnimator;
 import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
-import it.polimi.ingsw.am37.model.cards.objective.ResourcesBoundObjective;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.exceptions.*;
-import it.polimi.ingsw.am37.model.player.Kingdom;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
+import it.polimi.ingsw.am37.model.sides.*;
 
-import it.polimi.ingsw.am37.model.sides.Back;
-import it.polimi.ingsw.am37.model.sides.Corner;
-import it.polimi.ingsw.am37.model.sides.Position;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +35,7 @@ class GameModelTest {
      * Tests the preparationPhase method by checking that the Cards were drawn and assigned correctly.
      */
     @Test
-    void preparationTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
+    void preparationTest() throws NoCardsException, AlreadyAssignedException {
         g.preparationPhase();
 
         boolean objCheck = true;
@@ -95,7 +90,7 @@ class GameModelTest {
      * Tests the playing phase method by checking that the turn flow progresses as expected.
      */
     @Test
-    void playingTest() throws AlreadyAssignedException {
+    void playingTest() {
         g.playingPhase();
 
         assertTrue(g.getTurnCounter() > 0);
@@ -108,7 +103,13 @@ class GameModelTest {
      * last turn is reached the getGameWinner method is called, and we can declare the winner.
      */
     @Test
-    void endgameTest() {}
+    void endgameTest() throws NoCardsException, AlreadyAssignedException {
+        g.preparationPhase();
+        g.playingPhase();
+        assertEquals(95,g.getTurnCounter());
+        g.endGamePhase();
+        assertEquals(100, g.getTurnCounter());
+    }
 
     /**
      * Tests the set and get method for the disconnectedPlayer list.
@@ -137,9 +138,9 @@ class GameModelTest {
     void getGameWinnerTest() throws NoCardsException, AlreadyAssignedException {
         Player p1=new Player("a");
         Player p2=new Player("b");
-        Corner useless=new Corner(true,Resource.EMPTY);
-        Back bsc=new Back(useless,useless,useless,useless,Resource.EMPTY);
-        StartCard sc=new StartCard(0,null,bsc,null);
+        //Corner useless=new Corner(true,Resource.EMPTY);
+        //Back bsc=new Back(useless,useless,useless,useless,Resource.EMPTY);
+        //StartCard sc=new StartCard(0,null,bsc,null);
         ArrayList<Player> giocatori=new ArrayList<>();
         giocatori.add(p1);
         giocatori.add(p2);
@@ -157,7 +158,7 @@ class GameModelTest {
             x++;
             y++;
 
-            p1.getHand().add((StandardCard) g.getRDeck().drawCard());
+            p1.getHand().add(g.getRDeck().drawCard());
         }
         x = 1;
         y = 1;
@@ -167,11 +168,11 @@ class GameModelTest {
             x++;
             y++;
 
-            p2.getHand().add((StandardCard) g.getRDeck().drawCard());
+            p2.getHand().add(g.getRDeck().drawCard());
         }
 
         PlayerPoints[] listafinale=g.getGameWinner();
-        if(listafinale[0].getPoints()==listafinale[1].getPoints()){
+        if(Objects.equals(listafinale[0].getPoints(), listafinale[1].getPoints())){
             assertTrue(listafinale[0].getNumOfCompletion()>=listafinale[1].getNumOfCompletion());
         }
         else{
