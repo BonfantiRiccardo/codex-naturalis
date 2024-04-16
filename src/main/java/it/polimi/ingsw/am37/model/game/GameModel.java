@@ -429,13 +429,11 @@ public class GameModel {
      * @return The final Scoreboard of the game.
      */
     public PlayerPoints[] getGameWinner(){
-        //Hashtable<Player, Integer> finalPoints = new Hashtable<>();
-        //List<PlayerPoints> finalPoints= new ArrayList<>();
         PlayerPoints[] finalPoints= new PlayerPoints[participantsInOrder.size()];
-        int points;
         Hashtable<Player, Integer> playerPoints = scoreboard.getParticipantsPoints();
         int i=0;
         int j;
+        int points;
         int compl;
         PlayerPoints temp;
 
@@ -449,12 +447,17 @@ public class GameModel {
             //finalPoints.put(p, points);
             finalPoints[i]=new PlayerPoints(p, points, compl);
             for(j=i-1; j>=0; j-- ){
-                if(finalPoints[j].getPoints() == points){
-                    if(compl>finalPoints[j].getNumOfCompletion()){
-                        temp=finalPoints[j];
-                        finalPoints[j]=finalPoints[i];
-                        finalPoints[i]=temp;
-                    }
+                if(finalPoints[j].getPoints() < points){
+                    temp=finalPoints[j];
+                    finalPoints[j]=finalPoints[j+1];
+                    finalPoints[j+1]=temp;
+                }
+                else if(finalPoints[j].getPoints() == points){
+                        if(compl>finalPoints[j].getNumOfCompletion()){
+                            temp=finalPoints[j];
+                            finalPoints[j]=finalPoints[j+1];
+                            finalPoints[j+1]=temp;
+                        }
                 }
             }
             i++;

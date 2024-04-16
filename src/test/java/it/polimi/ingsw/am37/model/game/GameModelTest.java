@@ -1,13 +1,20 @@
 package it.polimi.ingsw.am37.model.game;
 
+import com.sun.javafx.charts.ChartLayoutAnimator;
 import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
+import it.polimi.ingsw.am37.model.cards.objective.ResourcesBoundObjective;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.exceptions.*;
+import it.polimi.ingsw.am37.model.player.Kingdom;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 
+import it.polimi.ingsw.am37.model.sides.Back;
+import it.polimi.ingsw.am37.model.sides.Corner;
+import it.polimi.ingsw.am37.model.sides.Position;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -122,4 +129,77 @@ class GameModelTest {
         assertFalse(pl1.isDisconnected());
     }
 
+    /**
+     * Tests the method that returns the final ranking of the match
+     */
+    @RepeatedTest (value = 100)//@Test
+    void getGameWinnerTest() throws NoCardsException, AlreadyAssignedException {
+        Player p1=new Player("a");
+        Player p2=new Player("b");
+        Corner useless=new Corner(true,Resource.EMPTY);
+        Back bsc=new Back(useless,useless,useless,useless,Resource.EMPTY);
+        StartCard sc=new StartCard(0,null,bsc,null);
+        //Kingdom k1=new Kingdom(sc, bsc);
+        //Kingdom k2=new Kingdom(sc, bsc);
+
+
+
+        ArrayList<Player> giocatori=new ArrayList<>();
+        giocatori.add(p1);
+        giocatori.add(p2);
+
+        GameModel g = new GameModel(giocatori);
+        /*p1.instantiateMyKingdom(sc,bsc);
+        p2.instantiateMyKingdom(sc,bsc);
+
+        p1.drawCardFromDeck(g.getRDeck());
+        p1.drawCardFromDeck(g.getRDeck());
+        p1.drawCardFromDeck(g.getRDeck());
+        p2.drawCardFromDeck(g.getRDeck());
+        p2.drawCardFromDeck(g.getRDeck());
+        p2.drawCardFromDeck(g.getRDeck());
+
+        ObjectiveCard red=;
+        ObjectiveCard blue=;
+        ObjectiveCard purp=;
+        ObjectiveCard green=;
+
+        g.set
+
+
+        public obj
+        private obj
+         */
+        g.preparationPhase();
+
+        int x = 1;
+        int y = 1;
+        while (x < 15) {
+            p1.placeCard(p1.getHand().get(0), p1.getHand().get(0).getBack(), new Position(x,y));
+
+            x++;
+            y++;
+
+            p1.getHand().add((StandardCard) g.getRDeck().drawCard());
+        }
+        x = 1;
+        y = 1;
+        while (x < 15) {
+            p2.placeCard(p2.getHand().get(0), p2.getHand().get(0).getBack(), new Position(x,y));
+
+            x++;
+            y++;
+
+            p2.getHand().add((StandardCard) g.getRDeck().drawCard());
+        }
+
+        PlayerPoints[] listafinale=g.getGameWinner();
+        if(listafinale[0].getPoints()==listafinale[1].getPoints()){
+            assertTrue(listafinale[0].getNumOfCompletion()>=listafinale[1].getNumOfCompletion());
+        }
+        else{
+            assertTrue(listafinale[0].getPoints()>listafinale[1].getPoints());
+        }
+
+    }
 }
