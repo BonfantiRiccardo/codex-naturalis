@@ -259,9 +259,9 @@ public class Player {
             hand.add(card);
             game.getAvailableGCards().remove(card);
             if (!game.getGDeck().isEmpty()) {
-                game.getAvailableGCards().add((StandardCard) game.getGDeck().drawCard());
+                game.getAvailableGCards().add(game.getGDeck().drawCard());
             } else if (!game.getRDeck().isEmpty()) {
-                game.getAvailableGCards().add((StandardCard) game.getRDeck().drawCard());
+                game.getAvailableGCards().add(game.getRDeck().drawCard());
             }
             System.out.println("Your hand now: ");
             for (StandardCard sC : hand) System.out.println(sC.toString());
@@ -270,9 +270,9 @@ public class Player {
             hand.add(card);
             game.getAvailableRCards().remove(card);
             if (!game.getRDeck().isEmpty()) {
-                game.getAvailableRCards().add((StandardCard) game.getRDeck().drawCard());
+                game.getAvailableRCards().add(game.getRDeck().drawCard());
             } else if (!game.getGDeck().isEmpty()) {
-                game.getAvailableRCards().add((StandardCard) game.getGDeck().drawCard());
+                game.getAvailableRCards().add(game.getGDeck().drawCard());
             }
             System.out.println("Your hand now: ");
             for (StandardCard sC : hand) System.out.println(sC.toString());
@@ -294,7 +294,7 @@ public class Player {
     public void placeCard(StandardCard card, Side toPlace, Position position) {
         int cornersLinked = 0;
 
-        if (!hand.contains(card)) {
+        if (!hand.contains(card)) {     //MOVE ALL THIS TO THE CONTROLLER
             System.out.println("You do not possess this Card, you cannot place it.");
         } else if (hand.contains(card) && !myKingdom.getActivePositions().contains(position)) {
             System.out.println("You cannot place the Card in this position.");

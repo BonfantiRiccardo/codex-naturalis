@@ -3,6 +3,8 @@ package it.polimi.ingsw.am37.model.decks;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.am37.model.cards.CardCreator;
 import it.polimi.ingsw.am37.model.cards.placeable.ResourceCard;
+import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
+import it.polimi.ingsw.am37.model.exceptions.NoCardsException;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -41,5 +43,14 @@ public class ResourceDeck extends Deck {
         cards.addAll(cc.createCards(fileName, cardListType));
 
         shuffle();
+    }
+
+    public StandardCard drawCard() throws NoCardsException {
+        if (!cards.isEmpty())  {
+            StandardCard c = (StandardCard) cards.get(0);
+            cards.remove(0);
+
+            return c;
+        } else throw new NoCardsException("No cards remaining in the deck");
     }
 }

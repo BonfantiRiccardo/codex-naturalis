@@ -1,6 +1,6 @@
 package it.polimi.ingsw.am37.model.player;
 
-//import it.polimi.ingsw.am37.controller.GameController;
+import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.exceptions.*;
@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
     Player p = new Player("Riccardo");
     Player p2 = new Player("Alberto");
+    GameController c = new GameController(p, 1);
 
     /**
      * Testing the get method for the nickname attribute.
@@ -46,7 +47,7 @@ class PlayerTest {
     @Test
     void setGetGameTest() {
         assertNull(p.getGame());
-        GameModel g = new GameModel(createListOfPlayer());
+        GameModel g = new GameModel(createListOfPlayer(), c);
         assertEquals(p.getGame(), g);
         assertThrows(AlreadyAssignedException.class, () -> p.setGame(g));
     }
@@ -67,11 +68,11 @@ class PlayerTest {
     @Test
     void setGetHandTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getHand());
-        GameModel g = new GameModel(createListOfPlayer());
+        GameModel g = new GameModel(createListOfPlayer(), c);
         List<StandardCard> hand = new ArrayList<>();
-        hand.add((StandardCard) g.getGDeck().drawCard());
-        hand.add((StandardCard) g.getRDeck().drawCard());
-        hand.add((StandardCard) g.getRDeck().drawCard());
+        hand.add(g.getGDeck().drawCard());
+        hand.add(g.getRDeck().drawCard());
+        hand.add(g.getRDeck().drawCard());
         p.setHand(hand);
         assertEquals(p.getHand(), hand);
         assertThrows(AlreadyAssignedException.class, () -> p.setHand(hand));
@@ -84,11 +85,11 @@ class PlayerTest {
     @Test
     void setStartCardTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getStartCard());
-        GameModel g = new GameModel(createListOfPlayer());
-        StartCard sC = (StartCard) g.getSDeck().drawCard();
+        GameModel g = new GameModel(createListOfPlayer(), c);
+        StartCard sC = g.getSDeck().drawCard();
         p.setStartCard(sC);
         assertEquals(p.getStartCard(), sC);
-        assertThrows(AlreadyAssignedException.class, () -> p.setStartCard((StartCard) g.getSDeck().drawCard()));
+        assertThrows(AlreadyAssignedException.class, () -> p.setStartCard(g.getSDeck().drawCard()));
     }
 
     /**
@@ -98,8 +99,8 @@ class PlayerTest {
     @Test
     void chooseStartCardSideTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getMyKingdom());
-        GameModel g = new GameModel(createListOfPlayer());
-        StartCard sC = (StartCard) g.getSDeck().drawCard();
+        GameModel g = new GameModel(createListOfPlayer(), c);
+        StartCard sC = g.getSDeck().drawCard();
         p.setStartCard(sC);
 
         p.chooseStartCardSide();
@@ -114,11 +115,11 @@ class PlayerTest {
     @Test
     void chooseObjectiveTest() throws NoCardsException {
         assertNull(p.getPrivateObjective());
-        GameModel g = new GameModel(createListOfPlayer());
+        GameModel g = new GameModel(createListOfPlayer(), c);
 
         ObjectiveCard[] param = new ObjectiveCard[2];
-        param[0] = (ObjectiveCard) g.getODeck().drawCard();
-        param[1] = (ObjectiveCard) g.getODeck().drawCard();
+        param[0] = g.getODeck().drawCard();
+        param[1] = g.getODeck().drawCard();
 
         p.chooseObjective(param);
         assertNotNull(p.getPrivateObjective());
@@ -129,11 +130,11 @@ class PlayerTest {
      */
     @Test
     void drawCardFromDeckTest() throws NoCardsException, AlreadyAssignedException {
-        GameModel g = new GameModel(createListOfPlayer());
+        GameModel g = new GameModel(createListOfPlayer(), c);
         List<StandardCard> hand = new ArrayList<>();
-        hand.add((StandardCard) g.getGDeck().drawCard());
-        hand.add((StandardCard) g.getRDeck().drawCard());
-        hand.add((StandardCard) g.getRDeck().drawCard());
+        hand.add(g.getGDeck().drawCard());
+        hand.add(g.getRDeck().drawCard());
+        hand.add(g.getRDeck().drawCard());
         p.setHand(hand);
         assertEquals(3, p.getHand().size());
         System.out.println("The following text should be printed in the next line: \"You cannot draw, you already have 3 Cards in your hand\"");
@@ -163,7 +164,8 @@ class PlayerTest {
      */
     @Test
     void drawCardFromAvailableTest() throws AlreadyAssignedException, NoCardsException {
-        GameModel g = new GameModel(createListOfPlayer2());
+        GameController c = new GameController(p, 2);
+        GameModel g = new GameModel(createListOfPlayer2(), c);
         g.preparationPhase();
 
         assertEquals(3, p2.getHand().size());
@@ -174,7 +176,7 @@ class PlayerTest {
         assertEquals(2, p2.getHand().size());
 
         System.out.println("The following text should be printed in the next line: \"The Card you want to draw is not available\"");
-        p2.drawCardFromAvailable((StandardCard) g.getGDeck().drawCard());
+        p2.drawCardFromAvailable(g.getGDeck().drawCard());
         assertEquals(2, p2.getHand().size());
 
         p2.drawCardFromAvailable(g.getAvailableGCards().get(0));
@@ -186,7 +188,7 @@ class PlayerTest {
         assertEquals(2, p2.getHand().size());
 
         System.out.println("The following text should be printed in the next line: \"The Card you want to draw is not available\"");
-        p2.drawCardFromAvailable((StandardCard) g.getRDeck().drawCard());
+        p2.drawCardFromAvailable(g.getRDeck().drawCard());
         assertEquals(2, p2.getHand().size());
 
         p2.drawCardFromAvailable(g.getAvailableRCards().get(0));
@@ -224,20 +226,20 @@ class PlayerTest {
     //@Test
     @RepeatedTest(value = 100)
     void placeCardTest() throws NoCardsException, AlreadyAssignedException {
-        GameModel g = new GameModel(createListOfPlayer());
+        GameModel g = new GameModel(createListOfPlayer(), c);
         List<StandardCard> hand = new ArrayList<>();
-        hand.add((StandardCard) g.getRDeck().drawCard());
-        hand.add((StandardCard) g.getRDeck().drawCard());
-        hand.add((StandardCard) g.getGDeck().drawCard());
+        hand.add(g.getRDeck().drawCard());
+        hand.add(g.getRDeck().drawCard());
+        hand.add(g.getGDeck().drawCard());
         g.getParticipants().get(0).setHand(hand);
 
-        StartCard sC = (StartCard) g.getSDeck().drawCard();
+        StartCard sC = g.getSDeck().drawCard();
         g.getParticipants().get(0).setStartCard(sC);
         g.getParticipants().get(0).chooseStartCardSide();
 
         assertEquals(1, p.getMyKingdom().getPlacedSides().size());
 
-        StandardCard notInHand = (StandardCard) g.getGDeck().drawCard();
+        StandardCard notInHand = g.getGDeck().drawCard();
         System.out.println("The following text should be printed in the next line: \"You do not possess this Card, you cannot place it.\"");
         p.placeCard(notInHand, notInHand.getBack(), new Position(1,1));
         assertEquals(1, p.getMyKingdom().getPlacedSides().size());
@@ -253,7 +255,7 @@ class PlayerTest {
         p.placeCard(p.getHand().get(0), p.getHand().get(0).getBack(), new Position(1,1));
         assertEquals(2, p.getMyKingdom().getPlacedSides().size());
 
-        StandardCard gold = (StandardCard) g.getGDeck().drawCard();
+        StandardCard gold = g.getGDeck().drawCard();
         p.getHand().add(gold);
         boolean check = true;
         for (Resource r: gold.getFront().getResourcePlacementCondition().keySet())
@@ -269,7 +271,7 @@ class PlayerTest {
 
             if (gold.getFront().getResourcePlacementCondition().keySet().size() == 1) {
                 p.getHand().remove(gold);
-                p.getHand().add((StandardCard) g.getRDeck().drawCard());
+                p.getHand().add(g.getRDeck().drawCard());
 
                 Resource goal = null;
                 for (Resource r: gold.getFront().getResourcePlacementCondition().keySet())
@@ -283,10 +285,10 @@ class PlayerTest {
                         x++;
                         y++;
                         numRes++;
-                        p.getHand().add((StandardCard) g.getRDeck().drawCard());
+                        p.getHand().add(g.getRDeck().drawCard());
                     } else {
                         p.getHand().remove(0);
-                        p.getHand().add((StandardCard) g.getRDeck().drawCard());
+                        p.getHand().add(g.getRDeck().drawCard());
                     }
                 }
 
@@ -308,7 +310,7 @@ class PlayerTest {
     //@Test
     @RepeatedTest(value = 100)
     void addPointsTest() throws NoCardsException, AlreadyAssignedException {
-        GameModel g = new GameModel(createListOfPlayer());
+        GameModel g = new GameModel(createListOfPlayer(), c);
         g.preparationPhase();
 
         int x = 1;
@@ -319,14 +321,14 @@ class PlayerTest {
             x++;
             y++;
 
-            p.getHand().add((StandardCard) g.getRDeck().drawCard());
+            p.getHand().add(g.getRDeck().drawCard());
         }
 
         p.getHand().clear();
 
-        p.getHand().add((StandardCard) g.getGDeck().drawCard());
-        p.getHand().add((StandardCard) g.getGDeck().drawCard());
-        p.getHand().add((StandardCard) g.getGDeck().drawCard());
+        p.getHand().add(g.getGDeck().drawCard());
+        p.getHand().add(g.getGDeck().drawCard());
+        p.getHand().add(g.getGDeck().drawCard());
 
         int numQ; int numI; int numM ;
 

@@ -48,14 +48,7 @@ public abstract class Deck {
      * @throws NoCardsException the exception prints the string in the console so that the user knows he will not be
      * able to draw again.
      */
-    public Card drawCard () throws NoCardsException {
-        if (!cards.isEmpty())  {
-            Card c = cards.get(0);
-            cards.remove(0);
-
-            return c;
-        } else throw new NoCardsException("No cards remaining in the deck");
-    }
+    public abstract Card drawCard() throws NoCardsException;
 
     /**
      * The isEmpty() method is used by non-package classes to know if the list of cards in the deck is empty either

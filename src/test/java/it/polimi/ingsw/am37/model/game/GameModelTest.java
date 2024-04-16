@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.model.game;
 
+//import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
@@ -17,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameModelTest {
     Player pl1 = new Player("Riccardo");
-    GameModel g = new GameModel(createList());
+    GameController c = new GameController(pl1, 3);
+    GameModel g = new GameModel(createList(), c);
 
 
     public List<Player> createList() {
@@ -32,7 +34,7 @@ class GameModelTest {
      * Tests the preparationPhase method by checking that the Cards were drawn and assigned correctly.
      */
     @Test
-    void preparationTest() throws NoCardsException, AlreadyAssignedException, InterruptedException {
+    void preparationTest() throws NoCardsException, AlreadyAssignedException {
         g.preparationPhase();
 
         boolean objCheck = true;
