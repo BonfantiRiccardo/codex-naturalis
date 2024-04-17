@@ -62,9 +62,9 @@ public class LShapeTest {
      */
     //@Test
     @RepeatedTest(value = 10)
-    void calculateNumOfCompletionTest() throws NoCardsException, AlreadyAssignedException {
+    void calculateNumOfCompletionTest() throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
         StartCard sC = g.getSDeck().drawCard();
-
+        p.setStartCard(sC);
         p.instantiateMyKingdom(sC, sC.getFront());
 
         ObjectiveCard oC = g.getODeck().drawCard();

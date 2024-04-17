@@ -19,9 +19,9 @@ class KingdomTest {
     Player p = new Player("Riccardo");
 
     CardCreator cc = new CardCreator();
-    Deck gD = new GoldDeck(cc);
-    Deck rD = new ResourceDeck(cc);
-    Deck sD = new StartDeck(cc);
+    GoldDeck gD = new GoldDeck(cc);
+    ResourceDeck rD = new ResourceDeck(cc);
+    StartDeck sD = new StartDeck(cc);
 
     /**
      * Test the correct placing of sides of the cards in the kingdom. It does not use the placeCard method of the Player
@@ -31,10 +31,10 @@ class KingdomTest {
      * In the meantime it checks with assertions that the placedSides list is correctly updated.
      */
     @Test
-    void testPlacedSides() throws AlreadyAssignedException {
+    void testPlacedSides() throws AlreadyAssignedException, IncorrectUserActionException {
         StartCard sC;
         try {
-            sC = (StartCard) sD.drawCard();
+            sC = sD.drawCard();
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
@@ -106,10 +106,10 @@ class KingdomTest {
      * In the meantime it checks with assertions that the activePosition list is correctly updated.
      */
     @Test
-    void testActivePositions() throws AlreadyAssignedException {
+    void testActivePositions() throws AlreadyAssignedException, IncorrectUserActionException {
         StartCard sC;
         try {
-            sC = (StartCard) sD.drawCard();
+            sC = sD.drawCard();
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
@@ -206,10 +206,10 @@ class KingdomTest {
      * In the meantime it checks with assertions that the impossiblePositions list is correctly updated.
      */
     @Test
-    void testImpossiblePositions() throws AlreadyAssignedException {
+    void testImpossiblePositions() throws AlreadyAssignedException, IncorrectUserActionException {
         StartCard sC;
         try {
-            sC = (StartCard) sD.drawCard();
+            sC = sD.drawCard();
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }
@@ -321,10 +321,10 @@ class KingdomTest {
      * In the meantime it checks with assertions that the onFieldResources table is correctly updated.
      */
     @RepeatedTest(value = 100) //@Test
-    void testUpdateOnFieldResources() throws AlreadyAssignedException {
+    void testUpdateOnFieldResources() throws AlreadyAssignedException, IncorrectUserActionException {
         StartCard sC;
         try {
-            sC = (StartCard) sD.drawCard();
+            sC = sD.drawCard();
         } catch (NoCardsException e) {
             throw new RuntimeException(e);
         }

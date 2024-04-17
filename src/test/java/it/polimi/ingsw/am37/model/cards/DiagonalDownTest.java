@@ -5,6 +5,7 @@ import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
 import it.polimi.ingsw.am37.model.exceptions.AlreadyAssignedException;
+import it.polimi.ingsw.am37.model.exceptions.IncorrectUserActionException;
 import it.polimi.ingsw.am37.model.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.model.game.GameModel;
 import it.polimi.ingsw.am37.model.game.Resource;
@@ -57,9 +58,9 @@ public class DiagonalDownTest {
      */
     //@Test
     @RepeatedTest(value = 5)
-    void calculateNumOfCompletionTest1() throws NoCardsException, AlreadyAssignedException {
+    void calculateNumOfCompletionTest1() throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
         StartCard sC = g.getSDeck().drawCard();
-
+        p.setStartCard(sC);
         p.instantiateMyKingdom(sC, sC.getFront());
 
         ObjectiveCard oC = g.getODeck().drawCard();
@@ -121,9 +122,9 @@ public class DiagonalDownTest {
      */
     @RepeatedTest(value = 5)
     //@Test
-    void calculateNumOfCompletionTest2() throws NoCardsException, AlreadyAssignedException {
+    void calculateNumOfCompletionTest2() throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
         StartCard sC = g.getSDeck().drawCard();
-
+        p.setStartCard(sC);
         p.instantiateMyKingdom(sC, sC.getFront());
 
         ObjectiveCard oC = g.getODeck().drawCard();

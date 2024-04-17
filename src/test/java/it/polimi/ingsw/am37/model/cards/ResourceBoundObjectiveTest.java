@@ -40,7 +40,7 @@ public class ResourceBoundObjectiveTest {
         try {
             p.setStartCard(sC);
             p.instantiateMyKingdom(sC, sC.getFront());
-        } catch (AlreadyAssignedException e) {
+        } catch (AlreadyAssignedException | IncorrectUserActionException e) {
             throw new RuntimeException(e);
         }
 

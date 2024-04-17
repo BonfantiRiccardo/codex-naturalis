@@ -5,5 +5,7 @@ public enum GameStatus {
     WAIT_TOKEN,
     WAIT_OBJECTIVE,
     WAIT_PLACE,
-    WAIT_DRAW
+    WAIT_DRAW,
+    LOADING,
+    OVER
 }

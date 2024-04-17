@@ -187,11 +187,14 @@ public class Player {
      * @param startSide The StartCard Side that the Player chose.
      * @throws AlreadyAssignedException Throws this exception if the Kingdom has already been created.
      */
-    public void instantiateMyKingdom(StartCard sC, Side startSide) throws AlreadyAssignedException {
+    public void instantiateMyKingdom(StartCard sC, Side startSide) throws AlreadyAssignedException, IncorrectUserActionException {
         if (this.myKingdom != null) {
             throw new AlreadyAssignedException("The Kingdom cannot be created twice");
-        } else
+        } else if (!startCard.equals(sC))
+            throw new IncorrectUserActionException("The start card you want to place is not the one assigned to you.");
+        else if (sC.getFront().equals(startSide) || sC.getBack().equals(startSide))
             this.myKingdom = new Kingdom(sC, startSide);
+        else throw new IncorrectUserActionException("The side you want to place is does not correspond to the one of your start card.");
     }
 
     /**
@@ -211,7 +214,7 @@ public class Player {
         if (hand.size() >= 3)
             System.out.println("You cannot draw, you already have 3 Cards in your hand");
         else {
-            hand.add((StandardCard) deck.drawCard());
+            hand.add((StandardCard) deck.drawCard());   //TODO: cambiare aggiungendo classe StandardDeck che sta sopra gold e resource
             System.out.println("Your hand now: ");
             for (StandardCard sC : hand) System.out.println(sC.toString());
         }

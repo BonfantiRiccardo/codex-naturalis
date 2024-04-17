@@ -21,7 +21,8 @@ public class GameModel {
      * The currentPhase attribute gives information about the current phase of the game.
      */
     private GamePhase currentPhase;
-    private final GameController gameController;
+    private GameStatus currentStatus;
+    private GameController gameController;
     /**
      * The participantsInOrder attribute is a list of all the participants in the order of their turns.
      */
@@ -108,7 +109,7 @@ public class GameModel {
         rDeck = new ResourceDeck(cardCreator);
         oDeck = new ObjectiveDeck(cardCreator);
 
-        setCurrentPhase(GamePhase.PREPARATION);
+        currentPhase = GamePhase.PREPARATION;
     }
 
     /**
@@ -120,6 +121,22 @@ public class GameModel {
     }
 
     /**
+     * The setCurrentPhase(currentPhase) method updates the value of the currentPhase attribute.
+     * @param currentPhase A value of the GamePhase enumeration.
+     */
+    public void setCurrentPhase(GamePhase currentPhase) {       //private?
+        this.currentPhase = currentPhase;
+    }
+
+    public GameStatus getCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(GameStatus currentStatus) {
+        this.currentStatus = currentStatus;
+    }
+
+    /**
      * The getController() method returns the controller object that is linked to this instance of the game model.
      * @return The gameController attribute.
      */
@@ -127,13 +144,11 @@ public class GameModel {
         return gameController;
     }
 
-    /**
-     * The setCurrentPhase(currentPhase) method updates the value of the currentPhase attribute.
-     * @param currentPhase A value of the GamePhase enumeration.
-     */
-    public void setCurrentPhase(GamePhase currentPhase) {       //private?
-        this.currentPhase = currentPhase;
+    public void setGameController(GameController gameController) throws AlreadyAssignedException {
+        this.gameController = gameController;
+        this.gameController.setGameInstance(this);
     }
+
 
     /**
      * The getParticipants() method returns the list of Player that participates in the game.
@@ -219,7 +234,7 @@ public class GameModel {
      * @throws AlreadyAssignedException Thrown when trying to assign an attribute that has already been assigned and
      *                                  can only be assigned once.
      */
-    public void preparationPhase() throws NoCardsException, AlreadyAssignedException {
+    public void preparationPhase() throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
         setAvailableCards();
 
         for (Player p : participantsInOrder) {
@@ -263,7 +278,7 @@ public class GameModel {
      * @throws NoCardsException if the deck ran out of cards.
      * @throws AlreadyAssignedException if the player has already had his starting card.
      */
-    private void giveStartCard(Player p) throws NoCardsException, AlreadyAssignedException {
+    private void giveStartCard(Player p) throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
         p.setStartCard(sDeck.drawCard());
         try {
             //game.getController().playerHasToChooseStartCardSide(this, startCard);//talks to controller that sends request to client
@@ -348,6 +363,7 @@ public class GameModel {
      */
     public void playingPhase() {
         turnCounter = 1;
+        //Collections.shuffle(participantsInOrder);
         currentTurn = participantsInOrder.getFirst();
         while (true) {
             System.out.println("Notify the player");                                // STUB THAT RANDOMLY ASSIGNS POINTS
