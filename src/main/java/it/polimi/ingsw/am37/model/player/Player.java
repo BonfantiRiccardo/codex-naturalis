@@ -2,7 +2,8 @@ package it.polimi.ingsw.am37.model.player;
 
 import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
-import it.polimi.ingsw.am37.model.decks.Deck;
+import it.polimi.ingsw.am37.model.decks.GoldDeck;
+import it.polimi.ingsw.am37.model.decks.ResourceDeck;
 import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.game.*;
 import it.polimi.ingsw.am37.model.sides.*;
@@ -209,14 +210,22 @@ public class Player {
      * The drawCardFromDeck(deck) method adds a Card to the hand of the player by drawing it from the deck given as a
      * parameter.
      * @param deck The deck from which the Player has chosen to draw the Card.
+     * @throws NoCardsException when the deck is empty.
+     * @throws IncorrectUserActionException when the player already has 3 cards in his hands.
      */
-    public void drawCardFromDeck(Deck deck) throws NoCardsException {
+    public void drawCardFromDeck(ResourceDeck deck) throws NoCardsException, IncorrectUserActionException {
         if (hand.size() >= 3)
-            System.out.println("You cannot draw, you already have 3 Cards in your hand");
+            throw new IncorrectUserActionException ("You cannot draw, you already have 3 Cards in your hand");
         else {
-            hand.add((StandardCard) deck.drawCard());   //TODO: cambiare aggiungendo classe StandardDeck che sta sopra gold e resource
-            System.out.println("Your hand now: ");
-            for (StandardCard sC : hand) System.out.println(sC.toString());
+            hand.add(deck.drawCard());
+        }
+    }
+
+    public void drawCardFromDeck(GoldDeck deck) throws NoCardsException, IncorrectUserActionException {
+        if (hand.size() >= 3)
+            throw new IncorrectUserActionException ("You cannot draw, you already have 3 Cards in your hand");
+        else {
+            hand.add(deck.drawCard());
         }
     }
 
@@ -225,10 +234,12 @@ public class Player {
      * the available Card from the list of available Cards and draws a new Card from the corresponding deck and adds it
      * to the available Cards.
      * @param card The card that the Player wants to draw.
+     * @throws NoCardsException when the deck is empty.
+     * @throws IncorrectUserActionException when the player already has 3 cards in his hands or the card is not available.
      */
-    public void drawCardFromAvailable(StandardCard card) throws NoCardsException {
+    public void drawCardFromAvailable(StandardCard card) throws NoCardsException, IncorrectUserActionException {
         if (hand.size() >= 3)
-            System.out.println("You cannot draw, you already have 3 Cards in your hand");
+            throw new IncorrectUserActionException("You cannot draw, you already have 3 Cards in your hand");
         else if (game.getAvailableGCards().contains(card)) {
             hand.add(card);
             game.getAvailableGCards().remove(card);
@@ -237,8 +248,6 @@ public class Player {
             } else if (!game.getRDeck().isEmpty()) {
                 game.getAvailableGCards().add(game.getRDeck().drawCard());
             }
-            System.out.println("Your hand now: ");
-            for (StandardCard sC : hand) System.out.println(sC.toString());
 
         } else if (game.getAvailableRCards().contains(card)) {
             hand.add(card);
@@ -248,10 +257,8 @@ public class Player {
             } else if (!game.getGDeck().isEmpty()) {
                 game.getAvailableRCards().add(game.getGDeck().drawCard());
             }
-            System.out.println("Your hand now: ");
-            for (StandardCard sC : hand) System.out.println(sC.toString());
         } else
-            System.out.println("The Card you want to draw is not available");
+            throw new IncorrectUserActionException("The Card you want to draw is not available");
     }
 
     /**
@@ -264,14 +271,16 @@ public class Player {
      * @param card The Card that the Player wants to place from his hand.
      * @param toPlace The Side of the Card that the Player wants to place.
      * @param position The Position where the Player wants to place the Side.
+     * @throws IncorrectUserActionException if the card is not in the hand, the position is wrong, the resource condition
+     *                                      is not satisfied or the side is not coherent with the card.
      */
-    public void placeCard(StandardCard card, Side toPlace, Position position) {
+    public void placeCard(StandardCard card, Side toPlace, Position position) throws IncorrectUserActionException {
         int cornersLinked = 0;
 
         if (!hand.contains(card)) {     //MOVE ALL THIS TO THE CONTROLLER
-            System.out.println("You do not possess this Card, you cannot place it.");
+            throw new IncorrectUserActionException("You do not possess this Card, you cannot place it.");
         } else if (hand.contains(card) && !myKingdom.getActivePositions().contains(position)) {
-            System.out.println("You cannot place the Card in this position.");
+            throw new IncorrectUserActionException("You cannot place the Card in this position.");
         } else if (hand.contains(card) && myKingdom.getActivePositions().contains(position)) {
             if (card.getFront().equals(toPlace)) {
                 Front f = (Front) toPlace;
@@ -290,7 +299,7 @@ public class Player {
                     myKingdom.updateKingdom(card, toPlace, position);
 
                 } else
-                    System.out.println("You don't have enough resources to satisfy the placement condition for the front of this card, you cannot place it.");
+                    throw new IncorrectUserActionException("You don't have enough resources to satisfy the placement condition for the front of this card, you cannot place it.");
             } else if (card.getBack().equals(toPlace)) {
                 toPlace.placeInPosition(position.getX(), position.getY());
                 hand.remove(card);
@@ -302,7 +311,7 @@ public class Player {
                 }
                 myKingdom.updateKingdom(card, toPlace, position);
             } else
-                System.out.println("The Side given as a parameter does not belong to the Card given as a parameter, you cannot place it.");
+                throw new IncorrectUserActionException("The Side given as a parameter does not belong to the Card given as a parameter, you cannot place it.");
 
         }
     }

@@ -22,4 +22,5 @@ module it.polimi.ingsw.am37 {
     opens it.polimi.ingsw.am37.model.cards.objective to com.google.gson;
     opens it.polimi.ingsw.am37.model.cards.placeable to com.google.gson;
     opens it.polimi.ingsw.am37.model.sides to com.google.gson;
+    exports it.polimi.ingsw.am37.controller.states;
 }

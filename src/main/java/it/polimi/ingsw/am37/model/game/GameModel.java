@@ -7,22 +7,18 @@ import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.decks.*;
 import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.player.Player;
-import it.polimi.ingsw.am37.model.player.Token;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 /**
  * The GameModel class contains all the information and behaviour of an instance of the game.
  */
 public class GameModel {
     /**
-     * The currentPhase attribute gives information about the current phase of the game.
+     * The currentStatus attribute gives information about the current state of the model.
      */
-    private GamePhase currentPhase;
     private GameStatus currentStatus;
-    private GameController gameController;
+    private final GameController gameController;
     /**
      * The participantsInOrder attribute is a list of all the participants in the order of their turns.
      */
@@ -108,24 +104,6 @@ public class GameModel {
         gDeck = new GoldDeck(cardCreator);
         rDeck = new ResourceDeck(cardCreator);
         oDeck = new ObjectiveDeck(cardCreator);
-
-        currentPhase = GamePhase.PREPARATION;
-    }
-
-    /**
-     * The getCurrentPhase() method returns the current phase of the game.
-     * @return The value of the currentPhase attribute.
-     */
-    public GamePhase getCurrentPhase() {
-        return currentPhase;
-    }
-
-    /**
-     * The setCurrentPhase(currentPhase) method updates the value of the currentPhase attribute.
-     * @param currentPhase A value of the GamePhase enumeration.
-     */
-    public void setCurrentPhase(GamePhase currentPhase) {       //private?
-        this.currentPhase = currentPhase;
     }
 
     public GameStatus getCurrentStatus() {
@@ -143,12 +121,6 @@ public class GameModel {
     public GameController getController() {
         return gameController;
     }
-
-    public void setGameController(GameController gameController) throws AlreadyAssignedException {
-        this.gameController = gameController;
-        this.gameController.setGameInstance(this);
-    }
-
 
     /**
      * The getParticipants() method returns the list of Player that participates in the game.
@@ -223,46 +195,11 @@ public class GameModel {
     }
 
     /**
-     * The preparationPhase() method sets up the game as described in the rulebook. First it sets the resource and
-     * gold cards available to everyone to draw. Then it gives all player a start card and lets them choose
-     * (concurrently with threads) which Side they want to place down. Once everyone responds it creates everyone's hand
-     * and then sets the public objectives. Finally, it gives the Players' two objective cards, it lets them choose
-     * which one they want to keep (concurrently with threads) and once everyone is done it sets the current phase to
-     * PLAYING.
-     * @throws NoCardsException Thrown when the list of cards in the deck is empty, so that the user knows he will not
-     *                          be able to draw again from this deck.
-     * @throws AlreadyAssignedException Thrown when trying to assign an attribute that has already been assigned and
-     *                                  can only be assigned once.
-     */
-    public void preparationPhase() throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
-        setAvailableCards();
-
-        for (Player p : participantsInOrder) {
-            giveStartCard(p);
-        }
-
-        for (Player p: participantsInOrder)
-            chooseToken(p);
-
-        for (Player p : participantsInOrder) {
-            createHand(p);
-        }
-
-        setPublicObjectives();
-
-        for (Player p : participantsInOrder) {
-            giveObjectiveCards(p);
-        }
-
-        setCurrentPhase(GamePhase.PLAYING);
-    }
-
-    /**
      * The method setAvailableCards sets up the list of available and cards that the player is able to see and can draw
      * when in his turn.
      * @throws NoCardsException if the deck ran out of cards.
      */
-    private void setAvailableCards() throws NoCardsException {
+    public void setAvailableCards() throws NoCardsException {
         availableRCards = new ArrayList<>();
         availableGCards = new ArrayList<>();
         while(getAvailableGCards().size() < 2)
@@ -270,47 +207,36 @@ public class GameModel {
 
         while(getAvailableRCards().size() < 2)
             availableRCards.add(rDeck.drawCard());
+
+        //NOTIFIES THE OBSERVERS WiTH UPDATE TO SEND TO VIEW
     }
 
     /**
      * the method giveStartCard gives the player the choice of the first card he's going to place, the starting card.
-     * @param p is the player whose starting card is being given.
      * @throws NoCardsException if the deck ran out of cards.
      * @throws AlreadyAssignedException if the player has already had his starting card.
      */
-    private void giveStartCard(Player p) throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
-        p.setStartCard(sDeck.drawCard());
-        try {
-            //game.getController().playerHasToChooseStartCardSide(this, startCard);//talks to controller that sends request to client
-            p.instantiateMyKingdom(p.getStartCard(), p.getStartCard().getFront());
-        } catch (/*WrongGamePhaseException |*/ AlreadyAssignedException e) {
-            throw new RuntimeException(e);
+    public void giveStartCard() throws NoCardsException, AlreadyAssignedException {
+        for (Player p: participantsInOrder) {
+            p.setStartCard(sDeck.drawCard());
         }
+        //CALL OBSERVERS TO UPDATE THE VIEWS
     }
 
     /**
-     * The chooseToken(p) method asks the player which token he wants and checks if anyone else has already chosen it.
-     * If no one has, it assigns the token to the player.
-     * @param p The player that has to choose the token.
-     * @throws AlreadyAssignedException Thrown when trying to assign the token once it has already been assigned.
+     * The method createHand sets the starting cards the players will have in their hand right after placing the start
+     * card.
+     * @throws NoCardsException if the deck ran out of cards.
+     * @throws AlreadyAssignedException if the player that invoked this method already has had his hand set up.
      */
-    private void chooseToken(Player p) throws AlreadyAssignedException {
-        for (Token t: Token.values()) {         //METHOD STUB FOR TESTING
-            if (!t.equals(Token.BLACK)) {
-                boolean check = true;
-                for (Player pl: participantsInOrder) {
-                    if (pl.getToken() != null && pl.getToken().equals(t)) {
-                        check = false;
-                        break;
-                    }
-                }
-                if (check) {
-                    p.setToken(t);
-                    break;
-                }
-            }
+    public void createHand() throws NoCardsException, AlreadyAssignedException {
+        for (Player p: participantsInOrder) {
+            List<StandardCard> hand = new ArrayList<>();
+            hand.add(rDeck.drawCard());
+            hand.add(rDeck.drawCard());
+            hand.add(gDeck.drawCard());
+            p.setHand(hand);
         }
-        //gameController.playerHasToChooseToken(p);
     }
 
     /**
@@ -318,68 +244,30 @@ public class GameModel {
      * objectives.
      * @throws NoCardsException if the objectives deck ran out of cards.
      */
-    private void setPublicObjectives() throws NoCardsException {
+    public void setPublicObjectives() throws NoCardsException {
         publicObjectives = new ObjectiveCard[2];
         publicObjectives[0] = oDeck.drawCard();
         publicObjectives[1] = oDeck.drawCard();
     }
 
     /**
-     * The method createHand sets the starting cards the players will have in their hand right after placing the start
-     * card.
-     * @param p is the player whose hand is being set up.
-     * @throws NoCardsException if the deck ran out of cards.
-     * @throws AlreadyAssignedException if the player that invoked this method already has had his hand set up.
-     */
-    private void createHand(Player p) throws NoCardsException, AlreadyAssignedException {
-        List<StandardCard> hand = new ArrayList<>();
-        hand.add(rDeck.drawCard());
-        hand.add(rDeck.drawCard());
-        hand.add(gDeck.drawCard());
-        p.setHand(hand);
-    }
-
-    /**
      * the method giveObjectiveCards gives each player the choice of their personal objectives. Every player will be
      * able to see only their personal two objectives.
-     * @param p is the player who's choosing their objectives.
      * @throws NoCardsException if the deck ran out of cards.
      */
-    private void giveObjectiveCards(Player p) throws NoCardsException {
-        ObjectiveCard[] twoObjCards = new ObjectiveCard[2];
-        twoObjCards[0] = oDeck.drawCard();
-        twoObjCards[1] = oDeck.drawCard();
-        try {
-            //game.getController().playerHasToChooseObjective(this, objectiveArray); //talks to the controller and asks client which card
-            p.setPrivateObjective(twoObjCards[0]);
-        } catch (/*WrongGamePhaseException |*/ AlreadyAssignedException e) {
-            throw new RuntimeException(e);
+    public void giveObjectiveCards() throws NoCardsException {
+        for (Player p: participantsInOrder) {
+            ObjectiveCard[] twoObjCards = new ObjectiveCard[2];
+            twoObjCards[0] = oDeck.drawCard();
+            twoObjCards[1] = oDeck.drawCard();
+            //CALL OBSERVERS TO UPDATE THE VIEWS
         }
     }
 
-    /**
-     * The playingPhase() method handles the turn sequence and waits for the player to place and draw Cards. Once one
-     * of the player reaches 20 points, the method set the currentPhase to ENDGAME.
-     */
-    public void playingPhase() {
+    public void setupPlayPhase() {
         turnCounter = 1;
-        //Collections.shuffle(participantsInOrder);
+        Collections.shuffle(participantsInOrder);
         currentTurn = participantsInOrder.getFirst();
-        while (true) {
-            System.out.println("Notify the player");                                // STUB THAT RANDOMLY ASSIGNS POINTS
-            System.out.println("Player places card");                               // SO THAT THE METHOD STOPS LOOPING
-            //STUB TO RANDOMLY ADD POINTS TO THE PLAYER                             // EVENTUALLY
-            if (turnCounter % 5 == 0)                                               //
-                scoreboard.addPoints(currentTurn, 3);                        //
-            System.out.println("Player draws card");                                //
-            //gameController.notifyTurn(currentTurn);
-            if (scoreboard.getParticipantsPoints().get(currentTurn) >= 20) {
-                break;
-            }
-            nextTurn();
-        }
-
-        setCurrentPhase(GamePhase.ENDGAME);
     }
 
     /**
@@ -412,38 +300,17 @@ public class GameModel {
         }
     }
 
-    /**
-     * The endGamePhase() method is called after one of the player has reached 20 points and handles the last turns
-     * of the game. It calculates which turn will be the last and once we have reached that turn, it will terminate the
-     * game by calculating everyone's final score by verifying if they completed any of the objectives. At last, it will
-     * show the results of the game and then set the currentPhase to FINISHED.
-     */
-    public void endGamePhase() {
-
-        nextTurn();
-
-        lastTurn=turnCounter+(participantsInOrder.size()-participantsInOrder.indexOf(currentTurn)-1)+participantsInOrder.size();
-
-        while (turnCounter<=lastTurn) {
-            System.out.println("Notify the player");                                // STUB THAT RANDOMLY ASSIGNS POINTS
-            System.out.println("Player places card");                               // SO THAT THE METHOD STOPS LOOPING
-            //STUB TO RANDOMLY ADD POINTS TO THE PLAYER                             // EVENTUALLY
-            if (turnCounter % 5 == 0)                                               //
-                scoreboard.addPoints(currentTurn, 3);                        //
-            System.out.println("Player draws card");                                //
-            //gameController.notifyTurn(currentTurn);
-            nextTurn();
-        }
-        System.out.println("This will be the last turn: " + lastTurn);
-        PlayerPoints[] finalResults = getGameWinner();
-        for (PlayerPoints finalResult : finalResults) {
-            System.out.println(finalResult.getPlayer().getNickname());
-            System.out.println(finalResult.getPoints());
-            System.out.println(finalResult.getNumOfCompletion());
-        }
-
-        setCurrentPhase(GamePhase.FINISHED);
+    public void setupEndGame() {
+        lastTurn = turnCounter + (participantsInOrder.size() - participantsInOrder.indexOf(currentTurn) - 1) + participantsInOrder.size();
     }
+
+    public int getLastTurn() {
+        return lastTurn;
+    }
+
+    public void handleResults() {
+        PlayerPoints[] finalPoints = getGameWinner();
+    }       //CALCULATES FINAL SCOREBOARD AND CALLS OBSERVERS TO UPDATE THE VIEWS
 
     /**
      * The getGameWinner() method calculates everyone's final points and then returns the final scoreboard.

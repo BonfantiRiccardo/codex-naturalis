@@ -105,6 +105,7 @@ class PlayerTest {
 
         StartCard sC2 = g.getSDeck().drawCard();
         assertThrows(IncorrectUserActionException.class, () -> p.instantiateMyKingdom(sC2, sC2.getFront()));
+        assertThrows(IncorrectUserActionException.class, () -> p.instantiateMyKingdom(sC, sC2.getFront()));
 
         p.instantiateMyKingdom(sC, sC.getFront());
         assertNotNull(p.getMyKingdom());
@@ -136,7 +137,7 @@ class PlayerTest {
      * Tests all the possible outcomes of the invocation of the drawCardFromDeck method.
      */
     @Test
-    void drawCardFromDeckTest() throws NoCardsException, AlreadyAssignedException {
+    void drawCardFromDeckTest() throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
         GameModel g = new GameModel(createListOfPlayer(), c);
         List<StandardCard> hand = new ArrayList<>();
         hand.add(g.getGDeck().drawCard());
@@ -144,8 +145,8 @@ class PlayerTest {
         hand.add(g.getRDeck().drawCard());
         p.setHand(hand);
         assertEquals(3, p.getHand().size());
-        System.out.println("The following text should be printed in the next line: \"You cannot draw, you already have 3 Cards in your hand\"");
-        p.drawCardFromDeck(g.getGDeck());           //CHANGE WITH EXCEPTIONS
+        assertThrows(IncorrectUserActionException.class, () -> p.drawCardFromDeck(g.getGDeck()));
+        assertThrows(IncorrectUserActionException.class, () -> p.drawCardFromDeck(g.getRDeck()));
 
         p.getHand().remove(0);      //EQUIVALENT TO placeCard()
         assertEquals(2, p.getHand().size());
@@ -169,21 +170,20 @@ class PlayerTest {
     /**
      * Tests all the possible outcomes of the invocation of the drawCardFromAvailable method.
      */
-    @Test
+    @RepeatedTest(value = 10)
     void drawCardFromAvailableTest() throws AlreadyAssignedException, NoCardsException, IncorrectUserActionException {
         GameController c = new GameController(p, 2);
         GameModel g = new GameModel(createListOfPlayer2(), c);
-        g.preparationPhase();       //CHANGE BY CALLING THE SET METHOD FOR AVAILABLE CARDS.
+        g.setAvailableCards();
+        g.createHand();
 
         assertEquals(3, p2.getHand().size());
-        System.out.println("The following text should be printed in the next line: \"You cannot draw, you already have 3 Cards in your hand\"");
-        p2.drawCardFromAvailable(g.getAvailableGCards().get(0));           //CHANGE WITH EXCEPTIONS
+        assertThrows(IncorrectUserActionException.class, () -> p2.drawCardFromAvailable(g.getAvailableGCards().get(0)));
 
         p2.getHand().remove(0);      //EQUIVALENT TO placeCard()
         assertEquals(2, p2.getHand().size());
 
-        System.out.println("The following text should be printed in the next line: \"The Card you want to draw is not available\"");
-        p2.drawCardFromAvailable(g.getGDeck().drawCard());           //CHANGE WITH EXCEPTIONS
+        assertThrows(IncorrectUserActionException.class, () -> p2.drawCardFromAvailable(g.getGDeck().drawCard()));
         assertEquals(2, p2.getHand().size());
 
         p2.drawCardFromAvailable(g.getAvailableGCards().get(0));
@@ -194,8 +194,7 @@ class PlayerTest {
         p2.getHand().remove(0);      //EQUIVALENT TO placeCard()
         assertEquals(2, p2.getHand().size());
 
-        System.out.println("The following text should be printed in the next line: \"The Card you want to draw is not available\"");
-        p2.drawCardFromAvailable(g.getRDeck().drawCard());           //CHANGE WITH EXCEPTIONS
+        assertThrows(IncorrectUserActionException.class, () -> p2.drawCardFromAvailable(g.getRDeck().drawCard()));
         assertEquals(2, p2.getHand().size());
 
         p2.drawCardFromAvailable(g.getAvailableRCards().get(0));
@@ -247,16 +246,13 @@ class PlayerTest {
         assertEquals(1, p.getMyKingdom().getPlacedSides().size());
 
         StandardCard notInHand = g.getGDeck().drawCard();
-        System.out.println("The following text should be printed in the next line: \"You do not possess this Card, you cannot place it.\"");
-        p.placeCard(notInHand, notInHand.getBack(), new Position(1,1));           //CHANGE WITH EXCEPTIONS
+        assertThrows(IncorrectUserActionException.class, () -> p.placeCard(notInHand, notInHand.getBack(), new Position(1,1)));
         assertEquals(1, p.getMyKingdom().getPlacedSides().size());
 
-        System.out.println("The following text should be printed in the next line: \"You cannot place the Card in this position.\"");
-        p.placeCard(p.getHand().get(0), p.getHand().get(0).getBack(), new Position(0,0));           //CHANGE WITH EXCEPTIONS
+        assertThrows(IncorrectUserActionException.class, () -> p.placeCard(p.getHand().get(0), p.getHand().get(0).getBack(), new Position(0,0)));
         assertEquals(1, p.getMyKingdom().getPlacedSides().size());
 
-        System.out.println("The following text should be printed in the next line: \"The Side given as a parameter does not belong to the Card given as a parameter, you cannot place it\"");
-        p.placeCard(p.getHand().get(0), p.getHand().get(1).getBack(), new Position(1,1));           //CHANGE WITH EXCEPTIONS
+        assertThrows(IncorrectUserActionException.class, () -> p.placeCard(p.getHand().get(0), p.getHand().get(1).getBack(), new Position(1,1)));
         assertEquals(1, p.getMyKingdom().getPlacedSides().size());
 
         p.placeCard(p.getHand().get(0), p.getHand().get(0).getBack(), new Position(1,1));
@@ -273,8 +269,7 @@ class PlayerTest {
             p.placeCard(gold, gold.getFront(), new Position(-1,1));
             assertEquals(3, p.getMyKingdom().getPlacedSides().size());
         } else {
-            System.out.println("The following text should be printed in the next line: \"You don't have enough resources to satisfy the placement condition for the front of this card, you cannot place it.\"");
-            p.placeCard(gold, gold.getFront(), new Position(-1,1));           //CHANGE WITH EXCEPTIONS
+            assertThrows(IncorrectUserActionException.class, () -> p.placeCard(gold, gold.getFront(), new Position(-1,1)));
 
             if (gold.getFront().getResourcePlacementCondition().keySet().size() == 1) {
                 p.getHand().remove(gold);
@@ -316,9 +311,11 @@ class PlayerTest {
      */
     //@Test
     @RepeatedTest(value = 100)
-    void addPointsTest() throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
+    void addPointsTest() throws NoCardsException, IncorrectUserActionException, AlreadyAssignedException {
         GameModel g = new GameModel(createListOfPlayer(), c);
-        g.preparationPhase();
+        g.giveStartCard();
+        g.createHand();
+        p.instantiateMyKingdom(p.getStartCard(), p.getStartCard().getFront());
 
         int x = 1;
         int y = 1;
@@ -342,10 +339,13 @@ class PlayerTest {
         int points = g.getScoreboard().getParticipantsPoints().get(p);
         int i = 0;
         StandardCard toPlace = p.getHand().get(i);
-        p.placeCard(p.getHand().get(i), p.getHand().get(i).getFront(), new Position(x,y));
+
         if (toPlace.getFront().isPlacementConditionSatisfied(p.getMyKingdom().getOnFieldResources())) {
+            p.placeCard(p.getHand().get(i), p.getHand().get(i).getFront(), new Position(x,y));
             assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + toPlace.getFront().getPointsGivenOnPlacement());
         } else {
+            int finalX = x; int finalY = y; int finalI = i;
+            assertThrows(IncorrectUserActionException.class, () -> p.placeCard(p.getHand().get(finalI), p.getHand().get(finalI).getFront(), new Position(finalX,finalY)));
             i++;
             assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points);
         }
@@ -369,8 +369,15 @@ class PlayerTest {
             }
         }
 
+
+
         toPlace = p.getHand().get(i);
-        p.placeCard(p.getHand().get(i), p.getHand().get(i).getFront(), new Position(x,y));
+        if (toPlace.getFront().isPlacementConditionSatisfied(p.getMyKingdom().getOnFieldResources())) {
+            p.placeCard(p.getHand().get(i), p.getHand().get(i).getFront(), new Position(x,y));
+        } else {
+            int finalX = x; int finalY = y; int finalI = i;
+            assertThrows(IncorrectUserActionException.class, () -> p.placeCard(p.getHand().get(finalI), p.getHand().get(finalI).getFront(), new Position(finalX,finalY)));
+        }
 
         int j = 0;
         if (toPlace.getFront().getIsPlaced()) {
@@ -396,7 +403,13 @@ class PlayerTest {
         }
 
         toPlace = p.getHand().get(i + j);
-        p.placeCard(p.getHand().get(i + j), p.getHand().get(i + j).getFront(), new Position(x,y));
+        if (toPlace.getFront().isPlacementConditionSatisfied(p.getMyKingdom().getOnFieldResources())) {
+            p.placeCard(p.getHand().get(i + j), p.getHand().get(i + j).getFront(), new Position(x,y));
+        } else {
+            int finalX = x; int finalY = y; int finalI = i; int finalJ = j;
+            assertThrows(IncorrectUserActionException.class, () -> p.placeCard(p.getHand().get(finalI + finalJ), p.getHand().get(finalI + finalJ).getFront(), new Position(finalX,finalY)));
+        }
+
         if (toPlace.getFront().getIsPlaced()) {
             if (toPlace.getFront().getBonus() == Bonus.QUILL)
                 assertEquals(g.getScoreboard().getParticipantsPoints().get(p), points + (numQ+1) * toPlace.getFront().getPointsGivenOnPlacement());
