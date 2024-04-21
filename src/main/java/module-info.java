@@ -12,7 +12,7 @@ module it.polimi.ingsw.am37 {
     exports it.polimi.ingsw.am37.model.cards.objective;
     exports it.polimi.ingsw.am37.model.cards.placeable;
     exports it.polimi.ingsw.am37.model.decks;
-    exports it.polimi.ingsw.am37.model.exceptions;
+    exports it.polimi.ingsw.am37.exceptions;
     exports it.polimi.ingsw.am37.model.game;
     exports it.polimi.ingsw.am37.model.player;
     exports it.polimi.ingsw.am37.model.sides;

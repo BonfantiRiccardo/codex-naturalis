@@ -3,7 +3,7 @@ package it.polimi.ingsw.am37.model.decks;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.am37.model.cards.CardCreator;
 import it.polimi.ingsw.am37.model.cards.objective.*;
-import it.polimi.ingsw.am37.model.exceptions.NoCardsException;
+import it.polimi.ingsw.am37.exceptions.NoCardsException;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

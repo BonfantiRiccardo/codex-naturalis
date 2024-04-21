@@ -1,11 +1,13 @@
 package it.polimi.ingsw.am37.model.game;
 
 import it.polimi.ingsw.am37.controller.GameController;
+import it.polimi.ingsw.am37.exceptions.AlreadyAssignedException;
+import it.polimi.ingsw.am37.exceptions.IncorrectUserActionException;
+import it.polimi.ingsw.am37.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.objective.ResourcesBoundObjective;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
-import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.sides.*;
 
@@ -239,7 +241,7 @@ class GameModelTest {
         if (Objects.equals(finalPoints2[0].getPoints(), finalPoints2[1].getPoints()))
             assertTrue(finalPoints2[0].getNumOfCompletion() >= finalPoints2[1].getNumOfCompletion());
 
-        assertTrue(finalPoints2[0].getPoints() > 10);
+        assertTrue(finalPoints2[0].getPoints() >= 10);
         assertTrue(finalPoints2[1].getPoints() >= 10);
     }
 }

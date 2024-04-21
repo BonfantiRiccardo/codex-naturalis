@@ -3,7 +3,7 @@ package it.polimi.ingsw.am37.model.decks;
 import it.polimi.ingsw.am37.model.cards.Card;
 import it.polimi.ingsw.am37.model.cards.CardCreator;
 import it.polimi.ingsw.am37.model.cards.placeable.GameCard;
-import it.polimi.ingsw.am37.model.exceptions.NoCardsException;
+import it.polimi.ingsw.am37.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.model.sides.Back;
 
 import java.util.ArrayList;

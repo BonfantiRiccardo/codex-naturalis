@@ -1,12 +1,14 @@
 package it.polimi.ingsw.am37.controller.states;
 
 import it.polimi.ingsw.am37.controller.GameController;
+import it.polimi.ingsw.am37.model.game.GameStatus;
 
 public class WaitDrawCard implements State {
     private final GameController controller;
 
     public WaitDrawCard(GameController controller) {
         this.controller = controller;
+        this.controller.getGameInstance().setCurrentStatus(GameStatus.WAIT_DRAW);
     }
 
     @Override

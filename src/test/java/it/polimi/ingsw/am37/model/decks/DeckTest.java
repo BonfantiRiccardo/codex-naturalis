@@ -4,7 +4,7 @@ import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
-import it.polimi.ingsw.am37.model.exceptions.NoCardsException;
+import it.polimi.ingsw.am37.exceptions.NoCardsException;
 
 import it.polimi.ingsw.am37.model.sides.Back;
 import org.junit.jupiter.api.Test;

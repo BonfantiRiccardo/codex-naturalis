@@ -1,10 +1,10 @@
 package it.polimi.ingsw.am37.model.player;
 
+import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.decks.GoldDeck;
 import it.polimi.ingsw.am37.model.decks.ResourceDeck;
-import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.game.*;
 import it.polimi.ingsw.am37.model.sides.*;
 
@@ -36,6 +36,8 @@ public class Player {
      * The startCard attribute is a reference to the start card that the player receives at the beginning of the game.
      */
     private StartCard startCard;
+
+    private ObjectiveCard[] objectivesToChooseFrom;
     /**
      * The privateObjective attribute is the ObjectiveCard that the player chooses at the beginning of the game.
      */
@@ -157,6 +159,17 @@ public class Player {
      */
     public StartCard getStartCard() {
         return startCard;
+    }
+
+    public ObjectiveCard[] getObjectivesToChooseFrom() {
+        return objectivesToChooseFrom;
+    }
+
+    public void setObjectivesToChooseFrom(ObjectiveCard[] objectivesToChooseFrom) throws AlreadyAssignedException {
+        if (this.objectivesToChooseFrom == null)
+           this.objectivesToChooseFrom = objectivesToChooseFrom;
+        else
+            throw new AlreadyAssignedException("The objectives to choose from have already been assigned");
     }
 
     /**

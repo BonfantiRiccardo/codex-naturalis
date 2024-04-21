@@ -1,10 +1,10 @@
 package it.polimi.ingsw.am37.model.cards;
 
 import it.polimi.ingsw.am37.controller.GameController;
+import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
-import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.game.*;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;

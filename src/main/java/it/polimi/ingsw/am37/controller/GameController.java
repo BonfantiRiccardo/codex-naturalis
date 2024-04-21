@@ -2,10 +2,10 @@ package it.polimi.ingsw.am37.controller;
 
 import it.polimi.ingsw.am37.controller.states.State;
 import it.polimi.ingsw.am37.controller.states.*;
+import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.decks.*;
-import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.game.*;
 import it.polimi.ingsw.am37.model.player.*;
 import it.polimi.ingsw.am37.model.sides.*;
@@ -25,7 +25,7 @@ public class GameController {
 
         participants = new ArrayList<>();
         participants.add(creator);
-        this.numOfPlayers = numOfPlayers;
+        this.numOfPlayers = numOfPlayers;       //BEFORE WE NEED TO CHECK THAT IS BETWEEN 0 AND 4.
 
         state = new LobbyState(this);
     }
@@ -65,21 +65,23 @@ public class GameController {
         isGameStarted = gameStarted;
     }
 
-
+    /*public void gamePhaseHandler() {
+        state.gamePhaseHandler();
+    }*/
     //------------------------------------------------------------------------------------------------
-    public void addPlayer (Player newPlayer) throws IncorrectUserActionException {
-        if (gameInstance.getCurrentStatus().equals(GameStatus.LOBBY)) {
+    public void addPlayer (Player newPlayer) throws IncorrectUserActionException, WrongGamePhaseException {
+        if (gameInstance == null) {
             if (participants.size() < numOfPlayers) {
                 for (Player p: participants) {
                     if (newPlayer.getNickname().equals(p.getNickname()))
-                        throw new IncorrectUserActionException("This username is already in use");
+                        throw new IncorrectUserActionException("This username is already in use.");
                 }
 
                 participants.add(newPlayer);
                 state.gamePhaseHandler();
             } else
-                System.out.println("The game is full");
-        }
+                throw new IncorrectUserActionException("The game is full.");
+        } else throw new WrongGamePhaseException("This game has started.");
     }
 
     public void playerChoosesStartCardSide(Player p, StartCard c, Side s) throws IncorrectUserActionException, WrongGamePhaseException {
@@ -96,7 +98,7 @@ public class GameController {
             }
         } else throw new WrongGamePhaseException("You cannot place your start card now.");
 
-    }     //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
+    }
 
     public void playerChoosesToken (Player p, Token t) throws AlreadyAssignedException, IncorrectUserActionException, WrongGamePhaseException {
         if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_TOKEN)) {
@@ -107,20 +109,25 @@ public class GameController {
                     break;
                 }
             }
-            if (check)
+            if (t.equals(Token.BLACK))
+                throw new IncorrectUserActionException("You can't choose the black token.");
+            else if (check) {
                 p.setToken(t);
-            else
+                state.gamePhaseHandler();
+            } else
                 throw new IncorrectUserActionException("The token has been chosen by another player.");
         } else throw new WrongGamePhaseException("You cannot choose your token now.");
 
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
-    public void playerChoosesObjective(Player p, ObjectiveCard c) throws AlreadyAssignedException, WrongGamePhaseException {
+    public void playerChoosesObjective(Player p, ObjectiveCard c) throws AlreadyAssignedException, WrongGamePhaseException, IncorrectUserActionException {
         if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_OBJECTIVE)) {
             if (p.getPrivateObjective() != null) {
                 throw new AlreadyAssignedException("The player has already chosen his private objective.");
-            } else
-                    p.setPrivateObjective(c);
+            } else if (p.getObjectivesToChooseFrom()[0].equals(c) || p.getObjectivesToChooseFrom()[1].equals(c)) {
+                p.setPrivateObjective(c);
+                state.gamePhaseHandler();
+            } else throw new IncorrectUserActionException("The objective you chose was not one of the two assigned to you.");
         } else throw new WrongGamePhaseException("You cannot choose your objective now.");
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
@@ -128,7 +135,7 @@ public class GameController {
         return gameInstance.getCurrentTurn().equals(p);
     }
 
-    public void playerPlacesCard(Player p, StandardCard c, Side s, Position pos) throws IncorrectUserActionException {
+    public void playerPlacesCard(Player p, StandardCard c, Side s, Position pos) throws IncorrectUserActionException, WrongGamePhaseException {
          /*Checks if it is the player turn,
          if the gameModel is in status wait place card
          try to place said Card in the kingdom
@@ -137,8 +144,8 @@ public class GameController {
         if (checkCurrentTurn(p)) {
             if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_PLACE)) {
                 p.placeCard(c, s, pos);
-                gameInstance.setCurrentStatus(GameStatus.WAIT_DRAW);        //FORSE MEGLIO SPOSTARE FUORI VISTO CHE PER DRAW è COSì
-            } else throw new IncorrectUserActionException("You cannot place a card now.");
+                state.gamePhaseHandler();
+            } else throw new WrongGamePhaseException("You cannot place a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
@@ -152,15 +159,15 @@ public class GameController {
             if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
                 try {
                     p.drawCardFromDeck(d);      //TRY CATCH FOR OTHER EXCEPTIONS
-                    //gameInstance.setCurrentStatus(GameStatus.WAIT_PLACE); NON VA BENE QUI PERCHè IL TURNO DEVE FINIRE PRIMA
-                } catch (NoCardsException e) {          //DI POTER PASSARE ALLA PROSSIMA FASE.
+                    state.gamePhaseHandler();
+                } catch (NoCardsException e) {
                     throw new RuntimeException(e);
                 }
             } throw new IncorrectUserActionException("You cannot draw a card now");
         } else throw new IncorrectUserActionException("It is not your turn.");
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
-    public void playerDrawsCardFromDeck(Player p, GoldDeck d) throws IncorrectUserActionException {
+    public void playerDrawsCardFromDeck(Player p, GoldDeck d) throws IncorrectUserActionException, WrongGamePhaseException {
         /*Checks if it is the player turn,
          if the gameModel is in status wait draw card
          try to draw from said deck
@@ -170,15 +177,15 @@ public class GameController {
             if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
                 try {
                     p.drawCardFromDeck(d);      //TRY CATCH FOR OTHER EXCEPTIONS
-                    //gameInstance.setCurrentStatus(GameStatus.WAIT_PLACE); NON VA BENE QUI PERCHè IL TURNO DEVE FINIRE PRIMA
-                } catch (NoCardsException e) {          //DI POTER PASSARE ALLA PROSSIMA FASE.
+                    state.gamePhaseHandler();
+                } catch (NoCardsException e) {
                     throw new RuntimeException(e);
                 }
-            } throw new IncorrectUserActionException("You cannot draw a card now");
+            } throw new WrongGamePhaseException("You cannot draw a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
-    public void playerDrawsCardFromAvailable(Player p, StandardCard c) throws IncorrectUserActionException {
+    public void playerDrawsCardFromAvailable(Player p, StandardCard c) throws IncorrectUserActionException, WrongGamePhaseException {
         /*Checks if it is the player turn,
          if the gameModel is in status wait draw card
          try to draw said Card from the available
@@ -188,18 +195,17 @@ public class GameController {
             if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
                 try {
                     p.drawCardFromAvailable(c);
-                    //gameInstance.setCurrentStatus(GameStatus.WAIT_PLACE); NON VA BENE QUI PERCHè IL TURNO DEVE FINIRE PRIMA
-                } catch (NoCardsException e) {          //DI POTER PASSARE ALLA PROSSIMA FASE.
+                    state.gamePhaseHandler();
+                } catch (NoCardsException e) {
                     throw new RuntimeException(e);
                 }
-            } else throw new IncorrectUserActionException("You cannot draw a card now.");
+            } else throw new WrongGamePhaseException("You cannot draw a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");
-
-
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
 
-    public void updatesDeckView(Deck d, Side s) {
+    //NELLA VIRTUAL VIEW? DIRETTAMENTE CHIAMATI DAL MODEL QUANDO SI AGGIORNA A SEGUITO DI UN'AZIONE.
+    public void updatesDeckView(Deck d, Back s) {
         /*Sends the new back side that is visible from the top of the deck.
          * OR SEND THE RESOURCE SO THAT THE SIDE REMAINS UNKNOWN*/
     }
@@ -218,7 +224,6 @@ public class GameController {
     }
 
 
-    public void actionNotPermittedMessaging(Player p, String errorMessage) {}
 
     public boolean handleDisconnection(Player p) {return true;}
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.am37.model.game;
 
-import it.polimi.ingsw.am37.model.exceptions.AlreadyAssignedException;
+import it.polimi.ingsw.am37.exceptions.AlreadyAssignedException;
 import it.polimi.ingsw.am37.model.player.*;
 
 import org.junit.jupiter.api.Test;

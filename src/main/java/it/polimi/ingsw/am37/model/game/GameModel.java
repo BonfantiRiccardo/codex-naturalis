@@ -1,11 +1,11 @@
 package it.polimi.ingsw.am37.model.game;
 
 import it.polimi.ingsw.am37.controller.GameController;
+import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.decks.*;
-import it.polimi.ingsw.am37.model.exceptions.*;
 import it.polimi.ingsw.am37.model.player.Player;
 
 import java.util.*;
@@ -254,12 +254,14 @@ public class GameModel {
      * the method giveObjectiveCards gives each player the choice of their personal objectives. Every player will be
      * able to see only their personal two objectives.
      * @throws NoCardsException if the deck ran out of cards.
+     * @throws AlreadyAssignedException if the private objectives have already been assigned.
      */
-    public void giveObjectiveCards() throws NoCardsException {
+    public void giveObjectiveCards() throws NoCardsException, AlreadyAssignedException {
+        ObjectiveCard[] twoObjCards = new ObjectiveCard[2];
         for (Player p: participantsInOrder) {
-            ObjectiveCard[] twoObjCards = new ObjectiveCard[2];
             twoObjCards[0] = oDeck.drawCard();
             twoObjCards[1] = oDeck.drawCard();
+            p.setObjectivesToChooseFrom(twoObjCards);
             //CALL OBSERVERS TO UPDATE THE VIEWS
         }
     }
@@ -332,7 +334,7 @@ public class GameModel {
             points=points+publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[1].getPointsGiven();
             points=points+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom())*p.getPrivateObjective().getPointsGiven();
             compl=publicObjectives[0].calculateNumOfCompletion(p.getMyKingdom())+publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom())+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom());
-            //finalPoints.put(p, points);
+
             finalPoints[i]=new PlayerPoints(p, points, compl);
             for(j=i-1; j>=0; j-- ){
                 if(finalPoints[j].getPoints() < points){

@@ -8,6 +8,7 @@ public class WaitEndGameDraw implements State {
 
     public WaitEndGameDraw(GameController controller) {
         this.controller = controller;
+        this.controller.getGameInstance().setCurrentStatus(GameStatus.WAIT_DRAW);
     }
 
     @Override

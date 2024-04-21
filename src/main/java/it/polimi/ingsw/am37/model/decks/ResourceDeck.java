@@ -4,7 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.am37.model.cards.CardCreator;
 import it.polimi.ingsw.am37.model.cards.placeable.ResourceCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
-import it.polimi.ingsw.am37.model.exceptions.NoCardsException;
+import it.polimi.ingsw.am37.exceptions.NoCardsException;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
