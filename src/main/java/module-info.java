@@ -17,10 +17,12 @@ module it.polimi.ingsw.am37 {
     exports it.polimi.ingsw.am37.model.player;
     exports it.polimi.ingsw.am37.model.sides;
     exports it.polimi.ingsw.am37.controller;
+    exports it.polimi.ingsw.am37.controller.states;
+    exports it.polimi.ingsw.am37.virtualview;
 
     opens it.polimi.ingsw.am37.model.cards to com.google.gson;
     opens it.polimi.ingsw.am37.model.cards.objective to com.google.gson;
     opens it.polimi.ingsw.am37.model.cards.placeable to com.google.gson;
     opens it.polimi.ingsw.am37.model.sides to com.google.gson;
-    exports it.polimi.ingsw.am37.controller.states;
+
 }

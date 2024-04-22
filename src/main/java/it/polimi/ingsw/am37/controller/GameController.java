@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am37.controller;
 
-import it.polimi.ingsw.am37.controller.states.State;
 import it.polimi.ingsw.am37.controller.states.*;
 import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
@@ -9,15 +8,19 @@ import it.polimi.ingsw.am37.model.decks.*;
 import it.polimi.ingsw.am37.model.game.*;
 import it.polimi.ingsw.am37.model.player.*;
 import it.polimi.ingsw.am37.model.sides.*;
+import it.polimi.ingsw.am37.virtualview.VirtualView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameController {
     private final List<Player> participants;
     private final int numOfPlayers;
     private boolean isGameStarted;
     private GameModel gameInstance;
+    private final Map<Player, VirtualView> playerViews;
     private State state;
 
     public GameController(Player creator, int numOfPlayers) {
@@ -25,6 +28,9 @@ public class GameController {
 
         participants = new ArrayList<>();
         participants.add(creator);
+        playerViews = new HashMap<>();
+        playerViews.put(creator, new VirtualView(this));
+
         this.numOfPlayers = numOfPlayers;       //BEFORE WE NEED TO CHECK THAT IS BETWEEN 0 AND 4.
 
         state = new LobbyState(this);
@@ -65,6 +71,11 @@ public class GameController {
         isGameStarted = gameStarted;
     }
 
+    public Map<Player, VirtualView> getPlayerViews() {
+        return playerViews;
+    }
+
+
     //------------------------------------------------------------------------------------------------
     public void addPlayer (Player newPlayer) throws IncorrectUserActionException, WrongGamePhaseException {
         if (gameInstance == null) {
@@ -76,6 +87,10 @@ public class GameController {
 
                 participants.add(newPlayer);
                 state.gamePhaseHandler();
+                //playerViews.put(newPlayer, new VirtualView(this));
+                //for (Player p: participants)
+                    //playerViews.get(p).updateLobbyView(newPlayer, participants.size(), numOfPlayers);
+
             } else
                 throw new IncorrectUserActionException("The game is full.");
         } else throw new WrongGamePhaseException("This game has started.");
@@ -186,28 +201,55 @@ public class GameController {
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
 
-    //NELLA VIRTUAL VIEW? DIRETTAMENTE CHIAMATI DAL MODEL QUANDO SI AGGIORNA A SEGUITO DI UN'AZIONE.
+    //IN VIRTUAL VIEW? CALLED FROM MODEL OR FROM CONTROLLER?
+
+    public void sendStartCard(Player p, StartCard sc) {
+        /*Sends the start card that was assigned to the player*/
+    }
+
+    public void notifyTurn(Player p) {
+        playerViews.get(p).notifyTurn(p);   //PASSING p AS PARAMETER SHOULDN'T BE NECESSARY
+    }
+
+    public void generateHandView(Player p, List<StandardCard> hand) {
+        /* Sends all the list of cards that were assigned to the initial hand of the player*/
+        playerViews.get(p).generateHandView(p, hand);
+    }
+
     public void updatesDeckView(Deck d, Back s) {
         /*Sends the new back side that is visible from the top of the deck.
          * OR SEND THE RESOURCE SO THAT THE SIDE REMAINS UNKNOWN*/
+        for (Player p: gameInstance.getParticipants())
+            playerViews.get(p).updatesDeckView(d, s);
     }
 
     public void updatePlayerHandView(Player p, StandardCard c) {
         /*Sends the new card that the player has drawn and that should appear in his hand.*/
+        playerViews.get(p).updatePlayerHandView(p, c);
     }
 
     public void updatesCardView(List<StandardCard> cList, StandardCard c) {
         /* Sends the new Card that is available for anyone to draw.*/
+        for (Player p: gameInstance.getParticipants())
+            playerViews.get(p).updatesCardView(cList, c);
     }
 
-    public void updatesPlayerKingdomView(Player p, Kingdom k) {
+    public void updatesObjectivesView(Player p, ObjectiveCard[] objToChooseFrom) {
+        /* Sends the two objectives card that the player can draw from.*/
+        playerViews.get(p).updatesObjectivesView(p, objToChooseFrom);
+    }
+
+    public void updatesPlayerKingdomView(Player p, StandardCard placed) {
         /* Sends the kingdom that has been modified after the placing of the card.
          * Probably better to only send the diffs to the previous state.*/
+        for (Player pl: gameInstance.getParticipants())
+            playerViews.get(pl).updatesPlayersKingdomView(p, placed);
     }
 
     public void sendResults(PlayerPoints[] results) {
-        /* Sends the kingdom that has been modified after the placing of the card.
-         * Probably better to only send the diffs to the previous state.*/
+        /* Sends the results of the game that have been calculated by the getGameWinner() method.*/
+        for (Player p: gameInstance.getParticipants())
+            playerViews.get(p).sendResults(results);
     }
 
 
