@@ -270,6 +270,7 @@ public class GameModel {
         turnCounter = 1;
         Collections.shuffle(participantsInOrder);
         currentTurn = participantsInOrder.getFirst();
+        //UPDATE FIRST PLAYER VIEW WITH BLACK TOKEN
     }
 
     /**
@@ -300,6 +301,7 @@ public class GameModel {
         } else {
             currentTurn = participantsInOrder.getFirst();
         }
+        //UPDATE CURRENT PLAYER VIEW WITH NOTIFICATION
     }
 
     public void setupEndGame() {
@@ -312,6 +314,7 @@ public class GameModel {
 
     public void handleResults() {
         PlayerPoints[] finalPoints = getGameWinner();
+        //UPDATE THE OBSERVERS
     }       //CALCULATES FINAL SCOREBOARD AND CALLS OBSERVERS TO UPDATE THE VIEWS
 
     /**

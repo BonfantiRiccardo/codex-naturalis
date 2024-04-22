@@ -14,8 +14,7 @@ public class WaitEndGameDraw implements State {
     @Override
     public void gamePhaseHandler() {
         if (controller.getGameInstance().getLastTurn() == controller.getGameInstance().getTurnCounter()) {
-            controller.getGameInstance().handleResults();
-            controller.getGameInstance().setCurrentStatus(GameStatus.OVER);
+            controller.setState(new GameOver(controller));
         } else {
             controller.getGameInstance().nextTurn();
             controller.setState(new WaitEndGamePlace(controller));

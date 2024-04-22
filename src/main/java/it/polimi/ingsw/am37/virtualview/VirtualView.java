@@ -45,7 +45,7 @@ public abstract class VirtualView implements EventListener {
          controller.playerPlacesCard(p, c, s, pos);
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
-    public void playerDrawsCardFromDeck(Player p, ResourceDeck d) throws IncorrectUserActionException {
+    public void playerDrawsCardFromDeck(Player p, ResourceDeck d) throws IncorrectUserActionException, WrongGamePhaseException {
         controller.playerDrawsCardFromDeck(p, d);
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 

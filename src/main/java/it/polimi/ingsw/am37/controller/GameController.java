@@ -65,9 +65,6 @@ public class GameController {
         isGameStarted = gameStarted;
     }
 
-    /*public void gamePhaseHandler() {
-        state.gamePhaseHandler();
-    }*/
     //------------------------------------------------------------------------------------------------
     public void addPlayer (Player newPlayer) throws IncorrectUserActionException, WrongGamePhaseException {
         if (gameInstance == null) {
@@ -149,12 +146,7 @@ public class GameController {
         } else throw new IncorrectUserActionException("It is not your turn.");
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
-    public void playerDrawsCardFromDeck(Player p, ResourceDeck d) throws IncorrectUserActionException {
-        /*Checks if it is the player turn,
-         if the gameModel is in status wait draw card
-         try to draw from said deck
-         if it is successfully drawn continue,
-         else throw IncorrectUserActionException */
+    public void playerDrawsCardFromDeck(Player p, ResourceDeck d) throws IncorrectUserActionException, WrongGamePhaseException {
         if(checkCurrentTurn(p)) {
             if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
                 try {
@@ -163,16 +155,11 @@ public class GameController {
                 } catch (NoCardsException e) {
                     throw new RuntimeException(e);
                 }
-            } throw new IncorrectUserActionException("You cannot draw a card now");
+            } else throw new WrongGamePhaseException("You cannot draw a card now");
         } else throw new IncorrectUserActionException("It is not your turn.");
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
     public void playerDrawsCardFromDeck(Player p, GoldDeck d) throws IncorrectUserActionException, WrongGamePhaseException {
-        /*Checks if it is the player turn,
-         if the gameModel is in status wait draw card
-         try to draw from said deck
-         if it is successfully drawn continue,
-         else throw IncorrectUserActionException */
         if(checkCurrentTurn(p)) {
             if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
                 try {
@@ -181,16 +168,11 @@ public class GameController {
                 } catch (NoCardsException e) {
                     throw new RuntimeException(e);
                 }
-            } throw new WrongGamePhaseException("You cannot draw a card now.");
+            } else throw new WrongGamePhaseException("You cannot draw a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");
     }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
     public void playerDrawsCardFromAvailable(Player p, StandardCard c) throws IncorrectUserActionException, WrongGamePhaseException {
-        /*Checks if it is the player turn,
-         if the gameModel is in status wait draw card
-         try to draw said Card from the available
-         if it is successfully drawn continue,
-          else throw IncorrectUserActionException */
         if (checkCurrentTurn(p)) {
             if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
                 try {
@@ -219,6 +201,11 @@ public class GameController {
     }
 
     public void updatesPlayerKingdomView(Player p, Kingdom k) {
+        /* Sends the kingdom that has been modified after the placing of the card.
+         * Probably better to only send the diffs to the previous state.*/
+    }
+
+    public void sendResults(PlayerPoints[] results) {
         /* Sends the kingdom that has been modified after the placing of the card.
          * Probably better to only send the diffs to the previous state.*/
     }

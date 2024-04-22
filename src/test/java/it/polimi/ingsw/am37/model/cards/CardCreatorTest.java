@@ -33,5 +33,7 @@ class CardCreatorTest {
         GoldCard gc = (GoldCard) gcList.get(0);
         System.out.println(gc.toString());
 
+        assertThrows(RuntimeException.class, () -> cc.createCards("wrong_filename.json", new TypeToken<ArrayList<ResourceCard>>() {}.getType()));
+
     }
 }

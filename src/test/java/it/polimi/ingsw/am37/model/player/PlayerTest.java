@@ -125,6 +125,13 @@ class PlayerTest {
         param[0] = g.getODeck().drawCard();
         param[1] = g.getODeck().drawCard();
 
+        ObjectiveCard[] param2 = new ObjectiveCard[2];
+        param2[0] = g.getODeck().drawCard();
+        param2[1] = g.getODeck().drawCard();
+
+        p.setObjectivesToChooseFrom(param);
+        assertThrows(AlreadyAssignedException.class, () -> p.setObjectivesToChooseFrom(param2));
+
         ObjectiveCard other = g.getODeck().drawCard();
 
         p.setPrivateObjective(param[0]);
