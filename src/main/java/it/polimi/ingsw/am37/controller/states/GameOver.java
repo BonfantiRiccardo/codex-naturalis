@@ -8,8 +8,9 @@ public class GameOver implements State {
 
     public GameOver(GameController controller) {
         this.controller = controller;
-        controller.getGameInstance().setCurrentStatus(GameStatus.OVER);
-        controller.getGameInstance().handleResults();
+        this.controller.getGameInstance().setCurrentStatus(GameStatus.OVER);
+
+        this.controller.sendResults(this.controller.getGameInstance().getGameWinner());
     }
 
     @Override

@@ -22,6 +22,7 @@ class GameControllerTest {
     Player p3 = new Player("Alberto");
     GameController c = new GameController(p, 3);
     GameController c2 = new GameController(p, 3);
+
     @Test
     void createControllerTest() {
         assertSame(c.getAddedPlayers().get(0), p);
@@ -40,7 +41,7 @@ class GameControllerTest {
 
     @Test
     void setGetGameInstanceTest() throws AlreadyAssignedException {
-        GameModel g = new GameModel(createList(), c);
+        GameModel g = new GameModel(createList());
         c.setGameInstance(g);
         assertEquals(c.getGameInstance(), g);
 
@@ -48,7 +49,7 @@ class GameControllerTest {
     }
 
     @Test
-    void fillLobbyTest() throws IncorrectUserActionException, WrongGamePhaseException {
+    void fillLobbyTest() throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
         c2.addPlayer(p2);
         assertThrows(IncorrectUserActionException.class, () -> c2.addPlayer(new Player("Dario")));
         c2.addPlayer(p3);
@@ -57,8 +58,6 @@ class GameControllerTest {
         assertTrue(c2.isGameStarted());
         assertEquals(c2.getState().getClass(), WaitStartCardSide.class);
         assertEquals(c2.getGameInstance().getCurrentStatus(), GameStatus.WAIT_START_CARD_SIDE);
-        assertNotNull(c2.getGameInstance().getController());
-        assertEquals(c2, c2.getGameInstance().getController());
         assertNotNull(c2.getGameInstance().getAvailableGCards());
         assertNotNull(c2.getGameInstance().getAvailableRCards());
         for (Player p: c2.getGameInstance().getParticipants())
@@ -66,12 +65,12 @@ class GameControllerTest {
     }
 
     @Test
-    void chooseStartCardSideTest() throws IncorrectUserActionException, WrongGamePhaseException {
+    void chooseStartCardSideTest() throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
         c2.addPlayer(p2);
         c2.addPlayer(p3);
         c2.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
 
-        assertThrows(RuntimeException.class, () -> c2.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront()));
+        assertThrows(AlreadyAssignedException.class, () -> c2.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront()));
 
         assertThrows(IncorrectUserActionException.class, () -> c2.playerChoosesStartCardSide(p, c2.getGameInstance().getSDeck().drawCard(), p.getStartCard().getFront()));
 
@@ -89,7 +88,7 @@ class GameControllerTest {
     }
 
     @Test
-    void chooseTokenTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException {
+    void chooseTokenTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         c2.addPlayer(p2);
         c2.addPlayer(p3);
         c2.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
@@ -116,7 +115,7 @@ class GameControllerTest {
     }
 
     @Test
-    void chooseObjectiveTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException {
+    void chooseObjectiveTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         c2.addPlayer(p2);
         c2.addPlayer(p3);
         c2.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
@@ -147,7 +146,7 @@ class GameControllerTest {
     }
 
     @Test
-    void placeCardTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException {
+    void placeCardTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         c2.addPlayer(p2);
         c2.addPlayer(p3);
         c2.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
@@ -176,7 +175,7 @@ class GameControllerTest {
     }
 
     @Test
-    void drawCardEndGameTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException {
+    void drawCardEndGameTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         c2.addPlayer(p2);
         c2.addPlayer(p3);
         c2.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
@@ -269,4 +268,7 @@ class GameControllerTest {
         assertEquals(c2.getState().getClass(), GameOver.class);
         assertEquals(c2.getGameInstance().getCurrentStatus(), GameStatus.OVER);
     }
+
+    @Test
+    void disconnectionTest() {}
 }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am37.model.cards;
 
-import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.model.cards.objective.DiagonalUp;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
@@ -23,8 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DiagonalUpTest {
 
     Player p = new Player("Ricky");
-    GameController c = new GameController(p, 3);
-    GameModel g = new GameModel(createListOfPlayer(), c);
+    GameModel g = new GameModel(createListOfPlayer());
 
     public List<Player> createListOfPlayer () {
         List<Player> lOP = new ArrayList<>();

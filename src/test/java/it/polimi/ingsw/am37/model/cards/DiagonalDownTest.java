@@ -1,6 +1,6 @@
 package it.polimi.ingsw.am37.model.cards;
 
-import it.polimi.ingsw.am37.controller.GameController;
+
 import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
@@ -21,8 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class DiagonalDownTest {
     Player p = new Player("Ricky");
-    GameController c = new GameController(p, 1);
-    GameModel g = new GameModel(createListOfPlayer(), c);
+    GameModel g = new GameModel(createListOfPlayer());
 
     public List<Player> createListOfPlayer () {
         List<Player> lOP = new ArrayList<>();

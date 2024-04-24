@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am37.model.game;
 
-import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.exceptions.AlreadyAssignedException;
 import it.polimi.ingsw.am37.exceptions.IncorrectUserActionException;
 import it.polimi.ingsw.am37.exceptions.NoCardsException;
@@ -21,8 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameModelTest {
     Player pl1 = new Player("Riccardo");
-    GameController controller=new GameController(pl1,3);
-    GameModel g = new GameModel(createList(), controller);
+    GameModel g = new GameModel(createList());
 
 
     public List<Player> createList() {
@@ -40,11 +38,6 @@ class GameModelTest {
         g.setCurrentStatus(GameStatus.WAIT_START_CARD_SIDE);
 
         assertEquals(g.getCurrentStatus(), GameStatus.WAIT_START_CARD_SIDE);
-    }
-
-    @Test
-    void controllerTest() {
-        assertEquals(g.getController(), controller);
     }
 
     /**
@@ -186,8 +179,7 @@ class GameModelTest {
         players.add(p1);
         players.add(p2);
 
-        GameController controller=new GameController(null, 2);
-        GameModel g = new GameModel(players, controller);
+        GameModel g = new GameModel(players);
 
         g.giveStartCard();
         for (Player p: g.getParticipants()) {

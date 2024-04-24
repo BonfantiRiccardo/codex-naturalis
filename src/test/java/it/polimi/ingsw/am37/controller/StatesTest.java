@@ -3,6 +3,7 @@ package it.polimi.ingsw.am37.controller;
 import it.polimi.ingsw.am37.controller.states.*;
 import it.polimi.ingsw.am37.exceptions.AlreadyAssignedException;
 import it.polimi.ingsw.am37.exceptions.IncorrectUserActionException;
+import it.polimi.ingsw.am37.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.exceptions.WrongGamePhaseException;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.game.GameStatus;
@@ -21,7 +22,7 @@ public class StatesTest {
     GameController c = new GameController(p, 2);
 
     @Test
-    void lobbyTest() throws IncorrectUserActionException, WrongGamePhaseException {
+    void lobbyTest() throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
         assertEquals(c.getState().getClass(), LobbyState.class);
         c.getState().gamePhaseHandler();
         assertEquals(c.getState().getClass(), LobbyState.class);
@@ -34,7 +35,7 @@ public class StatesTest {
     }
 
     @Test
-    void waitStartCardTest() throws IncorrectUserActionException, WrongGamePhaseException {
+    void waitStartCardTest() throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
         c.addPlayer(p2);
         assertEquals(c.getState().getClass(), WaitStartCardSide.class);
 
@@ -46,7 +47,7 @@ public class StatesTest {
     }
 
     @Test
-    void waitTokenTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException {
+    void waitTokenTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         c.addPlayer(p2);
         c.playerChoosesStartCardSide(p2, p2.getStartCard(), p2.getStartCard().getFront());
         c.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
@@ -57,11 +58,11 @@ public class StatesTest {
         assertEquals(c.getState().getClass(), WaitObjective.class);
 
         c.setState(new WaitToken(c));
-        assertThrows(RuntimeException.class, () -> c.getState().gamePhaseHandler());
+        assertThrows(AlreadyAssignedException.class, () -> c.getState().gamePhaseHandler());
     }
 
     @Test
-    void waitObjectiveTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException {
+    void waitObjectiveTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         c.addPlayer(p2);
         c.playerChoosesStartCardSide(p2, p2.getStartCard(), p2.getStartCard().getFront());
         c.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
@@ -80,7 +81,7 @@ public class StatesTest {
     }
 
     @Test
-    void waitPlaceTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException {
+    void waitPlaceTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         c.addPlayer(p2);
         c.playerChoosesStartCardSide(p2, p2.getStartCard(), p2.getStartCard().getFront());
         c.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
@@ -105,7 +106,7 @@ public class StatesTest {
     }
 
     @Test
-    void waitDrawTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException {
+    void waitDrawTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         c.addPlayer(p2);
         c.playerChoosesStartCardSide(p2, p2.getStartCard(), p2.getStartCard().getFront());
         c.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
@@ -124,7 +125,7 @@ public class StatesTest {
     }
 
     @Test
-    void waitEndDrawTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException {
+    void waitEndDrawTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         c.addPlayer(p2);
         c.playerChoosesStartCardSide(p2, p2.getStartCard(), p2.getStartCard().getFront());
         c.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
@@ -158,7 +159,7 @@ public class StatesTest {
     }
 
     @Test
-    void gameOverTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException {
+    void gameOverTest() throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         c.addPlayer(p2);
         c.playerChoosesStartCardSide(p2, p2.getStartCard(), p2.getStartCard().getFront());
         c.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());

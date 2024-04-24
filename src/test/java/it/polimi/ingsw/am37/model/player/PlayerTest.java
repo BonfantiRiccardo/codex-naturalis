@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am37.model.player;
 
-import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
@@ -19,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
     Player p = new Player("Riccardo");
     Player p2 = new Player("Alberto");
-    GameController c = new GameController(p, 1);
 
     /**
      * Testing the get method for the nickname attribute.
@@ -47,7 +45,7 @@ class PlayerTest {
     @Test
     void setGetGameTest() {
         assertNull(p.getGame());
-        GameModel g = new GameModel(createListOfPlayer(), c);
+        GameModel g = new GameModel(createListOfPlayer());
         assertEquals(p.getGame(), g);
         assertThrows(AlreadyAssignedException.class, () -> p.setGame(g));
     }
@@ -68,7 +66,7 @@ class PlayerTest {
     @Test
     void setGetHandTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getHand());
-        GameModel g = new GameModel(createListOfPlayer(), c);
+        GameModel g = new GameModel(createListOfPlayer());
         List<StandardCard> hand = new ArrayList<>();
         hand.add(g.getGDeck().drawCard());
         hand.add(g.getRDeck().drawCard());
@@ -85,7 +83,7 @@ class PlayerTest {
     @Test
     void setStartCardTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getStartCard());
-        GameModel g = new GameModel(createListOfPlayer(), c);
+        GameModel g = new GameModel(createListOfPlayer());
         StartCard sC = g.getSDeck().drawCard();
         p.setStartCard(sC);
         assertEquals(p.getStartCard(), sC);
@@ -99,7 +97,7 @@ class PlayerTest {
     @Test
     void createKingdomTest() throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
         assertNull(p.getMyKingdom());
-        GameModel g = new GameModel(createListOfPlayer(), c);
+        GameModel g = new GameModel(createListOfPlayer());
         StartCard sC = g.getSDeck().drawCard();
         p.setStartCard(sC);
 
@@ -119,7 +117,7 @@ class PlayerTest {
     @Test
     void chooseObjectiveTest() throws NoCardsException, AlreadyAssignedException {
         assertNull(p.getPrivateObjective());
-        GameModel g = new GameModel(createListOfPlayer(), c);
+        GameModel g = new GameModel(createListOfPlayer());
 
         ObjectiveCard[] param = new ObjectiveCard[2];
         param[0] = g.getODeck().drawCard();
@@ -145,7 +143,7 @@ class PlayerTest {
      */
     @Test
     void drawCardFromDeckTest() throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
-        GameModel g = new GameModel(createListOfPlayer(), c);
+        GameModel g = new GameModel(createListOfPlayer());
         List<StandardCard> hand = new ArrayList<>();
         hand.add(g.getGDeck().drawCard());
         hand.add(g.getRDeck().drawCard());
@@ -179,8 +177,7 @@ class PlayerTest {
      */
     @RepeatedTest(value = 10)
     void drawCardFromAvailableTest() throws AlreadyAssignedException, NoCardsException, IncorrectUserActionException {
-        GameController c = new GameController(p, 2);
-        GameModel g = new GameModel(createListOfPlayer2(), c);
+        GameModel g = new GameModel(createListOfPlayer2());
         g.setAvailableCards();
         g.createHand();
 
@@ -239,7 +236,7 @@ class PlayerTest {
     //@Test
     @RepeatedTest(value = 100)
     void placeCardTest() throws NoCardsException, AlreadyAssignedException, IncorrectUserActionException {
-        GameModel g = new GameModel(createListOfPlayer(), c);
+        GameModel g = new GameModel(createListOfPlayer());
         List<StandardCard> hand = new ArrayList<>();
         hand.add(g.getRDeck().drawCard());
         hand.add(g.getRDeck().drawCard());
@@ -319,7 +316,7 @@ class PlayerTest {
     //@Test
     @RepeatedTest(value = 100)
     void addPointsTest() throws NoCardsException, IncorrectUserActionException, AlreadyAssignedException {
-        GameModel g = new GameModel(createListOfPlayer(), c);
+        GameModel g = new GameModel(createListOfPlayer());
         g.giveStartCard();
         g.createHand();
         p.instantiateMyKingdom(p.getStartCard(), p.getStartCard().getFront());

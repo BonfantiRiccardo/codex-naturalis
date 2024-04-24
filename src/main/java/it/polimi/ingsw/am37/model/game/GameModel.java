@@ -1,6 +1,5 @@
 package it.polimi.ingsw.am37.model.game;
 
-import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
@@ -18,7 +17,6 @@ public class GameModel {
      * The currentStatus attribute gives information about the current state of the model.
      */
     private GameStatus currentStatus;
-    private final GameController gameController;
     /**
      * The participantsInOrder attribute is a list of all the participants in the order of their turns.
      */
@@ -84,9 +82,8 @@ public class GameModel {
      * phase to preparation.
      * @param participantsInOrder A list of 2 to 4 player that are the participants of this instance of the game.
      */
-    public GameModel(List<Player> participantsInOrder, GameController controller) {
+    public GameModel(List<Player> participantsInOrder) {
         this.participantsInOrder = participantsInOrder;
-        this.gameController = controller;
 
         disconnectedPlayers = new ArrayList<>();
 
@@ -112,14 +109,6 @@ public class GameModel {
 
     public void setCurrentStatus(GameStatus currentStatus) {
         this.currentStatus = currentStatus;
-    }
-
-    /**
-     * The getController() method returns the controller object that is linked to this instance of the game model.
-     * @return The gameController attribute.
-     */
-    public GameController getController() {
-        return gameController;
     }
 
     /**
@@ -207,7 +196,6 @@ public class GameModel {
 
         while(getAvailableRCards().size() < 2)
             availableRCards.add(rDeck.drawCard());
-
 
         //NOTIFIES THE OBSERVERS WiTH UPDATE TO SEND TO VIEW
     }
@@ -319,14 +307,6 @@ public class GameModel {
     public int getLastTurn() {
         return lastTurn;
     }
-
-    public void handleResults() {
-        PlayerPoints[] finalPoints = getGameWinner();
-
-        //UPDATE THE OBSERVERS
-        //for (Player p: participantsInOrder)
-            //gameController.sendResults(finalPoints);
-    }       //CALCULATES FINAL SCOREBOARD AND CALLS OBSERVERS TO UPDATE THE VIEWS
 
     /**
      * The getGameWinner() method calculates everyone's final points and then returns the final scoreboard.

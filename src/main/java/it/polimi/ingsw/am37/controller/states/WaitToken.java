@@ -15,7 +15,7 @@ public class WaitToken implements State {
     }
 
     @Override
-    public void gamePhaseHandler() {
+    public void gamePhaseHandler() throws NoCardsException, AlreadyAssignedException {
         int i = 0;
         for (Player p: controller.getGameInstance().getParticipants()) {
             if (p.getToken() == null) {
@@ -24,13 +24,10 @@ public class WaitToken implements State {
             i++;
         }
         if (i == controller.getNumOfPlayers()) {
-            try {
-                controller.getGameInstance().createHand();
-                controller.getGameInstance().setPublicObjectives();
-                controller.getGameInstance().giveObjectiveCards();
-            } catch (NoCardsException | AlreadyAssignedException e) {
-                throw new RuntimeException(e);
-            }
+            controller.getGameInstance().createHand();
+            controller.getGameInstance().setPublicObjectives();
+            controller.getGameInstance().giveObjectiveCards();
+
             controller.setState(new WaitObjective(controller));
         }
     }

@@ -77,7 +77,7 @@ public class GameController {
 
 
     //------------------------------------------------------------------------------------------------
-    public void addPlayer (Player newPlayer) throws IncorrectUserActionException, WrongGamePhaseException {
+    public void addPlayer (Player newPlayer) throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
         if (gameInstance == null) {
             if (participants.size() < numOfPlayers) {
                 for (Player p: participants) {
@@ -86,33 +86,36 @@ public class GameController {
                 }
 
                 participants.add(newPlayer);
+                playerViews.put(newPlayer, new VirtualView(this));
                 state.gamePhaseHandler();
-                //playerViews.put(newPlayer, new VirtualView(this));
-                //for (Player p: participants)
-                    //playerViews.get(p).updateLobbyView(newPlayer, participants.size(), numOfPlayers);
+
+                for (Player p: participants)                                    //SINGLE VIRTUAL VIEW OR 1 FOR EACH PLAYER?
+                    playerViews.get(p).updateLobbyView(newPlayer, participants.size(), numOfPlayers);
 
             } else
                 throw new IncorrectUserActionException("The game is full.");
         } else throw new WrongGamePhaseException("This game has started.");
-    }
+    }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
 
-    public void playerChoosesStartCardSide(Player p, StartCard c, Side s) throws IncorrectUserActionException, WrongGamePhaseException {
+    public void playerChoosesStartCardSide(Player p, StartCard c, Side s) throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
         if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_START_CARD_SIDE)) {
             if (!p.getStartCard().equals(c) || (!c.getBack().equals(s) && !c.getFront().equals(s))) {
                 throw new IncorrectUserActionException("You tried to place a Card that is not your StartCard.");
             } else {
-                try {
-                    p.instantiateMyKingdom(c, s);
-                    state.gamePhaseHandler();
-                } catch (AlreadyAssignedException e) {
-                    throw new RuntimeException(e);
-                }
+                p.instantiateMyKingdom(c, s);
+                state.gamePhaseHandler();
+
+                // UPDATE VIEW DIRECTLY HERE?
+                playerViews.get(p).acknowledgePlayer(p);
+                for (Player pl: gameInstance.getParticipants())
+                    if (!pl.equals(p))
+                        playerViews.get(pl).updatesPlayersKingdomView(p, c, s, s.getPositionInKingdom());
+
             }
         } else throw new WrongGamePhaseException("You cannot place your start card now.");
+    }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
 
-    }
-
-    public void playerChoosesToken (Player p, Token t) throws AlreadyAssignedException, IncorrectUserActionException, WrongGamePhaseException {
+    public void playerChoosesToken (Player p, Token t) throws AlreadyAssignedException, IncorrectUserActionException, WrongGamePhaseException, NoCardsException {
         if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_TOKEN)) {
             boolean check = true;
             for (Player pl: gameInstance.getParticipants()) {
@@ -126,134 +129,133 @@ public class GameController {
             else if (check) {
                 p.setToken(t);
                 state.gamePhaseHandler();
+
+                // UPDATE VIEW DIRECTLY HERE?
+                playerViews.get(p).acknowledgePlayer(p);
+                for (Player pl: gameInstance.getParticipants())
+                    if (!pl.equals(p))
+                        playerViews.get(pl).nowUnavailableToken(t);
+
             } else
                 throw new IncorrectUserActionException("The token has been chosen by another player.");
         } else throw new WrongGamePhaseException("You cannot choose your token now.");
 
-    }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
+    }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
 
-    public void playerChoosesObjective(Player p, ObjectiveCard c) throws AlreadyAssignedException, WrongGamePhaseException, IncorrectUserActionException {
+    public void playerChoosesObjective(Player p, ObjectiveCard c) throws AlreadyAssignedException, WrongGamePhaseException, IncorrectUserActionException, NoCardsException {
         if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_OBJECTIVE)) {
             if (p.getPrivateObjective() != null) {
                 throw new AlreadyAssignedException("The player has already chosen his private objective.");
             } else if (p.getObjectivesToChooseFrom()[0].equals(c) || p.getObjectivesToChooseFrom()[1].equals(c)) {
                 p.setPrivateObjective(c);
                 state.gamePhaseHandler();
+
+                // UPDATE VIEW DIRECTLY HERE?
+                playerViews.get(p).acknowledgePlayer(p);
+
             } else throw new IncorrectUserActionException("The objective you chose was not one of the two assigned to you.");
         } else throw new WrongGamePhaseException("You cannot choose your objective now.");
-    }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
+    }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
+
+    public void playerPlacesCard(Player p, StandardCard c, Side s, Position pos) throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
+        if (checkCurrentTurn(p)) {
+            if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_PLACE)) {
+                p.placeCard(c, s, pos);
+                state.gamePhaseHandler();
+
+                // UPDATE VIEW DIRECTLY HERE?
+                for (Player pl: gameInstance.getParticipants())
+                    playerViews.get(pl).updatesPlayersKingdomView(p, c, s, pos);
+
+            } else throw new WrongGamePhaseException("You cannot place a card now.");
+        } else throw new IncorrectUserActionException("It is not your turn.");
+    }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
+
+    public void playerDrawsCardFromDeck(Player p, ResourceDeck d) throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
+        if(checkCurrentTurn(p)) {
+            if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
+                p.drawCardFromDeck(d);
+                state.gamePhaseHandler();
+
+                // UPDATE VIEW DIRECTLY HERE?   HOW DO I SEND CLIENT THE NEW CARD?
+                for (Player pl: gameInstance.getParticipants())      //ACKNOWLEDGE CLIENT?
+                    playerViews.get(pl).updatesDeckView(d, d.firstBack());
+
+            } else throw new WrongGamePhaseException("You cannot draw a card now");
+        } else throw new IncorrectUserActionException("It is not your turn.");
+    }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
+
+    public void playerDrawsCardFromDeck(Player p, GoldDeck d) throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
+        if(checkCurrentTurn(p)) {
+            if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
+                p.drawCardFromDeck(d);
+                state.gamePhaseHandler();
+
+                // UPDATE VIEW DIRECTLY HERE?   HOW DO I SEND CLIENT THE NEW CARD?
+                for (Player pl: gameInstance.getParticipants())      //ACKNOWLEDGE CLIENT?
+                    playerViews.get(pl).updatesDeckView(d, d.firstBack());
+
+            } else throw new WrongGamePhaseException("You cannot draw a card now.");
+        } else throw new IncorrectUserActionException("It is not your turn.");
+    }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
+
+    public void playerDrawsCardFromAvailable(Player p, StandardCard c) throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
+        if (checkCurrentTurn(p)) {
+            if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
+                p.drawCardFromAvailable(c);
+                state.gamePhaseHandler();
+
+                // UPDATE VIEW DIRECTLY HERE?
+                playerViews.get(p).acknowledgePlayer(p);           //OTHERWISE REUSE METHOD SEND AVAILABLE
+                for (Player pl: gameInstance.getParticipants())    //HOW DO I KNOW WHICH LIST CHANGED? RETURN A LIST FROM METHOD
+                    playerViews.get(pl).updatesCardView(gameInstance.getAvailableGCards());
+
+            } else throw new WrongGamePhaseException("You cannot draw a card now.");
+        } else throw new IncorrectUserActionException("It is not your turn.");
+    }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
 
     private boolean checkCurrentTurn(Player p) {
         return gameInstance.getCurrentTurn().equals(p);
     }
 
-    public void playerPlacesCard(Player p, StandardCard c, Side s, Position pos) throws IncorrectUserActionException, WrongGamePhaseException {
-         /*Checks if it is the player turn,
-         if the gameModel is in status wait place card
-         try to place said Card in the kingdom
-         if it is successfully placed continue,
-         else throw IncorrectUserActionException */
-        if (checkCurrentTurn(p)) {
-            if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_PLACE)) {
-                p.placeCard(c, s, pos);
-                state.gamePhaseHandler();
-            } else throw new WrongGamePhaseException("You cannot place a card now.");
-        } else throw new IncorrectUserActionException("It is not your turn.");
-    }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
-
-    public void playerDrawsCardFromDeck(Player p, ResourceDeck d) throws IncorrectUserActionException, WrongGamePhaseException {
-        if(checkCurrentTurn(p)) {
-            if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
-                try {
-                    p.drawCardFromDeck(d);      //TRY CATCH FOR OTHER EXCEPTIONS
-                    state.gamePhaseHandler();
-                } catch (NoCardsException e) {
-                    throw new RuntimeException(e);
-                }
-            } else throw new WrongGamePhaseException("You cannot draw a card now");
-        } else throw new IncorrectUserActionException("It is not your turn.");
-    }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
-
-    public void playerDrawsCardFromDeck(Player p, GoldDeck d) throws IncorrectUserActionException, WrongGamePhaseException {
-        if(checkCurrentTurn(p)) {
-            if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
-                try {
-                    p.drawCardFromDeck(d);      //TRY CATCH FOR OTHER EXCEPTIONS
-                    state.gamePhaseHandler();
-                } catch (NoCardsException e) {
-                    throw new RuntimeException(e);
-                }
-            } else throw new WrongGamePhaseException("You cannot draw a card now.");
-        } else throw new IncorrectUserActionException("It is not your turn.");
-    }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
-
-    public void playerDrawsCardFromAvailable(Player p, StandardCard c) throws IncorrectUserActionException, WrongGamePhaseException {
-        if (checkCurrentTurn(p)) {
-            if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
-                try {
-                    p.drawCardFromAvailable(c);
-                    state.gamePhaseHandler();
-                } catch (NoCardsException e) {
-                    throw new RuntimeException(e);
-                }
-            } else throw new WrongGamePhaseException("You cannot draw a card now.");
-        } else throw new IncorrectUserActionException("It is not your turn.");
-    }    //THIS METHOD IS REMOTELY CALLED BY THE CLIENT
 
 
-    //IN VIRTUAL VIEW? CALLED FROM MODEL OR FROM CONTROLLER?
+    //VIRTUAL VIEW DIRECTLY CALLED AFTER MODIFICATION IN PREVIOUS CONTROLLER METHODS, SO PROBABLY DELETE AFTER THIS
 
-    public void sendStartCard(Player p, StartCard sc) {
+    public void sendAvailable(List<StandardCard> cGold, List<StandardCard> cResource) {     //PROBABLY NEEDED
+        /* Sends the two objectives card that the player can draw from.*/
+        for (Player pl: gameInstance.getParticipants())
+            playerViews.get(pl).sendAvailables(cGold, cResource);
+    }
+
+    public void sendStartCard(Player p, StartCard sc) {     //PROBABLY NEEDED
         /*Sends the start card that was assigned to the player*/
+        playerViews.get(p).sendStartCard(p, sc);
     }
 
-    public void notifyTurn(Player p) {
-        playerViews.get(p).notifyTurn(p);   //PASSING p AS PARAMETER SHOULDN'T BE NECESSARY
-    }
-
-    public void generateHandView(Player p, List<StandardCard> hand) {
+    public void generateHandView(Player p, List<StandardCard> hand) {     //PROBABLY NEEDED
         /* Sends all the list of cards that were assigned to the initial hand of the player*/
         playerViews.get(p).generateHandView(p, hand);
     }
 
-    public void updatesDeckView(Deck d, Back s) {
-        /*Sends the new back side that is visible from the top of the deck.
-         * OR SEND THE RESOURCE SO THAT THE SIDE REMAINS UNKNOWN*/
-        for (Player p: gameInstance.getParticipants())
-            playerViews.get(p).updatesDeckView(d, s);
+    public void generatePublicObjectivesView(ObjectiveCard[] publicObjectives) {
+        //SENDS THE TWO PUBLIC OBJECTIVE CARDS
+        for (Player p:  gameInstance.getParticipants())
+            playerViews.get(p).generatePublicObjectivesView(p, publicObjectives);
     }
 
-    public void updatePlayerHandView(Player p, StandardCard c) {
-        /*Sends the new card that the player has drawn and that should appear in his hand.*/
-        playerViews.get(p).updatePlayerHandView(p, c);
+    public void notifyTurn(Player p) {     //PROBABLY NEEDED
+        playerViews.get(p).notifyTurn(p);   //PASSING p AS PARAMETER SHOULDN'T BE NECESSARY
     }
 
-    public void updatesCardView(List<StandardCard> cList, StandardCard c) {
-        /* Sends the new Card that is available for anyone to draw.*/
-        for (Player p: gameInstance.getParticipants())
-            playerViews.get(p).updatesCardView(cList, c);
-    }
-
-    public void updatesObjectivesView(Player p, ObjectiveCard[] objToChooseFrom) {
-        /* Sends the two objectives card that the player can draw from.*/
-        playerViews.get(p).updatesObjectivesView(p, objToChooseFrom);
-    }
-
-    public void updatesPlayerKingdomView(Player p, StandardCard placed) {
-        /* Sends the kingdom that has been modified after the placing of the card.
-         * Probably better to only send the diffs to the previous state.*/
-        for (Player pl: gameInstance.getParticipants())
-            playerViews.get(pl).updatesPlayersKingdomView(p, placed);
-    }
-
-    public void sendResults(PlayerPoints[] results) {
+    public void sendResults(PlayerPoints[] results) {     //PROBABLY NEEDED
         /* Sends the results of the game that have been calculated by the getGameWinner() method.*/
         for (Player p: gameInstance.getParticipants())
             playerViews.get(p).sendResults(results);
     }
 
 
-
+    //IMPLEMENT DISCONNECTIONS WITH TIMEOUTS HANDLING IN SERVER
     public boolean handleDisconnection(Player p) {return true;}
 
     public boolean checkConnection(Player p) {return true;}

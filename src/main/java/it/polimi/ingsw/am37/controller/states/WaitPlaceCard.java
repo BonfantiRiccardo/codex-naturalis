@@ -9,6 +9,8 @@ public class WaitPlaceCard implements State{
     public WaitPlaceCard(GameController controller) {
         this.controller = controller;
         this.controller.getGameInstance().setCurrentStatus(GameStatus.WAIT_PLACE);
+
+        this.controller.notifyTurn(this.controller.getGameInstance().getCurrentTurn());
     }
 
     @Override

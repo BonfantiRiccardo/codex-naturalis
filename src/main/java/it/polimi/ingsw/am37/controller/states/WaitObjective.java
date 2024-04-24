@@ -10,6 +10,10 @@ public class WaitObjective implements State{
     public WaitObjective(GameController controller) {
         this.controller = controller;
         this.controller.getGameInstance().setCurrentStatus(GameStatus.WAIT_OBJECTIVE);
+
+        for (Player p: this.controller.getGameInstance().getParticipants())
+            this.controller.generateHandView(p, p.getHand());
+        this.controller.generatePublicObjectivesView(this.controller.getGameInstance().getPublicObjectives());
     }
 
     @Override
