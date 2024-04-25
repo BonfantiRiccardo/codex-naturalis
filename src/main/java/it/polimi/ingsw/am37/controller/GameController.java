@@ -99,19 +99,19 @@ public class GameController {
 
     public void playerChoosesStartCardSide(Player p, StartCard c, Side s) throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
         if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_START_CARD_SIDE)) {
-            if (!p.getStartCard().equals(c) || (!c.getBack().equals(s) && !c.getFront().equals(s))) {
-                throw new IncorrectUserActionException("You tried to place a Card that is not your StartCard.");
-            } else {
+            if (!p.getStartCard().equals(c))
+                throw new IncorrectUserActionException("The start card you want to place is not the one assigned to you.");
+            else if (p.getStartCard().getFront().equals(s) || p.getStartCard().getBack().equals(s)) {
                 p.instantiateMyKingdom(c, s);
                 state.gamePhaseHandler();
 
                 // UPDATE VIEW DIRECTLY HERE?
                 playerViews.get(p).acknowledgePlayer(p);
-                for (Player pl: gameInstance.getParticipants())
+                for (Player pl : gameInstance.getParticipants())
                     if (!pl.equals(p))
                         playerViews.get(pl).updatesPlayersKingdomView(p, c, s, s.getPositionInKingdom());
 
-            }
+            } else throw new IncorrectUserActionException("The side you want to place does not correspond to the one of your start card.");
         } else throw new WrongGamePhaseException("You cannot place your start card now.");
     }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
 
@@ -134,7 +134,7 @@ public class GameController {
                 playerViews.get(p).acknowledgePlayer(p);
                 for (Player pl: gameInstance.getParticipants())
                     if (!pl.equals(p))
-                        playerViews.get(pl).nowUnavailableToken(t);
+                        playerViews.get(pl).nowUnavailableToken(p, t);
 
             } else
                 throw new IncorrectUserActionException("The token has been chosen by another player.");
@@ -220,20 +220,20 @@ public class GameController {
 
 
 
-    //VIRTUAL VIEW DIRECTLY CALLED AFTER MODIFICATION IN PREVIOUS CONTROLLER METHODS, SO PROBABLY DELETE AFTER THIS
+    //SHOULD THERE BE A VIRTUAL VIEW FOR EACH CLIENT OR JUST ONE GENERIC VIRTUAL VIEW THAT REPRESENTS A CLIENT?
 
-    public void sendAvailable(List<StandardCard> cGold, List<StandardCard> cResource) {     //PROBABLY NEEDED
+    public void sendAvailable(List<StandardCard> cGold, List<StandardCard> cResource) {
         /* Sends the two objectives card that the player can draw from.*/
         for (Player pl: gameInstance.getParticipants())
-            playerViews.get(pl).sendAvailables(cGold, cResource);
+            playerViews.get(pl).sendAvailable(cGold, cResource);
     }
 
-    public void sendStartCard(Player p, StartCard sc) {     //PROBABLY NEEDED
+    public void sendStartCard(Player p, StartCard sc) {
         /*Sends the start card that was assigned to the player*/
         playerViews.get(p).sendStartCard(p, sc);
     }
 
-    public void generateHandView(Player p, List<StandardCard> hand) {     //PROBABLY NEEDED
+    public void generateHandView(Player p, List<StandardCard> hand) {
         /* Sends all the list of cards that were assigned to the initial hand of the player*/
         playerViews.get(p).generateHandView(p, hand);
     }
@@ -244,21 +244,27 @@ public class GameController {
             playerViews.get(p).generatePublicObjectivesView(p, publicObjectives);
     }
 
-    public void notifyTurn(Player p) {     //PROBABLY NEEDED
+    public void notifyTurn(Player p) {
+        //IF PLAYER IS DISCONNECTED, TRY TO RECONNECT, IF FAILURE (TIMEOUT) THEN SKIP TURN
         playerViews.get(p).notifyTurn(p);   //PASSING p AS PARAMETER SHOULDN'T BE NECESSARY
     }
 
-    public void sendResults(PlayerPoints[] results) {     //PROBABLY NEEDED
+    public void sendResults(PlayerPoints[] results) {
         /* Sends the results of the game that have been calculated by the getGameWinner() method.*/
         for (Player p: gameInstance.getParticipants())
             playerViews.get(p).sendResults(results);
     }
 
+    public void handleDisconnection(Player p) {
+        gameInstance.setDisconnected(p);
+    }
 
     //IMPLEMENT DISCONNECTIONS WITH TIMEOUTS HANDLING IN SERVER
-    public boolean handleDisconnection(Player p) {return true;}
+    public boolean checkConnection(Player p) {
+        return true;
+    }
 
-    public boolean checkConnection(Player p) {return true;}
-
-    public boolean handleReconnection(Player p) {return true;}
+    public void handleReconnection(Player p) {
+        gameInstance.reconnect(p);
+    }
 }

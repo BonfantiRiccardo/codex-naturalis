@@ -72,7 +72,7 @@ class GameControllerTest {
 
         assertThrows(AlreadyAssignedException.class, () -> c2.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront()));
 
-        assertThrows(IncorrectUserActionException.class, () -> c2.playerChoosesStartCardSide(p, c2.getGameInstance().getSDeck().drawCard(), p.getStartCard().getFront()));
+        assertThrows(IncorrectUserActionException.class, () -> c2.playerChoosesStartCardSide(p2, c2.getGameInstance().getSDeck().drawCard(), p.getStartCard().getFront()));
 
         c2.playerChoosesStartCardSide(p3, p3.getStartCard(), p3.getStartCard().getFront());
         c2.playerChoosesStartCardSide(p2, p2.getStartCard(), p2.getStartCard().getFront());
@@ -270,5 +270,27 @@ class GameControllerTest {
     }
 
     @Test
-    void disconnectionTest() {}
+    void virtualViewCreationTest() throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
+        assertNotNull(c2.getPlayerViews().get(p));
+        c2.addPlayer(p2);
+        assertNotNull(c2.getPlayerViews().get(p2));
+        c2.addPlayer(p3);
+        assertNotNull(c2.getPlayerViews().get(p3));
+    }
+
+    @Test
+    void disconnectionTest() throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
+        c2.addPlayer(p2);
+        c2.addPlayer(p3);
+
+        c2.handleDisconnection(p);
+
+        assertTrue(p.isDisconnected());
+        assertTrue(c2.getGameInstance().getDisconnectedPlayers().contains(p));
+
+        c2.handleReconnection(p);
+
+        assertFalse(p.isDisconnected());
+        assertFalse(c2.getGameInstance().getDisconnectedPlayers().contains(p));
+    }
 }

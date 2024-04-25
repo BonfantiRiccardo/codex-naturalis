@@ -87,7 +87,7 @@ public class Player {
      */
     public void setToken(Token token) throws AlreadyAssignedException {
         if (this.token != null) {
-            throw new AlreadyAssignedException("The token has already been chosen.");
+            throw new AlreadyAssignedException("You already chose your token.");
         } else
             this.token = token;
     }
@@ -166,9 +166,9 @@ public class Player {
     }
 
     public void setObjectivesToChooseFrom(ObjectiveCard[] objectivesToChooseFrom) throws AlreadyAssignedException {
-        if (this.objectivesToChooseFrom == null)
-           this.objectivesToChooseFrom = objectivesToChooseFrom;
-        else
+        if (this.objectivesToChooseFrom == null) {
+            this.objectivesToChooseFrom = new ObjectiveCard[] {objectivesToChooseFrom[0], objectivesToChooseFrom[1]};
+        } else
             throw new AlreadyAssignedException("The objectives to choose from have already been assigned");
     }
 
@@ -202,14 +202,11 @@ public class Player {
      * @throws AlreadyAssignedException Throws this exception if the Kingdom has already been created.
      */
     public void instantiateMyKingdom(StartCard sC, Side startSide) throws AlreadyAssignedException, IncorrectUserActionException {
-        if (this.myKingdom != null) {
+        if (this.myKingdom != null)
             throw new AlreadyAssignedException("The Kingdom cannot be created twice");
-        } else if (!startCard.equals(sC))
-            throw new IncorrectUserActionException("The start card you want to place is not the one assigned to you.");
-        else if (sC.getFront().equals(startSide) || sC.getBack().equals(startSide))
+       else
             this.myKingdom = new Kingdom(sC, startSide);
-        else throw new IncorrectUserActionException("The side you want to place is does not correspond to the one of your start card.");
-    }
+        }
 
     /**
      * The getMyKingdom() method returns a reference to the kingdom of the player.

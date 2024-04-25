@@ -101,10 +101,6 @@ class PlayerTest {
         StartCard sC = g.getSDeck().drawCard();
         p.setStartCard(sC);
 
-        StartCard sC2 = g.getSDeck().drawCard();
-        assertThrows(IncorrectUserActionException.class, () -> p.instantiateMyKingdom(sC2, sC2.getFront()));
-        assertThrows(IncorrectUserActionException.class, () -> p.instantiateMyKingdom(sC, sC2.getFront()));
-
         p.instantiateMyKingdom(sC, sC.getFront());
         assertNotNull(p.getMyKingdom());
 
