@@ -1,6 +1,4 @@
 NOTA: Questa repository è composta da pochi, grossi commit iniziali poiché essendo tutti i componenti del gruppo poco pratici con git e GitHub
 abbiamo voluto fare parecchi test su una nostra repository privata, in modo tale da non "sporcare" quella ufficiale.
 
-Manca l'implementazione delle virtual view che sono ancora solo un prototipo, come anche il testing di questi ultime.
-Esse dovrebbero implementare il pattern Listener/Observer che permette a seguito di una modifica del model di aggiornare le view e a seguito di
-un evento generato dalla view, chiamare il controller.
+Manca l'implementazione e il testing dell'interazione delle virtual view con l'interfaccia server, e di conseguenza la rete, tramite Threads.

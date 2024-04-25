@@ -157,7 +157,7 @@ public class VirtualView implements EventListener {
         //SENDS ERROR MESSAGE TO CLIENT'S VIEW (USE NEW THREAD)
 
         //STUB FOR TESTING:
-        System.out.println(p.getNickname() + ": " + errorMessage);
+        System.err.println(p.getNickname() + ": " + errorMessage);
     }
 
 }
