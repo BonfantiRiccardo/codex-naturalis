@@ -108,7 +108,7 @@ public class VirtualView implements EventListener {
         //SEND START CARD TO THE PLAYER  (USE NEW THREAD)
     }
 
-    public void nowUnavailableToken(Player P, Token t) {
+    public void nowUnavailableToken(Player p, Token t) {
         //SENDS THE NOW UNAVAILABLE TOKEN AND THE PLAYER WHO CHOSE IT TO THE REMOTE VIEW (USE NEW THREAD)
     }
 

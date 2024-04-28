@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am37.client;
 
-import it.polimi.ingsw.am37.server.Message;
+import it.polimi.ingsw.am37.common.messages.*;
+import it.polimi.ingsw.am37.common.messages.MessageId;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,21 +21,43 @@ public class ClientTCP {
 
     public void startClient() throws IOException {
         final Socket socket = new Socket(ip, port);
-        System.out.println("Connection established");
+        System.out.println("Connection established on port: " + port);
 
         final ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
-        final ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
+        socketOut.flush();
         final Scanner stdin = new Scanner(System.in);
+        final ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
+
         try {
             while (true) {
-                System.out.println("Player: ");
+                System.out.println("create or join? (terminate)");
                 final String inputLine = stdin.nextLine();
-                System.out.println("Num: ");
-                final int inputNum = stdin.nextInt();
-                stdin.nextLine();
-                final Message message = new Message(inputLine, inputNum);
+                MessageId id;
+                if (inputLine.equals("terminate"))
+                    break;
+                else if (inputLine.equals("create"))
+                    id = MessageId.CREATE;
+                else
+                    id = MessageId.JOIN;
+
+                System.out.println("Nickname: ");
+                final String inputLine2 = stdin.nextLine();
+
+                Message message;
+
+                if(id.equals(MessageId.CREATE)) {
+                    System.out.println("Num: ");
+                    final int inputNum = stdin.nextInt();
+                    stdin.nextLine();
+                    message = new CreationMessage(id, inputLine2, inputNum);
+                } else
+                    message = new JoinMessage(id, inputLine2);
+
+
                 socketOut.writeObject(message);
                 socketOut.flush();
+
+
                 final Message reply = (Message) socketIn.readObject();
                 System.out.println(reply);
             }
@@ -47,4 +70,5 @@ public class ClientTCP {
             socket.close();
         }
     }
+
 }

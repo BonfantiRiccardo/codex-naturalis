@@ -20,6 +20,7 @@ module it.polimi.ingsw.am37 {
     exports it.polimi.ingsw.am37.controller.states;
     exports it.polimi.ingsw.am37.virtualview;
     exports it.polimi.ingsw.am37.server;
+    exports it.polimi.ingsw.am37.common;
 
     opens it.polimi.ingsw.am37.model.cards to com.google.gson;
     opens it.polimi.ingsw.am37.model.cards.objective to com.google.gson;
@@ -27,5 +28,8 @@ module it.polimi.ingsw.am37 {
     opens it.polimi.ingsw.am37.model.sides to com.google.gson;
 
     opens it.polimi.ingsw.am37.server to javafx.fxml;
+    opens it.polimi.ingsw.am37.common to javafx.fxml;
+    exports it.polimi.ingsw.am37.common.messages;
+    opens it.polimi.ingsw.am37.common.messages to javafx.fxml;
 
 }

@@ -1,20 +1,27 @@
 package it.polimi.ingsw.am37.server;
 
+import it.polimi.ingsw.am37.common.MessageDecoder;
+import it.polimi.ingsw.am37.common.messages.Message;
+import it.polimi.ingsw.am37.common.messages.MessageId;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ServerTCP {
     private final int port;
     private final MessageDecoder decoder;
+    private final HashMap<Socket, ObjectOutputStream> map;
 
     public ServerTCP(int port) {
         this.port = port;
-        decoder = new MessageDecoder();
+        decoder = new MessageDecoder(this);
+        map = new HashMap<>();
     }
 
     public void startServer() {
@@ -26,21 +33,24 @@ public class ServerTCP {
             System.err.println(e.getMessage());
             return;
         }
-        System.out.println("Server ready");
+        System.out.println("Server ready, listening on port: " + port);
         while (true) {
             try {
                 final Socket socket = serverSocket.accept();
+                System.out.println("Connection established");
                 executor.submit(() -> {
                     try {
                         ObjectInputStream in = null;
                         ObjectOutputStream out = null;
                         try {
-                            out = new ObjectOutputStream(socket.getOutputStream());
                             in = new ObjectInputStream(socket.getInputStream());
+                            out = new ObjectOutputStream(socket.getOutputStream());
+                            map.put(socket, out);
                         } catch (IOException e) {
                             System.err.println(e.getMessage());
                         }
 
+                        System.out.println("Waiting...");
                         while (true) {
                             Message message = null;
                             try {
@@ -51,38 +61,14 @@ public class ServerTCP {
                                 System.out.println(e.getMessage());
                             }
                             assert message != null;
-                            if (message.getCreator().equals("quit")) {
+                            if (message.getId().equals(MessageId.TERMINATE))
                                 break;
-                            } else {
-                                try {
-                                    decoder.decodeAndExecute(message.getCreator(), message.getNum());
-                                    out.writeObject(message);
-                                    out.flush();
-                                } catch (IOException e) {
-                                    System.out.println(e.getMessage());
-                                }
-                            }
-
-                            try {
-                                message = (Message) in.readObject();
-                            } catch (IOException | ClassNotFoundException e) {
-                                System.out.println(e.getMessage());
-                            }
-
-                            assert message != null;
-                            if (message.getCreator().equals("quit")) {
-                                break;
-                            } else {
-                                try {
-                                    decoder.add(message.getCreator());
-                                    out.writeObject(message);
-                                    out.flush();
-                                } catch (IOException e) {
-                                    System.out.println(e.getMessage());
-                                }
-                            }
+                            else
+                                decoder.decodeAndExecute(socket, message);
                         }
+
                         in.close();
+                        assert out != null;
                         out.close();
                         socket.close();
                     } catch (final IOException e) {
@@ -102,5 +88,18 @@ public class ServerTCP {
 
     public int getPort() {
         return port;
+    }
+
+    public void send(Socket s, Message m) {
+        assert map.get(s) != null;
+
+        try {
+            map.get(s).writeObject(m);
+            map.get(s).flush();
+
+            //map.get(s).close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
