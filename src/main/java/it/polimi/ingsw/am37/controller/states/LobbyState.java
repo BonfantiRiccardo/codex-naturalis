@@ -5,13 +5,28 @@ import it.polimi.ingsw.am37.exceptions.AlreadyAssignedException;
 import it.polimi.ingsw.am37.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.model.game.GameModel;
 
+/**
+ * the LobbyState class implements the State interface and is the first phase of the game, where the game is instanced.
+ */
 public class LobbyState implements State{
+    /**
+     * the controller attribute is used to have the access to the GameController functions.
+     */
     private final GameController controller;
 
+    /**
+     * the LobbyState method initialize the controller.
+     * @param controller is the controller of the game.
+     */
     public LobbyState(GameController controller) {
         this.controller = controller;
     }
 
+    /**
+     * the gamePhaseHandler method instances the new game and sets the available and the starting cards.
+     * @throws AlreadyAssignedException if the players already have been assigned to their starting card.
+     * @throws NoCardsException if there's no cards to set up the game.
+     */
     @Override
     public void gamePhaseHandler() throws AlreadyAssignedException, NoCardsException {
         if (controller.getAddedPlayers().size() == controller.getNumOfPlayers()) {
