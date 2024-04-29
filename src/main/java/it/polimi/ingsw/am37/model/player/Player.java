@@ -161,10 +161,19 @@ public class Player {
         return startCard;
     }
 
+    /**
+     * the method getObjectivesToChooseFrom returns the objectives that the player will have to choose from.
+     * @return the objectivesToChooseFrom attribute.
+     */
     public ObjectiveCard[] getObjectivesToChooseFrom() {
         return objectivesToChooseFrom;
     }
 
+    /**
+     * the method setObjectivesToChooseFrom sets the objectives from which the player will have to choose one.
+     * @param objectivesToChooseFrom are the objectives assigned to the player.
+     * @throws AlreadyAssignedException if the objectives have already been assigned to the player.
+     */
     public void setObjectivesToChooseFrom(ObjectiveCard[] objectivesToChooseFrom) throws AlreadyAssignedException {
         if (this.objectivesToChooseFrom == null) {
             this.objectivesToChooseFrom = new ObjectiveCard[] {objectivesToChooseFrom[0], objectivesToChooseFrom[1]};
