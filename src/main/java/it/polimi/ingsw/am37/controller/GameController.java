@@ -8,7 +8,6 @@ import it.polimi.ingsw.am37.model.decks.*;
 import it.polimi.ingsw.am37.model.game.*;
 import it.polimi.ingsw.am37.model.player.*;
 import it.polimi.ingsw.am37.model.sides.*;
-import it.polimi.ingsw.am37.virtualview.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +17,7 @@ import java.util.Map;
 /**
  * The Class GameController's duty is to manage the phases of the game and to give directions to the model, maintaining the view updated.
  */
-public class GameController {
+public class GameController implements Observable {
     /**
      * the attribute participants is the list of players who will take part in the game
      */
@@ -57,9 +56,11 @@ public class GameController {
         playerViews = new HashMap<>();
         playerViews.put(creator, new VirtualView(this));
 
-        this.numOfPlayers = numOfPlayers;       //BEFORE WE NEED TO CHECK THAT IS BETWEEN 0 AND 4.
+        this.numOfPlayers = numOfPlayers;       //BEFORE WE  CHECK THAT IS BETWEEN 0 AND 4 IN THE DE-CODIFICATION.
 
         state = new LobbyState(this);
+
+        playerViews.get(creator).updateLobbyView(creator, 1, numOfPlayers);
     }
 
     /**
@@ -428,22 +429,23 @@ public class GameController {
     public void handleDisconnection(Player p) {
         gameInstance.setDisconnected(p);
     }
+
     //IMPLEMENT DISCONNECTIONS WITH TIMEOUTS HANDLING IN SERVER
     /**
      * the method checkConnection
-     * @param p
-     * @return
+     * @param p ...
+     * @return ...
      */
-
     public boolean checkConnection(Player p) {
         return true;
     }
 
     /**
      *
-     * @param p
+     * @param p ...
      */
     public void handleReconnection(Player p) {
         gameInstance.reconnect(p);
     }
+
 }

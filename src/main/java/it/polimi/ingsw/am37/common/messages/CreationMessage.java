@@ -21,6 +21,6 @@ public class CreationMessage extends Message{
 
     @Override
     public String toString() {
-        return "Received: " + creator + ", " + num;
+        return "Received: " + super.toString() + " | nick: " + creator + " | maxPL: " + num;
     }
 }

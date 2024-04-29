@@ -30,37 +30,59 @@ public class ClientTCP {
 
         try {
             while (true) {
-                System.out.println("create or join? (terminate)");
-                final String inputLine = stdin.nextLine();
-                MessageId id;
-                if (inputLine.equals("terminate"))
-                    break;
-                else if (inputLine.equals("create"))
-                    id = MessageId.CREATE;
-                else
-                    id = MessageId.JOIN;
-
-                System.out.println("Nickname: ");
-                final String inputLine2 = stdin.nextLine();
-
+                String inputLine;
                 Message message;
+                Message response = null;
 
-                if(id.equals(MessageId.CREATE)) {
-                    System.out.println("Num: ");
-                    final int inputNum = stdin.nextInt();
-                    stdin.nextLine();
-                    message = new CreationMessage(id, inputLine2, inputNum);
-                } else
-                    message = new JoinMessage(id, inputLine2);
+                while (true) {
+                    System.out.println("create or join? (terminate)");
+                    inputLine = stdin.nextLine();
 
+                    if (inputLine.equalsIgnoreCase("join"))
+                        message = joinRequest();
+                    else if (inputLine.equalsIgnoreCase("create")) {
+                        message = creationMessage(stdin);
+                    } else {
+                        break;
+                    }
 
-                socketOut.writeObject(message);
-                socketOut.flush();
+                    socketOut.writeObject(message);
+                    socketOut.flush();
 
+                    final Message reply = (Message) socketIn.readObject();
+                    System.out.println(reply);
+                    response = reply;
 
-                final Message reply = (Message) socketIn.readObject();
-                System.out.println(reply);
+                    if (!reply.getId().equals(MessageId.ERROR)) break;
+                }
+
+                if (inputLine.equalsIgnoreCase("join")) {
+                    while (true) {
+                        message = joinMessage(stdin);
+
+                        socketOut.writeObject(message);
+                        socketOut.flush();
+                        final Message reply2 = (Message) socketIn.readObject();
+                        System.out.println(reply2);
+                        response = reply2;
+
+                        if (!reply2.getId().equals(MessageId.ERROR)) break;
+                    }
+                }
+
+                if (response != null &&
+                        ((UpdateLobbyMessage) response).getJoinedPlayer() < ((UpdateLobbyMessage) response).getTotalPlayers()) {
+                    System.out.println("Now waiting for all players.");
+                    while (true) {
+                        final Message reply3 = (Message) socketIn.readObject();
+                        System.out.println(reply3);
+                        if (((UpdateLobbyMessage) reply3).getJoinedPlayer() == ((UpdateLobbyMessage) reply3).getTotalPlayers())
+                            break;
+                    }
+                }
+                break;
             }
+
         } catch (final NoSuchElementException | ClassNotFoundException e) {
             System.out.println("Connection closed");
         } finally {
@@ -71,4 +93,28 @@ public class ClientTCP {
         }
     }
 
+    private Message creationMessage (Scanner stdin) {
+        System.out.println("Nickname: ");
+        final String inputLine2 = stdin.nextLine();
+
+        System.out.println("Num: ");
+        final int inputNum = stdin.nextInt();
+        stdin.nextLine();
+
+        return new CreationMessage(MessageId.CREATE, inputLine2, inputNum);
+    }
+
+    private Message joinRequest() {
+        return new LobbySelection(MessageId.REQUEST_LOBBY);
+    }
+
+    private Message joinMessage(Scanner stdin) {
+        System.out.println("Choose hash: ");
+        final int inputNum2 = stdin.nextInt();
+        stdin.nextLine();
+        System.out.println("Nickname: ");
+        final String inputLine2 = stdin.nextLine();
+
+        return new JoinMessage(MessageId.JOIN, inputNum2, inputLine2);
+    }
 }

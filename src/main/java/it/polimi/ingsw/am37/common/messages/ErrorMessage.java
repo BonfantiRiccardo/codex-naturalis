@@ -11,4 +11,9 @@ public class ErrorMessage extends Message{
     public String getDescription() {
         return description;
     }
+
+    @Override
+    public String toString() {
+        return "Received: " + super.toString() + " | description: " + description;
+    }
 }

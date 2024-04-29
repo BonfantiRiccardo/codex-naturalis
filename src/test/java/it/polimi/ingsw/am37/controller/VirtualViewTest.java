@@ -1,6 +1,5 @@
-package it.polimi.ingsw.am37.virtualview;
+package it.polimi.ingsw.am37.controller;
 
-import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.player.Player;

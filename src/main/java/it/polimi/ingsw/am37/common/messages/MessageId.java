@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 public enum MessageId implements Serializable {
     CREATE,
+    REQUEST_LOBBY,
+    LOBBIES,
     JOIN,
+    UPDATE_LOBBY,
     ACK,
     PLACE_SC,
     TOKEN,

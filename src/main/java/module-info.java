@@ -18,7 +18,6 @@ module it.polimi.ingsw.am37 {
     exports it.polimi.ingsw.am37.model.sides;
     exports it.polimi.ingsw.am37.controller;
     exports it.polimi.ingsw.am37.controller.states;
-    exports it.polimi.ingsw.am37.virtualview;
     exports it.polimi.ingsw.am37.server;
     exports it.polimi.ingsw.am37.common;
 

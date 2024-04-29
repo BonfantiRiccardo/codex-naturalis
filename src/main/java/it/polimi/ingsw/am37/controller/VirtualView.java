@@ -1,6 +1,7 @@
-package it.polimi.ingsw.am37.virtualview;
+package it.polimi.ingsw.am37.controller;
 
-import it.polimi.ingsw.am37.controller.GameController;
+
+import it.polimi.ingsw.am37.common.messages.*;
 import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
@@ -9,21 +10,31 @@ import it.polimi.ingsw.am37.model.game.PlayerPoints;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.*;
+import it.polimi.ingsw.am37.server.ClientHandler;
 
 import java.util.EventListener;
 import java.util.List;
 
 public class VirtualView implements EventListener {
     private final GameController controller;
+    private ClientHandler ch;
 
     public VirtualView(GameController controller) {
         this.controller = controller;
-        updateLobbyView(controller.getAddedPlayers().get(0), 1, controller.getNumOfPlayers());
     }
 
     public GameController getController() {
         return controller;
     }
+
+    public ClientHandler getCh() {
+        return ch;
+    }
+
+    public void setCh(ClientHandler ch) {
+        this.ch = ch;
+    }
+
 
 
     //THE VIRTUAL VIEW IS CREATED AFTER ADDING THE PLAYER SO THIS METHOD IS USELESS
@@ -98,6 +109,12 @@ public class VirtualView implements EventListener {
 
     public void updateLobbyView(Player newPlayer, int numPlayers, int maxPlayers) {
         //SENDS LOBBY UPDATES TO THE REMOTE LOBBY VIEW (USE NEW THREADS)
+        new Thread(() -> {
+
+            while(ch == null) Thread.onSpinWait();
+            ch.send(new UpdateLobbyMessage(MessageId.UPDATE_LOBBY, newPlayer.getNickname(), numPlayers, maxPlayers));
+
+        }).start();
     }
 
     public void sendAvailable(List<StandardCard> cGold, List<StandardCard> cResource) {
