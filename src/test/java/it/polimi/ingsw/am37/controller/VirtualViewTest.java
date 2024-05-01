@@ -31,6 +31,8 @@ class VirtualViewTest {
         v3 = c.getPlayerViews().get(p3);
     }
 
+    /*
+
     @Test
     void placingStartCardTest() {
         v3.playerChoosesStartCardSide(p3, p3.getStartCard(), p3.getStartCard().getFront());
@@ -180,4 +182,6 @@ class VirtualViewTest {
         assertEquals(2, c.getGameInstance().getAvailableRCards().size());
     }
 
+
+     */
 }

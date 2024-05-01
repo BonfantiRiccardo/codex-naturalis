@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am37.common.messages;
+package it.polimi.ingsw.am37.messages;
 
 public class ErrorMessage extends Message{
     private final String description;

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.am37.server;
 
-import it.polimi.ingsw.am37.common.MessageDecoder;
-import it.polimi.ingsw.am37.common.messages.Message;
-import it.polimi.ingsw.am37.common.messages.MessageId;
+import it.polimi.ingsw.am37.messages.*;
+import it.polimi.ingsw.am37.controller.MultipleMatchesHandler;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,13 +10,13 @@ import java.net.Socket;
 
 public class ClientHandler {
     private final Socket socket;
-    private final MessageDecoder decoder;
+    private final MultipleMatchesHandler multipleMatchesHandler;
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
 
-    public ClientHandler(Socket socket, MessageDecoder decoder) {
+    public ClientHandler(Socket socket, MultipleMatchesHandler multipleMatchesHandler) {
         this.socket = socket;
-        this.decoder = decoder;
+        this.multipleMatchesHandler = multipleMatchesHandler;
     }
 
     public void handle() {
@@ -30,17 +29,17 @@ public class ClientHandler {
             }
 
             System.out.println("Waiting for client input...");
-            Message message;
+            MessageToServer message;
 
             try {
                 assert in != null;
-                while ( (message = (Message) in.readObject()) != null ) {
+                while ( (message = (MessageToServer) in.readObject()) != null ) {
                     System.out.println(message);
 
                     if (message.getId().equals(MessageId.TERMINATE))
                         break;
                     else
-                        decoder.decodeAndExecute(this, message);
+                        multipleMatchesHandler.handle(this, message);
                 }
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println(e.getMessage());
@@ -68,5 +67,9 @@ public class ClientHandler {
 
     public Socket getSocket() {
         return socket;
+    }
+
+    public MultipleMatchesHandler getMultipleMatchesHandler() {
+        return multipleMatchesHandler;
     }
 }

@@ -23,9 +23,9 @@ public class WaitStartCardSide implements State {
         this.controller = controller;
         this.controller.getGameInstance().setCurrentStatus(GameStatus.WAIT_START_CARD_SIDE);
 
-        this.controller.sendAvailable(this.controller.getGameInstance().getAvailableGCards(), this.controller.getGameInstance().getAvailableRCards());
-        for (Player p: this.controller.getGameInstance().getParticipants())
-            this.controller.sendStartCard(p, p.getStartCard());
+        //this.controller.sendAvailable(this.controller.getGameInstance().getAvailableGCards(), this.controller.getGameInstance().getAvailableRCards());
+        //for (Player p: this.controller.getGameInstance().getParticipants())
+        //    this.controller.sendStartCard(p, p.getStartCard());
     }
 
     /**

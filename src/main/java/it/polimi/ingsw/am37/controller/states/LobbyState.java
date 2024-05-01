@@ -27,13 +27,13 @@ public class LobbyState implements State{
      * @throws AlreadyAssignedException if the players already have been assigned to their starting card.
      * @throws NoCardsException if there's no cards to set up the game.
      */
-    @Override
+    @Override   //SYNCHRONIZED
     public void gamePhaseHandler() throws AlreadyAssignedException, NoCardsException {
         if (controller.getAddedPlayers().size() == controller.getNumOfPlayers()) {
             controller.setGameInstance(new GameModel(controller.getAddedPlayers()));
             controller.setGameStarted(true);
             controller.getGameInstance().setAvailableCards();
-            controller.getGameInstance().giveStartCard();
+            controller.getGameInstance().giveStartCard();       //ADD ALL THE OTHER INITIALIZATION
             controller.setState(new WaitStartCardSide(controller));
         }
     }

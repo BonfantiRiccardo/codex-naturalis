@@ -54,13 +54,10 @@ public class GameController implements Observable {
         participants = new ArrayList<>();
         participants.add(creator);
         playerViews = new HashMap<>();
-        playerViews.put(creator, new VirtualView(this));
 
         this.numOfPlayers = numOfPlayers;       //BEFORE WE  CHECK THAT IS BETWEEN 0 AND 4 IN THE DE-CODIFICATION.
 
         state = new LobbyState(this);
-
-        playerViews.get(creator).updateLobbyView(creator, 1, numOfPlayers);
     }
 
     /**
@@ -139,6 +136,8 @@ public class GameController implements Observable {
         return playerViews;
     }
 
+    public void setVirtualView(Player p, VirtualView vv) { playerViews.put(p, vv); }
+
 
     //------------------------------------------------------------------------------------------------
 
@@ -153,18 +152,14 @@ public class GameController implements Observable {
      */
     public void addPlayer (Player newPlayer) throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
         if (gameInstance == null) {
-            if (participants.size() < numOfPlayers) {
+            if (participants.size() < numOfPlayers) {       //SYNCHRONIZED
                 for (Player p: participants) {
                     if (newPlayer.getNickname().equals(p.getNickname()))
                         throw new IncorrectUserActionException("This username is already in use.");
                 }
 
                 participants.add(newPlayer);
-                playerViews.put(newPlayer, new VirtualView(this));
                 state.gamePhaseHandler();
-
-                for (Player p: participants)                                    //SINGLE VIRTUAL VIEW OR 1 FOR EACH PLAYER?
-                    playerViews.get(p).updateLobbyView(newPlayer, participants.size(), numOfPlayers);
 
             } else
                 throw new IncorrectUserActionException("The game is full.");
@@ -379,7 +374,7 @@ public class GameController implements Observable {
      */
     public void sendStartCard(Player p, StartCard sc) {
         /*Sends the start card that was assigned to the player*/
-        playerViews.get(p).sendStartCard(p, sc);
+        //playerViews.get(p).sendStartCard(p, sc);
     }
 
     /**

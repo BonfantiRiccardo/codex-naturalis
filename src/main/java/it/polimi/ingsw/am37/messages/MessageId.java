@@ -1,4 +1,4 @@
-package it.polimi.ingsw.am37.common.messages;
+package it.polimi.ingsw.am37.messages;
 
 import java.io.Serializable;
 
@@ -15,6 +15,7 @@ public enum MessageId implements Serializable {
     PLACE,
     DRAW_DECK,
     DRAW_AVAIL,
+    UPDATE_AVAIL,
     ERROR,
     NOTIFY,
     TERMINATE

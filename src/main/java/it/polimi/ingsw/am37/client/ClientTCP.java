@@ -1,7 +1,6 @@
 package it.polimi.ingsw.am37.client;
 
-import it.polimi.ingsw.am37.common.messages.*;
-import it.polimi.ingsw.am37.common.messages.MessageId;
+import it.polimi.ingsw.am37.messages.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -105,7 +104,7 @@ public class ClientTCP {
     }
 
     private Message joinRequest() {
-        return new LobbySelection(MessageId.REQUEST_LOBBY);
+        return new LobbyRequest(MessageId.REQUEST_LOBBY);
     }
 
     private Message joinMessage(Scanner stdin) {

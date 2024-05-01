@@ -4,6 +4,7 @@ module it.polimi.ingsw.am37 {
 
     requires org.controlsfx.controls;
     requires com.google.gson;
+    requires java.rmi;
 
     opens it.polimi.ingsw.am37 to javafx.fxml;
     exports it.polimi.ingsw.am37;
@@ -19,7 +20,7 @@ module it.polimi.ingsw.am37 {
     exports it.polimi.ingsw.am37.controller;
     exports it.polimi.ingsw.am37.controller.states;
     exports it.polimi.ingsw.am37.server;
-    exports it.polimi.ingsw.am37.common;
+    exports it.polimi.ingsw.am37.messages;
 
     opens it.polimi.ingsw.am37.model.cards to com.google.gson;
     opens it.polimi.ingsw.am37.model.cards.objective to com.google.gson;
@@ -27,8 +28,6 @@ module it.polimi.ingsw.am37 {
     opens it.polimi.ingsw.am37.model.sides to com.google.gson;
 
     opens it.polimi.ingsw.am37.server to javafx.fxml;
-    opens it.polimi.ingsw.am37.common to javafx.fxml;
-    exports it.polimi.ingsw.am37.common.messages;
-    opens it.polimi.ingsw.am37.common.messages to javafx.fxml;
+    opens it.polimi.ingsw.am37.messages to javafx.fxml;
 
 }

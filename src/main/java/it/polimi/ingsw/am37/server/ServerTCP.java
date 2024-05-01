@@ -1,6 +1,6 @@
 package it.polimi.ingsw.am37.server;
 
-import it.polimi.ingsw.am37.common.MessageDecoder;
+import it.polimi.ingsw.am37.controller.MultipleMatchesHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,13 +10,11 @@ import java.util.concurrent.Executors;
 
 public class ServerTCP {
     private final int port;
-    private final MessageDecoder decoder;
-
-    //private final List<GameController> c;
+    private final MultipleMatchesHandler multipleMatchesHandler;
 
     public ServerTCP(int port) {
         this.port = port;
-        decoder = new MessageDecoder();
+        multipleMatchesHandler = new MultipleMatchesHandler();
     }
 
     public void startServer() {
@@ -37,7 +35,7 @@ public class ServerTCP {
                 System.out.println("Connection established with client: " + socket.getLocalAddress());
 
                 executor.submit(() -> {
-                    ClientHandler ch = new ClientHandler(socket, decoder);
+                    ClientHandler ch = new ClientHandler(socket, multipleMatchesHandler);
 
                     ch.handle();
                 });
@@ -46,10 +44,6 @@ public class ServerTCP {
             }
         }
         executor.shutdown();
-    }
-
-    public MessageDecoder getDecoder() {
-        return decoder;
     }
 
     public int getPort() {

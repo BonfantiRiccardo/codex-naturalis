@@ -1,19 +1,26 @@
-package it.polimi.ingsw.am37.common.messages;
+package it.polimi.ingsw.am37.messages;
 
-public class UpdateLobbyMessage extends Message{
-    private final String playerNickname;
+import java.util.List;
+
+public class UpdateLobbyMessage extends MessageToClient{
+    private final List<String> playerNickname;
     private final int joinedPlayer;
     private final int totalPlayers;
 
 
-    public UpdateLobbyMessage(MessageId id, String playerNickname, int joinedPlayer, int totalPlayers) {
+    public UpdateLobbyMessage(MessageId id, List<String> playerNickname, int joinedPlayer, int totalPlayers) {
         super(id);
         this.playerNickname = playerNickname;
         this.joinedPlayer = joinedPlayer;
         this.totalPlayers = totalPlayers;
     }
 
-    public String getPlayerNickname() {
+    @Override
+    public void decodeAndExecute() {
+
+    }
+
+    public List<String> getPlayerNickname() {
         return playerNickname;
     }
 
