@@ -195,12 +195,8 @@ public abstract class Side {
                 ", TR=" + corners.get(Direction.TOPRIGHT) +
                 ", BL=" + corners.get(Direction.BOTTOMLEFT) +
                 ", BR=" + corners.get(Direction.BOTTOMRIGHT) +
-                ", mainRes=" + mainResource +
-                ", usedDiagonal=" + usedDiagonal +
-                ", usedLCorner=" + usedLCorner +
-                ", usedLLeg=" + usedLLeg +
-                ", isPlaced=" + isPlaced +
-                ", positionInKingdom=" + positionInKingdom +
+                (mainResource!=null ? (", mainRes=" + mainResource) : "") +
+                (isPlaced ? (", positionInKingdom=" + positionInKingdom) : "")  +
                 '}';
     }
 }

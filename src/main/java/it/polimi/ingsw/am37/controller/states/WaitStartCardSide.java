@@ -22,17 +22,13 @@ public class WaitStartCardSide implements State {
     public WaitStartCardSide(GameController controller) {
         this.controller = controller;
         this.controller.getGameInstance().setCurrentStatus(GameStatus.WAIT_START_CARD_SIDE);
-
-        //this.controller.sendAvailable(this.controller.getGameInstance().getAvailableGCards(), this.controller.getGameInstance().getAvailableRCards());
-        //for (Player p: this.controller.getGameInstance().getParticipants())
-        //    this.controller.sendStartCard(p, p.getStartCard());
     }
 
     /**
      * the method gamePhaseHandler checks if the kingdom of each player has been initialized, then proceed to change the state of the game.
      */
     @Override
-    public void gamePhaseHandler() {
+    public synchronized void gamePhaseHandler() {
         int i = 0;
         for (Player p: controller.getGameInstance().getParticipants()) {
             if (p.getMyKingdom() == null) {

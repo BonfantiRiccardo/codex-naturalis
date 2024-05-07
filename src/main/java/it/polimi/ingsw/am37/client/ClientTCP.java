@@ -1,21 +1,24 @@
 package it.polimi.ingsw.am37.client;
 
 import it.polimi.ingsw.am37.messages.*;
+import it.polimi.ingsw.am37.view.TCPVirtualServer;
+import it.polimi.ingsw.am37.view.View;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 public class ClientTCP {
     private final String ip;
     private final int port;
+    private final View v;
 
-    public ClientTCP(String ip, int port) {
+    public ClientTCP(String ip, int port, View v) {
         this.ip = ip;
         this.port = port;
+        this.v = v;
     }
 
     public void startClient() throws IOException {
@@ -24,96 +27,41 @@ public class ClientTCP {
 
         final ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
         socketOut.flush();
-        final Scanner stdin = new Scanner(System.in);
+        TCPVirtualServer vs = new TCPVirtualServer();
+        vs.setOut(socketOut);
+        v.setVirtualServer(vs);
+
         final ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
 
         try {
+
+            new Thread(() -> handleServer(socketIn)).start();
+
             while (true) {
-                String inputLine;
-                Message message;
-                Message response = null;
+                boolean choice = v.handleGame();
 
-                while (true) {
-                    System.out.println("create or join? (terminate)");
-                    inputLine = stdin.nextLine();
-
-                    if (inputLine.equalsIgnoreCase("join"))
-                        message = joinRequest();
-                    else if (inputLine.equalsIgnoreCase("create")) {
-                        message = creationMessage(stdin);
-                    } else {
-                        break;
-                    }
-
-                    socketOut.writeObject(message);
-                    socketOut.flush();
-
-                    final Message reply = (Message) socketIn.readObject();
-                    System.out.println(reply);
-                    response = reply;
-
-                    if (!reply.getId().equals(MessageId.ERROR)) break;
-                }
-
-                if (inputLine.equalsIgnoreCase("join")) {
-                    while (true) {
-                        message = joinMessage(stdin);
-
-                        socketOut.writeObject(message);
-                        socketOut.flush();
-                        final Message reply2 = (Message) socketIn.readObject();
-                        System.out.println(reply2);
-                        response = reply2;
-
-                        if (!reply2.getId().equals(MessageId.ERROR)) break;
-                    }
-                }
-
-                if (response != null &&
-                        ((UpdateLobbyMessage) response).getJoinedPlayer() < ((UpdateLobbyMessage) response).getTotalPlayers()) {
-                    System.out.println("Now waiting for all players.");
-                    while (true) {
-                        final Message reply3 = (Message) socketIn.readObject();
-                        System.out.println(reply3);
-                        if (((UpdateLobbyMessage) reply3).getJoinedPlayer() == ((UpdateLobbyMessage) reply3).getTotalPlayers())
-                            break;
-                    }
-                }
-                break;
+                if (!choice)
+                    break;
             }
-
-        } catch (final NoSuchElementException | ClassNotFoundException e) {
+        } catch (final NoSuchElementException e) {
             System.out.println("Connection closed");
         } finally {
-            stdin.close();
-            socketIn.close();
+            System.out.println("Closing connection");
+            socketIn.close();       //CLOSING WHILE ACTIVE THREAD IS READING CAUSES AN IO EXCEPTION
             socketOut.close();
             socket.close();
         }
     }
 
-    private Message creationMessage (Scanner stdin) {
-        System.out.println("Nickname: ");
-        final String inputLine2 = stdin.nextLine();
-
-        System.out.println("Num: ");
-        final int inputNum = stdin.nextInt();
-        stdin.nextLine();
-
-        return new CreationMessage(MessageId.CREATE, inputLine2, inputNum);
+    private void handleServer(ObjectInputStream socketIn) {
+        MessageToClient message;
+        try {
+            while ( (message = (MessageToClient) socketIn.readObject()) != null) {
+                message.decodeAndExecute(v);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Thread detached from read operation.");
+        }
     }
 
-    private Message joinRequest() {
-        return new LobbyRequest(MessageId.REQUEST_LOBBY);
-    }
-
-    private Message joinMessage(Scanner stdin) {
-        System.out.println("Choose hash: ");
-        final int inputNum2 = stdin.nextInt();
-        stdin.nextLine();
-        System.out.println("Nickname: ");
-        final String inputLine2 = stdin.nextLine();
-
-        return new JoinMessage(MessageId.JOIN, inputNum2, inputLine2);
-    }
 }

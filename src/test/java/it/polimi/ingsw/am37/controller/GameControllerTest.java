@@ -9,10 +9,8 @@ import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Back;
 import it.polimi.ingsw.am37.model.sides.Position;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -269,15 +267,6 @@ class GameControllerTest {
         c2.playerDrawsCardFromDeck(participants.get(2), c2.getGameInstance().getRDeck());
         assertEquals(c2.getState().getClass(), GameOver.class);
         assertEquals(c2.getGameInstance().getCurrentStatus(), GameStatus.OVER);
-    }
-
-    @Test
-    void virtualViewCreationTest() throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
-        assertNotNull(c2.getPlayerViews().get(p));
-        c2.addPlayer(p2);
-        assertNotNull(c2.getPlayerViews().get(p2));
-        c2.addPlayer(p3);
-        assertNotNull(c2.getPlayerViews().get(p3));
     }
 
     @Test

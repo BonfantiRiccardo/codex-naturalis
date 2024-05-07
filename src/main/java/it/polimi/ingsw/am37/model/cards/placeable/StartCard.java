@@ -38,6 +38,6 @@ public class StartCard extends GameCard {
 
     @Override
     public String toString() {
-        return super.toString() + "//backRes: " + backResource;
+        return super.toString() + " | Permanent Resources: " + backResource;
     }
 }

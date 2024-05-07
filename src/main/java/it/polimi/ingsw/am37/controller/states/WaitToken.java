@@ -1,8 +1,6 @@
 package it.polimi.ingsw.am37.controller.states;
 
 import it.polimi.ingsw.am37.controller.GameController;
-import it.polimi.ingsw.am37.exceptions.AlreadyAssignedException;
-import it.polimi.ingsw.am37.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.model.game.GameStatus;
 import it.polimi.ingsw.am37.model.player.Player;
 
@@ -26,13 +24,11 @@ public class WaitToken implements State {
     }
 
     /**
-     * the gamePhaseHandler method checks if any player already has a token, if not, it creates the hand of each player,
-     * sets the public objectives and gives the personal objective cards.
-     * @throws NoCardsException if there's no cards available during the creation of the hands or during the setting of the objectives.
-     * @throws AlreadyAssignedException if the hands or the personal objectives were already given to a player.
+     * the gamePhaseHandler method checks if any player already has a token and in that case sets the next State, if not
+     * it continues waiting for everyone to choose.
      */
     @Override
-    public void gamePhaseHandler() throws NoCardsException, AlreadyAssignedException {
+    public synchronized void gamePhaseHandler() {
         int i = 0;
         for (Player p: controller.getGameInstance().getParticipants()) {
             if (p.getToken() == null) {
@@ -41,10 +37,6 @@ public class WaitToken implements State {
             i++;
         }
         if (i == controller.getNumOfPlayers()) {
-            controller.getGameInstance().createHand();
-            controller.getGameInstance().setPublicObjectives();
-            controller.getGameInstance().giveObjectiveCards();
-
             controller.setState(new WaitObjective(controller));
         }
     }

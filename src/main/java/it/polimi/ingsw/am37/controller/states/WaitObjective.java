@@ -22,10 +22,6 @@ public class WaitObjective implements State{
     public WaitObjective(GameController controller) {
         this.controller = controller;
         this.controller.getGameInstance().setCurrentStatus(GameStatus.WAIT_OBJECTIVE);
-
-        for (Player p: this.controller.getGameInstance().getParticipants())
-            this.controller.generateHandView(p, p.getHand());
-        this.controller.generatePublicObjectivesView(this.controller.getGameInstance().getPublicObjectives());
     }
 
     /**
@@ -33,7 +29,7 @@ public class WaitObjective implements State{
      * and proceed to change the state of the game.
      */
     @Override
-    public void gamePhaseHandler() {
+    public synchronized void gamePhaseHandler() {
         int i = 0;
         for (Player p: controller.getGameInstance().getParticipants()) {
             if (p.getPrivateObjective() == null) {

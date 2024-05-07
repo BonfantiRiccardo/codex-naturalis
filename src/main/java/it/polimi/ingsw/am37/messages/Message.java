@@ -3,7 +3,7 @@ package it.polimi.ingsw.am37.messages;
 import java.io.Serializable;
 
 public abstract class Message implements Serializable {
-    private final MessageId id;
+    protected final MessageId id;
 
     public Message(MessageId id) {
         this.id = id;

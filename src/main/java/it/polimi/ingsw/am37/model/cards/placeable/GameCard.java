@@ -49,6 +49,6 @@ public abstract class GameCard extends Card {
 
     @Override
     public String toString() {
-        return super.toString() + "//FRONT: " + front.toString() + "//BACK: " + back.toString();
+        return super.toString() + " | FRONT: " + front.toString() + " | BACK: " + back.toString();
     }
 }

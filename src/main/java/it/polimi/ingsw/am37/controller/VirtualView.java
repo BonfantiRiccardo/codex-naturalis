@@ -4,6 +4,7 @@ import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.decks.*;
 import it.polimi.ingsw.am37.model.game.PlayerPoints;
+import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.*;
@@ -13,23 +14,17 @@ import java.util.List;
 
 public interface VirtualView extends EventListener {
 
-    void acknowledgePlayer(Player p);
+    void acknowledgePlayer(Player p, String s);
 
-    void updateLobbyView(List<Player> joined, int numPlayers, int maxPlayers);
+    void updateLobbyView(Player receiver, List<Player> joined, int lobbyNum, int maxPlayers);
 
-    void sendAvailable(List<StandardCard> cGold, List<StandardCard> cResource);
+    void playerAdded(Player p);
 
-    void sendStartCard(Player p, StartCard sc);
+    void sendInitial(List<StandardCard> cGold, List<StandardCard> cResource, StartCard sc, List<StandardCard> hand,
+                     ObjectiveCard[] publicObjectives, ObjectiveCard[] objToChooseFrom, Resource goldDeckBack, Resource resourceDeckBack);
+
 
     void nowUnavailableToken(Player p, Token t);
-
-    void generateHandView(Player p, List<StandardCard> hand);
-
-    void generatePublicObjectivesView(Player p, ObjectiveCard[] publicObjectives);
-
-    void updatesObjectivesView(Player p, ObjectiveCard[] objToChooseFrom);
-
-    void updatesPrivateObjectivesView(Player p, ObjectiveCard privateObjective);
 
     void notifyTurn(Player p);
 

@@ -56,9 +56,6 @@ public class StatesTest {
         c.playerChoosesToken(p, Token.BLUE);
         c.playerChoosesToken(p2, Token.YELLOW);
         assertEquals(c.getState().getClass(), WaitObjective.class);
-
-        c.setState(new WaitToken(c));
-        assertThrows(AlreadyAssignedException.class, () -> c.getState().gamePhaseHandler());
     }
 
     @Test

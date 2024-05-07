@@ -150,9 +150,9 @@ public class GameController implements Observable {
      * @throws NoCardsException if there's no cards left.
      * @throws AlreadyAssignedException if the objectives cards were already given to someone else?
      */
-    public void addPlayer (Player newPlayer) throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
+    public synchronized void addPlayer (Player newPlayer) throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
         if (gameInstance == null) {
-            if (participants.size() < numOfPlayers) {       //SYNCHRONIZED
+            if (participants.size() < numOfPlayers) {
                 for (Player p: participants) {
                     if (newPlayer.getNickname().equals(p.getNickname()))
                         throw new IncorrectUserActionException("This username is already in use.");
@@ -186,9 +186,9 @@ public class GameController implements Observable {
                 state.gamePhaseHandler();
 
                 // UPDATE VIEW DIRECTLY HERE?
-                playerViews.get(p).acknowledgePlayer(p);
+                //playerViews.get(p).acknowledgePlayer(p);
                 for (Player pl : gameInstance.getParticipants())
-                    if (!pl.equals(p))
+                    if (!pl.equals(p) && playerViews.get(pl) != null)
                         playerViews.get(pl).updatesPlayersKingdomView(p, c, s, s.getPositionInKingdom());
 
             } else throw new IncorrectUserActionException("The side you want to place does not correspond to the one of your start card.");
@@ -220,9 +220,9 @@ public class GameController implements Observable {
                 state.gamePhaseHandler();
 
                 // UPDATE VIEW DIRECTLY HERE?
-                playerViews.get(p).acknowledgePlayer(p);
+                //playerViews.get(p).acknowledgePlayer(p);
                 for (Player pl: gameInstance.getParticipants())
-                    if (!pl.equals(p))
+                    if (!pl.equals(p) && playerViews.get(pl) != null)
                         playerViews.get(pl).nowUnavailableToken(p, t);
 
             } else
@@ -249,7 +249,7 @@ public class GameController implements Observable {
                 state.gamePhaseHandler();
 
                 // UPDATE VIEW DIRECTLY HERE?
-                playerViews.get(p).acknowledgePlayer(p);
+                //playerViews.get(p).acknowledgePlayer(p);
 
             } else throw new IncorrectUserActionException("The objective you chose was not one of the two assigned to you.");
         } else throw new WrongGamePhaseException("You cannot choose your objective now.");
@@ -272,7 +272,8 @@ public class GameController implements Observable {
 
                 // UPDATE VIEW DIRECTLY HERE?
                 for (Player pl: gameInstance.getParticipants())
-                    playerViews.get(pl).updatesPlayersKingdomView(p, c, s, pos);
+                    if(playerViews.get(pl) != null)
+                        playerViews.get(pl).updatesPlayersKingdomView(p, c, s, pos);
 
             } else throw new WrongGamePhaseException("You cannot place a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");
@@ -293,7 +294,8 @@ public class GameController implements Observable {
 
                 // UPDATE VIEW DIRECTLY HERE?   HOW DO I SEND CLIENT THE NEW CARD?
                 for (Player pl: gameInstance.getParticipants())      //ACKNOWLEDGE CLIENT?
-                    playerViews.get(pl).updatesDeckView(d, d.firstBack());
+                    if(playerViews.get(pl) != null)
+                        playerViews.get(pl).updatesDeckView(d, d.firstBack());
 
             } else throw new WrongGamePhaseException("You cannot draw a card now");
         } else throw new IncorrectUserActionException("It is not your turn.");
@@ -314,7 +316,8 @@ public class GameController implements Observable {
 
                 // UPDATE VIEW DIRECTLY HERE?   HOW DO I SEND CLIENT THE NEW CARD?
                 for (Player pl: gameInstance.getParticipants())      //ACKNOWLEDGE CLIENT?
-                    playerViews.get(pl).updatesDeckView(d, d.firstBack());
+                    if(playerViews.get(pl) != null)
+                        playerViews.get(pl).updatesDeckView(d, d.firstBack());
 
             } else throw new WrongGamePhaseException("You cannot draw a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");
@@ -335,9 +338,10 @@ public class GameController implements Observable {
                 state.gamePhaseHandler();
 
                 // UPDATE VIEW DIRECTLY HERE?
-                playerViews.get(p).acknowledgePlayer(p);           //OTHERWISE REUSE METHOD SEND AVAILABLE
+                //playerViews.get(p).acknowledgePlayer(p);           //OTHERWISE REUSE METHOD SEND AVAILABLE
                 for (Player pl: gameInstance.getParticipants())    //HOW DO I KNOW WHICH LIST CHANGED? RETURN A LIST FROM METHOD
-                    playerViews.get(pl).updatesCardView(gameInstance.getAvailableGCards());
+                    if(playerViews.get(pl) != null)
+                        playerViews.get(pl).updatesCardView(gameInstance.getAvailableGCards());
 
             } else throw new WrongGamePhaseException("You cannot draw a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");
@@ -352,51 +356,6 @@ public class GameController implements Observable {
         return gameInstance.getCurrentTurn().equals(p);
     }
 
-
-
-    //SHOULD THERE BE A VIRTUAL VIEW FOR EACH CLIENT OR JUST ONE GENERIC VIRTUAL VIEW THAT REPRESENTS A CLIENT?
-
-    /**
-     * the method sendAvailable updates the player's virtual view regarding the new available cards on the field.
-     * @param cGold is the list of gold cards available.
-     * @param cResource is the list of resource cards available.
-     */
-    public void sendAvailable(List<StandardCard> cGold, List<StandardCard> cResource) {
-        /* Sends the two objectives card that the player can draw from.*/
-        for (Player pl: gameInstance.getParticipants())
-            playerViews.get(pl).sendAvailable(cGold, cResource);
-    }
-
-    /**
-     * the method sendStartCard sends the start card that was assigned to the player updating his view.
-     * @param p is the player receiving the card.
-     * @param sc is the starting card assigned to the player.
-     */
-    public void sendStartCard(Player p, StartCard sc) {
-        /*Sends the start card that was assigned to the player*/
-        //playerViews.get(p).sendStartCard(p, sc);
-    }
-
-    /**
-     * the method generateHandView sends the list of cards the player has in his hand, updating his view.
-     * @param p is the player receiving the list of cards.
-     * @param hand is the list of card sent.
-     */
-    public void generateHandView(Player p, List<StandardCard> hand) {
-        /* Sends all the list of cards that were assigned to the initial hand of the player*/
-        playerViews.get(p).generateHandView(p, hand);
-    }
-
-    /**
-     * the method generatePublicObjectivesView sends the two public objectives to all the players.
-     * @param publicObjectives is the two objectives sent.
-     */
-    public void generatePublicObjectivesView(ObjectiveCard[] publicObjectives) {
-        //SENDS THE TWO PUBLIC OBJECTIVE CARDS
-        for (Player p:  gameInstance.getParticipants())
-            playerViews.get(p).generatePublicObjectivesView(p, publicObjectives);
-    }
-
     /**
      * the method notifyTurn notifies the players when it's their turn.
      * If the player is disconnected, notifyTurn tries to reconnect the player, if it doesn't manage to do it, it skips his turn.
@@ -404,7 +363,8 @@ public class GameController implements Observable {
      */
     public void notifyTurn(Player p) {
         //IF PLAYER IS DISCONNECTED, TRY TO RECONNECT, IF FAILURE (TIMEOUT) THEN SKIP TURN
-        playerViews.get(p).notifyTurn(p);   //PASSING p AS PARAMETER SHOULDN'T BE NECESSARY
+        if(playerViews.get(p) != null)
+            playerViews.get(p).notifyTurn(p);   //PASSING p AS PARAMETER SHOULDN'T BE NECESSARY
     }
 
     /**
@@ -414,7 +374,8 @@ public class GameController implements Observable {
     public void sendResults(PlayerPoints[] results) {
         /* Sends the results of the game that have been calculated by the getGameWinner() method.*/
         for (Player p: gameInstance.getParticipants())
-            playerViews.get(p).sendResults(results);
+            if(playerViews.get(p) != null)
+                playerViews.get(p).sendResults(results);
     }
 
     /**

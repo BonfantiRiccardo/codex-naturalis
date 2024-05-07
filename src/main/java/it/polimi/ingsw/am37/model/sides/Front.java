@@ -97,8 +97,8 @@ public class Front extends Side {
 
     @Override
     public String toString() {
-        return super.toString() + "pointsGOP: " + pointsGivenOnPlacement +
-                ", placCond: " + resourcePlacementCondition +
-                ", bonus: " + bonus;
+        return super.toString() + ((pointsGivenOnPlacement>0) ? (", pointsGOP: " + pointsGivenOnPlacement) : "") +
+                ((resourcePlacementCondition!=null) ? (", placCond: " + resourcePlacementCondition) : "") +
+                ((bonus != null) ? (", bonus: " + bonus) : "");
     }
 }

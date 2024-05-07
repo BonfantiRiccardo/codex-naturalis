@@ -68,10 +68,7 @@ public class Corner {
 
     @Override
     public String toString() {
-        return "Corner{" +
-                "isVisible=" + isVisible +
-                ", resource=" + resource +
-                ", linkedSide=" + linkedSide +
-                '}';
+        return "Corner{" + "isVisible=" + isVisible + ", resource=" + resource +
+                (linkedSide!=null ? (", linkedSide=" + linkedSide) : "") +  '}';
     }
 }

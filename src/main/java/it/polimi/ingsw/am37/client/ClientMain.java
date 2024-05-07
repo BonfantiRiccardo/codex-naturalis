@@ -1,10 +1,28 @@
 package it.polimi.ingsw.am37.client;
 
+import it.polimi.ingsw.am37.view.TUIView;
+import it.polimi.ingsw.am37.view.ViewState;
+
 import java.io.IOException;
 
 public class ClientMain {
     public static void main(String[] args) {
-        final ClientTCP client = new ClientTCP("127.0.0.1", 3456);      //NO PORT HARDCODING
+
+        String hostName = args[0];
+        int portNumber = Integer.parseInt(args[1]);
+        String view = args[2];
+        String protocol = args[3];
+
+        ClientTCP client;
+
+        if (protocol.equalsIgnoreCase("tcp")) {
+            if (view.equalsIgnoreCase("tui"))
+                client = new ClientTCP(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN));
+            else
+                client = new ClientTCP(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN)); //GUI
+        } else
+            client = new ClientTCP(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN));   //RMI CLIENT
+
         try {
             client.startClient();
         } catch (final IOException e) {

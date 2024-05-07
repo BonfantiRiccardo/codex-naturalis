@@ -1,9 +1,11 @@
 package it.polimi.ingsw.am37.model.sides;
 
+import java.io.Serializable;
+
 /**
  * The Position class contains the coordinates of the side of a card placed in the kingdom.
  */
-public class Position {
+public class Position implements Serializable {
     /**
      * The x attribute contains an integer value that represents the horizontal coordinate of the card.
      */

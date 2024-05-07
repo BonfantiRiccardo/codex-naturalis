@@ -2,10 +2,12 @@ package it.polimi.ingsw.am37.model.sides;
 
 import it.polimi.ingsw.am37.model.game.Resource;
 
+import java.io.Serializable;
+
 /**
  * The Back class represents the concept of the back side of a generic GameCard.
  */
-public class Back extends Side {
+public class Back extends Side implements Serializable {
 
     /**
      * The Back(tl, tr, bl, br) constructor uses the

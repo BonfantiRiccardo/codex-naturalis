@@ -196,8 +196,6 @@ public class GameModel {
 
         while(getAvailableRCards().size() < 2)
             availableRCards.add(rDeck.drawCard());
-
-        //NOTIFIES THE OBSERVERS WiTH UPDATE TO SEND TO VIEW
     }
 
     /**
@@ -209,7 +207,6 @@ public class GameModel {
         for (Player p: participantsInOrder) {
             p.setStartCard(sDeck.drawCard());
         }
-        //CALL OBSERVERS TO UPDATE THE VIEWS
     }
 
     /**
@@ -251,9 +248,6 @@ public class GameModel {
             twoObjCards[0] = oDeck.drawCard();
             twoObjCards[1] = oDeck.drawCard();
             p.setObjectivesToChooseFrom(twoObjCards);
-
-            //CALL OBSERVERS TO UPDATE THE VIEWS
-            //gameController.updatesObjectivesView(p, twoObjCards);
         }
     }
 
@@ -261,10 +255,6 @@ public class GameModel {
         turnCounter = 1;
         Collections.shuffle(participantsInOrder);
         currentTurn = participantsInOrder.getFirst();
-
-        //UPDATE FIRST PLAYER VIEW WITH BLACK TOKEN
-        //gameController.sendBlackToken(currentTurn);
-        //gameController.notifyTurn(currentTurn);
     }
 
     /**
@@ -295,9 +285,6 @@ public class GameModel {
         } else {
             currentTurn = participantsInOrder.getFirst();
         }
-
-        //UPDATE CURRENT PLAYER VIEW WITH NOTIFICATION
-        //gameController.notifyTurn(currentTurn);
     }
 
     public void setupEndGame() {

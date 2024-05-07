@@ -1,7 +1,10 @@
-package it.polimi.ingsw.am37.messages;
+package it.polimi.ingsw.am37.messages.lobby;
 
 import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.controller.TCPVirtualView;
+import it.polimi.ingsw.am37.messages.ErrorMessage;
+import it.polimi.ingsw.am37.messages.MessageId;
+import it.polimi.ingsw.am37.messages.MessageToServer;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.server.ClientHandler;
 
@@ -21,23 +24,19 @@ public class CreationMessage extends MessageToServer {
         Player p = new Player(creator);
         if(num >= 2 && num <= 4) {
             GameController controller = new GameController(p, num);
-            ch.getMultipleMatchesHandler().addClient(ch, controller);
-            ch.getMultipleMatchesHandler().addLobby(controller.hashCode(), controller);
 
-            controller.setVirtualView(p, new TCPVirtualView(ch));
+            synchronized (ch.getMultipleMatchesHandler()) {
+                ch.getMultipleMatchesHandler().addClient(ch, controller);
+                ch.getMultipleMatchesHandler().addLobby(controller.hashCode(), controller);
+
+                controller.setVirtualView(p, new TCPVirtualView(ch));
+            }
+
             System.out.println("correctly created: " + controller.hashCode());
 
-            controller.getPlayerViews().get(p).updateLobbyView(controller.getAddedPlayers(), controller.getAddedPlayers().size(), controller.getNumOfPlayers());
+            controller.getPlayerViews().get(p).updateLobbyView(p, controller.getAddedPlayers(), controller.hashCode(), controller.getNumOfPlayers());
         } else
             ch.send(new ErrorMessage(MessageId.ERROR, "The player number is invalid, game not created."));
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public int getNum() {
-        return num;
     }
 
     @Override
