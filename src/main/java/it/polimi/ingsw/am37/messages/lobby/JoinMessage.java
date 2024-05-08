@@ -32,6 +32,7 @@ public class JoinMessage extends MessageToServer {
                     controller.addPlayer(p);
 
                     controller.setVirtualView(p, new TCPVirtualView(ch));
+                    ch.getMultipleMatchesHandler().addClient(ch, controller);
                 }
 
                 System.out.println("correctly added: " + p.getNickname());

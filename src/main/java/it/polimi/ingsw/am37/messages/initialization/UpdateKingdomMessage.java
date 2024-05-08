@@ -24,32 +24,38 @@ public class UpdateKingdomMessage extends MessageToClient {
 
     @Override
     public void decodeAndExecute(View v) {
-        //does not synchronize on the view
 
-        //modifies the kingdoms
         if (cardId >= 81 && cardId <= 86) {
             StartCard placed = null;
             for (StartCard sc : v.getLocalGameInstance().getStartCards())
-                if (cardId == sc.getId())
+                if (cardId == sc.getId()) {
                     placed = sc;
+                    break;
+                }
 
             assert placed != null;
 
-            if (side.equalsIgnoreCase("f")) {
-                for (ClientSidePlayer p : v.getLocalGameInstance().getPlayers()) {
-                    p.setKingdom(new Kingdom(placed, placed.getFront()));
-                }
-            } else if (side.equalsIgnoreCase("b")) {
-                for (ClientSidePlayer p : v.getLocalGameInstance().getPlayers()) {
-                    p.setKingdom(new Kingdom(placed, placed.getBack()));
+            for (ClientSidePlayer p: v.getLocalGameInstance().getPlayers()) {
+                if (p.getNickname().equals(player)) {
+                    if (side.equalsIgnoreCase("f"))
+                        p.setKingdom(new Kingdom(placed, placed.getFront()));
+                    else if (side.equalsIgnoreCase("b"))
+                        p.setKingdom(new Kingdom(placed, placed.getBack()));
+
+                    break;
                 }
             }
 
-            v.notify();
+            if(v.getLocalGameInstance().getMe().getNickname().equals(player)) {
+                if (side.equalsIgnoreCase("f"))
+                    v.getLocalGameInstance().getMe().setKingdom(new Kingdom(placed, placed.getFront()));
+                else if (side.equalsIgnoreCase("b"))
+                    v.getLocalGameInstance().getMe().setKingdom(new Kingdom(placed, placed.getBack()));
+
+            }
 
         }
+        //ELSE the case I placed a standard card
 
-
-        // notifies
     }
 }

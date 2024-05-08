@@ -34,7 +34,7 @@ public interface VirtualView extends EventListener {
 
     void updatesCardView(List<StandardCard> cList);
 
-    void updatesPlayersKingdomView(Player p, GameCard c, Side s, Position pos);
+    void updatesPlayersKingdomView(Player p, int c, String s, Position pos);
 
     void sendResults(PlayerPoints[] results);
 

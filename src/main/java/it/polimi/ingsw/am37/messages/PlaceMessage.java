@@ -28,22 +28,26 @@ public class PlaceMessage extends MessageToServer{
         for (Player p: c.getGameInstance().getParticipants()) {
             if (p.getNickname().equalsIgnoreCase(player)) {
                 if (id.equals(MessageId.PLACE_SC)) {
-                    if (side.equalsIgnoreCase("f")) {
+                    if (side.equalsIgnoreCase("f") && cardId == p.getStartCard().getId()) {
                         try {
                             c.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getFront());
+                            System.out.println("Correctly placed start card of player: " + player);
+                            placed = true;
                         } catch (IncorrectUserActionException | WrongGamePhaseException | NoCardsException |
                                  AlreadyAssignedException e) {
-                            c.getPlayerViews().get(p).actionNotPermittedMessaging(p, e.getMessage());
+                            ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
                         }
-                    } else {
+                    } else if (side.equalsIgnoreCase("b") && cardId == p.getStartCard().getId()){
                         try {
                             c.playerChoosesStartCardSide(p, p.getStartCard(), p.getStartCard().getBack());
+                            System.out.println("Correctly placed start card of player: " + player);
+                            placed = true;
                         } catch (IncorrectUserActionException | WrongGamePhaseException | NoCardsException |
                                  AlreadyAssignedException e) {
-                            c.getPlayerViews().get(p).actionNotPermittedMessaging(p, e.getMessage());
+                            ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
                         }
                     }
-                    break;
+
                 } else if (id.equals(MessageId.PLACE)) {
                     for (StandardCard card: p.getHand()) {
                         if (card.getId() == cardId) {
@@ -53,7 +57,7 @@ public class PlaceMessage extends MessageToServer{
                                     placed = true;
                                 } catch (IncorrectUserActionException | WrongGamePhaseException | NoCardsException |
                                          AlreadyAssignedException e) {
-                                    c.getPlayerViews().get(p).actionNotPermittedMessaging(p, e.getMessage());
+                                    ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
                                 }
                             } else {
                                 try {
@@ -61,7 +65,7 @@ public class PlaceMessage extends MessageToServer{
                                     placed = true;
                                 } catch (IncorrectUserActionException | WrongGamePhaseException | NoCardsException |
                                          AlreadyAssignedException e) {
-                                    c.getPlayerViews().get(p).actionNotPermittedMessaging(p, e.getMessage());
+                                    ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
                                 }
                             }
                         }
@@ -69,14 +73,25 @@ public class PlaceMessage extends MessageToServer{
 
                     }
 
-                    if(!placed) {
-                        ch.send(new ErrorMessage(MessageId.ERROR, "Couldn't place the card because message is corrupted."));
+                }
+
+
+                if(!placed) {
+                    ch.send(new ErrorMessage(MessageId.ERROR, "Couldn't place the card because message is corrupted."));
+                } else {
+                    for (Player pl: c.getGameInstance().getParticipants()) {
+                        if (pl.equals(p))
+                            c.getPlayerViews().get(p).acknowledgePlayer(p, "start card ok");
+                        else
+                            c.getPlayerViews().get(pl).updatesPlayersKingdomView(p, cardId, side, pos);
                     }
                 }
 
                 break;
             }
         }
+
+
 
     }
 
@@ -90,5 +105,10 @@ public class PlaceMessage extends MessageToServer{
 
     public Position getPos() {
         return pos;
+    }
+
+    @Override
+    public String toString() {
+        return "Received: " + super.toString() + " | player: " + player + " | placed id and side: " + cardId + side + " | in pos: " + pos;
     }
 }

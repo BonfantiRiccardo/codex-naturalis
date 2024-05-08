@@ -24,4 +24,9 @@ public class LobbyRequestMessage extends MessageToServer {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Received: " + super.toString();
+    }
 }

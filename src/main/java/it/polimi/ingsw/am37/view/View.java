@@ -1,10 +1,11 @@
 package it.polimi.ingsw.am37.view;
 
-import it.polimi.ingsw.am37.controller.Observable;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import java.util.List;
 
-public abstract class View implements Observable {
+public abstract class View implements PropertyChangeListener {
 
     protected ViewState state;
     protected VirtualServer virtualServer;
@@ -14,6 +15,7 @@ public abstract class View implements Observable {
     public View(ViewState state) {
         this.state = state;
         localGameInstance = new ClientSideGameModel();
+        localGameInstance.setListener(this);
     }
 
     public ViewState getState() {

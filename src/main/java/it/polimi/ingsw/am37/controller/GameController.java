@@ -185,12 +185,6 @@ public class GameController implements Observable {
                 p.instantiateMyKingdom(c, s);
                 state.gamePhaseHandler();
 
-                // UPDATE VIEW DIRECTLY HERE?
-                //playerViews.get(p).acknowledgePlayer(p);
-                for (Player pl : gameInstance.getParticipants())
-                    if (!pl.equals(p) && playerViews.get(pl) != null)
-                        playerViews.get(pl).updatesPlayersKingdomView(p, c, s, s.getPositionInKingdom());
-
             } else throw new IncorrectUserActionException("The side you want to place does not correspond to the one of your start card.");
         } else throw new WrongGamePhaseException("You cannot place your start card now.");
     }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
@@ -219,12 +213,6 @@ public class GameController implements Observable {
                 p.setToken(t);
                 state.gamePhaseHandler();
 
-                // UPDATE VIEW DIRECTLY HERE?
-                //playerViews.get(p).acknowledgePlayer(p);
-                for (Player pl: gameInstance.getParticipants())
-                    if (!pl.equals(p) && playerViews.get(pl) != null)
-                        playerViews.get(pl).nowUnavailableToken(p, t);
-
             } else
                 throw new IncorrectUserActionException("The token has been chosen by another player.");
         } else throw new WrongGamePhaseException("You cannot choose your token now.");
@@ -248,9 +236,6 @@ public class GameController implements Observable {
                 p.setPrivateObjective(c);
                 state.gamePhaseHandler();
 
-                // UPDATE VIEW DIRECTLY HERE?
-                //playerViews.get(p).acknowledgePlayer(p);
-
             } else throw new IncorrectUserActionException("The objective you chose was not one of the two assigned to you.");
         } else throw new WrongGamePhaseException("You cannot choose your objective now.");
     }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
@@ -269,11 +254,6 @@ public class GameController implements Observable {
             if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_PLACE)) {
                 p.placeCard(c, s, pos);
                 state.gamePhaseHandler();
-
-                // UPDATE VIEW DIRECTLY HERE?
-                for (Player pl: gameInstance.getParticipants())
-                    if(playerViews.get(pl) != null)
-                        playerViews.get(pl).updatesPlayersKingdomView(p, c, s, pos);
 
             } else throw new WrongGamePhaseException("You cannot place a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");
@@ -354,17 +334,6 @@ public class GameController implements Observable {
      */
     private boolean checkCurrentTurn(Player p) {
         return gameInstance.getCurrentTurn().equals(p);
-    }
-
-    /**
-     * the method notifyTurn notifies the players when it's their turn.
-     * If the player is disconnected, notifyTurn tries to reconnect the player, if it doesn't manage to do it, it skips his turn.
-     * @param p is the player notified.
-     */
-    public void notifyTurn(Player p) {
-        //IF PLAYER IS DISCONNECTED, TRY TO RECONNECT, IF FAILURE (TIMEOUT) THEN SKIP TURN
-        if(playerViews.get(p) != null)
-            playerViews.get(p).notifyTurn(p);   //PASSING p AS PARAMETER SHOULDN'T BE NECESSARY
     }
 
     /**

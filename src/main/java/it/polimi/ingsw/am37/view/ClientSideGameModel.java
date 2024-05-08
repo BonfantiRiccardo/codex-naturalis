@@ -6,11 +6,17 @@ import it.polimi.ingsw.am37.model.cards.CardCreator;
 import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.game.Resource;
+import it.polimi.ingsw.am37.model.player.Token;
+import it.polimi.ingsw.am37.model.sides.Position;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientSideGameModel {
+    PropertyChangeListener listener;
+
     private List<Integer> listOfLobbies;
     private int numOfLobby;
     private int numOfPlayers;
@@ -25,6 +31,7 @@ public class ClientSideGameModel {
     private final List<GoldCard> goldCards;
     private final List<ObjectiveCard> objectiveCards;
     private final List<StartCard> startCards;
+    private final List<Token> tokens;
 
     private List<StandardCard> availableResourceCards;
     private List<StandardCard> availableGoldCards;
@@ -35,11 +42,13 @@ public class ClientSideGameModel {
     public ClientSideGameModel() {
         listOfLobbies = new ArrayList<>();
         players = new ArrayList<>();
+        tokens = new ArrayList<>();
+        tokens.add(Token.BLUE);     tokens.add(Token.YELLOW);       tokens.add(Token.RED);      tokens.add(Token.GREEN);
 
 
         CardCreator cc = new CardCreator();
 
-        resourceCards = new ArrayList<>();          //INPUT READER IS NULL WHY?
+        resourceCards = new ArrayList<>();
         String filename = "/it/polimi/ingsw/am37/cards/ResourceCards.json";
         for (Card c: cc.createCards(filename, new TypeToken<ArrayList<ResourceCard>>() {}.getType()))
             resourceCards.add((ResourceCard) c);
@@ -67,6 +76,10 @@ public class ClientSideGameModel {
         publicObjectives = new ArrayList<>();
     }
 
+    public void setListener(PropertyChangeListener listener) {
+        this.listener = listener;
+    }
+
     public List<ResourceCard> getResourceCards() {
         return resourceCards;
     }
@@ -81,6 +94,14 @@ public class ClientSideGameModel {
 
     public List<StartCard> getStartCards() {
         return startCards;
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void removeToken(Token t) {
+        tokens.remove(t);
     }
 
     //-------------------------------------------------------------------------------------------
@@ -134,7 +155,15 @@ public class ClientSideGameModel {
     }
 
     public void setAvailableResourceCards(List<StandardCard> availableResourceCards) {
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "R_AVAIL_CHANGED",
+                this.availableResourceCards,
+                availableResourceCards);
+
         this.availableResourceCards = availableResourceCards;
+
+        this.listener.propertyChange(evt);
     }
 
     public List<StandardCard> getAvailableGoldCards() {
@@ -142,7 +171,15 @@ public class ClientSideGameModel {
     }
 
     public void setAvailableGoldCards(List<StandardCard> availableGoldCards) {
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "G_AVAIL_CHANGED",
+                this.availableGoldCards,
+                availableGoldCards);
+
         this.availableGoldCards = availableGoldCards;
+
+        this.listener.propertyChange(evt);
     }
 
     public Resource getTopOfGoldDeck() {
@@ -150,7 +187,15 @@ public class ClientSideGameModel {
     }
 
     public void setTopOfGoldDeck(Resource topOfGoldDeck) {
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "G_DECK_CHANGED",
+                this.topOfGoldDeck,
+                topOfGoldDeck);
+
         this.topOfGoldDeck = topOfGoldDeck;
+
+        this.listener.propertyChange(evt);
     }
 
     public Resource getTopOfResourceDeck() {
@@ -158,7 +203,16 @@ public class ClientSideGameModel {
     }
 
     public void setTopOfResourceDeck(Resource topOfResourceDeck) {
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "R_DECK_CHANGED",
+                this.topOfResourceDeck,
+                topOfResourceDeck);
+
+
         this.topOfResourceDeck = topOfResourceDeck;
+
+        this.listener.propertyChange(evt);
     }
 
     public List<ObjectiveCard> getPublicObjectives() {
@@ -200,5 +254,56 @@ public class ClientSideGameModel {
 
     public void setMyHand(List<StandardCard> myHand) {
         this.myHand = myHand;
+    }
+
+    public void placeCard(String player, int cardId, String side, Position pos) {
+        StandardCard place = null;
+        if(cardId >= 1 && cardId <= 40)
+            for (StandardCard c: resourceCards) {
+                if (c.getId() == cardId) {
+                    place = c;
+                    break;
+                }
+            }
+
+        else if (cardId >= 41 && cardId <= 80)
+            for (StandardCard c: resourceCards)
+                if (c.getId() == cardId) {
+                    place = c;
+                    break;
+                }
+
+
+        if (place!=null) {
+            if(me.getNickname().equals(player)) {
+                if(side.equalsIgnoreCase("f")) {
+                    me.getKingdom().updateKingdom(place, place.getFront(), pos);
+                }
+                else if(side.equalsIgnoreCase("b"))
+                    me.getKingdom().updateKingdom(place, place.getBack(), pos);
+
+                myHand.remove(place);
+
+            } else {
+                for (ClientSidePlayer p: players) {
+                    if (p.getNickname().equals(player)) {
+                        if(side.equalsIgnoreCase("f")) {
+                            p.getKingdom().updateKingdom(place, place.getFront(), pos);
+                        }
+                        else if(side.equalsIgnoreCase("b"))
+                            p.getKingdom().updateKingdom(place, place.getBack(), pos);
+                    }
+
+                    PropertyChangeEvent evt = new PropertyChangeEvent(
+                            this,
+                            "KINGDOM_CHANGED",
+                            p.getKingdom(),
+                            p.getKingdom());
+
+
+                    this.listener.propertyChange(evt);
+                }
+            }
+        }
     }
 }

@@ -36,7 +36,6 @@ public class UpdateLobbyMessage extends MessageToClient {
 
             v.getLocalGameInstance().setNumOfPlayers(totalPlayers);
 
-            v.printMyLobby();
             v.setState(ViewState.WAIT_IN_LOBBY);
             v.notify();
         }

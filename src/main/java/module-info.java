@@ -5,6 +5,7 @@ module it.polimi.ingsw.am37 {
     requires org.controlsfx.controls;
     requires com.google.gson;
     requires java.rmi;
+    requires java.desktop;
 
     opens it.polimi.ingsw.am37 to javafx.fxml;
     exports it.polimi.ingsw.am37;

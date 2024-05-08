@@ -40,33 +40,32 @@ public class InitMessage extends MessageToClient {
     @Override
     public void decodeAndExecute(View v) {
         synchronized (v) {
-            List<StandardCard> available = new ArrayList<>();
+            List<StandardCard> availableRes = new ArrayList<>();
 
             for (ResourceCard rc: v.getLocalGameInstance().getResourceCards()) {
                 if (rc.getId() == availableResource.get(0))
-                    available.add(rc);
+                    availableRes.add(rc);
                 else if (rc.getId() == availableResource.get(1))
-                    available.add(rc);
+                    availableRes.add(rc);
 
-                if (available.size() == 2)
+                if (availableRes.size() == 2)
                     break;
             }
 
-            v.getLocalGameInstance().setAvailableResourceCards(available);
-            available.clear();
+            v.getLocalGameInstance().setAvailableResourceCards(availableRes);
 
+            List<StandardCard> availableG = new ArrayList<>();
             for (GoldCard gc: v.getLocalGameInstance().getGoldCards()) {
                 if (gc.getId() == availableGold.get(0))
-                    available.add(gc);
+                    availableG.add(gc);
                 else if (gc.getId() == availableGold.get(1))
-                    available.add(gc);
+                    availableG.add(gc);
 
-                if (available.size() == 2)
+                if (availableG.size() == 2)
                     break;
             }
 
-            v.getLocalGameInstance().setAvailableGoldCards(available);
-
+            v.getLocalGameInstance().setAvailableGoldCards(availableG);
 
             List<StandardCard> myHand = new ArrayList<>();
             for (int i: hand) {
@@ -112,46 +111,16 @@ public class InitMessage extends MessageToClient {
                 if (publicObj.size() == 2 && privateObj.size() == 2)
                     break;
             }
+            v.getLocalGameInstance().setPrivateObjectives(privateObj);
+            v.getLocalGameInstance().setPublicObjectives(publicObj);
+
 
             v.getLocalGameInstance().setTopOfGoldDeck(goldDeckBack);
             v.getLocalGameInstance().setTopOfResourceDeck(resourceDeckBack);
 
-            v.printAvail();
 
             v.setState(ViewState.PLACE_SC);
             v.notify();
         }
-    }
-
-    public List<Integer> getAvailableGold() {
-        return availableGold;
-    }
-
-    public List<Integer> getAvailableResource() {
-        return availableResource;
-    }
-
-    public int getStartCard() {
-        return startCard;
-    }
-
-    public List<Integer> getHand() {
-        return hand;
-    }
-
-    public List<Integer> getPublicObjectives() {
-        return publicObjectives;
-    }
-
-    public List<Integer> getPrivateObjectives() {
-        return privateObjectives;
-    }
-
-    public Resource getGoldDeckBack() {
-        return goldDeckBack;
-    }
-
-    public Resource getResourceDeckBack() {
-        return resourceDeckBack;
     }
 }

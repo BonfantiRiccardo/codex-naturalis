@@ -14,14 +14,10 @@ public class ErrorMessage extends MessageToClient{
     @Override
     public void decodeAndExecute(View v) {
         synchronized (v) {
-            v.printError(description);      //DO NOT PRINT IN THE MESSAGe
+            v.printError(description);
             v.setState(ViewState.ERROR);
             v.notify();
         }
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     @Override

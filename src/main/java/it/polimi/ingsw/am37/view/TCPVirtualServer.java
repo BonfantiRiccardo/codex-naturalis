@@ -1,9 +1,12 @@
 package it.polimi.ingsw.am37.view;
 
 import it.polimi.ingsw.am37.messages.*;
+import it.polimi.ingsw.am37.messages.initialization.ChooseObjectiveMessage;
+import it.polimi.ingsw.am37.messages.initialization.ChooseTokenMessage;
 import it.polimi.ingsw.am37.messages.lobby.CreationMessage;
 import it.polimi.ingsw.am37.messages.lobby.JoinMessage;
 import it.polimi.ingsw.am37.messages.lobby.LobbyRequestMessage;
+import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
 
 import java.io.IOException;
@@ -57,13 +60,21 @@ public class TCPVirtualServer implements VirtualServer {
     }
 
     @Override
-    public void chooseToken() {
-
+    public void chooseToken(String player, Token token) {
+        try {
+            out.writeObject(new ChooseTokenMessage(MessageId.TOKEN, player, token));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void chooseObjective() {
-
+    public void chooseObjective(String player, int cardId) {
+        try {
+            out.writeObject(new ChooseObjectiveMessage(MessageId.OBJECTIVE, player, cardId));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

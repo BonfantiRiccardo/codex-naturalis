@@ -24,8 +24,10 @@ public class NotifyMessage extends MessageToClient{
                     v.notify();
                 }
                 case "objective ok" -> {
-                    v.setState(ViewState.NOT_TURN);
-                    v.notify();
+                    if(v.getState().equals(ViewState.CHOOSE_OBJECTIVE)) {
+                        v.setState(ViewState.NOT_TURN);
+                        v.notify();
+                    }
                 }
                 case "your turn", "draw ok" -> {
                     v.setState(ViewState.PLACE);

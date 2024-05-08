@@ -2,6 +2,8 @@ package it.polimi.ingsw.am37.controller;
 
 import it.polimi.ingsw.am37.messages.*;
 import it.polimi.ingsw.am37.messages.initialization.InitMessage;
+import it.polimi.ingsw.am37.messages.initialization.NowUnavailableMessage;
+import it.polimi.ingsw.am37.messages.initialization.UpdateKingdomMessage;
 import it.polimi.ingsw.am37.messages.lobby.PlayerJoinedMessage;
 import it.polimi.ingsw.am37.messages.lobby.UpdateLobbyMessage;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
@@ -92,14 +94,27 @@ public class TCPVirtualView implements VirtualView {
         }).start();
     }
 
-
     public void nowUnavailableToken(Player p, Token t) {
         //SENDS THE NOW UNAVAILABLE TOKEN AND THE PLAYER WHO CHOSE IT TO THE REMOTE VIEW (USE NEW THREAD)
+        new Thread(() -> {      //USING THREADS IS PROBABLY OVERKILL
+
+            ch.send(new NowUnavailableMessage(MessageId.TOKEN, p.getNickname(), t));
+
+        }).start();
     }
 
+    /**
+     * the method notifyTurn notifies the players when it's their turn.
+     * @param p is the player notified.
+     */
     public void notifyTurn(Player p) {
         //SENDS NOTIFICATION TO THE PLAYER THAT HAS ENTERED HIS TURN (USE NEW THREAD)
         //TRY RECONNECTING WITH PLAYER OR SKIP TURN
+        new Thread(() -> {      //USING THREADS IS PROBABLY OVERKILL
+
+            ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn"));
+
+        }).start();
     }
 
     public void updatesDeckView(Deck d, Back s) {
@@ -114,8 +129,12 @@ public class TCPVirtualView implements VirtualView {
         //SENDS AVAILABLE CARDS UPDATES TO THE REMOTE VIEW (USE NEW THREADS)
     }
 
-    public void updatesPlayersKingdomView(Player p, GameCard c, Side s, Position pos) {
+    public void updatesPlayersKingdomView(Player p, int c, String s, Position pos) {
         //SENDS KINGDOM UPDATES TO THE REMOTE VIEW (USE NEW THREADS)
+        new Thread(() -> {      //USING THREADS IS PROBABLY OVERKILL
+            ch.send(new UpdateKingdomMessage(MessageId.UPDATE_KINGDOM, p.getNickname(), c, s, pos));
+
+        }).start();
     }
 
     public void sendResults(PlayerPoints[] results) {
