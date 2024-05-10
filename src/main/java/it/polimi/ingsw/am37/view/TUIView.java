@@ -21,11 +21,16 @@ public class TUIView extends View implements PropertyChangeListener {
     }
 
     public boolean handleGame() {
+        new Thread(this::handleUpdates).start();
+
         preLobby();
 
         printMyLobby();
-        if (state.equals(ViewState.WAIT_IN_LOBBY))
+        if (localGameInstance.getPlayers().size() + 1 < localGameInstance.getNumOfPlayers()) {
+            System.out.println();
             System.out.println("Now waiting for all players.");
+        }
+
         synchronized (this) {
             while (state.equals(ViewState.WAIT_IN_LOBBY)) {
                 try {
@@ -33,25 +38,32 @@ public class TUIView extends View implements PropertyChangeListener {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
-                printMyLobby();
+                if (state.equals(ViewState.WAIT_IN_LOBBY))
+                    printMyLobby();
             }
+            System.out.println();
+            System.out.println("Printing game initialization updates...");      //DOESN'T PRINT ON TOP ALL THE TIMES
         }
 
-        init();
+        while(!updates.isEmpty()) Thread.onSpinWait();
 
         while (!state.equals(ViewState.SHOW_RESULTS)) {
-            //PRINT UPDATES AND REMOVE THEM FROM THE LIST
-            System.out.println("Press enter to request an ACTION");         //VERY IMPORTANT SO THAT I DON'T HAVE TO BLOCK
+            //print: This changed while you requested the action:
+            while(!updates.isEmpty()) Thread.onSpinWait();
+            //WAITS FOR ALL UPDATES TO PRINT AND REMOVES THEM FROM THE LIST
 
+            System.out.println();
+            System.out.println("Press enter to request an ACTION");         //VERY IMPORTANT SO THAT I DON'T HAVE TO BLOCK
+            stdIn.nextLine();
 
             String inputLine;
             synchronized (this) {
-                System.out.println("Choose an action (list of actions): ");
+                System.out.println("Choose an action from the list: ");
+                activeActions();
                 inputLine = stdIn.nextLine();
-            }
 
-            choice(inputLine);
+                choice(inputLine.toLowerCase());
+            }
         }
 
 
@@ -92,7 +104,7 @@ public class TUIView extends View implements PropertyChangeListener {
 
         }
 
-    }
+    }       //SHOULDN'T BE PUBLIC AND SHOULDN'T OVERRIDE
 
     private void creationQueries() {
         System.out.println("Nickname: ");
@@ -133,23 +145,8 @@ public class TUIView extends View implements PropertyChangeListener {
         virtualServer.joinLobby(inputNum, inputLine);
     }
 
-    private void choice(String s) {
-        switch (s) {
-            case "place card": {
-
-            }
-            case "see kingdom": {
-
-            }
-            //ECC
-        }
-    }
-
-    @Override
-    public void init() {
+    private void startCardQueries() {
         String inputLine;
-
-        synchronized (this) {
 
             while (state.equals(ViewState.PLACE_SC)) {
                 printStartCard();
@@ -173,17 +170,16 @@ public class TUIView extends View implements PropertyChangeListener {
                     else {
                         if (inputLine.equalsIgnoreCase("f"))
                             localGameInstance.getMe().setKingdom(new Kingdom(localGameInstance.getMyStartCard(),
-                                                                            localGameInstance.getMyStartCard().getFront()));
+                                    localGameInstance.getMyStartCard().getFront()));
                         else if (inputLine.equalsIgnoreCase("b"))
                             localGameInstance.getMe().setKingdom(new Kingdom(localGameInstance.getMyStartCard(),
-                                                                            localGameInstance.getMyStartCard().getBack()));
+                                    localGameInstance.getMyStartCard().getBack()));
                     }
 
                 } else
-                   System.out.println("Error in the action: only type 'f' if you want to place the Front or 'b' if you want to place the Back");
+                    System.out.println("Error in the action: only type 'f' if you want to place the Front or 'b' if you want to place the Back");
 
             }
-        }
 
         //wait for everyone else to choose
         for (ClientSidePlayer p: localGameInstance.getPlayers())
@@ -193,51 +189,49 @@ public class TUIView extends View implements PropertyChangeListener {
 
         for (ClientSidePlayer p: localGameInstance.getPlayers())
             while (p.getKingdom() == null) Thread.onSpinWait();
+    }
+
+    private void tokenQueries() {
+        String inputLine;
+        while (state.equals(ViewState.CHOOSE_TOKEN)) {
+            boolean error = false;
+            System.out.println("Currently available tokens: " + localGameInstance.getTokens());
+            System.out.println("Choose the Token you want (type 'b' for blue, 'y' for yellow, 'r' for red, 'g' for green):");
+            inputLine = stdIn.nextLine();
+
+            if (inputLine.equalsIgnoreCase("b"))      //CHANGE
+                virtualServer.chooseToken(localGameInstance.getMe().getNickname(), Token.BLUE);
+            else if (inputLine.equalsIgnoreCase("y"))
+                virtualServer.chooseToken(localGameInstance.getMe().getNickname(), Token.YELLOW);
+            else if (inputLine.equalsIgnoreCase("r"))
+                virtualServer.chooseToken(localGameInstance.getMe().getNickname(), Token.RED);
+            else if (inputLine.equalsIgnoreCase("g"))
+                virtualServer.chooseToken(localGameInstance.getMe().getNickname(), Token.GREEN);
+            else {
+                System.out.println("Error in the action: only type 'b', 'y', 'r', 'g'");
+                error = true;
+            }
 
 
-        //TOKEN PHASE ------------------------------------------------------------------------------------------------
+            while (!error && state.equals(ViewState.CHOOSE_TOKEN)) {
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
-        synchronized (this) {
-            while (state.equals(ViewState.CHOOSE_TOKEN)) {
-                boolean error = false;
-                System.out.println("Currently available tokens: " + localGameInstance.getTokens());
-                System.out.println("Choose the Token you want (type 'b' for blue, 'y' for yellow, 'r' for red, 'g' for green):");
-                inputLine = stdIn.nextLine();
-
-                if (inputLine.equalsIgnoreCase("b"))      //CHANGE
-                    virtualServer.chooseToken(localGameInstance.getMe().getNickname(), Token.BLUE);
+            if (state.equals(ViewState.ERROR))
+                state = ViewState.CHOOSE_TOKEN;
+            else {
+                if (inputLine.equalsIgnoreCase("b"))
+                    localGameInstance.getMe().setToken(Token.BLUE);
                 else if (inputLine.equalsIgnoreCase("y"))
-                    virtualServer.chooseToken(localGameInstance.getMe().getNickname(), Token.YELLOW);
+                    localGameInstance.getMe().setToken(Token.YELLOW);
                 else if (inputLine.equalsIgnoreCase("r"))
-                    virtualServer.chooseToken(localGameInstance.getMe().getNickname(), Token.RED);
+                    localGameInstance.getMe().setToken(Token.RED);
                 else if (inputLine.equalsIgnoreCase("g"))
-                    virtualServer.chooseToken(localGameInstance.getMe().getNickname(), Token.GREEN);
-                else {
-                    System.out.println("Error in the action: only type 'b', 'y', 'r', 'g'");
-                    error = true;
-                }
-
-
-                while (!error && state.equals(ViewState.CHOOSE_TOKEN)) {
-                    try {
-                        this.wait();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-
-                if (state.equals(ViewState.ERROR))
-                    state = ViewState.CHOOSE_TOKEN;
-                else {
-                    if (inputLine.equalsIgnoreCase("b"))
-                        localGameInstance.getMe().setToken(Token.BLUE);
-                    else if (inputLine.equalsIgnoreCase("y"))
-                        localGameInstance.getMe().setToken(Token.YELLOW);
-                    else if (inputLine.equalsIgnoreCase("r"))
-                        localGameInstance.getMe().setToken(Token.RED);
-                    else if (inputLine.equalsIgnoreCase("g"))
-                        localGameInstance.getMe().setToken(Token.GREEN);
-                }
+                    localGameInstance.getMe().setToken(Token.GREEN);
             }
         }
 
@@ -250,46 +244,135 @@ public class TUIView extends View implements PropertyChangeListener {
         for (ClientSidePlayer p: localGameInstance.getPlayers())
             while (p.getToken() == null) Thread.onSpinWait();
 
+    }
 
-        //OBJECTIVE PHASE ----------------------------------------------------------------------------------------------
+    private void objectiveQueries() {
+        String inputLine;
+        while (state.equals(ViewState.CHOOSE_OBJECTIVE)) {
 
-        synchronized (this) {
-            while (state.equals(ViewState.CHOOSE_OBJECTIVE)) {
+            System.out.println("These are your objectives:");
+            printPrivateObjectives();
+            System.out.println("Choose between them by typing the id:");
+            inputLine = stdIn.nextLine();
+            int inputNum = Integer.parseInt(inputLine);
 
-                System.out.println("These are your objectives:");
-                printPrivateObjectives();
-                System.out.println("Choose between them by typing the id:");
-                inputLine = stdIn.nextLine();
-                int inputNum = Integer.parseInt(inputLine);
+            if (inputNum == localGameInstance.getPrivateObjectives().get(0).getId() || inputNum == localGameInstance.getPrivateObjectives().get(1).getId()) {
+                virtualServer.chooseObjective(localGameInstance.getMe().getNickname(), inputNum);
 
-                if (inputNum == localGameInstance.getPrivateObjectives().get(0).getId() || inputNum == localGameInstance.getPrivateObjectives().get(1).getId()) {
-                    virtualServer.chooseObjective(localGameInstance.getMe().getNickname(), inputNum);
-
-                    while (state.equals(ViewState.CHOOSE_OBJECTIVE)) {
-                        try {
-                            this.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                while (state.equals(ViewState.CHOOSE_OBJECTIVE)) {
+                    try {
+                        this.wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
+                }
 
-                    if (state.equals(ViewState.ERROR))
-                        state = ViewState.CHOOSE_OBJECTIVE;
-                    else {
-                        if (inputNum == localGameInstance.getPrivateObjectives().get(0).getId())
-                            localGameInstance.setMyPrivateObjective(localGameInstance.getPrivateObjectives().get(0));
-                        else if (inputNum == localGameInstance.getPrivateObjectives().get(1).getId())
-                            localGameInstance.setMyPrivateObjective(localGameInstance.getPrivateObjectives().get(1));
-                    }
+                if (state.equals(ViewState.ERROR))
+                    state = ViewState.CHOOSE_OBJECTIVE;
+                else {
+                    if (inputNum == localGameInstance.getPrivateObjectives().get(0).getId())
+                        localGameInstance.setMyPrivateObjective(localGameInstance.getPrivateObjectives().get(0));
+                    else if (inputNum == localGameInstance.getPrivateObjectives().get(1).getId())
+                        localGameInstance.setMyPrivateObjective(localGameInstance.getPrivateObjectives().get(1));
+                }
 
-                } else
-                    System.out.println("Error in the action: type the id of the objective card you want to select.");
+            } else
+                System.out.println("Error in the action: type the id of the objective card you want to select.");
 
-            }
         }
 
 
-        //do not wait for everyone else to choose and go straight to "open" request phase
+    }
+
+    private void activeActions() {
+        switch (state) {
+            case PLACE_SC -> System.out.println("Place Start Card, Print Available, Chat, Back"); //DO I NEED TO BREAK?
+            case CHOOSE_TOKEN -> System.out.println("Choose Token, Print Available, Chat, Back"); //DO I NEED TO BREAK?
+            case CHOOSE_OBJECTIVE -> System.out.println("Choose Objective, Print Hand, Print Public Objectives, Print Decks, Print Available, Chat, Back"); //DO I NEED TO BREAK?
+            case NOT_TURN -> System.out.println("Print Kingdom, Print Hand, Print Public Objectives, Print Private Objective, " +
+                    "Print Decks, Print Available, Print Information, Chat, Back"); //DO I NEED TO BREAK?
+            case PLACE -> System.out.println("Place, Print Kingdom, Print Hand, Print Public Objectives, Print Private Objective, " +
+                    "Print Decks, Print Available, Print Information, Chat, Back");
+            case DRAW -> System.out.println("Draw, Print Kingdom, Print Hand, Print Public Objectives, Print Private Objective, " +
+                    "Print Decks, Print Available, Print Player Info, Chat, Back");
+        }
+    }
+
+    private void choice(String s) {
+        switch (s) {
+            case "place start card": {
+                if (state.equals(ViewState.PLACE_SC))
+                    startCardQueries();
+                else
+                    System.out.println("The action you chose is not valid");
+                break;
+            }
+            case "choose token": {
+                if (state.equals(ViewState.CHOOSE_TOKEN))
+                    tokenQueries();
+                else
+                    System.out.println("The action you chose is not valid");
+                break;
+            }
+            case "choose objective": {
+                if (state.equals(ViewState.CHOOSE_OBJECTIVE))
+                    objectiveQueries();
+                else
+                    System.out.println("The action you chose is not valid");
+                break;
+            }
+            case "place": {
+                //CHECK THE STATE
+                break;
+            }
+            case "draw": {
+                //CHECK THE STATE
+                break;
+            }
+            case "print kingdom": {
+                //CHECK THE STATE
+                printKingdom();
+                break;
+            }
+            case "print hand": {
+                //CHECK THE STATE
+                printHand();
+                break;
+            }
+            case "print public objectives": {
+                //CHECK THE STATE
+                printPublicObjectives();
+                break;
+            }
+            case "print private objective": {
+                //CHECK THE STATE
+                printMyPrivateObjective();
+                break;
+            }
+            case "print decks": {
+                //CHECK THE STATE
+                printTopOfResourceDeck();
+                printTopOfGoldDeck();
+                break;
+            }
+            case "print available": {
+                //CHECK THE STATE
+                printAvail();
+                break;
+            }
+            case "print player info": {
+                //CHECK THE STATE
+                //ask which player, ask which info, print it
+                break;
+            }
+            case "chat": {
+                //ask receiver, ask message, print message
+                break;
+            }
+            case "back": {
+                break;
+            }
+        }
     }
 
     public boolean gameOver() {
@@ -308,86 +391,150 @@ public class TUIView extends View implements PropertyChangeListener {
     }
 
     @Override
-    public void printLobbies(List<Integer> lobbies) {
+    public synchronized void printLobbies(List<Integer> lobbies) {
         System.out.println("Active lobbies: " + lobbies);
     }
 
     @Override
-    public void printMyLobby() {
-        System.out.println("Num of lobby: " + localGameInstance.getNumOfLobby() + " | you: " + localGameInstance.getMe().getNickname());
-        System.out.print("These players have joined: ");
-        int count = localGameInstance.getPlayers().size();
-        for(ClientSidePlayer p: localGameInstance.getPlayers()) {
-            System.out.print(p.getNickname());
-            if(count > 1) {
-                System.out.print(", ");
-                count--;
-            }
-        }
-
+    public synchronized void printMyLobby() {
         System.out.println();
-        System.out.println("Total players needed for the game to start: " + localGameInstance.getNumOfPlayers());
+        System.out.println("Num of lobby: " + localGameInstance.getNumOfLobby() + " | you: " + localGameInstance.getMe().getNickname());
+        if (!localGameInstance.getPlayers().isEmpty()) {
+            System.out.print("These players have joined: ");
+            int count = localGameInstance.getPlayers().size();
+            for(ClientSidePlayer p: localGameInstance.getPlayers()) {
+                System.out.print(p.getNickname());
+                if (count > 1) {
+                    System.out.print(", ");
+                    count--;
+                }
+            }
+            System.out.println();
+
+        } else
+            System.out.println("No player joined yet");
+
+        System.out.println("Total players needed for the game to start: " + (localGameInstance.getNumOfPlayers()
+                                                                                - 1 - localGameInstance.getPlayers().size()));
     }
 
     @Override
-    public void printAvail() {
+    public synchronized void printAvail() {
         System.out.println("Available resource cards: " + localGameInstance.getAvailableResourceCards());
         System.out.println("Available gold cards: " + localGameInstance.getAvailableGoldCards());
     }
 
     @Override
-    public void printStartCard() {
+    public synchronized void printTopOfGoldDeck() {
+        System.out.println(localGameInstance.getTopOfGoldDeck());
+    }
+
+    @Override
+    public synchronized void printTopOfResourceDeck() {
+        System.out.println(localGameInstance.getTopOfResourceDeck());
+    }
+
+    @Override
+    public synchronized void printStartCard() {
         System.out.println("Your start card: " + localGameInstance.getMyStartCard());
     }
 
     @Override
-    public void printKingdom() {
+    public synchronized void printKingdom() {
         System.out.println("Your kingdom: " + localGameInstance.getMe().getKingdom());
     }
 
     @Override
-    public void printToken() {
+    public synchronized void printToken() {
         System.out.println("Your token: " + localGameInstance.getMe().getToken());
     }
 
     @Override
-    public void printHand() {
+    public synchronized void printHand() {
         System.out.println("Your hand: " + localGameInstance.getMyHand());
     }
 
     @Override
-    public void printPublicObjectives() {
+    public synchronized void printPublicObjectives() {
         System.out.println("The public objectives are: " + localGameInstance.getPublicObjectives());
     }
 
     @Override
-    public void printPrivateObjectives() {
+    public synchronized void printPrivateObjectives() {
         System.out.println(localGameInstance.getPrivateObjectives());
     }
 
     @Override
-    public void printMyPrivateObjective() {
+    public synchronized void printMyPrivateObjective() {
         System.out.println("Your private objective:" + localGameInstance.getMyPrivateObjective());
     }
 
     @Override
-    public void printError(String e) {
+    public synchronized void printError(String e) {
         System.out.println("Error message: " + e);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
+            case "CHANGED_TURN": {
+                //ADD UPDATE STRING THAT WILL BE PRINTED TO LET THE THREAD KNOW THE KINGDOM HAS BEEN UPDATED
+                synchronized (updates) {
+                    updates.add("It is now your turn, press enter");
+                }
+                break;
+            }
             case "CHANGED_KINGDOM": {
                 //ADD UPDATE STRING THAT WILL BE PRINTED TO LET THE THREAD KNOW THE KINGDOM HAS BEEN UPDATED
+                synchronized (updates) {
+                    updates.add("One of the kingdom has changed");
+                }
+                break;
             }
             case "CHANGED_DECK": {
                 //SET A VARIABLE TO LET THE THREAD KNOW THE DECK HAS BEEN UPDATED
+                synchronized (updates) {
+                    updates.add("One of the decks has changed");
+                }
+                break;
+            }
+            case "CHANGED_AVAILABLE": {
+                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
+                synchronized (updates) {
+                    updates.add("One of the available cards has changed");
+                }
+                break;
             }
             case "CHANGED_HAND": {
                 //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
+                synchronized (updates) {
+                    updates.add("Your hand has changed");
+                }
+                break;
             }
             //ECC
         }
     }
+
+    private void handleUpdates() {
+        while (true) {
+            while (updates.isEmpty()) Thread.onSpinWait();
+
+            if(state.equals(ViewState.SHOW_RESULTS))
+                break;
+            else {
+                synchronized (this) {
+                    synchronized (updates) {
+                        System.out.println("You received updates from the server: ");
+                        for (String s: updates)
+                            System.out.println(s);
+
+                        updates.clear();
+                    }
+                }
+            }
+        }
+    }
+
+
 }

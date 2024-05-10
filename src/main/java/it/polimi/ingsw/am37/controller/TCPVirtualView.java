@@ -1,14 +1,10 @@
 package it.polimi.ingsw.am37.controller;
 
 import it.polimi.ingsw.am37.messages.*;
-import it.polimi.ingsw.am37.messages.initialization.InitMessage;
-import it.polimi.ingsw.am37.messages.initialization.NowUnavailableMessage;
-import it.polimi.ingsw.am37.messages.initialization.UpdateKingdomMessage;
-import it.polimi.ingsw.am37.messages.lobby.PlayerJoinedMessage;
-import it.polimi.ingsw.am37.messages.lobby.UpdateLobbyMessage;
+import it.polimi.ingsw.am37.messages.initialization.*;
+import it.polimi.ingsw.am37.messages.lobby.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
-import it.polimi.ingsw.am37.model.decks.Deck;
 import it.polimi.ingsw.am37.model.game.PlayerPoints;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Player;
@@ -37,37 +33,25 @@ public class TCPVirtualView implements VirtualView {
 
     public void acknowledgePlayer(Player p, String s) {
         //SENDS ACKNOWLEDGMENT MESSAGE TO THE CLIENT (USE NEW THREAD)
-        new Thread(() -> {      //USING THREADS IS PROBABLY OVERKILL
-
-            ch.send(new NotifyMessage(MessageId.NOTIFY, s));
-
-        }).start();
+        ch.send(new NotifyMessage(MessageId.NOTIFY, s));
     }
 
     public void updateLobbyView(Player receiver, List<Player> joined, int lobbyNum, int maxPlayers) {
         //SENDS LOBBY UPDATES TO THE REMOTE LOBBY VIEW (USE NEW THREADS)
-        new Thread(() -> {      //USING THREADS IS PROBABLY OVERKILL
-            List<String> nicknames = new ArrayList<>();
-            for (Player p: joined)
-                nicknames.add(p.getNickname());
+        List<String> nicknames = new ArrayList<>();
+        for (Player p: joined)
+            nicknames.add(p.getNickname());
 
-            ch.send(new UpdateLobbyMessage(MessageId.UPDATE_LOBBY, receiver.getNickname(), nicknames, lobbyNum, maxPlayers));
-
-        }).start();
+        ch.send(new UpdateLobbyMessage(MessageId.UPDATE_LOBBY, receiver.getNickname(), nicknames, lobbyNum, maxPlayers));
     }
 
     public void playerAdded(Player p) {
-        new Thread(() -> {      //USING THREADS IS PROBABLY OVERKILL
-
-            ch.send(new PlayerJoinedMessage(MessageId.UPDATE_LOBBY, p.getNickname()));
-
-        }).start();
+        ch.send(new PlayerJoinedMessage(MessageId.UPDATE_LOBBY, p.getNickname()));
     }
 
     public void sendInitial(List<StandardCard> cGold, List<StandardCard> cResource, StartCard sc, List<StandardCard> hand,
                             ObjectiveCard[] publicObjectives, ObjectiveCard[] objToChooseFrom, Resource goldDeckBack, Resource resourceDeckBack) {
         //SENDS INITIALIZATION MESSAGE TO THE CLIENT
-        new Thread(() -> {      //USING THREADS IS PROBABLY OVERKILL
             List<Integer> cGoldId = new ArrayList<>();
             for (StandardCard c: cGold)
                 cGoldId.add(c.getId());
@@ -91,16 +75,11 @@ public class TCPVirtualView implements VirtualView {
             ch.send(new InitMessage(MessageId.INIT, cGoldId, cResourceId, sc.getId(), handId, publicObjId, privateObjId,
                     goldDeckBack, resourceDeckBack));
 
-        }).start();
     }
 
     public void nowUnavailableToken(Player p, Token t) {
         //SENDS THE NOW UNAVAILABLE TOKEN AND THE PLAYER WHO CHOSE IT TO THE REMOTE VIEW (USE NEW THREAD)
-        new Thread(() -> {      //USING THREADS IS PROBABLY OVERKILL
-
-            ch.send(new NowUnavailableMessage(MessageId.TOKEN, p.getNickname(), t));
-
-        }).start();
+        ch.send(new NowUnavailableMessage(MessageId.TOKEN, p.getNickname(), t));
     }
 
     /**
@@ -110,14 +89,10 @@ public class TCPVirtualView implements VirtualView {
     public void notifyTurn(Player p) {
         //SENDS NOTIFICATION TO THE PLAYER THAT HAS ENTERED HIS TURN (USE NEW THREAD)
         //TRY RECONNECTING WITH PLAYER OR SKIP TURN
-        new Thread(() -> {      //USING THREADS IS PROBABLY OVERKILL
-
-            ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn"));
-
-        }).start();
+        ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn"));
     }
 
-    public void updatesDeckView(Deck d, Back s) {
+    public void updatesDeckView(String deck, Resource back) {
         //SENDS DECKS UPDATES TO THE REMOTE VIEW (USE NEW THREADS)
     }
 
@@ -131,10 +106,7 @@ public class TCPVirtualView implements VirtualView {
 
     public void updatesPlayersKingdomView(Player p, int c, String s, Position pos) {
         //SENDS KINGDOM UPDATES TO THE REMOTE VIEW (USE NEW THREADS)
-        new Thread(() -> {      //USING THREADS IS PROBABLY OVERKILL
-            ch.send(new UpdateKingdomMessage(MessageId.UPDATE_KINGDOM, p.getNickname(), c, s, pos));
-
-        }).start();
+        ch.send(new UpdateKingdomMessage(MessageId.UPDATE_KINGDOM, p.getNickname(), c, s, pos));
     }
 
     public void sendResults(PlayerPoints[] results) {

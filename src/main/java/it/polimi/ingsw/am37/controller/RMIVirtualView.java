@@ -11,7 +11,6 @@ import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Back;
 import it.polimi.ingsw.am37.model.sides.Position;
-import it.polimi.ingsw.am37.server.ClientHandler;
 
 import java.util.List;
 
@@ -50,6 +49,11 @@ public class RMIVirtualView implements VirtualView{
     }
 
     public void notifyTurn(Player p){
+
+    }
+
+    @Override
+    public void updatesDeckView(String deck, Resource back) {
 
     }
 
