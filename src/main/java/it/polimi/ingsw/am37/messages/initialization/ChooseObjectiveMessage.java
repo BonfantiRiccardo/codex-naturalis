@@ -42,7 +42,7 @@ public class ChooseObjectiveMessage extends MessageToServer {
                         ch.send(new NotifyMessage(MessageId.NOTIFY, "objective ok"));
 
                         if (c.getGameInstance().getCurrentTurn() != null)
-                            c.getPlayerViews().get(c.getGameInstance().getCurrentTurn()).notifyTurn(c.getGameInstance().getCurrentTurn());
+                            c.getPlayerViews().get(c.getGameInstance().getCurrentTurn()).notifyTurn(c.getGameInstance().getCurrentTurn(), true);
                     }
                 }
 

@@ -25,12 +25,11 @@ public class CreationMessage extends MessageToServer {
         if(num >= 2 && num <= 4) {
             GameController controller = new GameController(p, num);
 
-            synchronized (ch.getMultipleMatchesHandler()) {
-                ch.getMultipleMatchesHandler().addClient(ch, controller);
-                ch.getMultipleMatchesHandler().addLobby(controller.hashCode(), controller);
 
-                controller.setVirtualView(p, new TCPVirtualView(ch));
-            }
+            ch.getMultipleMatchesHandler().addClient(ch, controller);
+            ch.getMultipleMatchesHandler().addLobby(controller.hashCode(), controller);
+
+            controller.setVirtualView(p, new TCPVirtualView(ch));
 
             System.out.println("correctly created: " + controller.hashCode());
 

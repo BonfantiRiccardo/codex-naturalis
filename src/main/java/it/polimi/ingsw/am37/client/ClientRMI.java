@@ -19,6 +19,16 @@ public class ClientRMI implements RMIClientSkeleton{
     }
 
     @Override
+    public void sendAvailableToken() throws RemoteException {
+
+    }
+
+    @Override
+    public void notifyPlayer() throws RemoteException {
+
+    }
+
+    @Override
     public void updateKingdom() throws RemoteException {
 
     }

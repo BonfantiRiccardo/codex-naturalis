@@ -52,10 +52,6 @@ public abstract class View implements PropertyChangeListener {
 
     public abstract void preLobby();
 
-    //public abstract void init();
-
-
-
     public abstract boolean gameOver();
 
     public abstract void printLobbies(List<Integer> lobbies);

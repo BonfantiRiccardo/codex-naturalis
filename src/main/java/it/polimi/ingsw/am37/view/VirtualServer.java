@@ -18,7 +18,7 @@ public interface VirtualServer extends EventListener {
 
     void chooseObjective(String player, int cardId);
 
-    void placeCard();
+    void placeCard(String player, int cardId, String side, Position pos);
 
     void drawCardFromDeck();
 

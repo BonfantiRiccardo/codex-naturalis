@@ -68,9 +68,8 @@ public class PlaceMessage extends MessageToServer{
                                     ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
                                 }
                             }
+                            break;
                         }
-                        break;
-
                     }
 
                 }

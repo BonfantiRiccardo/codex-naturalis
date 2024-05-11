@@ -33,8 +33,14 @@ public class NotifyMessage extends MessageToClient{
                     v.setState(ViewState.PLACE);
                     v.notify();
                 }
+                case "your turn and token" -> {
+                    v.getLocalGameInstance().getMe().setHasBlackToken(true);
+                    v.setState(ViewState.PLACE);
+                    v.notify();
+                }
                 case "place ok" -> {
                     v.setState(ViewState.DRAW);
+                    //v.getLocalGameInstance().place();
                     v.notify();
                 }
                 case  "draw ok" -> {                    //TO DELETE SINCE I CAN'T JUST NOTIFY THE PLAYER, I HAVE TO SEND THE NEW CARD

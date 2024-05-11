@@ -106,7 +106,7 @@ public class ClientSideGameModel {
 
     //-------------------------------------------------------------------------------------------
 
-
+    //HANDLE LOBBIES
     public List<Integer> getListOfLobbies() {
         return listOfLobbies;
     }
@@ -150,6 +150,7 @@ public class ClientSideGameModel {
         this.me = me;
     }
 
+    //HANDLE AVAILABLE CARDS
     public List<StandardCard> getAvailableResourceCards() {
         return availableResourceCards;
     }
@@ -182,6 +183,7 @@ public class ClientSideGameModel {
         this.listener.propertyChange(evt);
     }
 
+    //HANDLE DECKS
     public Resource getTopOfGoldDeck() {
         return topOfGoldDeck;
     }
@@ -215,21 +217,13 @@ public class ClientSideGameModel {
         this.listener.propertyChange(evt);
     }
 
+    //HANDLE OBJECTIVES
     public List<ObjectiveCard> getPublicObjectives() {
         return publicObjectives;
     }
 
     public void setPublicObjectives(List<ObjectiveCard> publicObjectives) {
         this.publicObjectives = publicObjectives;
-    }
-
-
-    public StartCard getMyStartCard() {
-        return myStartCard;
-    }
-
-    public void setMyStartCard(StartCard myStartCard) {
-        this.myStartCard = myStartCard;
     }
 
     public List<ObjectiveCard> getPrivateObjectives() {
@@ -248,6 +242,16 @@ public class ClientSideGameModel {
         this.myPrivateObjective = myPrivateObjective;
     }
 
+    //HANDLE START CARD
+    public StartCard getMyStartCard() {
+        return myStartCard;
+    }
+
+    public void setMyStartCard(StartCard myStartCard) {
+        this.myStartCard = myStartCard;
+    }
+
+    //HANDLE HAND
     public List<StandardCard> getMyHand() {
         return myHand;
     }
@@ -256,6 +260,7 @@ public class ClientSideGameModel {
         this.myHand = myHand;
     }
 
+    //HANDLE PLACING
     public void placeCard(String player, int cardId, String side, Position pos) {
         StandardCard place = null;
         if(cardId >= 1 && cardId <= 40)

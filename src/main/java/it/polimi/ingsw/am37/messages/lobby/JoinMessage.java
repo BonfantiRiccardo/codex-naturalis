@@ -32,8 +32,9 @@ public class JoinMessage extends MessageToServer {
                     controller.addPlayer(p);
 
                     controller.setVirtualView(p, new TCPVirtualView(ch));
-                    ch.getMultipleMatchesHandler().addClient(ch, controller);
                 }
+
+                ch.getMultipleMatchesHandler().addClient(ch, controller);
 
                 System.out.println("correctly added: " + p.getNickname());
 
@@ -44,9 +45,7 @@ public class JoinMessage extends MessageToServer {
                         controller.getPlayerViews().get(pl).playerAdded(p);
 
                 if (controller.isGameStarted()) {
-                    synchronized (ch.getMultipleMatchesHandler()) {
-                        ch.getMultipleMatchesHandler().removeLobby(controllerHash);
-                    }
+                    ch.getMultipleMatchesHandler().removeLobby(controllerHash);
 
                     for (Player pl: controller.getGameInstance().getParticipants())
                         controller.getPlayerViews().get(pl).sendInitial(controller.getGameInstance().getAvailableGCards(),

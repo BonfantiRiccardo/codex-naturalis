@@ -20,23 +20,23 @@ public class MultipleMatchesHandler {
 
     }
 
-    public void addClient(ClientHandler ch, GameController c) {
+    public synchronized void addClient(ClientHandler ch, GameController c) {
         map.put(ch, c);
     }
 
-    public void removeClient(ClientHandler ch, GameController c) {
+    public synchronized void removeClient(ClientHandler ch, GameController c) {
         map.remove(ch, c);
     }
 
-    public void addLobby(int controllerHash, GameController c) {
+    public synchronized void addLobby(int controllerHash, GameController c) {
         lobbyList.put(controllerHash, c);
     }
 
-    public void removeLobby(int controllerHash) {
+    public synchronized void removeLobby(int controllerHash) {
         lobbyList.remove(controllerHash);
     }
 
-    public Map<Integer, GameController> getLobbyList() {
+    public synchronized Map<Integer, GameController> getLobbyList() {
         return lobbyList;
     }
 }

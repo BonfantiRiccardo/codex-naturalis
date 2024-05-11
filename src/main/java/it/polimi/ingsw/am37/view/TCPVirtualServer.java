@@ -78,8 +78,12 @@ public class TCPVirtualServer implements VirtualServer {
     }
 
     @Override
-    public void placeCard() {
-
+    public void placeCard(String player, int cardId, String side, Position pos) {
+        try {
+            out.writeObject(new PlaceMessage(MessageId.PLACE, player, cardId, side, pos));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

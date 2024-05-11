@@ -89,7 +89,7 @@ public class RMIVirtualView implements VirtualView{
         }
     }
 
-    public void notifyTurn(Player p){
+    public void notifyTurn(Player p, boolean blackToken){
         try {
             cs.notifyPlayer();
         } catch (RemoteException e) {

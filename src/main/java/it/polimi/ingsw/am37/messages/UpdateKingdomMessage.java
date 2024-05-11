@@ -1,7 +1,5 @@
-package it.polimi.ingsw.am37.messages.initialization;
+package it.polimi.ingsw.am37.messages;
 
-import it.polimi.ingsw.am37.messages.MessageId;
-import it.polimi.ingsw.am37.messages.MessageToClient;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
 import it.polimi.ingsw.am37.model.player.Kingdom;
 import it.polimi.ingsw.am37.model.sides.Position;
@@ -54,8 +52,7 @@ public class UpdateKingdomMessage extends MessageToClient {
 
             }
 
-        }
-        //ELSE the case I placed a standard card
-
+        } else if (cardId >= 1 && cardId <= 80)
+            v.getLocalGameInstance().placeCard(player, cardId, side, pos);
     }
 }

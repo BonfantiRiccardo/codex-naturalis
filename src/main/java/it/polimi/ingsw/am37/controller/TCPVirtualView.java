@@ -86,10 +86,13 @@ public class TCPVirtualView implements VirtualView {
      * the method notifyTurn notifies the players when it's their turn.
      * @param p is the player notified.
      */
-    public void notifyTurn(Player p) {
+    public void notifyTurn(Player p, boolean blackToken) {
         //SENDS NOTIFICATION TO THE PLAYER THAT HAS ENTERED HIS TURN (USE NEW THREAD)
         //TRY RECONNECTING WITH PLAYER OR SKIP TURN
-        ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn"));
+        if (blackToken)
+            ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn and token"));
+        else
+            ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn"));
     }
 
     public void updatesDeckView(String deck, Resource back) {

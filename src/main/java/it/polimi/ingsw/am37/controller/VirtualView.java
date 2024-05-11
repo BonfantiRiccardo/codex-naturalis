@@ -25,7 +25,7 @@ public interface VirtualView extends EventListener {
 
     void nowUnavailableToken(Player p, Token t);
 
-    void notifyTurn(Player p);
+    void notifyTurn(Player p, boolean blackToken);
 
     void updatesDeckView(String deck, Resource back);
 
