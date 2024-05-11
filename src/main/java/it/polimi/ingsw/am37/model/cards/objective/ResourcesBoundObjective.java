@@ -64,36 +64,30 @@ public class ResourcesBoundObjective extends ObjectiveCard {
         switch (id){
             case 95:
                 return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|               |\n| resources:    |\n|   🍄 🍄 🍄   |\n—————————————————";
-                break;
 
             case 96:
                 return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|               |\n| resources:    |\n|   🍁 🍁 🍁   |\n—————————————————";
-                break;
 
             case 97:
                 return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|               |\n| resources:    |\n|   🐺 🐺 🐺   |\n—————————————————";
-                break;
 
             case 98:
                 return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|               |\n| resources:    |\n|   🦋 🦋 🦋   |\n—————————————————";
-                break;
 
             case 99:
                 return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|               |\n| resources:    |\n|   📜 🪶 🖋️   |\n—————————————————";
-                break;
 
             case 100:
                 return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|               |\n| resources:    |\n|     📜 📜    |\n—————————————————";
-                break;
 
             case 101:
                 return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|               |\n| resources:    |\n|     🖋️ 🖋️    |\n—————————————————";
-                break;
 
             case 102:
                 return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|               |\n| resources:    |\n|     🪶 🪶   |\n—————————————————";
-                break;
 
+                default:
+                return "error";
         }
     }
 }
