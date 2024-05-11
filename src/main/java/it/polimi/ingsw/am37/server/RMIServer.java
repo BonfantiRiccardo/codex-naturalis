@@ -35,8 +35,10 @@ public class RMIServer implements RMIServerIStub {
 
     @Override
     public void createGame(String name, int numOfPlayers) throws RemoteException {
-
-    }
+        Player p = new Player(name);
+        if((2 >= numOfPlayers) && (numOfPlayers<=4)) {
+           // multipleMatchesHandler.addClient();
+    }}
 
     @Override
     public void joinGame(int controllerHash, String name) throws RemoteException {

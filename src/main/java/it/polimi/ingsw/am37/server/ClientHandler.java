@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientHandler {
+public class ClientHandler implements ClientInterface{
     private final Socket socket;
     private final MultipleMatchesHandler multipleMatchesHandler;
     private ObjectInputStream in = null;
