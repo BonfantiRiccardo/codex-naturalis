@@ -10,7 +10,6 @@ public abstract class View implements PropertyChangeListener {
     protected ViewState state;
     protected VirtualServer virtualServer;
     protected final ClientSideGameModel localGameInstance;
-    protected volatile boolean newMessage;
 
     public View(ViewState state) {
         this.state = state;
@@ -23,6 +22,15 @@ public abstract class View implements PropertyChangeListener {
     }
 
     public void setState(ViewState state) {
+        if (this.state == ViewState.NOT_TURN && state == ViewState.PLACE) { //ASTRARRE CON UN EVENTO CHANGED_STATE CHE POI VIENE GESTITO IN
+            PropertyChangeEvent evt = new PropertyChangeEvent(              //propertyChange(evt); PERCHè mi serve anche per fase iniziale
+                    this,
+                    "CHANGED_TURN",
+                    this.state,
+                    state);
+            propertyChange(evt);
+        }
+
         this.state = state;
     }
 
@@ -32,14 +40,6 @@ public abstract class View implements PropertyChangeListener {
 
     public void setVirtualServer(VirtualServer virtualServer) {
         this.virtualServer = virtualServer;
-    }
-
-    public boolean getNewMessage() {
-        return newMessage;
-    }
-
-    public void setNewMessage(boolean newMessage) {
-        this.newMessage = newMessage;
     }
 
     public ClientSideGameModel getLocalGameInstance() {
@@ -52,7 +52,7 @@ public abstract class View implements PropertyChangeListener {
 
     public abstract void preLobby();
 
-    public abstract void init();
+    //public abstract void init();
 
 
 
@@ -63,6 +63,10 @@ public abstract class View implements PropertyChangeListener {
     public abstract void printMyLobby();
 
     public abstract void printAvail();
+
+    public abstract void printTopOfGoldDeck();
+
+    public abstract void printTopOfResourceDeck();
 
     public abstract void printStartCard();
 

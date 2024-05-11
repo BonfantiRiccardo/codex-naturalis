@@ -12,9 +12,9 @@ public class ServerTCP {
     private final int port;
     private final MultipleMatchesHandler multipleMatchesHandler;
 
-    public ServerTCP(int port) {
+    public ServerTCP(int port, MultipleMatchesHandler multipleMatchesHandler) {
         this.port = port;
-        multipleMatchesHandler = new MultipleMatchesHandler();
+        this.multipleMatchesHandler = multipleMatchesHandler;
     }
 
     public void startServer() {

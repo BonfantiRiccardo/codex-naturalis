@@ -273,9 +273,9 @@ public class GameController implements Observable {
                 state.gamePhaseHandler();
 
                 // UPDATE VIEW DIRECTLY HERE?   HOW DO I SEND CLIENT THE NEW CARD?
-                for (Player pl: gameInstance.getParticipants())      //ACKNOWLEDGE CLIENT?
-                    if(playerViews.get(pl) != null)
-                        playerViews.get(pl).updatesDeckView(d, d.firstBack());
+                //for (Player pl: gameInstance.getParticipants())      //ACKNOWLEDGE CLIENT?
+                //    if(playerViews.get(pl) != null)
+                //        playerViews.get(pl).updatesDeckView(d, d.firstBack());
 
             } else throw new WrongGamePhaseException("You cannot draw a card now");
         } else throw new IncorrectUserActionException("It is not your turn.");
@@ -295,9 +295,9 @@ public class GameController implements Observable {
                 state.gamePhaseHandler();
 
                 // UPDATE VIEW DIRECTLY HERE?   HOW DO I SEND CLIENT THE NEW CARD?
-                for (Player pl: gameInstance.getParticipants())      //ACKNOWLEDGE CLIENT?
-                    if(playerViews.get(pl) != null)
-                        playerViews.get(pl).updatesDeckView(d, d.firstBack());
+                //for (Player pl: gameInstance.getParticipants())      //ACKNOWLEDGE CLIENT?
+                //    if(playerViews.get(pl) != null)
+                //        playerViews.get(pl).updatesDeckView(d, d.firstBack());
 
             } else throw new WrongGamePhaseException("You cannot draw a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");

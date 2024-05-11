@@ -29,12 +29,16 @@ public class NotifyMessage extends MessageToClient{
                         v.notify();
                     }
                 }
-                case "your turn", "draw ok" -> {
+                case "your turn" -> {
                     v.setState(ViewState.PLACE);
                     v.notify();
                 }
                 case "place ok" -> {
                     v.setState(ViewState.DRAW);
+                    v.notify();
+                }
+                case  "draw ok" -> {                    //TO DELETE SINCE I CAN'T JUST NOTIFY THE PLAYER, I HAVE TO SEND THE NEW CARD
+                    v.setState(ViewState.NOT_TURN);     //MAYBE USEFUL IN DRAW FROM AVAILABLE
                     v.notify();
                 }
             }

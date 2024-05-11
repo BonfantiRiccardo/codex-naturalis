@@ -157,7 +157,7 @@ public class ClientSideGameModel {
     public void setAvailableResourceCards(List<StandardCard> availableResourceCards) {
         PropertyChangeEvent evt = new PropertyChangeEvent(
                 this,
-                "R_AVAIL_CHANGED",
+                "CHANGED_AVAILABLE",
                 this.availableResourceCards,
                 availableResourceCards);
 
@@ -173,7 +173,7 @@ public class ClientSideGameModel {
     public void setAvailableGoldCards(List<StandardCard> availableGoldCards) {
         PropertyChangeEvent evt = new PropertyChangeEvent(
                 this,
-                "G_AVAIL_CHANGED",
+                "CHANGED_AVAILABLE",
                 this.availableGoldCards,
                 availableGoldCards);
 
@@ -189,7 +189,7 @@ public class ClientSideGameModel {
     public void setTopOfGoldDeck(Resource topOfGoldDeck) {
         PropertyChangeEvent evt = new PropertyChangeEvent(
                 this,
-                "G_DECK_CHANGED",
+                "CHANGED_DECK",
                 this.topOfGoldDeck,
                 topOfGoldDeck);
 
@@ -205,7 +205,7 @@ public class ClientSideGameModel {
     public void setTopOfResourceDeck(Resource topOfResourceDeck) {
         PropertyChangeEvent evt = new PropertyChangeEvent(
                 this,
-                "R_DECK_CHANGED",
+                "CHANGED_DECK",
                 this.topOfResourceDeck,
                 topOfResourceDeck);
 
@@ -277,10 +277,14 @@ public class ClientSideGameModel {
         if (place!=null) {
             if(me.getNickname().equals(player)) {
                 if(side.equalsIgnoreCase("f")) {
+                    place.getFront().placeInPosition(pos.getX(), pos.getY());
                     me.getKingdom().updateKingdom(place, place.getFront(), pos);
+                    me.addPoints(place.getFront().getPointsGivenOnPlacement());
                 }
-                else if(side.equalsIgnoreCase("b"))
+                else if(side.equalsIgnoreCase("b")) {
+                    place.getBack().placeInPosition(pos.getX(), pos.getY());
                     me.getKingdom().updateKingdom(place, place.getBack(), pos);
+                }
 
                 myHand.remove(place);
 
@@ -288,20 +292,26 @@ public class ClientSideGameModel {
                 for (ClientSidePlayer p: players) {
                     if (p.getNickname().equals(player)) {
                         if(side.equalsIgnoreCase("f")) {
+                            place.getFront().placeInPosition(pos.getX(), pos.getY());
                             p.getKingdom().updateKingdom(place, place.getFront(), pos);
+                            p.addPoints(place.getFront().getPointsGivenOnPlacement());
                         }
-                        else if(side.equalsIgnoreCase("b"))
+                        else if(side.equalsIgnoreCase("b")) {
+                            place.getBack().placeInPosition(pos.getX(), pos.getY());
                             p.getKingdom().updateKingdom(place, place.getBack(), pos);
+                        }
+
+                        PropertyChangeEvent evt = new PropertyChangeEvent(
+                                this,
+                                "CHANGED_KINGDOM",
+                                p.getKingdom(),
+                                p.getKingdom());
+
+
+                        this.listener.propertyChange(evt);
+
+                        break;
                     }
-
-                    PropertyChangeEvent evt = new PropertyChangeEvent(
-                            this,
-                            "KINGDOM_CHANGED",
-                            p.getKingdom(),
-                            p.getKingdom());
-
-
-                    this.listener.propertyChange(evt);
                 }
             }
         }

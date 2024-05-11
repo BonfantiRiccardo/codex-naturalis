@@ -18,7 +18,7 @@ public interface RMIServerIStub extends Remote {
 
     void joinGame(int controllerHash, String name) throws RemoteException;
 
-    void placeStartCard(Player p, StartCard sc, Side s) throws RemoteException;
+    void placeStartCard(String p, StartCard sc, Side s) throws RemoteException;
 
     void chooseToken(Player p, Token t) throws RemoteException;
 

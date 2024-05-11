@@ -15,6 +15,8 @@ public class ClientSidePlayer {
     public ClientSidePlayer(String nickname) {
         this.nickname = nickname;
         hasBlackToken = false;
+        points = 0;
+        objectivesCompleted = 0;
     }
 
     public String getNickname() {
@@ -49,8 +51,8 @@ public class ClientSidePlayer {
         return points;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void addPoints(int points) {
+        this.points = this.points + points;
     }
 
     public int getObjectivesCompleted() {

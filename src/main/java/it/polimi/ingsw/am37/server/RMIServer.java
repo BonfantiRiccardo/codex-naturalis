@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am37.server;
 
 import it.polimi.ingsw.am37.client.RMIClientSkeleton;
+import it.polimi.ingsw.am37.controller.MultipleMatchesHandler;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
@@ -17,8 +18,11 @@ import java.util.List;
 public class RMIServer implements RMIServerIStub {
     private List<RMIClientSkeleton> clients;
 
-    public RMIServer() throws RemoteException {
+    private final MultipleMatchesHandler multipleMatchesHandler;
+
+    public RMIServer(MultipleMatchesHandler multipleMatchesHandler) throws RemoteException {
         clients = new ArrayList<RMIClientSkeleton>();
+        this.multipleMatchesHandler= multipleMatchesHandler;
     }
 
     public synchronized void join(RMIClientSkeleton client) throws RemoteException {
@@ -40,7 +44,7 @@ public class RMIServer implements RMIServerIStub {
     }
 
     @Override
-    public void placeStartCard(Player p, StartCard sc, Side s) throws RemoteException {
+    public void placeStartCard(String rp, StartCard sc, Side s) throws RemoteException {
 
     }
 

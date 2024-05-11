@@ -2,7 +2,6 @@ package it.polimi.ingsw.am37.controller;
 
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
-import it.polimi.ingsw.am37.model.decks.*;
 import it.polimi.ingsw.am37.model.game.PlayerPoints;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Player;
@@ -28,7 +27,7 @@ public interface VirtualView extends EventListener {
 
     void notifyTurn(Player p);
 
-    void updatesDeckView(Deck d, Back s);
+    void updatesDeckView(String deck, Resource back);
 
     void updatePlayerHandView(Player p, StandardCard c);
 

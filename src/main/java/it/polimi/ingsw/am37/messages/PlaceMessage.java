@@ -59,7 +59,7 @@ public class PlaceMessage extends MessageToServer{
                                          AlreadyAssignedException e) {
                                     ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
                                 }
-                            } else {
+                            } else if (side.equalsIgnoreCase("b")) {
                                 try {
                                     c.playerPlacesCard(p, card, card.getBack(), pos);
                                     placed = true;
@@ -80,9 +80,12 @@ public class PlaceMessage extends MessageToServer{
                     ch.send(new ErrorMessage(MessageId.ERROR, "Couldn't place the card because message is corrupted."));
                 } else {
                     for (Player pl: c.getGameInstance().getParticipants()) {
-                        if (pl.equals(p))
-                            c.getPlayerViews().get(p).acknowledgePlayer(p, "start card ok");
-                        else
+                        if (pl.equals(p)) {
+                            if (id.equals(MessageId.PLACE_SC))
+                                c.getPlayerViews().get(p).acknowledgePlayer(p, "start card ok");
+                            else if (id.equals(MessageId.PLACE))
+                                c.getPlayerViews().get(p).acknowledgePlayer(p, "place ok");
+                        } else
                             c.getPlayerViews().get(pl).updatesPlayersKingdomView(p, cardId, side, pos);
                     }
                 }
@@ -91,20 +94,6 @@ public class PlaceMessage extends MessageToServer{
             }
         }
 
-
-
-    }
-
-    public int getCardId() {
-        return cardId;
-    }
-
-    public String getSide() {
-        return side;
-    }
-
-    public Position getPos() {
-        return pos;
     }
 
     @Override
