@@ -193,4 +193,10 @@ public class DiagonalDownTest {
 
         assertSame(2, oC.calculateNumOfCompletion(p.getMyKingdom()));
     }
+
+    @Test
+    void toStringTest(){
+        DiagonalDown d=new DiagonalDown(88,2, Resource.PLANT, Resource.PLANT);
+        System.out.println(d.toString());
+    }
 }

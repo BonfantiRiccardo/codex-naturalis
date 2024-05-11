@@ -76,4 +76,23 @@ public class DiagonalDown extends PlacementBoundObjective {
         return numSatisfied;
     }
 
+    public String toString(){
+        int points = this.getPointsGiven();
+        int id= this.getId();
+        String res;
+        if(this.cardColourThatTriggersCheck==Resource.INSECT){
+            res="🦋";
+        } else if (this.cardColourThatTriggersCheck==Resource.ANIMAL) {
+            res="🐺";
+        } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
+            res="🍁";
+        }   else{       //fungi
+            res="🍄";
+        }
+
+        System.out.println("\n");
+        return "—————————————————\n| id:"+id+"  pt:"+points+"   |\n|    "+res+"         |\n|        "+res+"     |\n|            "+res+" |\n—————————————————";
+
+    }
+
 }

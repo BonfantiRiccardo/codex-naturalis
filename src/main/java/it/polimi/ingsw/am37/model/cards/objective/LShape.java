@@ -89,8 +89,39 @@ public class LShape extends PlacementBoundObjective {
         return requestedPosition;
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + ", direction: " + direction + ", position: x: " + requestedPosition.getX() + " y: " + requestedPosition.getY();
+    public String toString(){
+        int points = this.getPointsGiven();
+        int id= this.getId();
+        String res;
+        if(this.cardColourThatTriggersCheck==Resource.INSECT){
+            res="🦋";
+        } else if (this.cardColourThatTriggersCheck==Resource.ANIMAL) {
+            res="🐺";
+        } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
+            res="🍁";
+        }   else{       //fungi
+            res="🍄";
+        }
+        String leg;
+        if(this.otherResource==Resource.INSECT){
+            leg="🦋";
+        } else if (this.otherResource==Resource.ANIMAL) {
+            leg="🐺";
+        } else if (this.otherResource==Resource.PLANT) {
+            leg="🍁";
+        }   else{       //fungi
+            leg="🍄";
+        }
+
+        System.out.println("\n");
+        if(this.direction==Direction.TOPLEFT){
+            return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|      "+leg+"       |\n|      "+leg+"       |\n|        "+res+"     |\n—————————————————";
+        } else if (this.direction==Direction.TOPRIGHT) {
+            return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|        "+leg+"     |\n|        "+leg+"     |\n|     "+res+"        |\n—————————————————";
+        } else if (this.direction==Direction.BOTTOMLEFT) {
+            return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|        "+res+"     |\n|     "+res+"        |\n|     "+res+"        |\n—————————————————";
+        } else {
+            return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|      "+res+"       |\n|         "+res+"    |\n|         "+res+"    |\n—————————————————";
+        }
     }
 }
