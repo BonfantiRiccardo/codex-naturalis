@@ -82,4 +82,15 @@ class ResourceCardTest {
 
     }
 
+    @Test
+    void toStringTest(){
+        Corner usl=new Corner(true, Resource.EMPTY);
+        Corner anm=new Corner(true, Resource.ANIMAL);
+        Corner no=new Corner(false, Resource.EMPTY);
+        Front f=new Front(anm, anm, usl, no, Resource.ANIMAL,0,null, null);
+        Back b=new Back(usl, usl, usl, usl, Resource.ANIMAL);
+        ResourceCard c=new ResourceCard(2,f,b);
+        System.out.println(c.toString());
+    }
+
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am37.model.cards;
 
 import it.polimi.ingsw.am37.model.cards.placeable.GoldCard;
+import it.polimi.ingsw.am37.model.cards.placeable.ResourceCard;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.sides.Corner;
 import it.polimi.ingsw.am37.model.sides.*;
@@ -88,6 +89,17 @@ class GoldCardTest {
         Hashtable<Resource, Integer> placCond = new Hashtable<>();
         placCond.put(Resource.FUNGI, 3);
         return placCond;
+    }
+
+    @Test
+    void toStringTest(){
+        Corner usl=new Corner(true, Resource.EMPTY);
+        Corner man=new Corner(true, Resource.MANUSCRIPT);
+        Corner no=new Corner(false, Resource.EMPTY);
+        Front f=new Front(usl, no, man, no, Resource.ANIMAL,3,null, null);
+        Back b=new Back(usl, usl, usl, usl, Resource.ANIMAL);
+        GoldCard c=new GoldCard(67,f,b);
+        System.out.println(c.toString());
     }
 
 }
