@@ -27,11 +27,13 @@ public class WaitDrawCard implements State {
      */
     @Override
     public void gamePhaseHandler() {
-        if (controller.getGameInstance().getScoreboard().getParticipantsPoints().get(controller.getGameInstance().getCurrentTurn()) < 20) {
+        if (controller.getGameInstance().getScoreboard().getParticipantsPoints().get(controller.getGameInstance().getCurrentTurn()) < 20 &&
+                !(controller.getGameInstance().getRDeck().isEmpty() && controller.getGameInstance().getGDeck().isEmpty()) ) {
             controller.getGameInstance().nextTurn();
             controller.setState(new WaitPlaceCard(controller));
         } else {
             controller.getGameInstance().setupEndGame();
+            controller.setEndGameStarted(true);
             controller.getGameInstance().nextTurn();
             controller.setState(new WaitEndGamePlace(controller));
         }

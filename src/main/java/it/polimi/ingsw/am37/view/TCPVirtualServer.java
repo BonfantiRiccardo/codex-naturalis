@@ -6,11 +6,10 @@ import it.polimi.ingsw.am37.messages.initialization.ChooseTokenMessage;
 import it.polimi.ingsw.am37.messages.lobby.CreationMessage;
 import it.polimi.ingsw.am37.messages.lobby.JoinMessage;
 import it.polimi.ingsw.am37.messages.lobby.LobbyRequestMessage;
-import it.polimi.ingsw.am37.model.decks.Deck;
-import it.polimi.ingsw.am37.model.player.Player;
+import it.polimi.ingsw.am37.messages.turns.DrawAvailableMessage;
+import it.polimi.ingsw.am37.messages.turns.DrawDeckMessage;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
-import it.polimi.ingsw.am37.model.sides.Side;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -90,12 +89,20 @@ public class TCPVirtualServer implements VirtualServer {
     }
 
     @Override
-    public void drawCardFromDeck(Player p, Deck d) {
-
+    public void drawCardFromDeck(String player, String deck) {
+        try {
+            out.writeObject(new DrawDeckMessage(MessageId.DRAW_DECK, player, deck));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void drawCardFromAvailable(Player p, int cardId) {
-
+    public void drawCardFromAvailable(String player, int cardId) {
+        try {
+            out.writeObject(new DrawAvailableMessage(MessageId.DRAW_AVAIL, player, cardId));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

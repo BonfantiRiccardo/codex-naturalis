@@ -76,7 +76,7 @@ public class ResourcesBoundObjective extends ObjectiveCard {
 
             case 99:
                 return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|               |\n| resources:    |\n|   📜 🪶 🖋️   |\n—————————————————";
-
+                                                                                                                        //🥃
             case 100:
                 return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|               |\n| resources:    |\n|     📜 📜    |\n—————————————————";
 

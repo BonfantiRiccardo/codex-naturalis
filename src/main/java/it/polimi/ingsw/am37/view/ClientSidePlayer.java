@@ -1,7 +1,10 @@
 package it.polimi.ingsw.am37.view;
 
+import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Kingdom;
 import it.polimi.ingsw.am37.model.player.Token;
+import it.polimi.ingsw.am37.model.sides.Bonus;
+import it.polimi.ingsw.am37.model.sides.Front;
 
 public class ClientSidePlayer {
 
@@ -51,8 +54,23 @@ public class ClientSidePlayer {
         return points;
     }
 
-    public void addPoints(int points) {
-        this.points = this.points + points;
+    public void addPoints(Front placed, int cornersLinked) {
+        int toAdd = 0;
+
+        if (placed.getBonus() == null)
+            toAdd = placed.getPointsGivenOnPlacement();
+        else if (placed.getBonus().equals(Bonus.CORNER))
+            toAdd = placed.getPointsGivenOnPlacement() * cornersLinked;
+        else {
+            if (placed.getBonus().equals(Bonus.INKWELL)) {
+                toAdd = (kingdom.getOnFieldResources().get(Resource.INKWELL) + 1) * placed.getPointsGivenOnPlacement();
+            } else if (placed.getBonus().equals(Bonus.QUILL)) {
+                toAdd = (kingdom.getOnFieldResources().get(Resource.QUILL) + 1) * placed.getPointsGivenOnPlacement();
+            } else if (placed.getBonus().equals(Bonus.MANUSCRIPT))
+                toAdd = (kingdom.getOnFieldResources().get(Resource.MANUSCRIPT) + 1) * placed.getPointsGivenOnPlacement();
+        }
+
+        points = points + toAdd;
     }
 
     public int getObjectivesCompleted() {

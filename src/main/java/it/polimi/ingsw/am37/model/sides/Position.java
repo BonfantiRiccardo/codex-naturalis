@@ -50,4 +50,9 @@ public class Position implements Serializable {
             return this.x == compare.x && this.y == compare.y;
         }
     }
+
+    @Override
+    public String toString() {
+        return "{x = " + x + ", y = " + y + '}';
+    }
 }

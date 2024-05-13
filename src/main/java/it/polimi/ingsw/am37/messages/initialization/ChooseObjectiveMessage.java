@@ -8,7 +8,6 @@ import it.polimi.ingsw.am37.exceptions.WrongGamePhaseException;
 import it.polimi.ingsw.am37.messages.ErrorMessage;
 import it.polimi.ingsw.am37.messages.MessageId;
 import it.polimi.ingsw.am37.messages.MessageToServer;
-import it.polimi.ingsw.am37.messages.NotifyMessage;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.server.ClientHandler;
@@ -39,7 +38,7 @@ public class ChooseObjectiveMessage extends MessageToServer {
                             return;
                         }
 
-                        ch.send(new NotifyMessage(MessageId.NOTIFY, "objective ok"));
+                        c.getPlayerViews().get(p).acknowledgePlayer(p, "objective ok");
 
                         if (c.getGameInstance().getCurrentTurn() != null)
                             c.getPlayerViews().get(c.getGameInstance().getCurrentTurn()).notifyTurn(c.getGameInstance().getCurrentTurn(), true);

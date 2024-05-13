@@ -3,6 +3,9 @@ package it.polimi.ingsw.am37.controller;
 import it.polimi.ingsw.am37.messages.*;
 import it.polimi.ingsw.am37.messages.initialization.*;
 import it.polimi.ingsw.am37.messages.lobby.*;
+import it.polimi.ingsw.am37.messages.turns.DeckCardDrawnMessage;
+import it.polimi.ingsw.am37.messages.turns.UpdateAvailableView;
+import it.polimi.ingsw.am37.messages.turns.UpdateDeckView;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.game.PlayerPoints;
@@ -97,14 +100,21 @@ public class TCPVirtualView implements VirtualView {
 
     public void updatesDeckView(String deck, Resource back) {
         //SENDS DECKS UPDATES TO THE REMOTE VIEW (USE NEW THREADS)
+        ch.send(new UpdateDeckView(MessageId.UPDATE_DECK, deck, back));
     }
 
-    public void updatePlayerHandView(Player p, StandardCard c) {
+    public void updatePlayerHandAndDeckView(String deck, Resource topOfDeck, int cardId) {
         //SENDS HAND UPDATES TO THE REMOTE VIEW (USE NEW THREAD)
+        ch.send(new DeckCardDrawnMessage(MessageId.UPDATE_DECK, deck, topOfDeck, cardId));
     }
 
-    public void updatesCardView(List<StandardCard> cList) {
+    public void updatesAvailableCardView(String deck, Resource topOfDeck, String listChanged, List<StandardCard> cardList) {
         //SENDS AVAILABLE CARDS UPDATES TO THE REMOTE VIEW (USE NEW THREADS)
+        List<Integer> availableId = new ArrayList<>();
+        for (StandardCard c: cardList)
+            availableId.add(c.getId());
+
+        ch.send(new UpdateAvailableView(MessageId.UPDATE_AVAIL, deck, topOfDeck, listChanged, availableId));
     }
 
     public void updatesPlayersKingdomView(Player p, int c, String s, Position pos) {

@@ -31,6 +31,10 @@ public class GameController implements Observable {
      */
     private boolean isGameStarted;
     /**
+     * the endGameStarted attribute is a boolean which becomes true when the game enters the final phase.
+     */
+    private boolean endGameStarted;
+    /**
      * the gameInstance attribute is the instance of the game created.
      */
     private GameModel gameInstance;
@@ -50,6 +54,7 @@ public class GameController implements Observable {
      */
     public GameController(Player creator, int numOfPlayers) {
         isGameStarted = false;
+        endGameStarted = false;
 
         participants = new ArrayList<>();
         participants.add(creator);
@@ -121,11 +126,27 @@ public class GameController implements Observable {
     }
 
     /**
-     * the method gameStarted set the attribute isGameStarted to true if the game is started and instanced.
+     * the method setGameStarted set the attribute isGameStarted to true if the game is started and instanced.
      * @param gameStarted is the boolean used to pass the information.
      */
     public void setGameStarted(boolean gameStarted) {
         isGameStarted = gameStarted;
+    }
+
+    /**
+     * the isEndGameStarted method returns true if the game is in the final phase, or returns false otherwise.
+     * @return endGameStarted attribute.
+     */
+    public boolean isEndGameStarted() {
+        return endGameStarted;
+    }
+
+    /**
+     * the method setEndGameStarted set the attribute endGameStarted to true if the game has entered the final phase.
+     * @param endGameStarted is the boolean used to pass the information.
+     */
+    public void setEndGameStarted(boolean endGameStarted) {
+        this.endGameStarted = endGameStarted;
     }
 
     /**
@@ -319,9 +340,9 @@ public class GameController implements Observable {
 
                 // UPDATE VIEW DIRECTLY HERE?
                 //playerViews.get(p).acknowledgePlayer(p);           //OTHERWISE REUSE METHOD SEND AVAILABLE
-                for (Player pl: gameInstance.getParticipants())    //HOW DO I KNOW WHICH LIST CHANGED? RETURN A LIST FROM METHOD
-                    if(playerViews.get(pl) != null)
-                        playerViews.get(pl).updatesCardView(gameInstance.getAvailableGCards());
+                //for (Player pl: gameInstance.getParticipants())    //HOW DO I KNOW WHICH LIST CHANGED? RETURN A LIST FROM METHOD
+                //    if(playerViews.get(pl) != null)
+                //        playerViews.get(pl).updatesAvailableCardView(gameInstance.getAvailableGCards());
 
             } else throw new WrongGamePhaseException("You cannot draw a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");

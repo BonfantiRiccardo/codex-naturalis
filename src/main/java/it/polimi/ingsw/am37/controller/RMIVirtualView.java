@@ -102,15 +102,17 @@ public class RMIVirtualView implements VirtualView{
 
     }
 
+    @Override
+    public void updatePlayerHandAndDeckView(String deck, Resource topOfDeck, int cardId) {
+
+    }
+
+    @Override
+    public void updatesAvailableCardView(String deck, Resource topOfDeck, String listChanged, List<StandardCard> cardList) {
+
+    }
+
     public void updatesDeckView(Deck d, Back s){
-
-    }
-
-    public void updatePlayerHandView(Player p, StandardCard c){
-
-    }
-
-    public void updatesCardView(List<StandardCard> cList){
 
     }
 

@@ -40,7 +40,6 @@ public class NotifyMessage extends MessageToClient{
                 }
                 case "place ok" -> {
                     v.setState(ViewState.DRAW);
-                    //v.getLocalGameInstance().place();
                     v.notify();
                 }
                 case  "draw ok" -> {                    //TO DELETE SINCE I CAN'T JUST NOTIFY THE PLAYER, I HAVE TO SEND THE NEW CARD

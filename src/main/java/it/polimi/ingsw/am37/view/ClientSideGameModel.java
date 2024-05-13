@@ -8,6 +8,7 @@ import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
+import it.polimi.ingsw.am37.model.sides.Side;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -272,7 +273,7 @@ public class ClientSideGameModel {
             }
 
         else if (cardId >= 41 && cardId <= 80)
-            for (StandardCard c: resourceCards)
+            for (StandardCard c: goldCards)
                 if (c.getId() == cardId) {
                     place = c;
                     break;
@@ -280,31 +281,54 @@ public class ClientSideGameModel {
 
 
         if (place!=null) {
-            if(me.getNickname().equals(player)) {
-                if(side.equalsIgnoreCase("f")) {
-                    place.getFront().placeInPosition(pos.getX(), pos.getY());
-                    me.getKingdom().updateKingdom(place, place.getFront(), pos);
-                    me.addPoints(place.getFront().getPointsGivenOnPlacement());
+
+            Side toPlace = null;
+            if(side.equalsIgnoreCase("f"))
+                toPlace = place.getFront();
+            else if(side.equalsIgnoreCase("b"))
+                toPlace = place.getBack();
+
+            if(me.getNickname().equals(player) && toPlace != null) {
+
+                int cornersLinked = 0;
+
+                toPlace.placeInPosition(pos.getX(), pos.getY());
+                for (Side s : me.getKingdom().getPlacedSides()) {
+                    for (Direction d : Direction.values()) {
+                        if (d.createPosition(s.getPositionInKingdom()).equals(pos)) {
+                            s.getCorners().get(d).setLinkedSide(toPlace);
+                            cornersLinked++;
+                        }
+                    }
                 }
-                else if(side.equalsIgnoreCase("b")) {
-                    place.getBack().placeInPosition(pos.getX(), pos.getY());
-                    me.getKingdom().updateKingdom(place, place.getBack(), pos);
-                }
+
+                if (side.equalsIgnoreCase("f"))
+                    me.addPoints(place.getFront(), cornersLinked);
+
+                me.getKingdom().updateKingdom(place, toPlace, pos);
 
                 myHand.remove(place);
 
-            } else {
+
+            } else if (toPlace != null) {
                 for (ClientSidePlayer p: players) {
                     if (p.getNickname().equals(player)) {
-                        if(side.equalsIgnoreCase("f")) {
-                            place.getFront().placeInPosition(pos.getX(), pos.getY());
-                            p.getKingdom().updateKingdom(place, place.getFront(), pos);
-                            p.addPoints(place.getFront().getPointsGivenOnPlacement());
+                        int cornersLinked = 0;
+                        toPlace.placeInPosition(pos.getX(), pos.getY());
+
+                        for (Side s : p.getKingdom().getPlacedSides()) {
+                            for (Direction d : Direction.values()) {
+                                if (d.createPosition(s.getPositionInKingdom()).equals(pos)) {
+                                    s.getCorners().get(d).setLinkedSide(toPlace);
+                                    cornersLinked++;
+                                }
+                            }
                         }
-                        else if(side.equalsIgnoreCase("b")) {
-                            place.getBack().placeInPosition(pos.getX(), pos.getY());
-                            p.getKingdom().updateKingdom(place, place.getBack(), pos);
-                        }
+
+                        if (side.equalsIgnoreCase("f"))
+                            p.addPoints(place.getFront(), cornersLinked);
+
+                        p.getKingdom().updateKingdom(place, toPlace, pos);
 
                         PropertyChangeEvent evt = new PropertyChangeEvent(
                                 this,

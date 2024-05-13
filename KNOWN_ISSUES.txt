@@ -1,5 +1,5 @@
 NOTA: Questa repository è composta da pochi, grossi commit iniziali poiché essendo tutti i componenti del gruppo poco pratici con git e GitHub
 abbiamo voluto fare parecchi test su una nostra repository privata, in modo tale da non "sporcare" quella ufficiale.
 
-Manca l'implementazione e il testing di alcune interazioni delle virtual view con l'interfaccia server, e di conseguenza la rete, tramite Threads.
-Manca implementazione, testing e javadoc della maggior parte dei package di rete.
+Manca l'implementazione della comunicazione RMI e parte della TUI.
+Manca javaDoc della maggior parte dei package di rete.

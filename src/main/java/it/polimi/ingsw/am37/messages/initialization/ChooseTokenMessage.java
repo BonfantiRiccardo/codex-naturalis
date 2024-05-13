@@ -8,7 +8,6 @@ import it.polimi.ingsw.am37.exceptions.WrongGamePhaseException;
 import it.polimi.ingsw.am37.messages.ErrorMessage;
 import it.polimi.ingsw.am37.messages.MessageId;
 import it.polimi.ingsw.am37.messages.MessageToServer;
-import it.polimi.ingsw.am37.messages.NotifyMessage;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.server.ClientHandler;
@@ -35,7 +34,8 @@ public class ChooseTokenMessage extends MessageToServer {
                     return;
                 }
 
-                ch.send(new NotifyMessage(MessageId.NOTIFY, "token ok"));
+                c.getPlayerViews().get(p).acknowledgePlayer(p, "token ok");
+
                 for (Player pl: c.getGameInstance().getParticipants())
                     if (!pl.getNickname().equals(player))
                         c.getPlayerViews().get(pl).nowUnavailableToken(p, token);

@@ -29,9 +29,9 @@ public interface VirtualView extends EventListener {
 
     void updatesDeckView(String deck, Resource back);
 
-    void updatePlayerHandView(Player p, StandardCard c);
+    void updatePlayerHandAndDeckView(String deck, Resource topOfDeck, int cardId);
 
-    void updatesCardView(List<StandardCard> cList);
+    void updatesAvailableCardView(String deck, Resource topOfDeck, String listChanged, List<StandardCard> cardList);
 
     void updatesPlayersKingdomView(Player p, int c, String s, Position pos);
 

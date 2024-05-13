@@ -3,8 +3,6 @@ package it.polimi.ingsw.am37.view;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import java.util.List;
-
 public abstract class View implements PropertyChangeListener {
 
     protected ViewState state;
@@ -54,7 +52,7 @@ public abstract class View implements PropertyChangeListener {
 
     public abstract boolean gameOver();
 
-    public abstract void printLobbies(List<Integer> lobbies);
+    public abstract void printLobbies();
 
     public abstract void printMyLobby();
 
@@ -67,6 +65,10 @@ public abstract class View implements PropertyChangeListener {
     public abstract void printStartCard();
 
     public abstract void printKingdom();
+
+    public abstract void printScoreboard();
+
+    public abstract void printPlayerInfo();
 
     public abstract void printToken();
 
