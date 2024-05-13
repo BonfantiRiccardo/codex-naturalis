@@ -157,4 +157,17 @@ public class ResourceBoundObjectiveTest {
         placemCond.put(Resource.INKWELL, 2);
         return placemCond;
     }
+
+    @Test
+    void toStringTest() throws NoCardsException {
+        CardCreator cc = new CardCreator();
+        ObjectiveDeck od = new ObjectiveDeck(cc);
+
+        ObjectiveCard oc;
+        while (!od.isEmpty()) {
+            oc = od.drawCard();
+            if (oc.getId() >= 95 && oc.getId() <= 102)
+                System.out.println(oc);
+        }
+    }
 }

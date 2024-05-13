@@ -1,11 +1,9 @@
 package it.polimi.ingsw.am37.view;
 
-import it.polimi.ingsw.am37.client.RMIClientSkeleton;
 import it.polimi.ingsw.am37.model.decks.Deck;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
-import it.polimi.ingsw.am37.model.sides.Side;
 import it.polimi.ingsw.am37.server.RMIServer;
 
 import java.rmi.RemoteException;
@@ -84,8 +82,7 @@ public class RMIVirtualServer implements VirtualServer{
         }
     }
 
-    @Override
-    public void drawCardFromDeck(Player p, Deck d) {
+    public void drawCardFromDeck(Player p, Deck d) {        //REPlACE WITH BELOW METHODS
         try {
             RMIS.drawCardFromDeck(p,d);
         } catch (RemoteException e) {
@@ -93,12 +90,21 @@ public class RMIVirtualServer implements VirtualServer{
         }
     }
 
-    @Override
-    public void drawCardFromAvailable(Player p, int cardId) {
+    public void drawCardFromAvailable(Player p, int cardId) {        //REPlACE WITH BELOW METHODS
         try {
             RMIS.drawCardFromAvailable(p,cardId);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void drawCardFromDeck(String player, String deck) {
+
+    }
+
+    @Override
+    public void drawCardFromAvailable(String player, int cardId) {
+
     }
 }
