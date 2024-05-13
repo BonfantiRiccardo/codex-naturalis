@@ -22,7 +22,7 @@ public class RMIServer implements RMIServerIStub {
 
     public RMIServer(MultipleMatchesHandler multipleMatchesHandler) throws RemoteException {
         clients = new ArrayList<RMIClientSkeleton>();
-        this.multipleMatchesHandler= multipleMatchesHandler;
+        this.multipleMatchesHandler = multipleMatchesHandler;
     }
 
     public synchronized void join(RMIClientSkeleton client) throws RemoteException {
@@ -36,9 +36,14 @@ public class RMIServer implements RMIServerIStub {
     @Override
     public void createGame(String name, int numOfPlayers) throws RemoteException {
         Player p = new Player(name);
-        if((2 >= numOfPlayers) && (numOfPlayers<=4)) {
-           // multipleMatchesHandler.addClient();
-    }}
+        if ((2 >= numOfPlayers) && (numOfPlayers <= 4)) {
+            // multipleMatchesHandler.addClient();
+        }
+    }
+
+    public void AvailableLobbies() throws RemoteException {
+
+    }
 
     @Override
     public void joinGame(int controllerHash, String name) throws RemoteException {
@@ -46,22 +51,22 @@ public class RMIServer implements RMIServerIStub {
     }
 
     @Override
-    public void placeStartCard(String rp, StartCard sc, Side s) throws RemoteException {
+    public void placeStartCard(String player, int cardId, String side, Position pos) throws RemoteException {
 
     }
 
     @Override
-    public void chooseToken(Player p, Token t) throws RemoteException {
+    public void chooseToken(String p, Token t) throws RemoteException {
 
     }
 
     @Override
-    public void chooseObjective(Player p, ObjectiveCard o) throws RemoteException {
+    public void chooseObjective(String p, int cardId) throws RemoteException {
 
     }
 
     @Override
-    public void placeCard(Player p, StandardCard sc, Side s, Position pos) throws RemoteException {
+    public void placeCard(String player, int cardId, String side, Position pos) throws RemoteException {
 
     }
 
@@ -71,7 +76,8 @@ public class RMIServer implements RMIServerIStub {
     }
 
     @Override
-    public void drawCardFromAvailable(Player p, StandardCard sc) throws RemoteException {
+    public void drawCardFromAvailable(Player p, int cardId) throws RemoteException {
 
     }
 }
+

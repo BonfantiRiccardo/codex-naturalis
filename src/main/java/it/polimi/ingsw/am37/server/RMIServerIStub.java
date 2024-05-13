@@ -18,15 +18,15 @@ public interface RMIServerIStub extends Remote {
 
     void joinGame(int controllerHash, String name) throws RemoteException;
 
-    void placeStartCard(String p, StartCard sc, Side s) throws RemoteException;
+    void placeStartCard(String player, int cardId, String side, Position pos) throws RemoteException;
 
-    void chooseToken(Player p, Token t) throws RemoteException;
+    void chooseToken(String p, Token t) throws RemoteException;
 
-    void chooseObjective(Player p, ObjectiveCard o) throws RemoteException;
+    void chooseObjective(String p, int cardId) throws RemoteException;
 
-    void placeCard(Player p, StandardCard sc, Side s, Position pos) throws RemoteException;
+    void placeCard(String player, int cardId, String side, Position pos) throws RemoteException;
 
     void drawCardFromDeck(Player p, Deck d) throws RemoteException;
 
-    void drawCardFromAvailable(Player p, StandardCard sc) throws RemoteException;
+    void drawCardFromAvailable(Player p, int cardId) throws RemoteException;
 }

@@ -6,8 +6,11 @@ import it.polimi.ingsw.am37.messages.initialization.ChooseTokenMessage;
 import it.polimi.ingsw.am37.messages.lobby.CreationMessage;
 import it.polimi.ingsw.am37.messages.lobby.JoinMessage;
 import it.polimi.ingsw.am37.messages.lobby.LobbyRequestMessage;
+import it.polimi.ingsw.am37.model.decks.Deck;
+import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
+import it.polimi.ingsw.am37.model.sides.Side;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -87,12 +90,12 @@ public class TCPVirtualServer implements VirtualServer {
     }
 
     @Override
-    public void drawCardFromDeck() {
+    public void drawCardFromDeck(Player p, Deck d) {
 
     }
 
     @Override
-    public void drawCardFromAvailable() {
+    public void drawCardFromAvailable(Player p, int cardId) {
 
     }
 }
