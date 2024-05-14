@@ -42,7 +42,7 @@ public class ClientSidePlayer {
         this.kingdom = kingdom;
     }
 
-    public boolean HasBlackToken() {
+    public boolean hasBlackToken() {
         return hasBlackToken;
     }
 

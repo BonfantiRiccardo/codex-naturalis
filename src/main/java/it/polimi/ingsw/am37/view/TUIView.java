@@ -630,10 +630,14 @@ public class TUIView extends View implements PropertyChangeListener {
     @Override
     public synchronized void printAvail() {
         System.out.println("Available resource cards: ");
+        System.out.println("id: " + localGameInstance.getAvailableResourceCards().get(0).getId());
         System.out.println(localGameInstance.getAvailableResourceCards().get(0));
+        System.out.println("id: " + localGameInstance.getAvailableResourceCards().get(1).getId());
         System.out.println(localGameInstance.getAvailableResourceCards().get(1));
         System.out.println("\nAvailable gold cards: ");
+        System.out.println("id: " + localGameInstance.getAvailableGoldCards().get(0).getId());
         System.out.println(localGameInstance.getAvailableGoldCards().get(0));
+        System.out.println("id: " + localGameInstance.getAvailableGoldCards().get(1).getId());
         System.out.println(localGameInstance.getAvailableGoldCards().get(1));
     }
 
@@ -655,6 +659,7 @@ public class TUIView extends View implements PropertyChangeListener {
 
     @Override
     public synchronized void printKingdom() {
+        System.out.println("Your token: " + localGameInstance.getMe().getToken()+ (localGameInstance.getMe().hasBlackToken()? (" and " + Token.BLACK) : "" ));
         System.out.println("Your kingdom: " + localGameInstance.getMe().getKingdom());
         System.out.println("Your resources: " + localGameInstance.getMe().getKingdom().getOnFieldResources());
         System.out.print("Your active positions: ");
@@ -684,6 +689,7 @@ public class TUIView extends View implements PropertyChangeListener {
         boolean check = false;
         for (ClientSidePlayer p: localGameInstance.getPlayers()) {
             if (p.getNickname().equalsIgnoreCase(inputLine)) {
+                System.out.println(p.getNickname() + "'s token: " + p.getToken() + (p.hasBlackToken()? (" and " + Token.BLACK) : "" ));
                 System.out.println(p.getNickname() + "'s kingdom: " + p.getKingdom());
                 System.out.println(p.getNickname() + "'s resources: " + p.getKingdom().getOnFieldResources());
                 check = true;
@@ -703,8 +709,11 @@ public class TUIView extends View implements PropertyChangeListener {
     @Override
     public synchronized void printHand() {
         System.out.println("Your hand: ");
-        for (StandardCard sc: localGameInstance.getMyHand())
+        for (StandardCard sc: localGameInstance.getMyHand()) {
+            System.out.println("id: " + sc.getId());
             System.out.println(sc);
+        }
+
     }
 
     @Override

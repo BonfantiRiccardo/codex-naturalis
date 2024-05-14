@@ -186,7 +186,7 @@ public class ResourceCard extends StandardCard {
                 break;
         }
 
-        System.out.println("\n");
+        //System.out.println("\n");
         return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n| "+ftl+" |     "+points+"      | "+ftr+" |   |    |           |    |\n|————              ————|   |————             ————|\n|                      |   |         "+br+"          |\n|————              ————|   |————             ————|\n| "+fbl+" |            | "+fbr+" |   |    |           |    |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
     }
 }

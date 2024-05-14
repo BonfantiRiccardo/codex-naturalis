@@ -32,15 +32,15 @@ public class DrawAvailableMessage extends MessageToServer {
         boolean goldEmpty = c.getGameInstance().getRDeck().isEmpty();
         boolean resourceEmpty = c.getGameInstance().getGDeck().isEmpty();
 
-
         for (Player p: c.getGameInstance().getParticipants()) {
             if (p.getNickname().equalsIgnoreCase(player)) {
                 for (StandardCard sc: c.getGameInstance().getAvailableGCards()) {
                     if (cardId == sc.getId()) {
                         try {
                             c.playerDrawsCardFromAvailable(p, sc);
-                            System.out.println("Correctly drawn card for player: " + player);
+                            System.out.println("Correctly drawn gold card for player: " + player);
                             drawnGold = true;
+                            break;
                         } catch (IncorrectUserActionException | WrongGamePhaseException | NoCardsException |
                                  AlreadyAssignedException e) {
                             ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
@@ -53,22 +53,20 @@ public class DrawAvailableMessage extends MessageToServer {
                     if (cardId == sc.getId()) {
                         try {
                             c.playerDrawsCardFromAvailable(p, sc);
-                            System.out.println("Correctly drawn card for player: " + player);
+                            System.out.println("Correctly drawn resource card for player: " + player);
                             drawnResource = true;
+                            break;
                         } catch (IncorrectUserActionException | WrongGamePhaseException | NoCardsException |
                                  AlreadyAssignedException e) {
                             ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
                             return;
                         }
-
                     }
                 }
-
 
                 if(!drawnResource && !drawnGold) {
                     ch.send(new ErrorMessage(MessageId.ERROR, "Couldn't draw the card because message is corrupted."));
                 } else {
-
                     for (Player pl: c.getGameInstance().getParticipants()) {
                         if (drawnResource) {
                             if (!resourceEmpty)

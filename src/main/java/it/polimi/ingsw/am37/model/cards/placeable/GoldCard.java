@@ -330,7 +330,7 @@ public class GoldCard extends StandardCard {
                 break;
         }
 
-        System.out.println("\n");
+        //System.out.println("\n");
         return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n| "+ftl+" |    "+bonus+"    | "+ftr+" |   |    |           |    |\n|————              ————|   |————             ————|\n|                      |   |         "+br+"          |\n|————              ————|   |————             ————|\n| "+fbl+" | "+plc+" | "+fbr+" |   |    |           |    |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
     }
 

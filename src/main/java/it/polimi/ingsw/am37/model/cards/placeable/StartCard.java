@@ -39,7 +39,7 @@ public class StartCard extends GameCard {
     public String toString(){
         int id = this.getId();
 
-        System.out.println("\n");
+        //System.out.println("\n");
         switch (id){
             case 81:
                 return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n|    |            | 🍁 |   | 🍄 |           | 🍁 |\n|————              ————|   |————             ————|\n|          🦋          |   |                     |\n|————              ————|   |————             ————|\n| 🦋 |            |    |   | 🦋 |           | 🐺 |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
