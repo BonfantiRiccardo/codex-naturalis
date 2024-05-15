@@ -13,8 +13,9 @@ public class ServerMain {
         int rmiPort = Integer.parseInt(args[1]);
         MultipleMatchesHandler multipleMatchesHandler = new MultipleMatchesHandler();
 
+        //LAUNCH TCP SERVER
         new Thread(() -> {
-            ServerTCP serverTCP = new ServerTCP(tcpPort, multipleMatchesHandler);     //NO PORT HARDCODING
+            ServerTCP serverTCP = new ServerTCP(tcpPort, multipleMatchesHandler);
             serverTCP.startServer();
         }).start();
 

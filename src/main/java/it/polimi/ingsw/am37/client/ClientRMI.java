@@ -1,43 +1,59 @@
 package it.polimi.ingsw.am37.client;
 
-import it.polimi.ingsw.am37.server.ClientInterface;
-import it.polimi.ingsw.am37.server.RMIServer;
 import it.polimi.ingsw.am37.server.RMIServerStub;
+import it.polimi.ingsw.am37.view.ClientSidePlayer;
+import it.polimi.ingsw.am37.view.RMIVirtualServer;
 import it.polimi.ingsw.am37.view.View;
+import it.polimi.ingsw.am37.view.ViewState;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
-public class ClientRMI implements RMIClientSkeleton, ClientConnectionInterface {
+public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton, ClientConnectionInterface {
     private final String ip;
     private final int port;
     private final View v;
 
-    public ClientRMI(String ip, int port, View v) {
+    public ClientRMI(String ip, int port, View v) throws RemoteException {
         this.ip = ip;
         this.port = port;
         this.v = v;
     }
 
     public void startClient() throws RemoteException {
-        System.out.println("correctly started");
-        Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1098);
+        Registry reg = LocateRegistry.getRegistry(ip, port);
+
         try {
             RMIServerStub server = (RMIServerStub) reg.lookup("RMIServer");
+            System.out.println("Connection established on port: " + port);
+
+            RMIVirtualServer vs = new RMIVirtualServer(server, this);
+            v.setVirtualServer(vs);
+
+            v.handleGame();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
 
         }
-        System.out.println("Correctly connected");
     }
 
     @Override
-    public void updateLobbyView() throws RemoteException {
+    public void updateLobbyView(String yourNickname, List<String> playerNickname, int lobbyNum, int totalPlayers) throws RemoteException {
+        v.getLocalGameInstance().setMe(new ClientSidePlayer(yourNickname));
 
+        for (String nick: playerNickname)
+            if(!yourNickname.equals(nick))
+                v.getLocalGameInstance().addPlayer(new ClientSidePlayer(nick));
+
+        v.getLocalGameInstance().setNumOfLobby(lobbyNum);
+
+        v.getLocalGameInstance().setNumOfPlayers(totalPlayers);
+
+        v.setState(ViewState.WAIT_IN_LOBBY);
     }
 
     @Override

@@ -27,6 +27,7 @@ public class ClientTCP implements ClientConnectionInterface{
 
         final ObjectOutputStream socketOut = new ObjectOutputStream(socket.getOutputStream());
         socketOut.flush();
+
         TCPVirtualServer vs = new TCPVirtualServer();
         vs.setOut(socketOut);
         v.setVirtualServer(vs);

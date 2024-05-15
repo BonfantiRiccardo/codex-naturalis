@@ -38,7 +38,7 @@ public class RMIVirtualView implements VirtualView{
         for (Player p : joined)
             nicknames.add(p.getNickname());
         try {
-            cs.updateLobbyView();
+            cs.updateLobbyView(receiver.getNickname(), nicknames, lobbyNum, maxPlayers);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

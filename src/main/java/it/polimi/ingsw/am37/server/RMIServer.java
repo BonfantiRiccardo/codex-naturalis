@@ -8,12 +8,12 @@ import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RMIServer implements RMIServerStub {
+public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
     private List<RMIClientSkeleton> clients;
 
     private final MultipleMatchesHandler multipleMatchesHandler;
@@ -49,7 +49,7 @@ public class RMIServer implements RMIServerStub {
         else errorMessage(p.getNickname(), "The player number is invalid, game not created." );
     }
 
-    public void AvailableLobbies() throws RemoteException {
+    public void availableLobbies() throws RemoteException {
 
     }
 

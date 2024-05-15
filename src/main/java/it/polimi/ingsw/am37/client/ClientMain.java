@@ -4,9 +4,10 @@ import it.polimi.ingsw.am37.view.TUIView;
 import it.polimi.ingsw.am37.view.ViewState;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class ClientMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
 
         String hostName = args[0];
         int portNumber = Integer.parseInt(args[1]);
