@@ -57,6 +57,8 @@ public class UpdateAvailableView extends MessageToClient {
         else if (deck.equalsIgnoreCase("g"))
             v.getLocalGameInstance().setTopOfGoldDeck(topOfDeck);
 
+        v.getLocalGameInstance().nextTurn();
+
         if (v.getState().equals(ViewState.DRAW)) {
             v.setState(ViewState.NOT_TURN);
             synchronized (v) {

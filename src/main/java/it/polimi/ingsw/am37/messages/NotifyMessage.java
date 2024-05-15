@@ -33,11 +33,6 @@ public class NotifyMessage extends MessageToClient{
                     v.setState(ViewState.PLACE);
                     v.notify();
                 }
-                case "your turn and token" -> {
-                    v.getLocalGameInstance().getMe().setHasBlackToken(true);
-                    v.setState(ViewState.PLACE);
-                    v.notify();
-                }
                 case "place ok" -> {
                     v.setState(ViewState.DRAW);
                     v.notify();

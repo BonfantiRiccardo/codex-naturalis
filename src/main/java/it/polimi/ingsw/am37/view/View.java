@@ -70,8 +70,6 @@ public abstract class View implements PropertyChangeListener {
 
     public abstract void printPlayerInfo();
 
-    public abstract void printToken();
-
     public abstract void printHand();
 
     public abstract void printPublicObjectives();

@@ -85,17 +85,23 @@ public class TCPVirtualView implements VirtualView {
         ch.send(new NowUnavailableMessage(MessageId.TOKEN, p.getNickname(), t));
     }
 
+    @Override
+    public void sendPlayersInOrder(List<Player> players) {
+        List<String> nicknames = new ArrayList<>();
+        for (Player p: players)
+            nicknames.add(p.getNickname());
+
+        ch.send(new TurnsMessage(MessageId.NOTIFY, nicknames));
+    }
+
     /**
      * the method notifyTurn notifies the players when it's their turn.
      * @param p is the player notified.
      */
-    public void notifyTurn(Player p, boolean blackToken) {
+    public void notifyTurn(Player p) {
         //SENDS NOTIFICATION TO THE PLAYER THAT HAS ENTERED HIS TURN (USE NEW THREAD)
         //TRY RECONNECTING WITH PLAYER OR SKIP TURN
-        if (blackToken)
-            ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn and token"));
-        else
-            ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn"));
+        ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn"));
     }
 
     public void updatesDeckView(String deck, Resource back) {

@@ -40,8 +40,15 @@ public class ChooseObjectiveMessage extends MessageToServer {
 
                         c.getPlayerViews().get(p).acknowledgePlayer(p, "objective ok");
 
-                        if (c.getGameInstance().getCurrentTurn() != null)
-                            c.getPlayerViews().get(c.getGameInstance().getCurrentTurn()).notifyTurn(c.getGameInstance().getCurrentTurn(), true);
+
+
+                        if (c.getGameInstance().getCurrentTurn() != null) {
+                            for (Player pl: c.getGameInstance().getParticipants())
+                                c.getPlayerViews().get(pl).sendPlayersInOrder(c.getGameInstance().getParticipants());
+
+                            c.getPlayerViews().get(c.getGameInstance().getCurrentTurn()).notifyTurn(c.getGameInstance().getCurrentTurn());
+                        }
+
                     }
                 }
 

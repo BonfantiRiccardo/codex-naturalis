@@ -94,7 +94,7 @@ public class DrawDeckMessage extends MessageToServer {
                     }
 
                     //notify next turn
-                    c.getPlayerViews().get(c.getGameInstance().getCurrentTurn()).notifyTurn(c.getGameInstance().getCurrentTurn(), false);
+                    c.getPlayerViews().get(c.getGameInstance().getCurrentTurn()).notifyTurn(c.getGameInstance().getCurrentTurn());
                 }
 
                 break;

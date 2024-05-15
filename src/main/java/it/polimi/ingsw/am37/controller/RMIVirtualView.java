@@ -89,7 +89,12 @@ public class RMIVirtualView implements VirtualView{
         }
     }
 
-    public void notifyTurn(Player p, boolean blackToken){
+    @Override
+    public void sendPlayersInOrder(List<Player> players) {
+
+    }
+
+    public void notifyTurn(Player p){
         try {
             cs.notifyPlayer();
         } catch (RemoteException e) {

@@ -21,5 +21,7 @@ public class UpdateDeckView extends MessageToClient {
             v.getLocalGameInstance().setTopOfResourceDeck(resource);
         else if (deck.equalsIgnoreCase("g"))
             v.getLocalGameInstance().setTopOfGoldDeck(resource);
+
+        v.getLocalGameInstance().nextTurn();
     }
 }

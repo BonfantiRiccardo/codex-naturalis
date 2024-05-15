@@ -17,10 +17,16 @@ import java.util.List;
 
 public class ClientSideGameModel {
     PropertyChangeListener listener;
+    private final List<ResourceCard> resourceCards;
+    private final List<GoldCard> goldCards;
+    private final List<ObjectiveCard> objectiveCards;
+    private final List<StartCard> startCards;
+    private final List<Token> tokens;
 
     private List<Integer> listOfLobbies;
     private int numOfLobby;
     private int numOfPlayers;
+
     private ClientSidePlayer me;
     private List<ObjectiveCard> privateObjectives;
     private StartCard myStartCard;
@@ -28,17 +34,14 @@ public class ClientSideGameModel {
     private List<StandardCard> myHand;
     private final List<ClientSidePlayer> players;
 
-    private final List<ResourceCard> resourceCards;
-    private final List<GoldCard> goldCards;
-    private final List<ObjectiveCard> objectiveCards;
-    private final List<StartCard> startCards;
-    private final List<Token> tokens;
-
     private List<StandardCard> availableResourceCards;
     private List<StandardCard> availableGoldCards;
     private Resource topOfGoldDeck;
     private Resource topOfResourceDeck;
     private List<ObjectiveCard> publicObjectives;
+
+    private List<String> playersInOrder;
+    private String currentPlayer;
 
     public ClientSideGameModel() {
         listOfLobbies = new ArrayList<>();
@@ -344,5 +347,45 @@ public class ClientSideGameModel {
                 }
             }
         }
+    }
+
+
+    //HANDLE TURNS
+    public List<String> getPlayersInOrder() {
+        return playersInOrder;
+    }
+
+    public void setPlayersInOrder(List<String> playersInOrder) {
+        this.playersInOrder = playersInOrder;
+        currentPlayer = playersInOrder.getFirst();
+
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "NEW_TURN",
+                null,
+                currentPlayer);
+
+        listener.propertyChange(evt);
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void nextTurn() {
+        int currIdx = playersInOrder.indexOf(currentPlayer);
+        if (currIdx + 1 < playersInOrder.size()) {
+            currentPlayer = playersInOrder.get(currIdx + 1);
+        } else {
+            currentPlayer = playersInOrder.getFirst();
+        }
+
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "NEW_TURN",
+                currentPlayer,
+                currentPlayer);
+
+        listener.propertyChange(evt);
     }
 }

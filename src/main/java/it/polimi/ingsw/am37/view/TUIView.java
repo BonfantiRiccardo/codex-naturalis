@@ -7,6 +7,7 @@ import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
 
+import javax.sound.midi.Soundbank;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -109,14 +110,29 @@ public class TUIView extends View implements PropertyChangeListener {
     }       //SHOULDN'T BE PUBLIC AND SHOULDN'T OVERRIDE
 
     private void creationQueries() {
-        System.out.print("Nickname: ");
-        final String inputLine2 = stdIn.nextLine();
+        String inputLine2;
+        do {
+            System.out.print("Nickname: ");
+            inputLine2 = stdIn.nextLine();
+            if (inputLine2.isEmpty())
+                System.out.println("Empty nickname is not valid!");
+        } while (inputLine2.isEmpty());
 
-        System.out.print("Num: ");
-        final String inputNumStr = stdIn.nextLine();
-        final int inputNum = Integer.parseInt(inputNumStr);
+        boolean ok = false;
+        int inputNum;
+        do {
+            System.out.print("Num: ");
+            final String inputNumStr = stdIn.nextLine();
 
-        virtualServer.createLobby(inputLine2, inputNum);
+            try {
+                inputNum = Integer.parseInt(inputNumStr);
+                ok = true;
+
+                virtualServer.createLobby(inputLine2, inputNum);
+            } catch (NumberFormatException e) {
+                System.out.println("You should ONLY write numbers!");
+            }
+        } while (!ok);
     }
 
     private void joinQueries() {
@@ -135,12 +151,29 @@ public class TUIView extends View implements PropertyChangeListener {
 
         printLobbies();
 
-        System.out.print("Choose ID of the game you want to join: ");
-        final String inputNumStr = stdIn.nextLine();
-        final int inputNum = Integer.parseInt(inputNumStr);
+        boolean ok = false;
+        int inputNum = 0;
+        do {
+            System.out.print("Choose ID of the game you want to join: ");
+            final String inputNumStr = stdIn.nextLine();
 
-        System.out.print("Nickname: ");
-        final String inputLine = stdIn.nextLine();
+            try {
+                inputNum = Integer.parseInt(inputNumStr);
+                ok = true;
+
+            } catch (NumberFormatException e) {
+                System.out.println("You should ONLY write numbers!");
+            }
+        } while (!ok);
+
+
+        String inputLine;
+        do {
+            System.out.print("Nickname: ");
+            inputLine = stdIn.nextLine();
+            if (inputLine.isEmpty())
+                System.out.println("Empty nickname is not valid!");
+        } while (inputLine.isEmpty());
 
         state = ViewState.CREATE_JOIN;
 
@@ -149,84 +182,92 @@ public class TUIView extends View implements PropertyChangeListener {
 
     private void activeActions() {
         switch (state) {
-            case PLACE_SC -> System.out.println("Place Start Card, Print Available, Chat, Cancel"); //DO I NEED TO BREAK?
-            case CHOOSE_TOKEN -> System.out.println("Choose Token, Print Available, Chat, Cancel"); //DO I NEED TO BREAK?
-            case CHOOSE_OBJECTIVE -> System.out.println("Choose Objective, Print Hand, Print Public Objectives, Print Decks, Print Available, Chat, Cancel"); //DO I NEED TO BREAK?
-            case NOT_TURN -> System.out.println("Print Kingdom, Print Hand, Print Public Objectives, Print Private Objective, " +
-                    "Print Decks, Print Available, Print Scoreboard, Print Player Info, Chat, Cancel"); //DO I NEED TO BREAK?
-            case PLACE -> System.out.println("Place, Print Kingdom, Print Hand, Print Public Objectives, Print Private Objective, " +
-                    "Print Decks, Print Available, Print Scoreboard, Print Player Info, Chat, Cancel");
-            case DRAW -> System.out.println("Draw, Print Kingdom, Print Hand, Print Public Objectives, Print Private Objective, " +
-                    "Print Decks, Print Available, Print Scoreboard, Print Player Info, Chat, Cancel");
+            case PLACE_SC -> System.out.println("Place Start Card (psc), Print Available (pa), Chat (ch), Cancel (c)");
+
+            case CHOOSE_TOKEN -> System.out.println("Choose Token (ct), Print Available (pa), Chat (ch), Cancel (c)");
+
+            case CHOOSE_OBJECTIVE -> System.out.println("Choose Objective (co), Print Hand (ph), Print Public Objectives (ppo), Print Decks (pd), " +
+                                                        "Print Available (pa), Chat (ch), Cancel (c)");
+
+            case NOT_TURN -> System.out.println("Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), Print Private Objective (pro), " +
+                                        "Print Decks (pd), Print Available (pa), Print Scoreboard, Print Player Info, Chat (ch), Cancel (c)");
+
+            case PLACE -> System.out.println("Place (p), Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), " +
+                                        "Print Private Objective (pro), Print Decks (pd), Print Available (pa), Print Scoreboard (ps), " +
+                                        "Print Player Info (ppi), Chat (ch), Cancel (c)");
+
+            case DRAW -> System.out.println("Draw (d), Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), " +
+                                        "Print Private Objective (pro), Print Decks (pd), Print Available (pa), Print Scoreboard (ps), " +
+                                        "Print Player Info (ppi), Chat (ch), Cancel (c)");
         }
     }
 
     private void choice(String s) {
         switch (s) {
-            case "place start card": {
+            case "psc": {
                 if (state.equals(ViewState.PLACE_SC))
                     startCardQueries();
                 else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "choose token": {
+            case "ct": {
                 if (state.equals(ViewState.CHOOSE_TOKEN))
                     tokenQueries();
                 else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "choose objective": {
+            case "co": {
                 if (state.equals(ViewState.CHOOSE_OBJECTIVE))
                     objectiveQueries();
                 else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "place": {
+            case "p": {
                 if (state.equals(ViewState.PLACE))
                     placeQueries();
                 else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "draw": {
+            case "d": {
                 if (state.equals(ViewState.DRAW))
                     drawQueries();
                 else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "print kingdom": {
+            case "pk": {
                 if (state.equals(ViewState.NOT_TURN) || state.equals(ViewState.PLACE) || state.equals(ViewState.DRAW))
                     printKingdom();
                 else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "print hand": {
+            case "ph": {
                 if (!state.equals(ViewState.PLACE_SC) && !state.equals(ViewState.CHOOSE_TOKEN))
                     printHand();
                 else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "print public objectives": {
+            case "ppo": {
                 if (!state.equals(ViewState.PLACE_SC) && !state.equals(ViewState.CHOOSE_TOKEN))
                     printPublicObjectives();
                 else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "print private objective": {
+            case "pro": {
                 if (state.equals(ViewState.NOT_TURN) || state.equals(ViewState.PLACE) || state.equals(ViewState.DRAW))
                     printMyPrivateObjective();
                 else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "print decks": {
+            case "pd": {
                 if (!state.equals(ViewState.PLACE_SC) && !state.equals(ViewState.CHOOSE_TOKEN)) {
                     printTopOfResourceDeck();
                     printTopOfGoldDeck();
@@ -234,29 +275,29 @@ public class TUIView extends View implements PropertyChangeListener {
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "print available": {
+            case "pa": {
                 printAvail();
                 break;
             }
-            case "print scoreboard": {
+            case "ps": {
                 if (state.equals(ViewState.NOT_TURN) || state.equals(ViewState.PLACE) || state.equals(ViewState.DRAW)) {
                     printScoreboard();
                 } else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "print player info": {
+            case "ppi": {
                 if (state.equals(ViewState.NOT_TURN) || state.equals(ViewState.PLACE) || state.equals(ViewState.DRAW)) {
                     printPlayerInfo();
                 } else
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "chat": {
+            case "ch": {
                 //ask receiver, ask message, print message
                 break;
             }
-            case "cancel": {
+            case "c": {
                 break;
             }
             default: {
@@ -268,39 +309,39 @@ public class TUIView extends View implements PropertyChangeListener {
 
     private void startCardQueries() {
         String inputLine;
+        printStartCard();
 
-            while (state.equals(ViewState.PLACE_SC)) {
-                printStartCard();
-                System.out.print("Choose the Start Card Side you want to place by typing 'f' for the Front or 'b' for the Back: ");
-                inputLine = stdIn.nextLine();
+        while (state.equals(ViewState.PLACE_SC)) {
+            System.out.print("Choose the Start Card Side you want to place by typing 'f' for the Front or 'b' for the Back: ");
+            inputLine = stdIn.nextLine();
 
-                if (inputLine.equalsIgnoreCase("f") || inputLine.equalsIgnoreCase("b")) {
-                    virtualServer.placeStartCard(localGameInstance.getMe().getNickname(), localGameInstance.getMyStartCard().getId(), inputLine, new Position(0,0));
+            if (inputLine.equalsIgnoreCase("f") || inputLine.equalsIgnoreCase("b")) {
+                virtualServer.placeStartCard(localGameInstance.getMe().getNickname(), localGameInstance.getMyStartCard().getId(), inputLine, new Position(0,0));
 
-                    while (state.equals(ViewState.PLACE_SC)) {
-                        try {
-                            this.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                while (state.equals(ViewState.PLACE_SC)) {
+                    try {
+                        this.wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
+                }
 
 
-                    if (state.equals(ViewState.ERROR))
-                        state = ViewState.PLACE_SC;
-                    else {
-                        if (inputLine.equalsIgnoreCase("f"))
-                            localGameInstance.getMe().setKingdom(new Kingdom(localGameInstance.getMyStartCard(),
-                                    localGameInstance.getMyStartCard().getFront()));
-                        else if (inputLine.equalsIgnoreCase("b"))
-                            localGameInstance.getMe().setKingdom(new Kingdom(localGameInstance.getMyStartCard(),
-                                    localGameInstance.getMyStartCard().getBack()));
-                    }
+                if (state.equals(ViewState.ERROR))
+                    state = ViewState.PLACE_SC;
+                else {
+                    if (inputLine.equalsIgnoreCase("f"))
+                        localGameInstance.getMe().setKingdom(new Kingdom(localGameInstance.getMyStartCard(),
+                                localGameInstance.getMyStartCard().getFront()));
+                    else if (inputLine.equalsIgnoreCase("b"))
+                        localGameInstance.getMe().setKingdom(new Kingdom(localGameInstance.getMyStartCard(),
+                                localGameInstance.getMyStartCard().getBack()));
+                }
 
-                } else
-                    System.out.println("Error in the action: only type 'f' if you want to place the Front or 'b' if you want to place the Back");
+            } else
+                System.out.println("Error in the action: only type 'f' if you want to place the Front or 'b' if you want to place the Back");
 
-            }
+        }
 
         //wait for everyone else to choose
         for (ClientSidePlayer p: localGameInstance.getPlayers())
@@ -373,9 +414,20 @@ public class TUIView extends View implements PropertyChangeListener {
 
             System.out.println("These are your objectives:");
             printPrivateObjectives();
-            System.out.print("Choose between them by typing the id: ");
-            inputLine = stdIn.nextLine();
-            int inputNum = Integer.parseInt(inputLine);
+
+            boolean ok = false;
+            int inputNum = 0;
+            do {
+                System.out.print("Choose between them by typing the id: ");
+                inputLine = stdIn.nextLine();
+
+                try {
+                    inputNum = Integer.parseInt(inputLine);
+                    ok = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("You should ONLY write numbers!");
+                }
+            } while (!ok);
 
             if (inputNum == localGameInstance.getPrivateObjectives().get(0).getId() || inputNum == localGameInstance.getPrivateObjectives().get(1).getId()) {
                 virtualServer.chooseObjective(localGameInstance.getMe().getNickname(), inputNum);
@@ -417,16 +469,26 @@ public class TUIView extends View implements PropertyChangeListener {
 
         while (state.equals(ViewState.PLACE)) {
             //Choose a card by typing the id
-            System.out.print("Choose a card by typing the id: ");
-            inputLine = stdIn.nextLine();
+            boolean ok = false;
+            int inputNum = 0;
+            do {
+                System.out.print("Choose a card by typing the id: ");
+                inputLine = stdIn.nextLine();
 
-            int inputNum = Integer.parseInt(inputLine);
-            //print the card
+                try {
+                    inputNum = Integer.parseInt(inputLine);
+                    ok = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("You should ONLY write numbers!");
+                }
+            } while (!ok);
+
+
+
             boolean choiceOk = false;
             for (StandardCard c: localGameInstance.getMyHand())
                 if (c.getId() == inputNum)
                     choiceOk = true;
-
 
             if (choiceOk) {
                 //Choose a side by typing f or b (type r for return to the id)
@@ -479,6 +541,8 @@ public class TUIView extends View implements PropertyChangeListener {
                                 System.out.println("Type two integer separated by a space");
                         }
 
+                        break;
+                    } else if (side.equalsIgnoreCase("r")) {
                         break;
                     } else
                         System.out.print("Only type 'f' for front or 'b' for back: ");
@@ -537,50 +601,68 @@ public class TUIView extends View implements PropertyChangeListener {
                 }
 
             } else if (inputLine.equalsIgnoreCase("a")) {
+
                 String inputNum;
-                System.out.print("Choose a card by typing the id, or type 'b' to go back: ");
+                boolean ok = false;
+                do {
+                    System.out.print("Choose a card by typing the id, or type 'b' to go back: ");
 
-                while (true) {
-                    inputNum = stdIn.nextLine();
+                    try {
+                        while (true) {
+                            inputNum = stdIn.nextLine();
 
-                    if (inputNum.equalsIgnoreCase("b"))
-                        break;
+                            if (inputNum.equalsIgnoreCase("b"))
+                                break;
 
 
-                    int cardId = Integer.parseInt(inputNum);
+                            int cardId = Integer.parseInt(inputNum);
 
-                    StandardCard toDraw = null;
+                            StandardCard toDraw = null;
 
-                    for (StandardCard sc: localGameInstance.getAvailableGoldCards())
-                        if (sc.getId() == cardId) {
-                            toDraw = sc;
+                            for (StandardCard sc: localGameInstance.getAvailableGoldCards())
+                                if (sc.getId() == cardId) {
+                                    toDraw = sc;
+                                }
+
+                            for (StandardCard sc: localGameInstance.getAvailableResourceCards())
+                                if (sc.getId() == cardId) {
+                                    toDraw = sc;
+                                }
+
+                            if (toDraw != null) {
+                                virtualServer.drawCardFromAvailable(localGameInstance.getMe().getNickname(), cardId);
+
+                                while (state.equals(ViewState.DRAW)) {
+                                    try {
+                                        this.wait();
+                                    } catch (InterruptedException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+
+                                if (state.equals(ViewState.ERROR))
+                                    state = ViewState.DRAW;
+                                else {
+                                    localGameInstance.getMyHand().add(toDraw);
+                                    System.out.println("Correctly drawn card");
+                                }
+
+                                break;
+                            } else
+                                System.out.print("Type the id of an available card (or 'b' to go back): ");
                         }
 
-                    for (StandardCard sc: localGameInstance.getAvailableResourceCards())
-                        if (sc.getId() == cardId) {
-                            toDraw = sc;
-                        }
+                        ok = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("You should ONLY write numbers!");
+                    }
 
-                    if (toDraw != null) {
-                        virtualServer.drawCardFromAvailable(localGameInstance.getMe().getNickname(), cardId);
 
-                        while (state.equals(ViewState.DRAW)) {
-                            try {
-                                this.wait();
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
 
-                        if (state.equals(ViewState.ERROR))
-                            state = ViewState.DRAW;
-                        else
-                            localGameInstance.getMyHand().add(toDraw);
+                } while (!ok);
 
-                        break;
-                    } else
-                        System.out.print("Type the id of an available card (or 'b' to go back): ");
-                }
+
+
             } else
                 System.out.println("Just write 'd' for deck and 'a' for available");
         }
@@ -708,18 +790,12 @@ public class TUIView extends View implements PropertyChangeListener {
     }
 
     @Override
-    public synchronized void printToken() {
-        System.out.println("Your token: " + localGameInstance.getMe().getToken());
-    }
-
-    @Override
     public synchronized void printHand() {
         System.out.println("Your hand: ");
         for (StandardCard sc: localGameInstance.getMyHand()) {
             System.out.println("id: " + sc.getId());
             System.out.println(sc);
         }
-
     }
 
     @Override
@@ -804,7 +880,14 @@ public class TUIView extends View implements PropertyChangeListener {
                 }
                 break;
             }
-            //ECC
+            case "NEW_TURN": {
+                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
+                synchronized (updates) {
+                    if (!localGameInstance.getMe().getNickname().equals(evt.getNewValue()))
+                        updates.add("The turn has changed, it is now " + evt.getNewValue() + "'s turn");
+                }
+                break;
+            }
         }
     }
 

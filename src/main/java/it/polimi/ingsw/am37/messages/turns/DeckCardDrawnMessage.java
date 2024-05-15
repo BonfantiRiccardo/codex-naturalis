@@ -38,8 +38,10 @@ public class DeckCardDrawnMessage extends MessageToClient {
         else if (deck.equalsIgnoreCase("g"))
             v.getLocalGameInstance().setTopOfGoldDeck(resource);
 
+        v.getLocalGameInstance().nextTurn();
+
         synchronized (v) {
-        v.setState(ViewState.NOT_TURN);
+            v.setState(ViewState.NOT_TURN);
             v.notify();
         }
     }
