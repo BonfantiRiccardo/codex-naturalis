@@ -80,5 +80,7 @@ public abstract class View implements PropertyChangeListener {
 
     public abstract void printMyPrivateObjective();
 
+    public abstract void printResults();
+
     public abstract void printError(String e);
 }

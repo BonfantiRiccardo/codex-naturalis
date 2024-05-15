@@ -37,5 +37,7 @@ module it.polimi.ingsw.am37 {
     opens it.polimi.ingsw.am37.messages to javafx.fxml;
     opens it.polimi.ingsw.am37.messages.lobby to javafx.fxml;
     opens it.polimi.ingsw.am37.messages.initialization to javafx.fxml;
+    exports it.polimi.ingsw.am37.messages.endgame;
+    opens it.polimi.ingsw.am37.messages.endgame to javafx.fxml;
 
 }

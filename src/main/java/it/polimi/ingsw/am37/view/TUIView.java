@@ -1,7 +1,9 @@
 package it.polimi.ingsw.am37.view;
 
+import com.google.gson.JsonParseException;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.player.Kingdom;
+import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
 
@@ -10,6 +12,8 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.*;
+import java.util.List;
 
 public class TUIView extends View implements PropertyChangeListener {
     private final Scanner stdIn;
@@ -63,6 +67,8 @@ public class TUIView extends View implements PropertyChangeListener {
                 choice(inputLine.toLowerCase());
             }
         }
+
+        printResults();
 
         return gameOver();
     }
@@ -733,6 +739,26 @@ public class TUIView extends View implements PropertyChangeListener {
     public synchronized void printMyPrivateObjective() {
         System.out.println("Your private objective:");
         System.out.println(localGameInstance.getMyPrivateObjective());
+    }
+
+    public synchronized void printResults(){
+        List<ClientSidePlayer> players = new ArrayList<>(getLocalGameInstance().getPlayers());
+        List<ClientSidePlayer> playerTable = new ArrayList<>(getLocalGameInstance().getPlayers());
+        int max;
+
+        players.add(getLocalGameInstance().getMe());
+        playerTable.add(getLocalGameInstance().getMe());
+        for(int i = 0; i < players.size(); i++) {
+            max = players.getFirst().getPoints();
+            for (ClientSidePlayer p : players) {
+                if (max < p.getPoints())
+                    playerTable.set(i, p);
+            }
+            players.remove(playerTable.get(i));
+        }
+
+        for(ClientSidePlayer p : playerTable)
+            System.out.println(p.getNickname() + " has achieved " + p.getPoints() + " points and completed " + p.getObjectivesCompleted() + " objectives");
     }
 
     @Override

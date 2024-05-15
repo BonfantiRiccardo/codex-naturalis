@@ -73,6 +73,10 @@ public class ClientSidePlayer {
         points = points + toAdd;
     }
 
+    public void setFinalPoints(int points) {
+        this.points = points;
+    }
+
     public int getObjectivesCompleted() {
         return objectivesCompleted;
     }
