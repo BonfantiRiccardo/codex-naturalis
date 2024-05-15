@@ -58,7 +58,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
 
     @Override
     public void playerAdded() throws RemoteException {
-
+        //v.getLocalGameInstance().addPlayer(new ClientSidePlayer(nickname));
     }
 
     @Override

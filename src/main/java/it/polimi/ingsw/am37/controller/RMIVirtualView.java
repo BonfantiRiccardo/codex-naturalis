@@ -46,7 +46,7 @@ public class RMIVirtualView implements VirtualView{
 
     public void playerAdded(Player p) {
         try {
-            cs.playerAdded();
+            cs.playerAdded();       //p.getNickname()
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

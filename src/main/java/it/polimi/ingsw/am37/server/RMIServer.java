@@ -4,6 +4,9 @@ import it.polimi.ingsw.am37.client.RMIClientSkeleton;
 import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.controller.MultipleMatchesHandler;
 import it.polimi.ingsw.am37.controller.RMIVirtualView;
+import it.polimi.ingsw.am37.messages.ErrorMessage;
+import it.polimi.ingsw.am37.messages.MessageId;
+import it.polimi.ingsw.am37.messages.lobby.LobbiesListMessage;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
@@ -49,8 +52,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         else errorMessage(p.getNickname(), "The player number is invalid, game not created." );
     }
 
-    public void availableLobbies() throws RemoteException {
-
+    public void availableLobbies(/*RMIClientSkeleton client*/) throws RemoteException {
+        if(multipleMatchesHandler.getLobbyList().isEmpty()) {
+            //client.errorMessage("There are no active games.");
+        } else {
+            //client.receiveLobbies(new ArrayList<>(ch.getMultipleMatchesHandler().getLobbyList().keySet())));
+        }
     }
 
     @Override
