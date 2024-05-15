@@ -1,21 +1,19 @@
 package it.polimi.ingsw.am37.server;
 
 import it.polimi.ingsw.am37.client.RMIClientSkeleton;
+import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.controller.MultipleMatchesHandler;
-import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
-import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
-import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
-import it.polimi.ingsw.am37.model.decks.Deck;
+import it.polimi.ingsw.am37.controller.RMIVirtualView;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
-import it.polimi.ingsw.am37.model.sides.Side;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RMIServer implements RMIServerIStub {
+public class RMIServer implements RMIServerStub {
     private List<RMIClientSkeleton> clients;
 
     private final MultipleMatchesHandler multipleMatchesHandler;
@@ -34,11 +32,21 @@ public class RMIServer implements RMIServerIStub {
     }
 
     @Override
-    public void createGame(String name, int numOfPlayers) throws RemoteException {
+    public void createGame(RMIClientSkeleton client, String name, int numOfPlayers) throws RemoteException {
         Player p = new Player(name);
-        if ((2 >= numOfPlayers) && (numOfPlayers <= 4)) {
-            // multipleMatchesHandler.addClient();
+        if ((2 <= numOfPlayers) && (numOfPlayers <= 4)) {
+            GameController controller = new GameController(p,numOfPlayers);
+
+            multipleMatchesHandler.addClient(client, controller );
+
+            multipleMatchesHandler.addLobby(controller.hashCode(), controller);
+
+            controller.setVirtualView(p, new RMIVirtualView(client));
+
+            controller.getPlayerViews().get(p).updateLobbyView(p, controller.getAddedPlayers(), controller.hashCode(), controller.getNumOfPlayers());
+
         }
+        else errorMessage(p.getNickname(), "The player number is invalid, game not created." );
     }
 
     public void AvailableLobbies() throws RemoteException {
@@ -46,7 +54,7 @@ public class RMIServer implements RMIServerIStub {
     }
 
     @Override
-    public void joinGame(int controllerHash, String name) throws RemoteException {
+    public void joinGame(RMIClientSkeleton client, int controllerHash, String name) throws RemoteException {
 
     }
 
@@ -71,12 +79,17 @@ public class RMIServer implements RMIServerIStub {
     }
 
     @Override
-    public void drawCardFromDeck(Player p, Deck d) throws RemoteException {
+    public void drawCardFromDeck(String p, String  d) throws RemoteException {
 
     }
 
     @Override
-    public void drawCardFromAvailable(Player p, int cardId) throws RemoteException {
+    public void drawCardFromAvailable(String p, int cardId) throws RemoteException {
+
+    }
+
+    @Override
+    public void errorMessage(String p, String description) throws RemoteException {
 
     }
 }

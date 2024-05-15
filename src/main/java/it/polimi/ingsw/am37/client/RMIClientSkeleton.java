@@ -2,6 +2,7 @@ package it.polimi.ingsw.am37.client;
 
 import it.polimi.ingsw.am37.server.ClientInterface;
 
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

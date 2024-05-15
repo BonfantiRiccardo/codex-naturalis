@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.view;
 
+import it.polimi.ingsw.am37.client.RMIClientSkeleton;
 import it.polimi.ingsw.am37.model.decks.Deck;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
@@ -12,8 +13,11 @@ public class RMIVirtualServer implements VirtualServer{
 
     private final RMIServer RMIS;
 
-    public RMIVirtualServer (RMIServer RMIS){
+    private final RMIClientSkeleton clientSkeleton;
+
+    public RMIVirtualServer (RMIServer RMIS, RMIClientSkeleton clientSkeleton){
         this.RMIS=RMIS;
+        this.clientSkeleton=clientSkeleton;
     }
 
     public RMIServer getRMIS() {
@@ -22,7 +26,7 @@ public class RMIVirtualServer implements VirtualServer{
     @Override
     public void createLobby(String nick, int numPlayers) {
         try {
-            RMIS.createGame(nick, numPlayers);
+            RMIS.createGame(clientSkeleton, nick, numPlayers);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -40,7 +44,7 @@ public class RMIVirtualServer implements VirtualServer{
     @Override
     public void joinLobby(int hash, String nick) {
         try {
-            RMIS.joinGame(hash,nick);
+            RMIS.joinGame(clientSkeleton, hash,nick);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -82,29 +86,21 @@ public class RMIVirtualServer implements VirtualServer{
         }
     }
 
-    public void drawCardFromDeck(Player p, Deck d) {        //REPlACE WITH BELOW METHODS
-        try {
-            RMIS.drawCardFromDeck(p,d);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void drawCardFromAvailable(Player p, int cardId) {        //REPlACE WITH BELOW METHODS
-        try {
-            RMIS.drawCardFromAvailable(p,cardId);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public void drawCardFromDeck(String player, String deck) {
-
+        try {
+            RMIS.drawCardFromDeck(player,deck);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void drawCardFromAvailable(String player, int cardId) {
-
+        try {
+            RMIS.drawCardFromAvailable(player,cardId);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

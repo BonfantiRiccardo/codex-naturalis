@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 
-public class ClientTCP {
+public class ClientTCP implements ClientConnectionInterface{
     private final String ip;
     private final int port;
     private final View v;

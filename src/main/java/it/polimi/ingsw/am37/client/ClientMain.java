@@ -13,15 +13,22 @@ public class ClientMain {
         String view = args[2];
         String protocol = args[3];
 
-        ClientTCP client;
+        ClientConnectionInterface client;
 
         if (protocol.equalsIgnoreCase("tcp")) {
             if (view.equalsIgnoreCase("tui"))
                 client = new ClientTCP(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN));
             else
                 client = new ClientTCP(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN)); //GUI
-        } else
-            client = new ClientTCP(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN));   //RMI CLIENT
+        } else if (protocol.equalsIgnoreCase("rmi")) {
+            if (view.equalsIgnoreCase("tui"))
+                client = new ClientRMI(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN));
+            else
+                client = new ClientRMI(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN)); //GUI
+        } else {
+            System.out.println("Wrong protocol system, starting default configuration");
+            client = new ClientTCP(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN)); //GUI
+        }
 
         try {
             client.startClient();

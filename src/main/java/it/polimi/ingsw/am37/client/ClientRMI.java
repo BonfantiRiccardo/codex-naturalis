@@ -1,8 +1,40 @@
 package it.polimi.ingsw.am37.client;
 
-import java.rmi.RemoteException;
+import it.polimi.ingsw.am37.server.ClientInterface;
+import it.polimi.ingsw.am37.server.RMIServer;
+import it.polimi.ingsw.am37.server.RMIServerStub;
+import it.polimi.ingsw.am37.view.View;
 
-public class ClientRMI implements RMIClientSkeleton{
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class ClientRMI implements RMIClientSkeleton, ClientConnectionInterface {
+    private final String ip;
+    private final int port;
+    private final View v;
+
+    public ClientRMI(String ip, int port, View v) {
+        this.ip = ip;
+        this.port = port;
+        this.v = v;
+    }
+
+    public void startClient() throws RemoteException {
+        System.out.println("correctly started");
+        Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1098);
+        try {
+            RMIServerStub server = (RMIServerStub) reg.lookup("RMIServer");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+        System.out.println("Correctly connected");
+    }
+
     @Override
     public void updateLobbyView() throws RemoteException {
 
