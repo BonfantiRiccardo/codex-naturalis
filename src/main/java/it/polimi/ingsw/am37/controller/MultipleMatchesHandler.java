@@ -4,7 +4,6 @@ import it.polimi.ingsw.am37.client.RMIClientSkeleton;
 import it.polimi.ingsw.am37.messages.MessageToServer;
 import it.polimi.ingsw.am37.server.ClientHandler;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +21,10 @@ public class MultipleMatchesHandler {
     public void handle(ClientHandler ch, MessageToServer m) {
         m.decodeAndExecute(map.get(ch), ch);
 
+    }
+
+    public synchronized Map<RMIClientSkeleton, GameController> getmapRMI (){
+        return mapRMI;
     }
 
     public synchronized void addClient(ClientHandler ch, GameController c) {

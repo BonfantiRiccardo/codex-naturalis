@@ -1,6 +1,8 @@
 package it.polimi.ingsw.am37.controller;
 
 import it.polimi.ingsw.am37.client.RMIClientSkeleton;
+import it.polimi.ingsw.am37.messages.MessageId;
+import it.polimi.ingsw.am37.messages.NotifyMessage;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
@@ -15,6 +17,7 @@ import it.polimi.ingsw.am37.model.sides.Position;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RMIVirtualView implements VirtualView{
 
@@ -29,7 +32,11 @@ public class RMIVirtualView implements VirtualView{
     }
 
     public void acknowledgePlayer(Player p, String s){
-
+        try {
+            cs.notifyPlayer(s);
+        } catch (RemoteException e) {
+            new RuntimeException(e);
+        }
 
     }
 
@@ -46,7 +53,7 @@ public class RMIVirtualView implements VirtualView{
 
     public void playerAdded(Player p) {
         try {
-            cs.playerAdded();       //p.getNickname()
+            cs.playerAdded(p.getNickname());
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -74,7 +81,7 @@ public class RMIVirtualView implements VirtualView{
         for (ObjectiveCard c: objToChooseFrom)
             privateObjId.add(c.getId());
         try {
-            cs.updateInitialPhase();
+            cs.updateInitialPhase(cGoldId,cResourceId,sc.getId(),handId,publicObjId,privateObjId,goldDeckBack,resourceDeckBack);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -83,7 +90,7 @@ public class RMIVirtualView implements VirtualView{
 
     public void nowUnavailableToken(Player p, Token t){
         try {
-            cs.sendAvailableToken();
+            cs.sendAvailableToken(p.getNickname(),t);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -95,45 +102,64 @@ public class RMIVirtualView implements VirtualView{
     }
 
     public void notifyTurn(Player p){
-        try {
-            cs.notifyPlayer();
-        } catch (RemoteException e) {
-            new RuntimeException(e);
-        }
+      //  if (blackToken)
+      //      cs.
+        // else
+        //    ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn"));
     }
 
     @Override
     public void updatesDeckView(String deck, Resource back) {
-
-    }
-
-    @Override
-    public void updatePlayerHandAndDeckView(String deck, Resource topOfDeck, int cardId) {
-
-    }
-
-    @Override
-    public void updatesAvailableCardView(String deck, Resource topOfDeck, String listChanged, List<StandardCard> cardList) {
-
-    }
-
-    public void updatesDeckView(Deck d, Back s){
-
-    }
-
-    public void updatesPlayersKingdomView(Player p, int c, String s, Position pos){
         try {
-            cs.updateKingdom();
+            cs.updateDeckView(deck,back);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void sendResults(PlayerPoints[] results){
+    @Override
+    public void updatePlayerHandAndDeckView(String deck, Resource topOfDeck, int cardId) {
+        try {
+            cs.updateHandAndDeckView(deck,topOfDeck,cardId);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    @Override
+    public void updatesAvailableCardView(String deck, Resource topOfDeck, String listChanged, List<StandardCard> cardList) {
+        List<Integer> availableId = new ArrayList<>();
+        for (StandardCard c: cardList)
+            availableId.add(c.getId());
+        try {
+            cs.updateAvailable(deck,topOfDeck,listChanged,availableId);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updatesPlayersKingdomView(Player p, int c, String s, Position pos){
+        try {
+            cs.updateKingdom(p.getNickname(),c,s,pos);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendResults(PlayerPoints[] results/*Map<String, Integer> PlayerPoints, Map<String, Integer> PlayerNumCompletedObjectives*/){
+       /* try {
+            cs.showResults(PlayerPoints,PlayerNumCompletedObjectives);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }*/
     }
 
     public void actionNotPermittedMessaging(Player p, String errorMessage){
+        try {
+            cs.errorMessage(errorMessage);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
