@@ -3,6 +3,8 @@ package it.polimi.ingsw.am37.messages;
 import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
+import it.polimi.ingsw.am37.model.game.GameStatus;
+import it.polimi.ingsw.am37.model.game.PlayerPoints;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.sides.Position;
 import it.polimi.ingsw.am37.server.ClientHandler;
@@ -71,13 +73,23 @@ public class PlaceMessage extends MessageToServer{
                             break;
                         }
                     }
-
                 }
 
 
                 if(!placed) {
                     ch.send(new ErrorMessage(MessageId.ERROR, "Couldn't place the card because message is corrupted."));
                 } else {
+                    if (id.equals(MessageId.PLACE)) {
+                        if (c.getGameInstance().getCurrentStatus().equals(GameStatus.OVER)) {
+                            PlayerPoints[] results = c.getGameInstance().getGameWinner();
+                            for (Player pl: c.getGameInstance().getParticipants())
+                                c.getPlayerViews().get(pl).sendResults(results);
+
+                            return;
+                        }
+
+                    }
+
                     for (Player pl: c.getGameInstance().getParticipants()) {
                         if (pl.equals(p)) {
                             if (id.equals(MessageId.PLACE_SC))

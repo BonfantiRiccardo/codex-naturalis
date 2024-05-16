@@ -34,6 +34,7 @@ public class ClientMain {
         try {
             client.startClient();
         } catch (final IOException e) {
+            System.out.println("Disconnection");
             System.err.println(e.getMessage());
         }
     }

@@ -1,20 +1,16 @@
 package it.polimi.ingsw.am37.view;
 
-import com.google.gson.JsonParseException;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
+import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Kingdom;
-import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
 
-import javax.sound.midi.Soundbank;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.*;
-import java.util.List;
 
 public class TUIView extends View implements PropertyChangeListener {
     private final Scanner stdIn;
@@ -49,7 +45,7 @@ public class TUIView extends View implements PropertyChangeListener {
             }
         }
 
-        while (!state.equals(ViewState.SHOW_RESULTS)) {
+        while (!state.equals(ViewState.SHOW_RESULTS) && !state.equals(ViewState.DISCONNECTION)) {
             //print: This changed while you requested the action:
             while(!updates.isEmpty()) Thread.onSpinWait();
             //WAITS FOR ALL UPDATES TO PRINT AND REMOVES THEM FROM THE LIST
@@ -57,6 +53,9 @@ public class TUIView extends View implements PropertyChangeListener {
             System.out.println();
             System.out.println("Press enter to request an ACTION");         //VERY IMPORTANT SO THAT I DON'T HAVE TO BLOCK
             stdIn.nextLine();
+
+            if (state.equals(ViewState.SHOW_RESULTS) || state.equals(ViewState.DISCONNECTION))
+                break;
 
             System.out.println("Synchronizing...");
             String inputLine;
@@ -69,7 +68,10 @@ public class TUIView extends View implements PropertyChangeListener {
             }
         }
 
-        printResults();
+        if (state.equals(ViewState.SHOW_RESULTS))
+            printResults();
+        else if (state.equals(ViewState.DISCONNECTION))
+            System.out.println("One of the player was disconnected from the game, the game is now ending for everyone...");
 
         return gameOver();
     }
@@ -748,8 +750,26 @@ public class TUIView extends View implements PropertyChangeListener {
     @Override
     public synchronized void printKingdom() {
         System.out.println("Your token: " + localGameInstance.getMe().getToken()+ (localGameInstance.getMe().hasBlackToken()? (" and " + Token.BLACK) : "" ));
-        System.out.println("Your kingdom: " + localGameInstance.getMe().getKingdom());
-        System.out.println("Your resources: " + localGameInstance.getMe().getKingdom().getOnFieldResources());
+        System.out.println("Your kingdom: ");
+        String[][] field = localGameInstance.getMe().getKingdom().getVisual();
+
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[0].length; j++)
+                System.out.print(field[i][j]);
+            System.out.println();
+        }
+
+        System.out.print("Your resources: ");
+        for (Resource r: Resource.values()) {
+            if (localGameInstance.getMe().getKingdom().getOnFieldResources().get(r) != null && !r.equals(Resource.EMPTY)) {
+                System.out.print(r + ": " + localGameInstance.getMe().getKingdom().getOnFieldResources().get(r));
+
+                if (!r.equals(Resource.QUILL))
+                    System.out.print(",  ");
+            }
+        }
+        System.out.println();
+
         System.out.print("Your active positions: ");
         for (Position p: localGameInstance.getMe().getKingdom().getActivePositions()) {
             System.out.print(p);
@@ -778,8 +798,24 @@ public class TUIView extends View implements PropertyChangeListener {
         for (ClientSidePlayer p: localGameInstance.getPlayers()) {
             if (p.getNickname().equalsIgnoreCase(inputLine)) {
                 System.out.println(p.getNickname() + "'s token: " + p.getToken() + (p.hasBlackToken()? (" and " + Token.BLACK) : "" ));
-                System.out.println(p.getNickname() + "'s kingdom: " + p.getKingdom());
-                System.out.println(p.getNickname() + "'s resources: " + p.getKingdom().getOnFieldResources());
+                System.out.println(p.getNickname() + "'s kingdom: ");
+                String[][] field = p.getKingdom().getVisual();
+
+                for (int i = 0; i < field.length; i++) {
+                    for (int j = 0; j < field[0].length; j++)
+                        System.out.print(field[i][j]);
+                    System.out.println();
+                }
+
+
+                System.out.print(p.getNickname() + "'s resources: ");
+                for (Resource r: Resource.values())
+                    if (p.getKingdom().getOnFieldResources().get(r) != null && !r.equals(Resource.EMPTY)) {
+                        System.out.print(r + ": " + p.getKingdom().getOnFieldResources().get(r));
+
+                        if (!r.equals(Resource.QUILL))
+                            System.out.print(",  ");
+                    }
                 check = true;
             }
         }
@@ -817,6 +853,7 @@ public class TUIView extends View implements PropertyChangeListener {
         System.out.println(localGameInstance.getMyPrivateObjective());
     }
 
+    @Override
     public synchronized void printResults(){
         List<ClientSidePlayer> players = new ArrayList<>(getLocalGameInstance().getPlayers());
         List<ClientSidePlayer> playerTable = new ArrayList<>(getLocalGameInstance().getPlayers());
@@ -832,6 +869,8 @@ public class TUIView extends View implements PropertyChangeListener {
             }
             players.remove(playerTable.get(i));
         }
+
+        System.out.println("THE WINNER IS: " + playerTable.getFirst().getNickname());
 
         for(ClientSidePlayer p : playerTable)
             System.out.println(p.getNickname() + " has achieved " + p.getPoints() + " points and completed " + p.getObjectivesCompleted() + " objectives");

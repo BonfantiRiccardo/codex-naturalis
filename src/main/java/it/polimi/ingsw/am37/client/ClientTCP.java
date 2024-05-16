@@ -47,7 +47,7 @@ public class ClientTCP implements ClientConnectionInterface{
         } catch (final NoSuchElementException e) {
             System.out.println("Connection closed");
         } finally {
-            System.out.println("Closing connection");
+            System.out.println("Closing connection with server");
             socketIn.close();       //CLOSING WHILE ACTIVE THREAD IS READING CAUSES AN IO EXCEPTION
             socketOut.close();
             socket.close();
@@ -62,6 +62,7 @@ public class ClientTCP implements ClientConnectionInterface{
             }
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Thread detached from read operation.");
+            System.exit(0);
         }
     }
 

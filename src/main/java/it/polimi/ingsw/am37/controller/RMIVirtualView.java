@@ -163,6 +163,10 @@ public class RMIVirtualView implements VirtualView{
 
     }
 
+    @Override
+    public void playerDisconnection() {
+
+    }
 }
 
 

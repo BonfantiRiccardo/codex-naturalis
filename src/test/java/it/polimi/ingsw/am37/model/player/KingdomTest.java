@@ -96,6 +96,14 @@ class KingdomTest {
         assertSame(placed, p.getMyKingdom().getPlacedSides().get(0));
         assertSame(rC.getBack(), p.getMyKingdom().getPlacedSides().get(1));
         assertSame(gC.getFront(), p.getMyKingdom().getPlacedSides().get(2));
+
+        String[][] field = p.getMyKingdom().getVisual();
+
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[0].length; j++)
+                System.out.print(field[i][j]);
+            System.out.println();
+        }
     }
 
     /**

@@ -6,9 +6,7 @@ import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.sides.*;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 /**
  * The Kingdom class contains all the information and behaviour of the play area of a Player. The play area is where the
@@ -177,4 +175,122 @@ public class Kingdom {
         this.placedSides.add(sidePlaced);
     }
 
+    public String[][] getVisual() {
+        String[][] field = new String[100][100];
+
+        for (int i = 0; i < 100; i++)
+            for (int j = 0; j < 100; j++)
+                field[i][j] = "⬛";//"⠀⠀"
+
+        Map<Resource, String> colourMap = new HashMap<>();
+        colourMap.put(Resource.ANIMAL, "🟦");
+        colourMap.put(Resource.PLANT, "🟩");
+        colourMap.put(Resource.INSECT, "🟪");
+        colourMap.put(Resource.FUNGI, "🟥");
+        colourMap.put(Resource.EMPTY, "🟨");
+
+        Map<Resource, String> resMap = new HashMap<>();
+        resMap.put(Resource.ANIMAL, "🐺");
+        resMap.put(Resource.PLANT, "🍁");
+        resMap.put(Resource.INSECT, "🦋");
+        resMap.put(Resource.FUNGI, "🍄");
+        resMap.put(Resource.INKWELL, "🖋️");
+        resMap.put(Resource.MANUSCRIPT, "📜");
+        resMap.put(Resource.QUILL, "🪶");
+        resMap.put(Resource.EMPTY, "⬜");
+
+        int xCoord = 50;
+        int yCoord = 50;
+
+        int minX = 100;
+        int maxX = 0;
+        int minY = 100;
+        int maxY = 0;
+
+        for (Position pos: activePositions) {
+            int xActive = xCoord - pos.getY() * 2;
+            int yActive = yCoord + pos.getX() * 2;
+
+            if (xActive - 1 < minX)
+                minX = xActive - 1;
+            if (xActive + 1 > maxX)
+                maxX = xActive + 1;
+
+            if (yActive - 1 < minY)
+                minY = yActive - 1;
+            if (yActive + 1 > maxY)
+                maxY = yActive + 1;
+
+            for (int i = -1; i <= 1; i++)
+                for (int j = -1; j <= 1; j++)
+                    field[xActive + i][yActive + j] = "⬜";
+
+            /*if (pos.getX() < 0 || pos.getX() > 9)
+                field[xActive][yActive - 1] = String.valueOf(pos.getX());
+            else
+                field[xActive][yActive - 1] = "⠀" + String.valueOf(pos.getX());
+
+            if (pos.getY() < 0 || pos.getY() > 9)
+                field[xActive][yActive + 1] = String.valueOf(pos.getY());
+            else
+                field[xActive][yActive + 1] = "⠀" + String.valueOf(pos.getY());*/
+        }
+
+
+        for (Side s: placedSides) {
+            int sideXPos = xCoord - s.getPositionInKingdom().getY() * 2;
+            int sideYPos = yCoord + s.getPositionInKingdom().getX() * 2;
+
+            if (sideXPos - 1 < minX)
+                minX = sideXPos - 1;
+            if (sideXPos + 1 > maxX)
+                maxX = sideXPos + 1;
+
+            if (sideXPos - 1 < minY)
+                minY = sideXPos - 1;
+            if (sideXPos + 1 > maxY)
+                maxY = sideXPos + 1;
+
+            field[sideXPos + 1][sideYPos] = colourMap.get(s.getMainResource());
+            field[sideXPos - 1][sideYPos] = colourMap.get(s.getMainResource());
+            field[sideXPos][sideYPos + 1] = colourMap.get(s.getMainResource());
+            field[sideXPos][sideYPos - 1] = colourMap.get(s.getMainResource());
+
+            //NO WAY TO KNOW THE RESOURCES OF THE BACK OF THE START CARDS
+            if (s.getClass().equals(Front.class)) {
+                field[sideXPos][sideYPos] = colourMap.get(s.getMainResource());
+            } else {
+                field[sideXPos][sideYPos] = resMap.get(s.getMainResource());
+            }
+
+            //NOW ASSIGN THE RESOURCES IN THE START CARD
+
+            if (!s.getTL().getVisibility())
+                field[sideXPos - 1][sideYPos - 1] = colourMap.get(s.getMainResource());
+            else if (s.getTL().getLinkedSide() == null)
+                field[sideXPos - 1][sideYPos - 1] = resMap.get(s.getTL().getResource());
+
+            if (!s.getTR().getVisibility())
+                field[sideXPos - 1][sideYPos + 1] = colourMap.get(s.getMainResource());
+            else if (s.getTR().getLinkedSide() == null)
+                field[sideXPos - 1][sideYPos + 1] = resMap.get(s.getTR().getResource());
+
+            if (!s.getBL().getVisibility())
+                field[sideXPos + 1][sideYPos - 1] = colourMap.get(s.getMainResource());
+            else if (s.getBL().getLinkedSide() == null)
+                field[sideXPos + 1][sideYPos - 1] = resMap.get(s.getBL().getResource());
+
+            if (!s.getBR().getVisibility())
+                field[sideXPos + 1][sideYPos + 1] = colourMap.get(s.getMainResource());
+            else if (s.getBR().getLinkedSide() == null)
+                field[sideXPos + 1][sideYPos + 1] = resMap.get(s.getBR().getResource());
+        }
+
+        String[][] reducedField = new String[maxX - minX + 1][maxY - minY + 1];
+        for (int i = 0; i < maxX - minX + 1; i++)
+            for (int j = 0; j < maxY - minY + 1; j++)
+                reducedField[i][j] = field[minX + i][minY + j];
+
+        return reducedField;
+    }
 }

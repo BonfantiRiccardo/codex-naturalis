@@ -31,8 +31,12 @@ public class MultipleMatchesHandler {
         map.put(ch, c);
     }
 
-    public synchronized void removeClient(ClientHandler ch, GameController c) {
-        map.remove(ch, c);
+    public synchronized void removeClient(ClientHandler ch) {
+        map.remove(ch);
+    }
+
+    public Map<ClientHandler, GameController> getMap() {
+        return map;
     }
 
     public synchronized void addLobby(int controllerHash, GameController c) {
@@ -51,7 +55,7 @@ public class MultipleMatchesHandler {
         mapRMI.put(clientSkeleton, c);
     }
 
-    public synchronized void removeClient(RMIClientSkeleton clientSkeleton, GameController c) {
-        mapRMI.remove(clientSkeleton, c);
+    public synchronized void removeClient(RMIClientSkeleton clientSkeleton) {
+        mapRMI.remove(clientSkeleton);
     }
 }

@@ -11,5 +11,6 @@ public enum ViewState {
     NOT_TURN,
     PLACE,
     DRAW,
-    SHOW_RESULTS
+    SHOW_RESULTS,
+    DISCONNECTION
 }

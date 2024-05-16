@@ -293,11 +293,6 @@ public class GameController implements Observable {
                 p.drawCardFromDeck(d);
                 state.gamePhaseHandler();
 
-                // UPDATE VIEW DIRECTLY HERE?   HOW DO I SEND CLIENT THE NEW CARD?
-                //for (Player pl: gameInstance.getParticipants())      //ACKNOWLEDGE CLIENT?
-                //    if(playerViews.get(pl) != null)
-                //        playerViews.get(pl).updatesDeckView(d, d.firstBack());
-
             } else throw new WrongGamePhaseException("You cannot draw a card now");
         } else throw new IncorrectUserActionException("It is not your turn.");
     }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
@@ -314,11 +309,6 @@ public class GameController implements Observable {
             if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_DRAW)) {
                 p.drawCardFromDeck(d);
                 state.gamePhaseHandler();
-
-                // UPDATE VIEW DIRECTLY HERE?   HOW DO I SEND CLIENT THE NEW CARD?
-                //for (Player pl: gameInstance.getParticipants())      //ACKNOWLEDGE CLIENT?
-                //    if(playerViews.get(pl) != null)
-                //        playerViews.get(pl).updatesDeckView(d, d.firstBack());
 
             } else throw new WrongGamePhaseException("You cannot draw a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");
@@ -338,12 +328,6 @@ public class GameController implements Observable {
                 p.drawCardFromAvailable(c);
                 state.gamePhaseHandler();
 
-                // UPDATE VIEW DIRECTLY HERE?
-                //playerViews.get(p).acknowledgePlayer(p);           //OTHERWISE REUSE METHOD SEND AVAILABLE
-                //for (Player pl: gameInstance.getParticipants())    //HOW DO I KNOW WHICH LIST CHANGED? RETURN A LIST FROM METHOD
-                //    if(playerViews.get(pl) != null)
-                //        playerViews.get(pl).updatesAvailableCardView(gameInstance.getAvailableGCards());
-
             } else throw new WrongGamePhaseException("You cannot draw a card now.");
         } else throw new IncorrectUserActionException("It is not your turn.");
     }    //THIS METHOD IS CALLED BY THE VIRTUAL VIEW
@@ -355,17 +339,6 @@ public class GameController implements Observable {
      */
     private boolean checkCurrentTurn(Player p) {
         return gameInstance.getCurrentTurn().equals(p);
-    }
-
-    /**
-     * the method sendResults sends the results of the game that have been calculated by the getGameWinner method and updates player's view.
-     * @param results is the resulting points of each  player.
-     */
-    public void sendResults(PlayerPoints[] results) {
-        /* Sends the results of the game that have been calculated by the getGameWinner() method.*/
-        for (Player p: gameInstance.getParticipants())
-            if(playerViews.get(p) != null)
-                playerViews.get(p).sendResults(results);
     }
 
     /**

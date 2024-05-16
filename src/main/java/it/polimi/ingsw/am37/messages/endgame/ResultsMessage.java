@@ -19,10 +19,10 @@ public class ResultsMessage extends MessageToClient {
     }
 
     public void decodeAndExecute(View v){
-            for(ClientSidePlayer p : v.getLocalGameInstance().getPlayers()) {
-                p.setObjectivesCompleted(PlayerObjectivesCompleted.get(p.getNickname()));
-                p.setFinalPoints(PlayerPoints.get(p.getNickname()));
-            }
-            v.setState(ViewState.SHOW_RESULTS);
+        for(ClientSidePlayer p : v.getLocalGameInstance().getPlayers()) {
+            p.setObjectivesCompleted(PlayerObjectivesCompleted.get(p.getNickname()));
+            p.setFinalPoints(PlayerPoints.get(p.getNickname()));
+        }
+        v.setState(ViewState.SHOW_RESULTS);
     }
 }

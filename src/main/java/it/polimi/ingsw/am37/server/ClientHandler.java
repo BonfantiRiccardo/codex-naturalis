@@ -1,7 +1,9 @@
 package it.polimi.ingsw.am37.server;
 
+import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.messages.*;
 import it.polimi.ingsw.am37.controller.MultipleMatchesHandler;
+import it.polimi.ingsw.am37.model.player.Player;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -45,6 +47,9 @@ public class ClientHandler implements ClientInterface{
                 System.out.println(e.getMessage());
             }
 
+            System.out.println("Closing connection with client");
+            disconnectAndCloseGame();
+
             in.close();
             out.close();
             socket.close();
@@ -62,6 +67,19 @@ public class ClientHandler implements ClientInterface{
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void disconnectAndCloseGame() {
+        //CONNECTION CLOSED WITH THE CLIENT, NOTIFY ALL THE OTHER CLIENTS CONNECTED TO THIS GAME CONTROLLER
+        //THAT THE GAME IS OVER
+        GameController c = multipleMatchesHandler.getMap().get(this);
+
+        if (c != null) {
+            multipleMatchesHandler.removeClient(this);
+
+            for (Player p: c.getAddedPlayers())
+                c.getPlayerViews().get(p).playerDisconnection();
         }
     }
 

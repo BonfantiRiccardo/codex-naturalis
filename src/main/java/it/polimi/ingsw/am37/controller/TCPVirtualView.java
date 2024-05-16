@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am37.controller;
 
 import it.polimi.ingsw.am37.messages.*;
+import it.polimi.ingsw.am37.messages.endgame.ResultsMessage;
 import it.polimi.ingsw.am37.messages.initialization.*;
 import it.polimi.ingsw.am37.messages.lobby.*;
 import it.polimi.ingsw.am37.messages.turns.DeckCardDrawnMessage;
@@ -16,7 +17,9 @@ import it.polimi.ingsw.am37.model.sides.*;
 import it.polimi.ingsw.am37.server.ClientHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TCPVirtualView implements VirtualView {
 
@@ -130,6 +133,26 @@ public class TCPVirtualView implements VirtualView {
 
     public void sendResults(PlayerPoints[] results) {
         //SENDS THE RESULTS OF THE GAME TO THE REMOTE VIEW (USE NEW THREADS)
+        Map<String, Integer> playersPoints = new HashMap<>();
+        Map<String, Integer> playersCompletions = new HashMap<>();
+
+        for (PlayerPoints p: results) {
+            playersPoints.put(p.getPlayer().getNickname(), p.getPoints());
+            playersCompletions.put(p.getPlayer().getNickname(), p.getNumOfCompletion());
+        }
+
+        ch.send(new ResultsMessage(MessageId.SEND_RESULTS, playersPoints, playersCompletions));
+
+        ch.getMultipleMatchesHandler().removeClient(ch);
+    }
+
+    @Override
+    public void playerDisconnection() {
+        if (ch != null) {
+            ch.send(new PlayerDisconnectedMessage(MessageId.TERMINATE));
+
+            ch.getMultipleMatchesHandler().removeClient(ch);
+        }
     }
 
     public void actionNotPermittedMessaging(Player p, String errorMessage) {

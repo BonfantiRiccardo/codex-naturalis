@@ -13,7 +13,7 @@ public class GameOver implements State {
         this.controller = controller;
         this.controller.getGameInstance().setCurrentStatus(GameStatus.OVER);
 
-        this.controller.sendResults(this.controller.getGameInstance().getGameWinner());
+        //this.controller.sendResults(this.controller.getGameInstance().getGameWinner());
     }
 
     @Override

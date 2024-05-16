@@ -39,6 +39,8 @@ public interface VirtualView extends EventListener {
 
     void sendResults(PlayerPoints[] results);
 
+    void playerDisconnection();
+
     void actionNotPermittedMessaging(Player p, String errorMessage);
 
 }
