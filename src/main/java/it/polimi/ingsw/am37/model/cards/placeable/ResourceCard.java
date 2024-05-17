@@ -40,7 +40,7 @@ public class ResourceCard extends StandardCard {
                     ftl = "🦋";
                     break;
                 case Resource.EMPTY:
-                    ftl = "  ";
+                    ftl = "⠀ ";
                     break;
                 case Resource.FUNGI:
                     ftl = "🍄";
@@ -74,7 +74,7 @@ public class ResourceCard extends StandardCard {
                     ftr = "🦋";
                     break;
                 case Resource.EMPTY:
-                    ftr = "  ";
+                    ftr = "⠀ ";
                     break;
                 case Resource.FUNGI:
                     ftr = "🍄";
@@ -108,7 +108,7 @@ public class ResourceCard extends StandardCard {
                     fbl = "🦋";
                     break;
                 case Resource.EMPTY:
-                    fbl = "  ";
+                    fbl = "⠀ ";
                     break;
                 case Resource.FUNGI:
                     fbl = "🍄";
@@ -142,7 +142,7 @@ public class ResourceCard extends StandardCard {
                     fbr = "🦋";
                     break;
                 case Resource.EMPTY:
-                    fbr = "  ";
+                    fbr = "⠀ ";
                     break;
                 case Resource.FUNGI:
                     fbr = "🍄";
@@ -186,7 +186,7 @@ public class ResourceCard extends StandardCard {
         //return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n| "+ftl+" |     "+points+"      | "+ftr+" |   |    |           |    |\n|————              ————|   |————             ————|\n|                      |   |         "+br+"          |\n|————              ————|   |————             ————|\n| "+fbl+" |            | "+fbr+" |   |    |           |    |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
         return  "┌───────────────────────┐\n" +
                 "│" + (getFront().getTL().getVisibility() ? " " + ftl + " │" : "   ⠀ ") + " ⠀⠀  " + points + "   ⠀⠀⠀" + (getFront().getTR().getVisibility() ? "│ " + ftr + " " : "   ⠀ ") + "│\n" +
-                "│" + (getFront().getTL().getVisibility() ? "────┘" : "     ") + "             " + (getFront().getTL().getVisibility() ? "└────" : "     ") + "│\n" +
+                "│" + (getFront().getTL().getVisibility() ? "────┘" : "     ") + "             " + (getFront().getTR().getVisibility() ? "└────" : "     ") + "│\n" +
                 "│                       │\n" +
                 "│" + (getFront().getBL().getVisibility() ? "────┐" : "     ") + "             " + (getFront().getBR().getVisibility() ? "┌────" : "     ") + "│\n" +
                 "│" + (getFront().getBL().getVisibility() ? " " + ftl + " │" : "   ⠀ ") + "⠀⠀       ⠀⠀⠀" + (getFront().getBR().getVisibility() ? "│ " + ftr + " " : "   ⠀ ") + "│\n" +

@@ -41,7 +41,7 @@ public class GoldCard extends StandardCard {
                     ftl="🦋";
                     break;
                 case Resource.EMPTY:
-                    ftl="  ";
+                    ftl="⠀ ";
                     break;
                 case Resource.FUNGI:
                     ftl="🍄";
@@ -76,7 +76,7 @@ public class GoldCard extends StandardCard {
                     ftr="🦋";
                     break;
                 case Resource.EMPTY:
-                    ftr="  ";
+                    ftr="⠀ ";
                     break;
                 case Resource.FUNGI:
                     ftr="🍄";
@@ -111,7 +111,7 @@ public class GoldCard extends StandardCard {
                     fbl="🦋";
                     break;
                 case Resource.EMPTY:
-                    fbl="  ";
+                    fbl="⠀ ";
                     break;
                 case Resource.FUNGI:
                     fbl="🍄";
@@ -146,7 +146,7 @@ public class GoldCard extends StandardCard {
                     fbr="🦋";
                     break;
                 case Resource.EMPTY:
-                    fbr="  ";
+                    fbr="⠀ ";
                     break;
                 case Resource.FUNGI:
                     fbr="🍄";
