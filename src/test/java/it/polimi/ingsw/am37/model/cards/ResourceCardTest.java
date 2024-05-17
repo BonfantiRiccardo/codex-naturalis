@@ -1,6 +1,8 @@
 package it.polimi.ingsw.am37.model.cards;
 
+import it.polimi.ingsw.am37.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.model.cards.placeable.ResourceCard;
+import it.polimi.ingsw.am37.model.decks.ResourceDeck;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.sides.*;
 
@@ -18,8 +20,8 @@ class ResourceCardTest {
      * Testing get and toString methods.
      */
     @Test
-    public void goldCardTest() {
-        System.out.println("Carta oro creata: ");
+    public void resourceCardTest() {
+        System.out.println("Carta resource creata: ");
         System.out.println("    id: " + rc.getId());
         System.out.println("    front: ");
         System.out.println("        TL: ");
@@ -83,14 +85,11 @@ class ResourceCardTest {
     }
 
     @Test
-    void toStringTest(){
-        Corner usl=new Corner(true, Resource.EMPTY);
-        Corner anm=new Corner(true, Resource.ANIMAL);
-        Corner no=new Corner(false, Resource.EMPTY);
-        Front f=new Front(anm, anm, usl, no, Resource.ANIMAL,0,null, null);
-        Back b=new Back(usl, usl, usl, usl, Resource.ANIMAL);
-        ResourceCard c=new ResourceCard(2,f,b);
-        System.out.println(c.toString());
-    }
+    void toStringTest() throws NoCardsException {
+        CardCreator cc = new CardCreator();
+        ResourceDeck rd = new ResourceDeck(cc);
 
+        while (!rd.isEmpty())
+            System.out.println(rd.drawCard());
+    }
 }
