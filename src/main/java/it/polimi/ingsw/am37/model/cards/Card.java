@@ -1,5 +1,10 @@
 package it.polimi.ingsw.am37.model.cards;
 
+import it.polimi.ingsw.am37.model.game.Resource;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The Card abstract class represents the idea of a generic card of the game and serves as a blueprint for more
  * specific cards.
@@ -24,6 +29,19 @@ public abstract class Card {
      */
     public int getId(){
         return id;
+    }
+
+    public static Map<Resource,String> resourceToString() {
+        Map<Resource,String> resourceMap = new HashMap<>();
+        resourceMap.put(Resource.ANIMAL, "🐺");
+        resourceMap.put(Resource.PLANT, "🍁");
+        resourceMap.put(Resource.INSECT, "🦋");
+        resourceMap.put(Resource.FUNGI, "🍄");
+        resourceMap.put(Resource.INKWELL, "🖋️");
+        resourceMap.put(Resource.MANUSCRIPT, "📜");
+        resourceMap.put(Resource.QUILL, "🪶");
+        resourceMap.put(Resource.EMPTY, "⠀⠀"); //"⬜"
+        return resourceMap;
     }
 
     @Override

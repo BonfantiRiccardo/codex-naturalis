@@ -7,6 +7,7 @@ import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
 import it.polimi.ingsw.am37.exceptions.AlreadyAssignedException;
 import it.polimi.ingsw.am37.exceptions.IncorrectUserActionException;
 import it.polimi.ingsw.am37.exceptions.NoCardsException;
+import it.polimi.ingsw.am37.model.decks.ObjectiveDeck;
 import it.polimi.ingsw.am37.model.game.GameModel;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.*;
@@ -195,8 +196,13 @@ public class DiagonalDownTest {
     }
 
     @Test
-    void toStringTest(){
-        DiagonalDown d=new DiagonalDown(88,2, Resource.PLANT, Resource.PLANT);
-        System.out.println(d.toString());
+    void toStringTest() throws NoCardsException {
+        CardCreator cc = new CardCreator();
+        ObjectiveDeck od = new ObjectiveDeck(cc);
+
+        ObjectiveCard oc;
+        while (!od.isEmpty())
+            if ( (oc = od.drawCard()) instanceof DiagonalDown)
+                System.out.println(oc);
     }
 }

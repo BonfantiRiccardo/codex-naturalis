@@ -1,8 +1,11 @@
 package it.polimi.ingsw.am37.model.cards.placeable;
 
+import it.polimi.ingsw.am37.model.cards.Card;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.sides.Back;
 import it.polimi.ingsw.am37.model.sides.Front;
+
+import java.util.Map;
 
 /**
  * The GoldCard class represents a generic gold card of the game. It is a subclass of the StandardCard abstract class.
@@ -20,324 +23,153 @@ public class GoldCard extends StandardCard {
     }
 
     public String toString(){
-        String ftl;
-        String ftr;
-        String fbl;
-        String fbr;
-        String br;
         String bonus;
         String plc;
+        //int points = this.getFront().getPointsGivenOnPlacement();
 
+        Map<Resource, String> resMap = Card.resourceToString();
 
-        if(this.getFront().getTL().getVisibility()){
-            switch (this.getFront().getTL().getResource()){
-                case Resource.ANIMAL:
-                    ftl="🐺";
-                    break;
-                case Resource.PLANT:
-                    ftl="🍁";
-                    break;
-                case Resource.INSECT:
-                    ftl="🦋";
-                    break;
-                case Resource.EMPTY:
-                    ftl="⠀ ";
-                    break;
-                case Resource.FUNGI:
-                    ftl="🍄";
-                    break;
-                case Resource.INKWELL:
-                    ftl="🖋️";
-                    break;
-                case Resource.MANUSCRIPT:
-                    ftl="📜";
-                    break;
-                case Resource.QUILL:
-                    ftl="🪶";
-                    break;
-                default:
-                    ftl="error";
-                    break;
+        plc = switch (this.getId()) {
+            case 41 -> {
+                bonus = "1 🪶";
+                yield "⠀⠀⠀🍄🍄🐺⠀⠀";
             }
-        }
-        else{
-            ftl="❌";
-        }
-
-        if(this.getFront().getTR().getVisibility()){
-            switch (this.getFront().getTR().getResource()){
-                case Resource.ANIMAL:
-                    ftr="🐺";
-                    break;
-                case Resource.PLANT:
-                    ftr="🍁";
-                    break;
-                case Resource.INSECT:
-                    ftr="🦋";
-                    break;
-                case Resource.EMPTY:
-                    ftr="⠀ ";
-                    break;
-                case Resource.FUNGI:
-                    ftr="🍄";
-                    break;
-                case Resource.INKWELL:
-                    ftr="🖋️";
-                    break;
-                case Resource.MANUSCRIPT:
-                    ftr="📜";
-                    break;
-                case Resource.QUILL:
-                    ftr="🪶";
-                    break;
-                default:
-                    ftr="error";
-                    break;
+            case 42 -> {
+                bonus = "1 🖋️";
+                yield "⠀⠀⠀🍄🍄🍁⠀⠀";
             }
-        }
-        else{
-            ftr="❌";
-        }
-
-        if(this.getFront().getBL().getVisibility()){
-            switch (this.getFront().getBL().getResource()){
-                case Resource.ANIMAL:
-                    fbl="🐺";
-                    break;
-                case Resource.PLANT:
-                    fbl="🍁";
-                    break;
-                case Resource.INSECT:
-                    fbl="🦋";
-                    break;
-                case Resource.EMPTY:
-                    fbl="⠀ ";
-                    break;
-                case Resource.FUNGI:
-                    fbl="🍄";
-                    break;
-                case Resource.INKWELL:
-                    fbl="🖋️";
-                    break;
-                case Resource.MANUSCRIPT:
-                    fbl="📜";
-                    break;
-                case Resource.QUILL:
-                    fbl="🪶";
-                    break;
-                default:
-                    fbl="error";
-                    break;
+            case 43 -> {
+                bonus = "1 📜";
+                yield "⠀⠀⠀🍄🍄🦋⠀⠀";
             }
-        }
-        else{
-            fbl="❌";
-        }
-
-        if(this.getFront().getBR().getVisibility()){
-            switch (this.getFront().getBR().getResource()){
-                case Resource.ANIMAL:
-                    fbr="🐺";
-                    break;
-                case Resource.PLANT:
-                    fbr="🍁";
-                    break;
-                case Resource.INSECT:
-                    fbr="🦋";
-                    break;
-                case Resource.EMPTY:
-                    fbr="⠀ ";
-                    break;
-                case Resource.FUNGI:
-                    fbr="🍄";
-                    break;
-                case Resource.INKWELL:
-                    fbr="🖋️";
-                    break;
-                case Resource.MANUSCRIPT:
-                    fbr="📜";
-                    break;
-                case Resource.QUILL:
-                    fbr="🪶";
-                    break;
-                default:
-                    fbr="error";
-                    break;
+            case 44 -> {
+                bonus = "2 🔲";
+                yield " ⠀🍄🍄🍄🐺⠀";
             }
-        }
-        else{
-            fbr="❌";
-        }
+            case 45 -> {
+                bonus = "2 🔲";
+                yield "⠀⠀🍄🍄🍄🍁⠀";
+            }
+            case 46 -> {
+                bonus = "2 🔲";
+                yield "⠀⠀🍄🍄🍄🦋⠀";
+            }
+            case 47, 48, 49 -> {
+                bonus = "  3⠀";
+                yield "⠀⠀⠀🍄🍄🍄⠀⠀";
+            }
+            case 50 -> {
+                bonus = "  5⠀";
+                yield " 🍄🍄🍄🍄🍄";
+            }
+            case 51 -> {
+                bonus = "1 🪶";
+                yield "⠀⠀⠀🍁🍁🦋⠀⠀";
+            }
+            case 52 -> {
+                bonus = "1 📜";
+                yield "⠀⠀⠀🍁🍁🍄⠀⠀";
+            }
+            case 53 -> {
+                bonus = "1⠀🖋";
+                yield "⠀⠀⠀🍁🍁🐺⠀⠀";
+            }
+            case 54 -> {
+                bonus = "2 🔲";
+                yield " ⠀🍁🍁🍁🦋⠀";
+            }
+            case 55 -> {
+                bonus = "2 🔲";
+                yield "⠀⠀🍁🍁🍁🐺⠀";
+            }
+            case 56 -> {
+                bonus = "2 🔲";
+                yield " ⠀🍁🍁🍁🍄⠀";
+            }
+            case 57, 58, 59 -> {
+                bonus = "  3⠀";
+                yield "⠀⠀⠀🍁🍁🍁⠀⠀";
+            }
+            case 60 -> {
+                bonus = "  5⠀";
+                yield " 🍁🍁🍁🍁🍁";
+            }
+            case 61 -> {
+                bonus = "1 🖋";
+                yield "⠀⠀⠀🐺🐺🦋⠀⠀";
+            }
+            case 62 -> {
+                bonus = "1 📜";
+                yield "⠀⠀⠀🐺🐺🍁⠀⠀";
+            }
+            case 63 -> {
+                bonus = "1 🪶";
+                yield "⠀⠀⠀🐺🐺🍄⠀⠀";
+            }
+            case 64 -> {
+                bonus = "2 🔲";
+                yield "⠀⠀🐺🐺🐺🦋⠀";
+            }
+            case 65 -> {
+                bonus = "2 🔲";
+                yield " ⠀🐺🐺🐺🍄⠀";
+            }
+            case 66 -> {
+                bonus = "2 🔲";
+                yield " ⠀🐺🐺🐺🍁⠀";
+            }
+            case 67, 68, 69 -> {
+                bonus = "  3⠀";
+                yield "⠀⠀⠀🐺🐺🐺⠀⠀";
+            }
+            case 70 -> {
+                bonus = "  5⠀";
+                yield " 🐺🐺🐺🐺🐺";
+            }
+            case 71 -> {
+                bonus = "1 🪶";
+                yield "⠀⠀⠀🦋🦋🍁⠀⠀";
+            }
+            case 72 -> {
+                bonus = "1 📜";
+                yield "⠀⠀⠀🦋🦋🐺⠀⠀";
+            }
+            case 73 -> {
+                bonus = "1 🖋";
+                yield "⠀⠀⠀🦋🦋🍄⠀⠀";
+            }
+            case 74 -> {
+                bonus = "2 🔲";
+                yield " ⠀🦋🦋🦋🐺⠀";
+            }
+            case 75 -> {
+                bonus = "2 🔲";
+                yield "⠀⠀🦋🦋🦋🍁⠀";
+            }
+            case 76 -> {
+                bonus = "2 🔲";
+                yield " ⠀🦋🦋🦋🍄⠀";
+            }
+            case 77, 78, 79 -> {
+                bonus = "  3⠀";
+                yield "⠀⠀⠀🦋🦋🦋⠀⠀";
+            }
+            case 80 -> {
+                bonus = "  5⠀";
+                yield " 🦋🦋🦋🦋🦋";
+            }
+            default -> {
+                bonus = "error";
+                yield "error";
+            }
+        };
 
-        switch (this.getBack().getMainResource()){
-            case Resource.ANIMAL:
-                br="🐺";
-                break;
-            case Resource.INSECT:
-                br="🦋";
-                break;
-            case Resource.PLANT:
-                br="🍁";
-                break;
-            case Resource.FUNGI:
-                br="🍄";
-                break;
-            default:
-                br="error";
-                break;
-        }
-
-        switch (this.getId()){
-            case 41:
-                bonus="1 🪶";
-                plc="⠀  🍄🍄🐺⠀  ";
-                break;
-            case 42:
-                bonus="1 🖋️";
-                plc="⠀  🍄🍄🍁⠀  ";
-                break;
-            case 43:
-                bonus="1 📜";
-                plc="⠀  🍄🍄🦋⠀  ";
-                break;
-            case 44:
-                bonus="2 🔲";
-                plc="  🍄🍄🍄🐺  ";
-                break;
-            case 45:
-                bonus="2 🔲";
-                plc="  🍄🍄🍄🍁  ";
-                break;
-            case 46:
-                bonus="2 🔲";
-                plc="  🍄🍄🍄🦋  ";
-                break;
-            case 47,48,49:
-                bonus=" 3 ⠀";
-                plc="⠀  🍄🍄🍄  ⠀";
-                break;
-            case 50:
-                bonus=" 5 ⠀";
-                plc=" 🍄🍄🍄🍄🍄 ";
-                break;
-            case 51:
-                bonus="1 🪶";
-                plc="⠀  🍁🍁🦋⠀  ";
-                break;
-            case 52:
-                bonus="1 📜";
-                plc="⠀  🍁🍁🍄⠀  ";
-                break;
-            case 53:
-                bonus="1 🖋";
-                plc="⠀  🍁🍁🐺⠀  ";
-                break;
-            case 54:
-                bonus="2 🔲";
-                plc="  🍁🍁🍁🦋  ";
-                break;
-            case 55:
-                bonus="2 🔲";
-                plc="  🍁🍁🍁🐺  ";
-                break;
-            case 56:
-                bonus="2 🔲";
-                plc="  🍁🍁🍁🍄  ";
-                break;
-            case 57,58,59:
-                bonus=" 3 ⠀";
-                plc="⠀  🍁🍁🍁⠀   ";
-                break;
-            case 60:
-                bonus=" 5 ⠀";
-                plc=" 🍁🍁🍁🍁🍁 ";
-                break;
-            case 61:
-                bonus="1 🖋";
-                plc="⠀  🐺🐺🦋⠀   ";
-                break;
-            case 62:
-                bonus="1 📜";
-                plc="⠀  🐺🐺🍁⠀   ";
-                break;
-            case 63:
-                bonus="1 🪶";
-                plc="⠀  🐺🐺🍄⠀  ";
-                break;
-            case 64:
-                bonus="2 🔲";
-                plc="  🐺🐺🐺🦋  ";
-                break;
-            case 65:
-                bonus="2 🔲";
-                plc="  🐺🐺🐺🍄  ";
-                break;
-            case 66:
-                bonus="2 🔲";
-                plc="  🐺🐺🐺🍁  ";
-                break;
-            case 67:
-                bonus=" 3 ⠀";
-                plc="⠀  🐺🐺🐺⠀  ";
-                break;
-            case 68:
-                bonus=" 3 ⠀";
-                plc="⠀  🐺🐺🐺⠀  ";
-                break;
-            case 69:
-                bonus=" 3 ⠀";
-                plc="⠀  🐺🐺🐺⠀  ";
-                break;
-            case 70:
-                bonus=" 5 ⠀";
-                plc=" 🐺🐺🐺🐺🐺 ";
-                break;
-            case 71:
-                bonus="1 🪶";
-                plc="⠀  🦋🦋🍁⠀  ";
-                break;
-            case 72:
-                bonus="1 📜";
-                plc="⠀  🦋🦋🐺⠀  ";
-                break;
-            case 73:
-                bonus="1 🖋";
-                plc="⠀  🦋🦋🍄⠀  ";
-                break;
-            case 74:
-                bonus="2 🔲";
-                plc="  🦋🦋🦋🐺  ";
-                break;
-            case 75:
-                bonus="2 🔲";
-                plc="  🦋🦋🦋🍁  ";
-                break;
-            case 76:
-                bonus="2 🔲";
-                plc="  🦋🦋🦋🍄  ";
-                break;
-            case 77,78,79:
-                bonus=" 3 ⠀";
-                plc="  ⠀🦋🦋🦋⠀  ";
-                break;
-            case 80:
-                bonus=" 5 ⠀";
-                plc=" 🦋🦋🦋🦋🦋 ";
-                break;
-            default:
-                bonus="error";
-                plc="error";
-                break;
-        }
-
-        //System.out.println("\n");
-        //return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n| "+ftl+" |    "+bonus+"    | "+ftr+" |   |    |           |    |\n|————              ————|   |————             ————|\n|                      |   |         "+br+"          |\n|————              ————|   |————             ————|\n| "+fbl+" | "+plc+" | "+fbr+" |   |    |           |    |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
         return  "┌───────────────────────┐\n" +
-                "│" + (getFront().getTL().getVisibility() ? " " + ftl + " │" : "   ⠀ ") + "   ⠀" + bonus + "⠀⠀⠀⠀" + (getFront().getTR().getVisibility() ? "│ " + ftr + " " : "   ⠀ ") + "│\n" +
+                "│" + (getFront().getTL().getVisibility() ? " " + resMap.get(getFront().getTL().getResource()) + " │" : "   ⠀ ") + "   ⠀" + bonus + "⠀⠀⠀⠀" + (getFront().getTR().getVisibility() ? "│ " + resMap.get(getFront().getTR().getResource()) + " " : "   ⠀ ") + "│\n" +
                 "│" + (getFront().getTL().getVisibility() ? "────┘" : "     ") + "             " + (getFront().getTR().getVisibility() ? "└────" : "     ") + "│\n" +
                 "│                       │\n" +
                 "│" + (getFront().getBL().getVisibility() ? "────┐" : "     ") + "             " + (getFront().getBR().getVisibility() ? "┌────" : "     ") + "│\n" +
-                "│" + (getFront().getBL().getVisibility() ? " " + ftl + " │" : "   ⠀ ") + plc + (getFront().getBR().getVisibility() ? "│ " + ftr + " " : "   ⠀ ") + "│\n" +
+                "│" + (getFront().getBL().getVisibility() ? " " + resMap.get(getFront().getBL().getResource()) + " │" : "   ⠀ ") + plc + (getFront().getBR().getVisibility() ? "│ " + resMap.get(getFront().getBR().getResource()) + " " : "   ⠀ ") + "│\n" +
                 "└───────────────────────┘";
     }
 

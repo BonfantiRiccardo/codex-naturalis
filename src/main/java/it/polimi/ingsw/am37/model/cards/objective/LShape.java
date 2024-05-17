@@ -113,11 +113,10 @@ public class LShape extends PlacementBoundObjective {
             leg="🍄";
         }
 
-        System.out.println("\n");
         if(this.direction==Direction.TOPLEFT){
             //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|      "+leg+"       |\n|      "+leg+"       |\n|        "+res+"     |\n—————————————————";
             return  "┌───────────────┐\n" +
-                    "│ id:" + id + "   pt:" + points + "   │\n" +
+                    "│ id:" + id + "   pt:" + points + "  │\n" +
                     "│    ⠀"+leg+"⠀⠀⠀⠀⠀  │\n" +
                     "│    ⠀"+leg+"⠀⠀⠀⠀⠀  │\n" +
                     "│    ⠀⠀⠀"+res+"⠀⠀⠀  │\n" +
@@ -125,7 +124,7 @@ public class LShape extends PlacementBoundObjective {
         } else if (this.direction==Direction.TOPRIGHT) {
             //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|        "+leg+"     |\n|        "+leg+"     |\n|     "+res+"        |\n—————————————————";
             return  "┌───────────────┐\n" +
-                    "│ id:" + id + "   pt:" + points + "   │\n" +
+                    "│ id:" + id + "   pt:" + points + "  │\n" +
                     "│    ⠀⠀⠀"+leg+"⠀⠀⠀  │\n" +
                     "│    ⠀⠀⠀"+leg+"⠀⠀⠀  │\n" +
                     "│    ⠀"+res+"⠀⠀⠀⠀⠀  │\n" +
@@ -133,7 +132,7 @@ public class LShape extends PlacementBoundObjective {
         } else if (this.direction==Direction.BOTTOMLEFT) {
             //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|        "+res+"     |\n|     "+res+"        |\n|     "+res+"        |\n—————————————————";
             return  "┌───────────────┐\n" +
-                    "│ id:" + id + "   pt:" + points + "   │\n" +
+                    "│ id:" + id + "   pt:" + points + "  │\n" +
                     "│    ⠀⠀⠀⠀"+res+"⠀⠀  │\n" +
                     "│    ⠀"+leg+"⠀⠀⠀⠀⠀  │\n" +
                     "│    ⠀"+leg+"⠀⠀⠀⠀⠀  │\n" +
@@ -141,7 +140,7 @@ public class LShape extends PlacementBoundObjective {
         } else {
             //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|      "+res+"       |\n|         "+res+"    |\n|         "+res+"    |\n—————————————————";
             return  "┌───────────────┐\n" +
-                    "│ id:" + id + "   pt:" + points + "   │\n" +
+                    "│ id:" + id + "   pt:" + points + "  │\n" +
                     "│    "+res+"⠀⠀⠀⠀⠀⠀  │\n" +
                     "│    ⠀⠀⠀"+leg+"⠀⠀⠀  │\n" +
                     "│    ⠀⠀⠀"+leg+"⠀⠀⠀  │\n" +

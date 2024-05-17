@@ -90,10 +90,9 @@ public class DiagonalUp extends PlacementBoundObjective {
             res="🍄";
         }
 
-        System.out.println("\n");
         //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|            "+res+" |\n|        "+res+"     |\n|    "+res+"         |\n—————————————————";
         return  "┌───────────────┐\n" +
-                "│ id:" + id + "   pt:" + points + "   │\n" +
+                "│ id:" + id + "   pt:" + points + "  │\n" +
                 "│    ⠀⠀⠀⠀⠀" + res + "⠀  │\n" +
                 "│      ⠀" + res + "⠀⠀⠀⠀⠀│\n" +
                 "│    " + res + "⠀⠀⠀⠀⠀⠀  │\n" +

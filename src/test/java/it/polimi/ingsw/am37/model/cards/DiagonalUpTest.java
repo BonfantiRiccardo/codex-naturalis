@@ -7,6 +7,7 @@ import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
 import it.polimi.ingsw.am37.exceptions.AlreadyAssignedException;
 import it.polimi.ingsw.am37.exceptions.IncorrectUserActionException;
 import it.polimi.ingsw.am37.exceptions.NoCardsException;
+import it.polimi.ingsw.am37.model.decks.ObjectiveDeck;
 import it.polimi.ingsw.am37.model.game.GameModel;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Player;
@@ -191,5 +192,16 @@ class DiagonalUpTest {
         }
 
         assertSame(2, oC.calculateNumOfCompletion(p.getMyKingdom()));
+    }
+
+    @Test
+    void printingTest() throws NoCardsException {
+        CardCreator cc = new CardCreator();
+        ObjectiveDeck od = new ObjectiveDeck(cc);
+
+        ObjectiveCard oc;
+        while (!od.isEmpty())
+            if ( (oc = od.drawCard()) instanceof DiagonalUp)
+                System.out.println(oc);
     }
 }

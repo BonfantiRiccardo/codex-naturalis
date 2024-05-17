@@ -1,10 +1,12 @@
 package it.polimi.ingsw.am37.model.cards.placeable;
 
+import it.polimi.ingsw.am37.model.cards.Card;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.sides.Back;
 import it.polimi.ingsw.am37.model.sides.Front;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * The StartCard class represents a generic start card of the game. It is a subclass of GameCard.
@@ -39,22 +41,20 @@ public class StartCard extends GameCard {
     public String toString(){
         int id = this.getId();
 
-        //System.out.println("\n");
-        switch (id){
-            case 81:
-                return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n|    |            | 🍁 |   | 🍄 |           | 🍁 |\n|————              ————|   |————             ————|\n|          🦋          |   |                     |\n|————              ————|   |————             ————|\n| 🦋 |            |    |   | 🦋 |           | 🐺 |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
-            case 82:
-                return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n| 🐺 |            |    |   | 🍁 |           | 🐺 |\n|————              ————|   |————             ————|\n|          🍄          |   |                     |\n|————              ————|   |————             ————|\n|    |            | 🍄 |   | 🍄 |           | 🦋 |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
-            case 83:
-                return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n|    |            |    |   | 🦋 |           | 🐺 |\n|————              ————|   |————             ————|\n|         🍁🍄         |   |                     |\n|————              ————|   |————             ————|\n|    |            |    |   | 🍄 |           | 🍁 |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
-            case 84:
-                return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n|    |            |    |   | 🍁 |           | 🦋 |\n|————              ————|   |————             ————|\n|         🐺🦋         |   |                     |\n|————              ————|   |————             ————|\n|    |            |    |   | 🐺 |           | 🍄 |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
-            case 85:
-                return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n|    |            |    |   | 🦋 |           | 🍄 |\n|————              ————|   |————             ————|\n|        🐺🦋🍄        |   |                     |\n|————              ————|   |————             ————|\n| ❌ |            | ❌ |   | 🍁 |           | 🐺 |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
-            case 86:
-                return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n|    |            |    |   | 🍄 |           | 🐺 |\n|————              ————|   |————             ————|\n|        🍁🐺🍄        |   |                     |\n|————              ————|   |————             ————|\n| ❌ |            | ❌ |   | 🍁 |           | 🦋 |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
-            default:
-                return "error";
-        }
+        Map<Resource, String> resMap = Card.resourceToString();
+        resMap.put(Resource.EMPTY, "  ");
+
+        return             "┌────┬─────────────┬────┐"                                                                                                                                                                                                                                       + "    ┌────┬─────────────┬────┐\n" +
+                           "│ "+resMap.get(getFront().getTL().getResource()) +" │             │ "+resMap.get(getFront().getTR().getResource())+" │"                                                                                                                                          + "    │ "+ resMap.get(getBack().getTL().getResource()) + " │     ⠀⠀⠀    │ "+ resMap.get(getBack().getTR().getResource()) + " │\n" +
+                           "│────┘             └────│"                                                                                                                                                                                                                                       + "    │────┘             └────│\n" +
+                (id == 81? "│⠀⠀⠀⠀⠀⠀    🦋          │"                                                                                                                                                                                                                                       + "    │                       │\n" :
+                 id == 82? "│⠀⠀⠀⠀⠀⠀    🍄          │"                                                                                                                                                                                                                                       + "    │                       │\n" :
+                 id == 83? "│⠀⠀⠀      🍁🍄         │"                                                                                                                                                                                                                                      +  "    │                       │\n" :
+                 id == 84? "│⠀⠀⠀      🐺🦋         │"                                                                                                                                                                                                                                       + "    │                       │\n" :
+                 id == 85? "│        🐺🦋🍄        │"                                                                                                                                                                                                                                       + "    │                       │\n" :
+                 id == 86? "│        🍁🐺🍄        │"                                                                                                                                                                                                                                       + "    │                       │\n" : "│                       │   │                       │\n") +
+                           "│"+ (getFront().getBL().getVisibility() ? "────┐" : "     ") + "             "+ (getFront().getBR().getVisibility() ? "┌────" : "     ") +"│"                                                                                                                    + "    │────┐             ┌────│\n" +
+                           "│"+ (getFront().getBL().getVisibility() ? " " + resMap.get(getFront().getBL().getResource()) + " │" : "     ") + "             " + (getFront().getBR().getVisibility() ? "│ " + resMap.get(getFront().getBR().getResource()) + " " : "     ") + "│"             +  "    │ " + resMap.get(getBack().getBL().getResource()) + " │    ⠀⠀     ⠀│ "+ resMap.get(getBack().getBR().getResource()) + " │\n" +
+                           "└────" + (getFront().getBL().getVisibility() ? "┴":"─") + "─────────────" + (getFront().getBR().getVisibility() ? "┴":"─") + "────┘"                                                                                                                             + "    └────┴─────────────┴────┘";
     }
 }

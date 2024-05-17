@@ -4,6 +4,7 @@ import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
+import it.polimi.ingsw.am37.model.decks.ObjectiveDeck;
 import it.polimi.ingsw.am37.model.game.*;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
@@ -147,5 +148,16 @@ public class LShapeTest {
         p.getMyKingdom().updateKingdom(rC3, rC3.getBack(), rC3.getBack().getPositionInKingdom());
 
         assertSame(1, oC.calculateNumOfCompletion(p.getMyKingdom()));
+    }
+
+    @Test
+    void printingTest() throws NoCardsException {
+        CardCreator cc = new CardCreator();
+        ObjectiveDeck od = new ObjectiveDeck(cc);
+
+        ObjectiveCard oc;
+        while (!od.isEmpty())
+            if ( (oc = od.drawCard()) instanceof LShape)
+                System.out.println(oc);
     }
 }

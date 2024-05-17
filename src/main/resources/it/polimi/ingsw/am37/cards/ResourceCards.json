@@ -156,7 +156,7 @@
           "resource": "FUNGI"
         },
         "BOTTOMLEFT": {
-          "isVisible": false,
+          "isVisible": true,
           "resource": "EMPTY"
         },
         "BOTTOMRIGHT": {
@@ -304,7 +304,7 @@
           "resource": "MANUSCRIPT"
         },
         "BOTTOMRIGHT": {
-          "isVisible": true,
+          "isVisible": false,
           "resource": "EMPTY"
         }
       },

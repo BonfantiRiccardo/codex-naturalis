@@ -1,6 +1,8 @@
 package it.polimi.ingsw.am37.model.cards;
 
+import it.polimi.ingsw.am37.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
+import it.polimi.ingsw.am37.model.decks.StartDeck;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.sides.*;
 
@@ -93,4 +95,12 @@ class StartCardTest {
         return res;
     }
 
+    @Test
+    void printingTest() throws NoCardsException {
+        CardCreator cc = new CardCreator();
+        StartDeck sd = new StartDeck(cc);
+
+        while (!sd.isEmpty())
+            System.out.println(sd.drawCard());
+    }
 }
