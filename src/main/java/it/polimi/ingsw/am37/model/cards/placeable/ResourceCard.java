@@ -20,173 +20,176 @@ public class ResourceCard extends StandardCard {
         super(id, front, back);
     }
 
-    public String toString(){
+    public String toString() {
         String ftl;
         String ftr;
         String fbl;
         String fbr;
-        int points=this.getFront().getPointsGivenOnPlacement();
+        int points = this.getFront().getPointsGivenOnPlacement();
         String br;
 
-        if(this.getFront().getTL().getVisibility()){
-            switch (this.getFront().getTL().getResource()){
+        if (this.getFront().getTL().getVisibility()) {
+            switch (this.getFront().getTL().getResource()) {
                 case Resource.ANIMAL:
-                    ftl="🐺";
+                    ftl = "🐺";
                     break;
                 case Resource.PLANT:
-                    ftl="🍁";
+                    ftl = "🍁";
                     break;
                 case Resource.INSECT:
-                    ftl="🦋";
+                    ftl = "🦋";
                     break;
                 case Resource.EMPTY:
-                    ftl="  ";
+                    ftl = "  ";
                     break;
                 case Resource.FUNGI:
-                    ftl="🍄";
+                    ftl = "🍄";
                     break;
                 case Resource.INKWELL:
-                    ftl="🖋️";
+                    ftl = "🖋️";
                     break;
                 case Resource.MANUSCRIPT:
-                    ftl="📜";
+                    ftl = "📜";
                     break;
                 case Resource.QUILL:
-                    ftl="🪶";
+                    ftl = "🪶";
                     break;
                 default:
-                    ftl="error";
+                    ftl = "error";
                     break;
             }
-        }
-        else{
-            ftl="❌";
+        } else {
+            ftl = "❌";
         }
 
-        if(this.getFront().getTR().getVisibility()){
-            switch (this.getFront().getTR().getResource()){
+        if (this.getFront().getTR().getVisibility()) {
+            switch (this.getFront().getTR().getResource()) {
                 case Resource.ANIMAL:
-                    ftr="🐺";
+                    ftr = "🐺";
                     break;
                 case Resource.PLANT:
-                    ftr="🍁";
+                    ftr = "🍁";
                     break;
                 case Resource.INSECT:
-                    ftr="🦋";
+                    ftr = "🦋";
                     break;
                 case Resource.EMPTY:
-                    ftr="  ";
+                    ftr = "  ";
                     break;
                 case Resource.FUNGI:
-                    ftr="🍄";
+                    ftr = "🍄";
                     break;
                 case Resource.INKWELL:
-                    ftr="🖋️";
+                    ftr = "🖋️";
                     break;
                 case Resource.MANUSCRIPT:
-                    ftr="📜";
+                    ftr = "📜";
                     break;
                 case Resource.QUILL:
-                    ftr="🪶";
+                    ftr = "🪶";
                     break;
                 default:
-                    ftr="error";
+                    ftr = "error";
                     break;
             }
-        }
-        else{
-            ftr="❌";
+        } else {
+            ftr = "❌";
         }
 
-        if(this.getFront().getBL().getVisibility()){
-            switch (this.getFront().getBL().getResource()){
+        if (this.getFront().getBL().getVisibility()) {
+            switch (this.getFront().getBL().getResource()) {
                 case Resource.ANIMAL:
-                    fbl="🐺";
+                    fbl = "🐺";
                     break;
                 case Resource.PLANT:
-                    fbl="🍁";
+                    fbl = "🍁";
                     break;
                 case Resource.INSECT:
-                    fbl="🦋";
+                    fbl = "🦋";
                     break;
                 case Resource.EMPTY:
-                    fbl="  ";
+                    fbl = "  ";
                     break;
                 case Resource.FUNGI:
-                    fbl="🍄";
+                    fbl = "🍄";
                     break;
                 case Resource.INKWELL:
-                    fbl="🖋️";
+                    fbl = "🖋️";
                     break;
                 case Resource.MANUSCRIPT:
-                    fbl="📜";
+                    fbl = "📜";
                     break;
                 case Resource.QUILL:
-                    fbl="🪶";
+                    fbl = "🪶";
                     break;
                 default:
-                    fbl="error";
+                    fbl = "error";
                     break;
             }
-        }
-        else{
-            fbl="❌";
+        } else {
+            fbl = "❌";
         }
 
-        if(this.getFront().getBR().getVisibility()){
-            switch (this.getFront().getBR().getResource()){
+        if (this.getFront().getBR().getVisibility()) {
+            switch (this.getFront().getBR().getResource()) {
                 case Resource.ANIMAL:
-                    fbr="🐺";
+                    fbr = "🐺";
                     break;
                 case Resource.PLANT:
-                    fbr="🍁";
+                    fbr = "🍁";
                     break;
                 case Resource.INSECT:
-                    fbr="🦋";
+                    fbr = "🦋";
                     break;
                 case Resource.EMPTY:
-                    fbr="  ";
+                    fbr = "  ";
                     break;
                 case Resource.FUNGI:
-                    fbr="🍄";
+                    fbr = "🍄";
                     break;
                 case Resource.INKWELL:
-                    fbr="🖋️";
+                    fbr = "🖋️";
                     break;
                 case Resource.MANUSCRIPT:
-                    fbr="📜";
+                    fbr = "📜";
                     break;
                 case Resource.QUILL:
-                    fbr="🪶";
+                    fbr = "🪶";
                     break;
                 default:
-                    fbr="error";
+                    fbr = "error";
                     break;
             }
-        }
-        else{
-            fbr="❌";
+        } else {
+            fbr = "❌";
         }
 
-        switch (this.getBack().getMainResource()){
+        switch (this.getBack().getMainResource()) {
             case Resource.ANIMAL:
-                br="🐺";
+                br = "🐺";
                 break;
             case Resource.INSECT:
-                br="🦋";
+                br = "🦋";
                 break;
             case Resource.PLANT:
-                br="🍁";
+                br = "🍁";
                 break;
             case Resource.FUNGI:
-                br="🍄";
+                br = "🍄";
                 break;
             default:
-                br="error";
+                br = "error";
                 break;
         }
 
         //System.out.println("\n");
-        return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n| "+ftl+" |     "+points+"      | "+ftr+" |   |    |           |    |\n|————              ————|   |————             ————|\n|                      |   |         "+br+"          |\n|————              ————|   |————             ————|\n| "+fbl+" |            | "+fbr+" |   |    |           |    |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
+        //return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n| "+ftl+" |     "+points+"      | "+ftr+" |   |    |           |    |\n|————              ————|   |————             ————|\n|                      |   |         "+br+"          |\n|————              ————|   |————             ————|\n| "+fbl+" |            | "+fbr+" |   |    |           |    |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
+        return  "┌───────────────────────┐\n" +
+                "│" + (getFront().getTL().getVisibility() ? " " + ftl + " │" : "   ⠀ ") + " ⠀⠀  " + points + "   ⠀⠀⠀" + (getFront().getTR().getVisibility() ? "│ " + ftr + " " : "   ⠀ ") + "│\n" +
+                "│" + (getFront().getTL().getVisibility() ? "────┘" : "     ") + "             " + (getFront().getTL().getVisibility() ? "└────" : "     ") + "│\n" +
+                "│                       │\n" +
+                "│" + (getFront().getBL().getVisibility() ? "────┐" : "     ") + "             " + (getFront().getBR().getVisibility() ? "┌────" : "     ") + "│\n" +
+                "│" + (getFront().getBL().getVisibility() ? " " + ftl + " │" : "   ⠀ ") + "⠀⠀       ⠀⠀⠀" + (getFront().getBR().getVisibility() ? "│ " + ftr + " " : "   ⠀ ") + "│\n" +
+                "└───────────────────────┘";
     }
 }

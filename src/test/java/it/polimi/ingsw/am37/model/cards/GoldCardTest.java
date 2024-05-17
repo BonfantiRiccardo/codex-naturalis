@@ -98,7 +98,7 @@ class GoldCardTest {
         Corner no=new Corner(false, Resource.EMPTY);
         Front f=new Front(usl, no, man, no, Resource.ANIMAL,3,null, null);
         Back b=new Back(usl, usl, usl, usl, Resource.ANIMAL);
-        GoldCard c=new GoldCard(67,f,b);
+        GoldCard c=new GoldCard(77,f,b);
         System.out.println(c.toString());
     }
 

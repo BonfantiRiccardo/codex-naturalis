@@ -190,139 +190,139 @@ public class GoldCard extends StandardCard {
         switch (this.getId()){
             case 41:
                 bonus="1 🪶";
-                plc="  🍄🍄🐺  ";
+                plc="⠀  🍄🍄🐺⠀  ";
                 break;
             case 42:
                 bonus="1 🖋️";
-                plc="  🍄🍄🍁  ";
+                plc="⠀  🍄🍄🍁⠀  ";
                 break;
             case 43:
                 bonus="1 📜";
-                plc="  🍄🍄🦋  ";
+                plc="⠀  🍄🍄🦋⠀  ";
                 break;
             case 44:
                 bonus="2 🔲";
-                plc=" 🍄🍄🍄🐺 ";
+                plc="  🍄🍄🍄🐺  ";
                 break;
             case 45:
                 bonus="2 🔲";
-                plc=" 🍄🍄🍄🍁 ";
+                plc="  🍄🍄🍄🍁  ";
                 break;
             case 46:
                 bonus="2 🔲";
-                plc=" 🍄🍄🍄🦋 ";
+                plc="  🍄🍄🍄🦋  ";
                 break;
             case 47,48,49:
-                bonus=" 3  ";
-                plc="  🍄🍄🍄  ";
+                bonus=" 3 ⠀";
+                plc="⠀  🍄🍄🍄  ⠀";
                 break;
             case 50:
-                bonus=" 5  ";
-                plc="🍄🍄🍄🍄🍄";
+                bonus=" 5 ⠀";
+                plc=" 🍄🍄🍄🍄🍄 ";
                 break;
             case 51:
                 bonus="1 🪶";
-                plc="  🍁🍁🦋  ";
+                plc="⠀  🍁🍁🦋⠀  ";
                 break;
             case 52:
                 bonus="1 📜";
-                plc="  🍁🍁🍄  ";
+                plc="⠀  🍁🍁🍄⠀  ";
                 break;
             case 53:
                 bonus="1 🖋";
-                plc="  🍁🍁🐺  ";
+                plc="⠀  🍁🍁🐺⠀  ";
                 break;
             case 54:
                 bonus="2 🔲";
-                plc=" 🍁🍁🍁🦋 ";
+                plc="  🍁🍁🍁🦋  ";
                 break;
             case 55:
                 bonus="2 🔲";
-                plc=" 🍁🍁🍁🐺 ";
+                plc="  🍁🍁🍁🐺  ";
                 break;
             case 56:
                 bonus="2 🔲";
-                plc=" 🍁🍁🍁🍄 ";
+                plc="  🍁🍁🍁🍄  ";
                 break;
             case 57,58,59:
-                bonus=" 3  ";
-                plc="  🍁🍁🍁  ";
+                bonus=" 3 ⠀";
+                plc="⠀  🍁🍁🍁⠀   ";
                 break;
             case 60:
-                bonus=" 5  ";
-                plc="🍁🍁🍁🍁🍁";
+                bonus=" 5 ⠀";
+                plc=" 🍁🍁🍁🍁🍁 ";
                 break;
             case 61:
                 bonus="1 🖋";
-                plc="  🐺🐺🦋  ";
+                plc="⠀  🐺🐺🦋⠀   ";
                 break;
             case 62:
                 bonus="1 📜";
-                plc="  🐺🐺🍁  ";
+                plc="⠀  🐺🐺🍁⠀   ";
                 break;
             case 63:
                 bonus="1 🪶";
-                plc="  🐺🐺🍄  ";
+                plc="⠀  🐺🐺🍄⠀  ";
                 break;
             case 64:
                 bonus="2 🔲";
-                plc=" 🐺🐺🐺🦋 ";
+                plc="  🐺🐺🐺🦋  ";
                 break;
             case 65:
                 bonus="2 🔲";
-                plc=" 🐺🐺🐺🍄 ";
+                plc="  🐺🐺🐺🍄  ";
                 break;
             case 66:
                 bonus="2 🔲";
-                plc=" 🐺🐺🐺🍁 ";
+                plc="  🐺🐺🐺🍁  ";
                 break;
             case 67:
-                bonus=" 3  ";
-                plc="  🐺🐺🐺  ";
+                bonus=" 3 ⠀";
+                plc="⠀  🐺🐺🐺⠀  ";
                 break;
             case 68:
-                bonus=" 3  ";
-                plc="  🐺🐺🐺  ";
+                bonus=" 3 ⠀";
+                plc="⠀  🐺🐺🐺⠀  ";
                 break;
             case 69:
-                bonus=" 3  ";
-                plc="  🐺🐺🐺  ";
+                bonus=" 3 ⠀";
+                plc="⠀  🐺🐺🐺⠀  ";
                 break;
             case 70:
-                bonus=" 5  ";
-                plc="🐺🐺🐺🐺🐺";
+                bonus=" 5 ⠀";
+                plc=" 🐺🐺🐺🐺🐺 ";
                 break;
             case 71:
                 bonus="1 🪶";
-                plc="  🦋🦋🍁  ";
+                plc="⠀  🦋🦋🍁⠀  ";
                 break;
             case 72:
                 bonus="1 📜";
-                plc="  🦋🦋🐺  ";
+                plc="⠀  🦋🦋🐺⠀  ";
                 break;
             case 73:
                 bonus="1 🖋";
-                plc="  🦋🦋🍄  ";
+                plc="⠀  🦋🦋🍄⠀  ";
                 break;
             case 74:
                 bonus="2 🔲";
-                plc=" 🦋🦋🦋🐺 ";
+                plc="  🦋🦋🦋🐺  ";
                 break;
             case 75:
                 bonus="2 🔲";
-                plc=" 🦋🦋🦋🍁 ";
+                plc="  🦋🦋🦋🍁  ";
                 break;
             case 76:
                 bonus="2 🔲";
-                plc=" 🦋🦋🦋🍄 ";
+                plc="  🦋🦋🦋🍄  ";
                 break;
             case 77,78,79:
-                bonus=" 3  ";
-                plc="  🦋🦋🦋  ";
+                bonus=" 3 ⠀";
+                plc="  ⠀🦋🦋🦋⠀  ";
                 break;
             case 80:
-                bonus=" 5  ";
-                plc="🦋🦋🦋🦋🦋";
+                bonus=" 5 ⠀";
+                plc=" 🦋🦋🦋🦋🦋 ";
                 break;
             default:
                 bonus="error";
@@ -331,7 +331,14 @@ public class GoldCard extends StandardCard {
         }
 
         //System.out.println("\n");
-        return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n| "+ftl+" |    "+bonus+"    | "+ftr+" |   |    |           |    |\n|————              ————|   |————             ————|\n|                      |   |         "+br+"          |\n|————              ————|   |————             ————|\n| "+fbl+" | "+plc+" | "+fbr+" |   |    |           |    |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
+        //return "––––––––––—–––––––––––—    ––––––––––––—–––––—––––\n| "+ftl+" |    "+bonus+"    | "+ftr+" |   |    |           |    |\n|————              ————|   |————             ————|\n|                      |   |         "+br+"          |\n|————              ————|   |————             ————|\n| "+fbl+" | "+plc+" | "+fbr+" |   |    |           |    |\n––––––—––––––—–––––––––    –––––—–—–––––––––––––––";
+        return  "┌───────────────────────┐\n" +
+                "│" + (getFront().getTL().getVisibility() ? " " + ftl + " │" : "   ⠀ ") + "   ⠀" + bonus + "⠀⠀⠀⠀" + (getFront().getTR().getVisibility() ? "│ " + ftr + " " : "   ⠀ ") + "│\n" +
+                "│" + (getFront().getTL().getVisibility() ? "────┘" : "     ") + "             " + (getFront().getTR().getVisibility() ? "└────" : "     ") + "│\n" +
+                "│                       │\n" +
+                "│" + (getFront().getBL().getVisibility() ? "────┐" : "     ") + "             " + (getFront().getBR().getVisibility() ? "┌────" : "     ") + "│\n" +
+                "│" + (getFront().getBL().getVisibility() ? " " + ftl + " │" : "   ⠀ ") + plc + (getFront().getBR().getVisibility() ? "│ " + ftr + " " : "   ⠀ ") + "│\n" +
+                "└───────────────────────┘";
     }
 
 }
