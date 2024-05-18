@@ -71,7 +71,7 @@ public class GoldCard extends StandardCard {
                 yield "⠀⠀⠀🍁🍁🍄⠀⠀";
             }
             case 53 -> {
-                bonus = "1⠀🖋";
+                bonus = "1 🖋️";
                 yield "⠀⠀⠀🍁🍁🐺⠀⠀";
             }
             case 54 -> {
@@ -95,7 +95,7 @@ public class GoldCard extends StandardCard {
                 yield " 🍁🍁🍁🍁🍁";
             }
             case 61 -> {
-                bonus = "1 🖋";
+                bonus = "1 🖋️";
                 yield "⠀⠀⠀🐺🐺🦋⠀⠀";
             }
             case 62 -> {
@@ -135,7 +135,7 @@ public class GoldCard extends StandardCard {
                 yield "⠀⠀⠀🦋🦋🐺⠀⠀";
             }
             case 73 -> {
-                bonus = "1 🖋";
+                bonus = "1 🖋️";
                 yield "⠀⠀⠀🦋🦋🍄⠀⠀";
             }
             case 74 -> {
@@ -164,13 +164,13 @@ public class GoldCard extends StandardCard {
             }
         };
 
-        return  "┌───────────────────────┐\n" +
-                "│" + (getFront().getTL().getVisibility() ? " " + resMap.get(getFront().getTL().getResource()) + " │" : "   ⠀ ") + "   ⠀" + bonus + "⠀⠀⠀⠀" + (getFront().getTR().getVisibility() ? "│ " + resMap.get(getFront().getTR().getResource()) + " " : "   ⠀ ") + "│\n" +
-                "│" + (getFront().getTL().getVisibility() ? "────┘" : "     ") + "             " + (getFront().getTR().getVisibility() ? "└────" : "     ") + "│\n" +
-                "│                       │\n" +
-                "│" + (getFront().getBL().getVisibility() ? "────┐" : "     ") + "             " + (getFront().getBR().getVisibility() ? "┌────" : "     ") + "│\n" +
-                "│" + (getFront().getBL().getVisibility() ? " " + resMap.get(getFront().getBL().getResource()) + " │" : "   ⠀ ") + plc + (getFront().getBR().getVisibility() ? "│ " + resMap.get(getFront().getBR().getResource()) + " " : "   ⠀ ") + "│\n" +
-                "└───────────────────────┘";
+        return  "┌───────────────────────┐" +                                                                                                                                                                                                                                       "    ┌───────────────────────┐\n"+
+                "│" + (getFront().getTL().getVisibility() ? " " + resMap.get(getFront().getTL().getResource()) + " │" : "   ⠀ ") + "   ⠀" + bonus + "⠀⠀⠀⠀" + (getFront().getTR().getVisibility() ? "│ " + resMap.get(getFront().getTR().getResource()) + " " : "   ⠀ ") + "│"   +  "    │    │⠀⠀ ⠀⠀ ⠀⠀⠀⠀  │    │\n" +
+                "│" + (getFront().getTL().getVisibility() ? "────┘" : "     ") + "             " + (getFront().getTR().getVisibility() ? "└────" : "     ") + "│" +                                                                                                                 "    │────┘             └────│\n" +
+                "│                       │" +                                                                                                                                                                                                                                       "    │          " + (resMap.get(getBack().getMainResource()))+ "⠀⠀⠀⠀⠀⠀    │\n" +
+                "│" + (getFront().getBL().getVisibility() ? "────┐" : "     ") + "             " + (getFront().getBR().getVisibility() ? "┌────" : "     ") + "│" +                                                                                                                 "    │────┐             ┌────│\n" +
+                "│" + (getFront().getBL().getVisibility() ? " " + resMap.get(getFront().getBL().getResource()) + " │" : "   ⠀ ") + plc + (getFront().getBR().getVisibility() ? "│ " + resMap.get(getFront().getBR().getResource()) + " " : "   ⠀ ") + "│" +                         "    │    │⠀⠀⠀⠀⠀ ⠀⠀⠀ ⠀⠀│    │\n" +
+                "└───────────────────────┘" +                                                                                                                                                                                                                                       "    └────┴─────────────┴────┘";
     }
 
 }

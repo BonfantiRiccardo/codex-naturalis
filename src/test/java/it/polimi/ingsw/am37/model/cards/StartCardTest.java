@@ -99,8 +99,13 @@ class StartCardTest {
     void printingTest() throws NoCardsException {
         CardCreator cc = new CardCreator();
         StartDeck sd = new StartDeck(cc);
+        StartCard sc;
 
-        while (!sd.isEmpty())
-            System.out.println(sd.drawCard());
+        while (!sd.isEmpty()) {
+            sc = sd.drawCard();
+            System.out.println(sc.getId());
+            System.out.println(sc);
+        }
+
     }
 }

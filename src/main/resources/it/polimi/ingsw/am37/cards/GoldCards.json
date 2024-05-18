@@ -170,7 +170,7 @@
         },
         "BOTTOMRIGHT": {
           "isVisible": true,
-          "resource": "QUILL"
+          "resource": "EMPTY"
         }
       },
       "mainResource": "FUNGI",
@@ -271,7 +271,7 @@
           "resource": "EMPTY"
         },
         "BOTTOMRIGHT": {
-          "isVisible": false,
+          "isVisible": true,
           "resource": "EMPTY"
         }
       },
@@ -1130,7 +1130,7 @@
           "resource": "QUILL"
         },
         "BOTTOMRIGHT": {
-          "isVisible": false,
+          "isVisible": true,
           "resource": "EMPTY"
         }
       },
@@ -1377,7 +1377,7 @@
         },
         "TOPRIGHT": {
           "isVisible": true,
-          "resource": "MANUSCRIPT"
+          "resource": "INKWELL"
         },
         "BOTTOMLEFT": {
           "isVisible": false,

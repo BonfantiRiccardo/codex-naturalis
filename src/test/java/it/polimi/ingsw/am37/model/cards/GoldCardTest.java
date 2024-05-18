@@ -2,6 +2,7 @@ package it.polimi.ingsw.am37.model.cards;
 
 import it.polimi.ingsw.am37.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.model.cards.placeable.GoldCard;
+import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.decks.GoldDeck;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.sides.Corner;
@@ -96,9 +97,13 @@ class GoldCardTest {
     void toStringTest() throws NoCardsException {
         CardCreator cc = new CardCreator();
         GoldDeck gd = new GoldDeck(cc);
+        StandardCard gc;
+        while (!gd.isEmpty()) {
+            gc  = gd.drawCard();
+            System.out.println(gc.getId());
+            System.out.println(gc);
+        }
 
-        while (!gd.isEmpty())
-            System.out.println(gd.drawCard());
     }
 
 }

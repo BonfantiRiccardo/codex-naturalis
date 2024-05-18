@@ -3,6 +3,8 @@ package it.polimi.ingsw.am37.messages;
 import it.polimi.ingsw.am37.view.View;
 import it.polimi.ingsw.am37.view.ViewState;
 
+import java.beans.PropertyChangeEvent;
+
 public class NotifyMessage extends MessageToClient{
     private final String message;
 
@@ -40,6 +42,15 @@ public class NotifyMessage extends MessageToClient{
                 case  "draw ok" -> {                    //TO DELETE SINCE I CAN'T JUST NOTIFY THE PLAYER, I HAVE TO SEND THE NEW CARD
                     v.setState(ViewState.NOT_TURN);     //MAYBE USEFUL IN DRAW FROM AVAILABLE
                     v.notify();
+                }
+                case  "endgame" -> {
+                    //add to updates
+                    PropertyChangeEvent evt = new PropertyChangeEvent(
+                            this,
+                            "ENDGAME",
+                            null,
+                            null);
+                    v.propertyChange(evt);
                 }
             }
         }

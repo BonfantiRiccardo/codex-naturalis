@@ -24,6 +24,11 @@ public class ChooseObjectiveMessage extends MessageToServer {
 
     @Override
     public void decodeAndExecute(GameController c, ClientHandler ch) {
+        if (c == null) {
+            ch.send(new ErrorMessage(MessageId.ERROR, "You are not logged"));
+            return;
+        }
+
         boolean chosen = false;
         for (Player p: c.getGameInstance().getParticipants()) {
             if (p.getNickname().equalsIgnoreCase(player)) {

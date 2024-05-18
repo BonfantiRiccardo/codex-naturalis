@@ -2,6 +2,7 @@ package it.polimi.ingsw.am37.model.cards;
 
 import it.polimi.ingsw.am37.exceptions.NoCardsException;
 import it.polimi.ingsw.am37.model.cards.placeable.ResourceCard;
+import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.decks.ResourceDeck;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.sides.*;
@@ -88,8 +89,13 @@ class ResourceCardTest {
     void toStringTest() throws NoCardsException {
         CardCreator cc = new CardCreator();
         ResourceDeck rd = new ResourceDeck(cc);
+        StandardCard rc;
 
-        while (!rd.isEmpty())
-            System.out.println(rd.drawCard());
+        while (!rd.isEmpty()) {
+            rc = rd.drawCard();
+            System.out.println(rc.getId());
+            System.out.println(rc);
+        }
+
     }
 }

@@ -18,7 +18,7 @@ public class ServerTCP {
     }
 
     public void startServer() {
-        final ExecutorService executor = Executors.newFixedThreadPool(10);
+        final ExecutorService executor = Executors.newCachedThreadPool();
 
         ServerSocket serverSocket;
         try {

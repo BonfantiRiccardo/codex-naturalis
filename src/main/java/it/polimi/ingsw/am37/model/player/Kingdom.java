@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.model.player;
 
+import it.polimi.ingsw.am37.model.cards.Card;
 import it.polimi.ingsw.am37.model.cards.objective.Direction;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
@@ -13,6 +14,7 @@ import java.util.*;
  * Player places his cards.
  */
 public class Kingdom {
+    private final List<Resource> startCardResources;
     /**
      * The onFieldResources attribute is an object of type Hashtable<Resource, Integer> that maps all the values of the
      * Resource enumeration to an Integer, that represents the number of Resources of that type that the Player
@@ -40,6 +42,11 @@ public class Kingdom {
      * @param startCardSide The Side of the StartCard that the Player wants to place.
      */
     public Kingdom(StartCard startCard, Side startCardSide) {
+        if (startCard.getFront().equals(startCardSide))
+            startCardResources = new ArrayList<>(startCard.getBackResource());
+        else
+            startCardResources = new ArrayList<>();
+
         placedSides = new ArrayList<>();
         placedSides.add(startCardSide);
 
@@ -132,15 +139,18 @@ public class Kingdom {
                     onFieldResources.replace(sidePlaced.getCorners().get(d).getResource(), onFieldResources.get(sidePlaced.getCorners().get(d).getResource()) + 1);
                 }
 
-                for (Side s : placedSides) {
-                    if (s.getCorners().get(d).getLinkedSide() != null) {
-                        if (s.getCorners().get(d).getLinkedSide().equals(sidePlaced) && !s.getCorners().get(d).getResource().equals(Resource.EMPTY))
-                            onFieldResources.replace(s.getCorners().get(d).getResource(), onFieldResources.get(s.getCorners().get(d).getResource()) - 1);
-                    }
-                }
             }
         } else if (card.getBack().equals(sidePlaced))
             onFieldResources.replace(sidePlaced.getMainResource(), onFieldResources.get(sidePlaced.getMainResource()) + 1);
+
+        for (Direction d : Direction.values()) {
+            for (Side s : placedSides) {
+                if (s.getCorners().get(d).getLinkedSide() != null) {
+                    if (s.getCorners().get(d).getLinkedSide().equals(sidePlaced) && !s.getCorners().get(d).getResource().equals(Resource.EMPTY))
+                        onFieldResources.replace(s.getCorners().get(d).getResource(), onFieldResources.get(s.getCorners().get(d).getResource()) - 1);
+                }
+            }
+        }
     }
 
     /**
@@ -189,14 +199,7 @@ public class Kingdom {
         colourMap.put(Resource.FUNGI, "🟥");
         colourMap.put(Resource.EMPTY, "🟨");
 
-        Map<Resource, String> resMap = new HashMap<>();
-        resMap.put(Resource.ANIMAL, "🐺");
-        resMap.put(Resource.PLANT, "🍁");
-        resMap.put(Resource.INSECT, "🦋");
-        resMap.put(Resource.FUNGI, "🍄");
-        resMap.put(Resource.INKWELL, "🖋️");
-        resMap.put(Resource.MANUSCRIPT, "📜");
-        resMap.put(Resource.QUILL, "🪶");
+        Map<Resource, String> resMap = Card.resourceToString();
         resMap.put(Resource.EMPTY, "⬜");
 
         int xCoord = 50;
@@ -225,17 +228,7 @@ public class Kingdom {
                 for (int j = -1; j <= 1; j++)
                     field[xActive + i][yActive + j] = "⬜";
 
-            /*if (pos.getX() < 0 || pos.getX() > 9)
-                field[xActive][yActive - 1] = String.valueOf(pos.getX());
-            else
-                field[xActive][yActive - 1] = "⠀" + String.valueOf(pos.getX());
-
-            if (pos.getY() < 0 || pos.getY() > 9)
-                field[xActive][yActive + 1] = String.valueOf(pos.getY());
-            else
-                field[xActive][yActive + 1] = "⠀" + String.valueOf(pos.getY());*/
         }
-
 
         for (Side s: placedSides) {
             int sideXPos = xCoord - s.getPositionInKingdom().getY() * 2;
@@ -256,14 +249,12 @@ public class Kingdom {
             field[sideXPos][sideYPos + 1] = colourMap.get(s.getMainResource());
             field[sideXPos][sideYPos - 1] = colourMap.get(s.getMainResource());
 
-            //NO WAY TO KNOW THE RESOURCES OF THE BACK OF THE START CARDS
             if (s.getClass().equals(Front.class)) {
                 field[sideXPos][sideYPos] = colourMap.get(s.getMainResource());
             } else {
                 field[sideXPos][sideYPos] = resMap.get(s.getMainResource());
             }
 
-            //NOW ASSIGN THE RESOURCES IN THE START CARD
 
             if (!s.getTL().getVisibility())
                 field[sideXPos - 1][sideYPos - 1] = colourMap.get(s.getMainResource());
@@ -286,10 +277,25 @@ public class Kingdom {
                 field[sideXPos + 1][sideYPos + 1] = resMap.get(s.getBR().getResource());
         }
 
+        if (!startCardResources.isEmpty()){
+            field[xCoord][yCoord] = resMap.get(startCardResources.get(0));
+            if (startCardResources.size() >= 2) {
+                field[xCoord + 1][yCoord] = resMap.get(startCardResources.get(1));
+            }
+            if (startCardResources.size() == 3) {
+                field[xCoord - 1][yCoord] = resMap.get(startCardResources.get(2));
+            }
+        } else
+            field[xCoord][yCoord] = colourMap.get(Resource.EMPTY);
+
         String[][] reducedField = new String[maxX - minX + 1][maxY - minY + 1];
         for (int i = 0; i < maxX - minX + 1; i++)
+            if (maxY - minY + 1 >= 0) System.arraycopy(field[minX + i], minY, reducedField[i], 0, maxY - minY + 1);
+
+        /* SAME AS:
+        for (int i = 0; i < maxX - minX + 1; i++)
             for (int j = 0; j < maxY - minY + 1; j++)
-                reducedField[i][j] = field[minX + i][minY + j];
+                reducedField[i][j] = field[minX + i][minY + j];*/
 
         return reducedField;
     }

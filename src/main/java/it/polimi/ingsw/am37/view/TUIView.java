@@ -77,7 +77,7 @@ public class TUIView extends View implements PropertyChangeListener {
     }
 
     @Override
-    public synchronized void preLobby() {
+    public void preLobby() {
         boolean error = false;
 
         while (state.equals(ViewState.CREATE_JOIN)) {
@@ -95,10 +95,12 @@ public class TUIView extends View implements PropertyChangeListener {
             }
 
             while (!error && state.equals(ViewState.CREATE_JOIN)) {
-                try {
-                    this.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                synchronized(this) {
+                    try {
+                        this.wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
@@ -141,10 +143,12 @@ public class TUIView extends View implements PropertyChangeListener {
         virtualServer.askLobbies();
 
         while (state.equals(ViewState.CREATE_JOIN)) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            synchronized(this) {
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
@@ -192,14 +196,14 @@ public class TUIView extends View implements PropertyChangeListener {
                                                         "Print Available (pa), Chat (ch), Cancel (c)");
 
             case NOT_TURN -> System.out.println("Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), Print Private Objective (pro), " +
-                                        "Print Decks (pd), Print Available (pa), Print Scoreboard, Print Player Info, Chat (ch), Cancel (c)");
+                                        "Print Decks (pd), Print Available (pa),\n Print Scoreboard, Print Player Info, Chat (ch), Cancel (c)");
 
             case PLACE -> System.out.println("Place (p), Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), " +
-                                        "Print Private Objective (pro), Print Decks (pd), Print Available (pa), Print Scoreboard (ps), " +
+                                        "Print Private Objective (pro), Print Decks (pd), Print Available (pa),\n Print Scoreboard (ps), " +
                                         "Print Player Info (ppi), Chat (ch), Cancel (c)");
 
             case DRAW -> System.out.println("Draw (d), Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), " +
-                                        "Print Private Objective (pro), Print Decks (pd), Print Available (pa), Print Scoreboard (ps), " +
+                                        "Print Private Objective (pro), Print Decks (pd), Print Available (pa),\n Print Scoreboard (ps), " +
                                         "Print Player Info (ppi), Chat (ch), Cancel (c)");
         }
     }
@@ -557,8 +561,8 @@ public class TUIView extends View implements PropertyChangeListener {
 
     private void drawQueries() {
         //these are the top of the decks
-        printTopOfGoldDeck();
         printTopOfResourceDeck();
+        printTopOfGoldDeck();
 
         System.out.println();
         //these are the available cards
@@ -733,12 +737,12 @@ public class TUIView extends View implements PropertyChangeListener {
 
     @Override
     public synchronized void printTopOfGoldDeck() {
-        System.out.println("Card at the top of the gold deck is of resource: " + localGameInstance.getTopOfGoldDeck());
+        System.out.println("Card at the top of the gold deck is: " + localGameInstance.getTopOfGoldDeck());
     }
 
     @Override
     public synchronized void printTopOfResourceDeck() {
-        System.out.println("Card at the top of the resource deck is of resource: " + localGameInstance.getTopOfResourceDeck());
+        System.out.println("Card at the top of the resource deck is: " + localGameInstance.getTopOfResourceDeck());
     }
 
     @Override
@@ -771,10 +775,18 @@ public class TUIView extends View implements PropertyChangeListener {
         System.out.println();
 
         System.out.print("Your active positions: ");
+        int newLine = 0;
         for (Position p: localGameInstance.getMe().getKingdom().getActivePositions()) {
+            if (newLine == 8) {
+                System.out.println();
+                newLine = 0;
+            }
+
             System.out.print(p);
             if (!p.equals(localGameInstance.getMe().getKingdom().getActivePositions().getLast()))
                 System.out.print(" | ");
+
+            newLine++;
         }
         System.out.println();
 
@@ -924,6 +936,13 @@ public class TUIView extends View implements PropertyChangeListener {
                 synchronized (updates) {
                     if (!localGameInstance.getMe().getNickname().equals(evt.getNewValue()))
                         updates.add("The turn has changed, it is now " + evt.getNewValue() + "'s turn");
+                }
+                break;
+            }
+            case "ENDGAME": {
+                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
+                synchronized (updates) {
+                   updates.add("One of the players reached 20 points, we are now in the ENDGAME");
                 }
                 break;
             }

@@ -3,8 +3,6 @@ package it.polimi.ingsw.am37.messages;
 import it.polimi.ingsw.am37.controller.GameController;
 import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
-import it.polimi.ingsw.am37.model.game.GameStatus;
-import it.polimi.ingsw.am37.model.game.PlayerPoints;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.sides.Position;
 import it.polimi.ingsw.am37.server.ClientHandler;
@@ -25,6 +23,11 @@ public class PlaceMessage extends MessageToServer{
 
     @Override
     public void decodeAndExecute(GameController c, ClientHandler ch) {
+        if (c == null) {
+            ch.send(new ErrorMessage(MessageId.ERROR, "You are not logged"));
+            return;
+        }
+
         boolean placed = false;
 
         for (Player p: c.getGameInstance().getParticipants()) {
@@ -38,6 +41,7 @@ public class PlaceMessage extends MessageToServer{
                         } catch (IncorrectUserActionException | WrongGamePhaseException | NoCardsException |
                                  AlreadyAssignedException e) {
                             ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
+                            return;
                         }
                     } else if (side.equalsIgnoreCase("b") && cardId == p.getStartCard().getId()){
                         try {
@@ -47,6 +51,7 @@ public class PlaceMessage extends MessageToServer{
                         } catch (IncorrectUserActionException | WrongGamePhaseException | NoCardsException |
                                  AlreadyAssignedException e) {
                             ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
+                            return;
                         }
                     }
 
@@ -60,6 +65,7 @@ public class PlaceMessage extends MessageToServer{
                                 } catch (IncorrectUserActionException | WrongGamePhaseException | NoCardsException |
                                          AlreadyAssignedException e) {
                                     ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
+                                    return;
                                 }
                             } else if (side.equalsIgnoreCase("b")) {
                                 try {
@@ -68,6 +74,7 @@ public class PlaceMessage extends MessageToServer{
                                 } catch (IncorrectUserActionException | WrongGamePhaseException | NoCardsException |
                                          AlreadyAssignedException e) {
                                     ch.send(new ErrorMessage(MessageId.ERROR, e.getMessage()));
+                                    return;
                                 }
                             }
                             break;
@@ -79,16 +86,6 @@ public class PlaceMessage extends MessageToServer{
                 if(!placed) {
                     ch.send(new ErrorMessage(MessageId.ERROR, "Couldn't place the card because message is corrupted."));
                 } else {
-                    if (id.equals(MessageId.PLACE)) {
-                        if (c.getGameInstance().getCurrentStatus().equals(GameStatus.OVER)) {
-                            PlayerPoints[] results = c.getGameInstance().getGameWinner();
-                            for (Player pl: c.getGameInstance().getParticipants())
-                                c.getPlayerViews().get(pl).sendResults(results);
-
-                            return;
-                        }
-
-                    }
 
                     for (Player pl: c.getGameInstance().getParticipants()) {
                         if (pl.equals(p)) {

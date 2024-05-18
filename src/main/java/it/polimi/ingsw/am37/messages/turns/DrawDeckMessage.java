@@ -6,6 +6,8 @@ import it.polimi.ingsw.am37.messages.ErrorMessage;
 import it.polimi.ingsw.am37.messages.MessageId;
 import it.polimi.ingsw.am37.messages.MessageToServer;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
+import it.polimi.ingsw.am37.model.game.GameStatus;
+import it.polimi.ingsw.am37.model.game.PlayerPoints;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.server.ClientHandler;
 
@@ -24,6 +26,11 @@ public class DrawDeckMessage extends MessageToServer {
 
     @Override
     public void decodeAndExecute(GameController c, ClientHandler ch) {
+        if (c == null) {
+            ch.send(new ErrorMessage(MessageId.ERROR, "You are not logged"));
+            return;
+        }
+
         boolean drawn = false;
         List<Integer> currentHand = new ArrayList<>();
 
@@ -60,6 +67,16 @@ public class DrawDeckMessage extends MessageToServer {
                 if(!drawn) {
                     ch.send(new ErrorMessage(MessageId.ERROR, "Couldn't draw the card because message is corrupted."));
                 } else {
+
+                    if (c.getGameInstance().getCurrentStatus().equals(GameStatus.OVER)) {
+                        PlayerPoints[] results = c.getGameInstance().getGameWinner();
+                        for (Player pl: c.getGameInstance().getParticipants())
+                            c.getPlayerViews().get(pl).sendResults(results);
+
+                        return;             //SEND RESULTS IF THE GAME IS OVER
+                    }
+
+
                     int newCard = -1;
                     for (StandardCard card: p.getHand()) {
                         if (!currentHand.contains(card.getId())) {

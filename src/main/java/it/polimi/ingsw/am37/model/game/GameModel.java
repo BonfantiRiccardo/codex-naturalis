@@ -311,10 +311,15 @@ public class GameModel {
 
         for(Player p:participantsInOrder){
             points=playerPoints.get(p);
-            points=points+publicObjectives[0].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[0].getPointsGiven();
-            points=points+publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom())*publicObjectives[1].getPointsGiven();
-            points=points+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom())*p.getPrivateObjective().getPointsGiven();
-            compl=publicObjectives[0].calculateNumOfCompletion(p.getMyKingdom())+publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom())+p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom());
+
+            int compl1 = publicObjectives[0].calculateNumOfCompletion(p.getMyKingdom());
+            int compl2 = publicObjectives[1].calculateNumOfCompletion(p.getMyKingdom());
+            int compl3 = p.getPrivateObjective().calculateNumOfCompletion(p.getMyKingdom());
+
+            points = points + compl1 * publicObjectives[0].getPointsGiven() + compl2 * publicObjectives[1].getPointsGiven()
+                                                                        + compl3 * p.getPrivateObjective().getPointsGiven();
+
+            compl = compl1 + compl2 + compl3;
 
             finalPoints[i]=new PlayerPoints(p, points, compl);
             for(j=i-1; j>=0; j-- ){

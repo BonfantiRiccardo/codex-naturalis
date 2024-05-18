@@ -24,5 +24,8 @@ public class ResultsMessage extends MessageToClient {
             p.setFinalPoints(PlayerPoints.get(p.getNickname()));
         }
         v.setState(ViewState.SHOW_RESULTS);
+        synchronized (v) {
+            v.notify();
+        }
     }
 }
