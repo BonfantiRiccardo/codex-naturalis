@@ -98,14 +98,15 @@ public class RMIVirtualView implements VirtualView{
 
     @Override
     public void sendPlayersInOrder(List<Player> players) {
-
+        //cs.sendPlayersInOrder
     }
 
     public void notifyTurn(Player p){
-      //  if (blackToken)
-      //      cs.
-        // else
-        //    ch.send(new NotifyMessage(MessageId.NOTIFY, "your turn"));
+        try {
+            cs.notifyPlayer("your turn");
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

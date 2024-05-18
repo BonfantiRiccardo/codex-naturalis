@@ -156,6 +156,9 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
 
 
         v.setState(ViewState.PLACE_SC);
+        synchronized (v){
+            v.notify();
+        }
     }
 
     @Override
@@ -183,10 +186,6 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
                 }
             }
             case "your turn" -> {
-                v.setState(ViewState.PLACE);
-            }
-            case "your turn and token" -> {
-                v.getLocalGameInstance().getMe().setHasBlackToken(true);
                 v.setState(ViewState.PLACE);
             }
             case "place ok" -> {
