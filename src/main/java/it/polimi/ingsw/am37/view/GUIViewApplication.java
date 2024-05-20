@@ -9,7 +9,7 @@ public class GUIViewApplication extends Application{
 
     @Override
     public void start (Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(GUIViewApplication.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GUIViewApplication.class.getResource("loginPhase/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 500);
         primaryStage.setTitle("Codex Naturalis");
         primaryStage.setScene(scene);
