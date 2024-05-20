@@ -155,10 +155,4 @@ public class TCPVirtualView implements VirtualView {
         }
     }
 
-    public void actionNotPermittedMessaging(Player p, String errorMessage) {
-        //SENDS ERROR MESSAGE TO CLIENT'S VIEW (USE NEW THREAD)
-
-        //STUB FOR TESTING:
-        System.err.println(p.getNickname() + ": " + errorMessage);
-    }
 }

@@ -23,7 +23,7 @@ public class TUIView extends View implements PropertyChangeListener {
     }
 
     public boolean handleGame() {
-        new Thread(this::handleUpdates).start();
+        //
 
         preLobby();
 
@@ -44,9 +44,10 @@ public class TUIView extends View implements PropertyChangeListener {
                     printMyLobby();
             }
         }
+        new Thread(this::handleUpdates).start();
 
         while (!state.equals(ViewState.SHOW_RESULTS) && !state.equals(ViewState.DISCONNECTION)) {
-            //print: This changed while you requested the action:
+
             while(!updates.isEmpty()) Thread.onSpinWait();
             //WAITS FOR ALL UPDATES TO PRINT AND REMOVES THEM FROM THE LIST
 
@@ -196,14 +197,14 @@ public class TUIView extends View implements PropertyChangeListener {
                                                         "Print Available (pa), Chat (ch), Cancel (c)");
 
             case NOT_TURN -> System.out.println("Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), Print Private Objective (pro), " +
-                                        "Print Decks (pd), Print Available (pa),\n Print Scoreboard, Print Player Info, Chat (ch), Cancel (c)");
+                                        "Print Decks (pd), Print Available (pa),\nPrint Scoreboard, Print Player Info, Chat (ch), Cancel (c)");
 
             case PLACE -> System.out.println("Place (p), Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), " +
-                                        "Print Private Objective (pro), Print Decks (pd), Print Available (pa),\n Print Scoreboard (ps), " +
+                                        "Print Private Objective (pro), Print Decks (pd), Print Available (pa),\nPrint Scoreboard (ps), " +
                                         "Print Player Info (ppi), Chat (ch), Cancel (c)");
 
             case DRAW -> System.out.println("Draw (d), Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), " +
-                                        "Print Private Objective (pro), Print Decks (pd), Print Available (pa),\n Print Scoreboard (ps), " +
+                                        "Print Private Objective (pro), Print Decks (pd), Print Available (pa),\nPrint Scoreboard (ps), " +
                                         "Print Player Info (ppi), Chat (ch), Cancel (c)");
         }
     }
@@ -324,7 +325,7 @@ public class TUIView extends View implements PropertyChangeListener {
             if (inputLine.equalsIgnoreCase("f") || inputLine.equalsIgnoreCase("b")) {
                 virtualServer.placeStartCard(localGameInstance.getMe().getNickname(), localGameInstance.getMyStartCard().getId(), inputLine, new Position(0,0));
 
-                while (state.equals(ViewState.PLACE_SC)) {
+                while (state.equals(ViewState.PLACE_SC)) { //Thread.onSpinWait();
                     try {
                         this.wait();
                     } catch (InterruptedException e) {
@@ -889,7 +890,7 @@ public class TUIView extends View implements PropertyChangeListener {
     }
 
     @Override
-    public synchronized void printError(String e) {
+    public void printError(String e) {
         System.out.println("Error message: " + e);
     }
 

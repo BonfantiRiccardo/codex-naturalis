@@ -1,7 +1,5 @@
 package it.polimi.ingsw.am37.client;
 
-import it.polimi.ingsw.am37.messages.MessageId;
-import it.polimi.ingsw.am37.model.game.PlayerPoints;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
@@ -17,12 +15,16 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
 
     void updateLobbyView(String yourNickname, List<String> playerNickname, int lobbyNum, int totalPlayers) throws RemoteException;
 
+    void receiveLobbies(ArrayList<Integer> Lobbies) throws RemoteException;
+
     void playerAdded(String player) throws RemoteException;
 
     void updateInitialPhase(List<Integer> availableGold, List<Integer> availableResource, int startCard, List<Integer> hand,
                             List<Integer> publicObjectives, List<Integer> privateObjectives, Resource goldDeckBack, Resource resourceDeckBack) throws RemoteException;
 
-    void sendAvailableToken(String player, Token token) throws RemoteException;
+    void sendNowUnavailableToken(String player, Token token) throws RemoteException;
+
+    void sendPlayersInOrder(List<String> playersInOrder) throws RemoteException;
 
     void notifyPlayer (String message) throws RemoteException;
 
@@ -38,6 +40,6 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
 
     void errorMessage(String description) throws RemoteException;
 
-    void receiveLobbies(ArrayList<Integer> Lobbies) throws RemoteException;
+    void playerDisconnection() throws RemoteException;
 
 }

@@ -92,7 +92,7 @@ public class DrawDeckMessage extends MessageToServer {
                         else if (deck.equalsIgnoreCase("g"))
                             c.getPlayerViews().get(p).updatePlayerHandAndDeckView(deck, c.getGameInstance().getGDeck().firstBack().getMainResource(), newCard);
                     } else
-                        ch.send(new ErrorMessage(MessageId.ERROR, "the card was drawn but something went wrong"));
+                        ch.send(new ErrorMessage(MessageId.ERROR, "The card was drawn but something went wrong"));
 
                     for (Player pl: c.getGameInstance().getParticipants()) {
                         if (!pl.getNickname().equals(player)) {

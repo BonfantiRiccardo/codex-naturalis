@@ -1,21 +1,18 @@
 package it.polimi.ingsw.am37.controller;
 
 import it.polimi.ingsw.am37.client.RMIClientSkeleton;
-import it.polimi.ingsw.am37.messages.MessageId;
-import it.polimi.ingsw.am37.messages.NotifyMessage;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
-import it.polimi.ingsw.am37.model.decks.Deck;
 import it.polimi.ingsw.am37.model.game.PlayerPoints;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
-import it.polimi.ingsw.am37.model.sides.Back;
 import it.polimi.ingsw.am37.model.sides.Position;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +32,7 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.notifyPlayer(s);
         } catch (RemoteException e) {
-            new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
     }
@@ -90,7 +87,7 @@ public class RMIVirtualView implements VirtualView{
 
     public void nowUnavailableToken(Player p, Token t){
         try {
-            cs.sendAvailableToken(p.getNickname(),t);
+            cs.sendNowUnavailableToken(p.getNickname(),t);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -98,7 +95,15 @@ public class RMIVirtualView implements VirtualView{
 
     @Override
     public void sendPlayersInOrder(List<Player> players) {
-        //cs.sendPlayersInOrder
+        List<String> nicknames = new ArrayList<>();
+        for (Player p: players)
+            nicknames.add(p.getNickname());
+
+        try {
+            cs.sendPlayersInOrder(nicknames);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void notifyTurn(Player p){
@@ -147,26 +152,29 @@ public class RMIVirtualView implements VirtualView{
         }
     }
 
-    public void sendResults(PlayerPoints[] results/*Map<String, Integer> PlayerPoints, Map<String, Integer> PlayerNumCompletedObjectives*/){
-       /* try {
-            cs.showResults(PlayerPoints,PlayerNumCompletedObjectives);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }*/
-    }
+    public void sendResults(PlayerPoints[] results){
+        Map<String, Integer> playersPoints = new HashMap<>();
+        Map<String, Integer> playersCompletions = new HashMap<>();
 
-    public void actionNotPermittedMessaging(Player p, String errorMessage){
+        for (PlayerPoints p: results) {
+            playersPoints.put(p.getPlayer().getNickname(), p.getPoints());
+            playersCompletions.put(p.getPlayer().getNickname(), p.getNumOfCompletion());
+        }
+
         try {
-            cs.errorMessage(errorMessage);
+            cs.showResults(playersPoints, playersCompletions);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
     public void playerDisconnection() {
-
+        try {
+            cs.playerDisconnection();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

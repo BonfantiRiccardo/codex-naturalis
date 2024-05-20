@@ -41,6 +41,4 @@ public interface VirtualView extends EventListener {
 
     void playerDisconnection();
 
-    void actionNotPermittedMessaging(Player p, String errorMessage);
-
 }

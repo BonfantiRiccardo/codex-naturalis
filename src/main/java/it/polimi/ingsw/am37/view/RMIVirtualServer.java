@@ -10,18 +10,19 @@ import java.rmi.RemoteException;
 public class RMIVirtualServer implements VirtualServer{
 
     private final RMIServerStub RMIS;
-
     private final RMIClientSkeleton clientSkeleton;
+    private final int clientId;
 
     public RMIVirtualServer (RMIServerStub RMIS, RMIClientSkeleton clientSkeleton){
-        this.RMIS=RMIS;
-        this.clientSkeleton=clientSkeleton;
+        this.RMIS = RMIS;
+        this.clientSkeleton = clientSkeleton;
+        this.clientId = clientSkeleton.hashCode();
     }
 
     @Override
     public void createLobby(String nick, int numPlayers) {
         try {
-            RMIS.createGame(clientSkeleton, nick, numPlayers);
+            RMIS.createGame(clientSkeleton, clientId, nick, numPlayers);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +40,7 @@ public class RMIVirtualServer implements VirtualServer{
     @Override
     public void joinLobby(int hash, String nick) {
         try {
-            RMIS.joinGame(clientSkeleton,hash,nick);
+            RMIS.joinGame(clientSkeleton,clientId, hash, nick);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -47,12 +48,17 @@ public class RMIVirtualServer implements VirtualServer{
 
     @Override
     public void placeStartCard(String player, int cardId, String side, Position pos) {
+        try {
+            RMIS.placeCard(clientId, player, cardId, side, pos);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void chooseToken(String player, Token token) {
         try {
-            RMIS.chooseToken(clientSkeleton, player,token);
+            RMIS.chooseToken(clientId, player,token);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -61,7 +67,7 @@ public class RMIVirtualServer implements VirtualServer{
     @Override
     public void chooseObjective(String player, int cardId) {
         try {
-            RMIS.chooseObjective(clientSkeleton,player,cardId);
+            RMIS.chooseObjective(clientId,player,cardId);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -70,7 +76,7 @@ public class RMIVirtualServer implements VirtualServer{
     @Override
     public void placeCard(String player, int cardId, String side, Position pos) {
         try {
-            RMIS.placeCard(clientSkeleton,player,cardId,side,pos);
+            RMIS.placeCard(clientId,player,cardId,side,pos);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -79,7 +85,7 @@ public class RMIVirtualServer implements VirtualServer{
     @Override
     public void drawCardFromDeck(String player, String deck) {
         try {
-            RMIS.drawCardFromDeck(clientSkeleton,player,deck);
+            RMIS.drawCardFromDeck(clientId,player,deck);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -88,7 +94,7 @@ public class RMIVirtualServer implements VirtualServer{
     @Override
     public void drawCardFromAvailable(String player, int cardId) {
         try {
-            RMIS.drawCardFromAvailable(clientSkeleton,player,cardId);
+            RMIS.drawCardFromAvailable(clientId,player,cardId);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

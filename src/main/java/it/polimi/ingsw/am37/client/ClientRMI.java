@@ -1,12 +1,10 @@
 package it.polimi.ingsw.am37.client;
 
-import it.polimi.ingsw.am37.messages.MessageId;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.GoldCard;
 import it.polimi.ingsw.am37.model.cards.placeable.ResourceCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
-import it.polimi.ingsw.am37.model.game.PlayerPoints;
 import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Kingdom;
 import it.polimi.ingsw.am37.model.player.Token;
@@ -70,8 +68,17 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     @Override
+    public void receiveLobbies(ArrayList<Integer> Lobbies) throws RemoteException {
+        v.getLocalGameInstance().setListOfLobbies(Lobbies);
+        v.setState(ViewState.CHOOSE_LOBBY);
+    }
+
+    @Override
     public void playerAdded(String player) throws RemoteException {
         v.getLocalGameInstance().addPlayer(new ClientSidePlayer(player));
+        synchronized (v){
+            v.notify();
+        }
     }
 
     @Override
@@ -162,7 +169,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     @Override
-    public void sendAvailableToken(String player, Token token) throws RemoteException {
+    public void sendNowUnavailableToken(String player, Token token) throws RemoteException {
         for (ClientSidePlayer p : v.getLocalGameInstance().getPlayers())
             if (p.getNickname().equals(player))
                 p.setToken(token);
@@ -170,30 +177,38 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         v.getLocalGameInstance().removeToken(token);
     }
 
+    @Override
+    public void sendPlayersInOrder(List<String> playersInOrder) {
+        v.getLocalGameInstance().setPlayersInOrder(playersInOrder);
+
+        if (v.getLocalGameInstance().getMe().getNickname().equals(playersInOrder.getFirst()))
+            v.getLocalGameInstance().getMe().setHasBlackToken(true);
+
+        for (ClientSidePlayer p: v.getLocalGameInstance().getPlayers())
+            if (p.getNickname().equals(playersInOrder.getFirst()))
+                p.setHasBlackToken(true);
+
+    }
+
 
     @Override
     public void notifyPlayer(String message) throws RemoteException {
         switch (message) {
-            case "start card ok" -> {
-                v.setState(ViewState.CHOOSE_TOKEN);
-            }
-            case "token ok" -> {
-                v.setState(ViewState.CHOOSE_OBJECTIVE);
-            }
+            case "start card ok" -> v.setState(ViewState.CHOOSE_TOKEN);
+
+            case "token ok" -> v.setState(ViewState.CHOOSE_OBJECTIVE);
+
             case "objective ok" -> {
-                if (v.getState().equals(ViewState.CHOOSE_OBJECTIVE)) {
+                if (v.getState().equals(ViewState.CHOOSE_OBJECTIVE))
                     v.setState(ViewState.NOT_TURN);
-                }
             }
-            case "your turn" -> {
-                v.setState(ViewState.PLACE);
-            }
-            case "place ok" -> {
-                v.setState(ViewState.DRAW);
-            }
-            case "draw ok" -> {                    //TO DELETE SINCE I CAN'T JUST NOTIFY THE PLAYER, I HAVE TO SEND THE NEW CARD
-                v.setState(ViewState.NOT_TURN);     //MAYBE USEFUL IN DRAW FROM AVAILABLE
-            }
+
+            case "your turn" -> v.setState(ViewState.PLACE);
+
+            case "place ok" -> v.setState(ViewState.DRAW);
+
+            case "draw ok" -> v.setState(ViewState.NOT_TURN); //TO DELETE SINCE I CAN'T JUST NOTIFY THE PLAYER, I HAVE TO SEND THE NEW CARD
+                                                    //MAYBE USEFUL IN DRAW FROM AVAILABLE
         }
     }
 
@@ -264,6 +279,8 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
             v.getLocalGameInstance().setTopOfResourceDeck(resource);
         else if (deck.equalsIgnoreCase("g"))
             v.getLocalGameInstance().setTopOfGoldDeck(resource);
+
+        v.getLocalGameInstance().nextTurn();
     }
 
 
@@ -298,6 +315,8 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         else if (deck.equalsIgnoreCase("g"))
             v.getLocalGameInstance().setTopOfGoldDeck(topOfDeck);
 
+        v.getLocalGameInstance().nextTurn();
+
         if (v.getState().equals(ViewState.DRAW)) {
             v.setState(ViewState.NOT_TURN);
         }
@@ -320,8 +339,8 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     @Override
-    public void receiveLobbies(ArrayList<Integer> Lobbies) throws RemoteException {
-        v.getLocalGameInstance().setListOfLobbies(Lobbies);
-        v.setState(ViewState.CHOOSE_LOBBY);
+    public void playerDisconnection() throws RemoteException {
+        v.setState(ViewState.DISCONNECTION);
     }
+
 }
