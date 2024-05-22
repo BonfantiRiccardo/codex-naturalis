@@ -31,7 +31,6 @@ module it.polimi.ingsw.am37 {
     opens it.polimi.ingsw.am37.model.cards.objective to com.google.gson;
     opens it.polimi.ingsw.am37.model.cards.placeable to com.google.gson;
     opens it.polimi.ingsw.am37.model.sides to com.google.gson;
-    opens it.polimi.ingsw.am37.view to com.google.gson;
 
     opens it.polimi.ingsw.am37.server to javafx.fxml;
     opens it.polimi.ingsw.am37.messages to javafx.fxml;
@@ -39,5 +38,10 @@ module it.polimi.ingsw.am37 {
     opens it.polimi.ingsw.am37.messages.initialization to javafx.fxml;
     exports it.polimi.ingsw.am37.messages.endgame;
     opens it.polimi.ingsw.am37.messages.endgame to javafx.fxml;
+    opens it.polimi.ingsw.am37.view to com.google.gson, javafx.fxml;
+    exports it.polimi.ingsw.am37.view.GUITest;
+    opens it.polimi.ingsw.am37.view.GUITest to com.google.gson, javafx.fxml;
+    exports it.polimi.ingsw.am37.view.GUI;
+    opens it.polimi.ingsw.am37.view.GUI to com.google.gson, javafx.fxml;
 
 }

@@ -1,6 +1,7 @@
-package it.polimi.ingsw.am37.view;
+package it.polimi.ingsw.am37.view.GUITest;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 
@@ -22,6 +23,14 @@ public class CB {
 
     @FXML
     private MenuItem q4;
+
+    @FXML
+    private Button button;
+
+    @FXML
+    public void buttonClik(){
+        System.out.println("click");
+    }
 
     @FXML
     public void initialize() {
