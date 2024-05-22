@@ -101,7 +101,8 @@ class GoldCardTest {
         while (!gd.isEmpty()) {
             gc  = gd.drawCard();
             System.out.println(gc.getId());
-            System.out.println(gc);
+            System.out.println(gc.toString(true));
+            System.out.println(gc.toString(false));
         }
 
     }

@@ -185,22 +185,10 @@ public class Kingdom {
         this.placedSides.add(sidePlaced);
     }
 
-    public String[][] getVisual() {
+    public String[][] getVisual(boolean utfActive) {
         String[][] field = new String[100][100];
-
-        for (int i = 0; i < 100; i++)
-            for (int j = 0; j < 100; j++)
-                field[i][j] = "⬛";//"⠀⠀"
-
         Map<Resource, String> colourMap = new HashMap<>();
-        colourMap.put(Resource.ANIMAL, "🟦");
-        colourMap.put(Resource.PLANT, "🟩");
-        colourMap.put(Resource.INSECT, "🟪");
-        colourMap.put(Resource.FUNGI, "🟥");
-        colourMap.put(Resource.EMPTY, "🟨");
-
-        Map<Resource, String> resMap = Card.resourceToString();
-        resMap.put(Resource.EMPTY, "⬜");
+        Map<Resource, String> resMap = new HashMap<>();
 
         int xCoord = 50;
         int yCoord = 50;
@@ -209,6 +197,45 @@ public class Kingdom {
         int maxX = 0;
         int minY = 100;
         int maxY = 0;
+
+        if (utfActive) {
+            for (int i = 0; i < 100; i++)
+                for (int j = 0; j < 100; j++)
+                    field[i][j] = "⬛";//"⠀⠀"
+
+
+            colourMap.put(Resource.ANIMAL, "🟦");
+            colourMap.put(Resource.PLANT, "🟩");
+            colourMap.put(Resource.INSECT, "🟪");
+            colourMap.put(Resource.FUNGI, "🟥");
+            colourMap.put(Resource.EMPTY, "🟨");
+
+            resMap = Card.resourceToString(utfActive);
+            resMap.put(Resource.EMPTY, "⬜");
+
+        } else {
+            for (int i = 0; i < 100; i++)
+                for (int j = 0; j < 100; j++)
+                    field[i][j] = "E";
+
+
+            colourMap.put(Resource.ANIMAL, "B");
+            colourMap.put(Resource.PLANT,  "G");
+            colourMap.put(Resource.INSECT, "P");
+            colourMap.put(Resource.FUNGI,  "R");
+            colourMap.put(Resource.EMPTY,  "Y");
+
+            resMap.put(Resource.ANIMAL,     "A");
+            resMap.put(Resource.PLANT,      "P");
+            resMap.put(Resource.INSECT,     "I");
+            resMap.put(Resource.FUNGI,      "F");
+            resMap.put(Resource.INKWELL,    "N");
+            resMap.put(Resource.MANUSCRIPT, "M");
+            resMap.put(Resource.QUILL,      "Q");
+            resMap.put(Resource.EMPTY,      "⠀");
+        }
+
+
 
         for (Position pos: activePositions) {
             int xActive = xCoord - pos.getY() * 2;
@@ -224,10 +251,15 @@ public class Kingdom {
             if (yActive + 1 > maxY)
                 maxY = yActive + 1;
 
-            for (int i = -1; i <= 1; i++)
-                for (int j = -1; j <= 1; j++)
-                    field[xActive + i][yActive + j] = "⬜";
-
+            if (utfActive) {
+                for (int i = -1; i <= 1; i++)
+                    for (int j = -1; j <= 1; j++)
+                        field[xActive + i][yActive + j] = "⬜";
+            } else {
+                for (int i = -1; i <= 1; i++)
+                    for (int j = -1; j <= 1; j++)
+                        field[xActive + i][yActive + j] = "W";
+            }
         }
 
         for (Side s: placedSides) {

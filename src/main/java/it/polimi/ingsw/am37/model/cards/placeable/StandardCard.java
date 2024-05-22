@@ -24,4 +24,6 @@ public abstract class StandardCard extends GameCard {
     public String toString() {
         return super.toString();
     }
+
+    public abstract String toString(boolean utfActive);
 }

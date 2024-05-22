@@ -737,14 +737,14 @@ public class TUIView extends View implements PropertyChangeListener {
     public synchronized void printAvail() {
         System.out.println("Available resource cards: ");
         System.out.println("id: " + localGameInstance.getAvailableResourceCards().get(0).getId());
-        System.out.println(localGameInstance.getAvailableResourceCards().get(0));
+        System.out.println(localGameInstance.getAvailableResourceCards().get(0).toString(utf8EncodingEnabled));
         System.out.println("id: " + localGameInstance.getAvailableResourceCards().get(1).getId());
-        System.out.println(localGameInstance.getAvailableResourceCards().get(1));
+        System.out.println(localGameInstance.getAvailableResourceCards().get(1).toString(utf8EncodingEnabled));
         System.out.println("\nAvailable gold cards: ");
         System.out.println("id: " + localGameInstance.getAvailableGoldCards().get(0).getId());
-        System.out.println(localGameInstance.getAvailableGoldCards().get(0));
+        System.out.println(localGameInstance.getAvailableGoldCards().get(0).toString(utf8EncodingEnabled));
         System.out.println("id: " + localGameInstance.getAvailableGoldCards().get(1).getId());
-        System.out.println(localGameInstance.getAvailableGoldCards().get(1));
+        System.out.println(localGameInstance.getAvailableGoldCards().get(1).toString(utf8EncodingEnabled));
     }
 
     @Override
@@ -760,14 +760,14 @@ public class TUIView extends View implements PropertyChangeListener {
     @Override
     public synchronized void printStartCard() {
         System.out.println("Your start card: ");
-        System.out.println(localGameInstance.getMyStartCard());
+        System.out.println(localGameInstance.getMyStartCard().toString(utf8EncodingEnabled));
     }
 
     @Override
     public synchronized void printKingdom() {
         System.out.println("Your token: " + localGameInstance.getMe().getToken()+ (localGameInstance.getMe().hasBlackToken()? (" and " + Token.BLACK) : "" ));
         System.out.println("Your kingdom: ");
-        String[][] field = localGameInstance.getMe().getKingdom().getVisual();
+        String[][] field = localGameInstance.getMe().getKingdom().getVisual(utf8EncodingEnabled);
 
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field[0].length; j++)
@@ -823,7 +823,7 @@ public class TUIView extends View implements PropertyChangeListener {
             if (p.getNickname().equalsIgnoreCase(inputLine)) {
                 System.out.println(p.getNickname() + "'s token: " + p.getToken() + (p.hasBlackToken()? (" and " + Token.BLACK) : "" ));
                 System.out.println(p.getNickname() + "'s kingdom: ");
-                String[][] field = p.getKingdom().getVisual();
+                String[][] field = p.getKingdom().getVisual(utf8EncodingEnabled);
 
                 for (int i = 0; i < field.length; i++) {
                     for (int j = 0; j < field[0].length; j++)
@@ -854,27 +854,27 @@ public class TUIView extends View implements PropertyChangeListener {
         System.out.println("Your hand: ");
         for (StandardCard sc: localGameInstance.getMyHand()) {
             System.out.println("id: " + sc.getId());
-            System.out.println(sc);
+            System.out.println(sc.toString(utf8EncodingEnabled));
         }
     }
 
     @Override
     public synchronized void printPublicObjectives() {
         System.out.println("The public objectives are: ");
-        System.out.println(localGameInstance.getPublicObjectives().get(0));
-        System.out.println(localGameInstance.getPublicObjectives().get(1));
+        System.out.println(localGameInstance.getPublicObjectives().get(0).toString(utf8EncodingEnabled));
+        System.out.println(localGameInstance.getPublicObjectives().get(1).toString(utf8EncodingEnabled));
     }
 
     @Override
     public synchronized void printPrivateObjectives() {
-        System.out.println(localGameInstance.getPrivateObjectives().get(0));
-        System.out.println(localGameInstance.getPrivateObjectives().get(1));
+        System.out.println(localGameInstance.getPrivateObjectives().get(0).toString(utf8EncodingEnabled));
+        System.out.println(localGameInstance.getPrivateObjectives().get(1).toString(utf8EncodingEnabled));
     }
 
     @Override
     public synchronized void printMyPrivateObjective() {
         System.out.println("Your private objective:");
-        System.out.println(localGameInstance.getMyPrivateObjective());
+        System.out.println(localGameInstance.getMyPrivateObjective().toString(utf8EncodingEnabled));
     }
 
     @Override

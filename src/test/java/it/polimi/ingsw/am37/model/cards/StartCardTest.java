@@ -104,7 +104,8 @@ class StartCardTest {
         while (!sd.isEmpty()) {
             sc = sd.drawCard();
             System.out.println(sc.getId());
-            System.out.println(sc);
+            System.out.println(sc.toString(true));
+            System.out.println(sc.toString(false));
         }
 
     }

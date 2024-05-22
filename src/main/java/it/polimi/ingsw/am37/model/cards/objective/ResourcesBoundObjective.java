@@ -56,62 +56,117 @@ public class ResourcesBoundObjective extends ObjectiveCard {
         return completion;
     }
 
-    public String toString(){
+    public String toString(boolean utfActive){
         int points = this.getPointsGiven();
         int id= this.getId();
 
-        //System.out.println("\n");
-        return switch (id) {
-            case 95 -> "┌───────────────┐\n" +
-                       "│ id:" + id + "  pt:" + points + "   │\n" +
-                       "│               │\n" +
-                       "│ resources:    │\n" +
-                       "│   🍄 🍄 🍄   │\n" +
-                       "└───────────────┘";
-            case 96 -> "┌───────────────┐\n" +
-                       "│ id:" + id + "  pt:" + points + "   │\n" +
-                       "│               │\n" +
-                       "│ resources:    │\n" +
-                       "│   🍁 🍁 🍁   │\n" +
-                       "└───────────────┘";
-            case 97 -> "┌───────────────┐\n" +
-                       "│ id:" + id + "  pt:" + points + "   │\n" +
-                       "│               │\n" +
-                       "│ resources:    │\n" +
-                       "│   🐺 🐺 🐺   │\n" +
-                       "└───────────────┘";
-            case 98 -> "┌───────────────┐\n" +
-                       "│ id:" + id + "  pt:" + points + "   │\n" +
-                       "│               │\n" +
-                       "│ resources:    │\n" +
-                       "│   🦋 🦋 🦋   │\n" +
-                       "└───────────────┘";
-            case 99 -> "┌───────────────┐\n" +
-                       "│ id:" + id + "  pt:" + points + "   │\n" +
-                       "│               │\n" +
-                       "│ resources:    │\n" +
-                       "│   📜 🪶 🖋️   │\n" +
-                       "└───────────────┘";
-            //🥃
-            case 100 -> "┌───────────────┐\n" +
+        if (utfActive) {
+            return switch (id) {
+                case 95 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "   │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│   🍄 🍄 🍄   │\n" +
+                        "└───────────────┘";
+                case 96 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "   │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│   🍁 🍁 🍁   │\n" +
+                        "└───────────────┘";
+                case 97 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "   │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│   🐺 🐺 🐺   │\n" +
+                        "└───────────────┘";
+                case 98 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "   │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│   🦋 🦋 🦋   │\n" +
+                        "└───────────────┘";
+                case 99 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "   │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│   📜 🪶 🖋️   │\n" +
+                        "└───────────────┘";
+                //🥃
+                case 100 -> "┌───────────────┐\n" +
                         "│ id:" + id + "  pt:" + points + "  │\n" +
                         "│               │\n" +
                         "│ resources:    │\n" +
                         "│     📜 📜 ⠀⠀⠀│\n" +
                         "└───────────────┘";
-            case 101 -> "┌───────────────┐\n" +
+                case 101 -> "┌───────────────┐\n" +
                         "│ id:" + id + "  pt:" + points + "  │\n" +
                         "│               │\n" +
                         "│ resources:    │\n" +
                         "│     🖋️ 🖋️ ⠀⠀⠀│\n" +
                         "└───────────────┘";
-            case 102 -> "┌───────────────┐\n" +
+                case 102 -> "┌───────────────┐\n" +
                         "│ id:" + id + "  pt:" + points + "  │\n" +
                         "│               │\n" +
                         "│ resources:    │\n" +
                         "│     🪶 🪶⠀⠀⠀ │\n" +
                         "└───────────────┘";
-            default -> "error";
-        };
+                default -> "error";
+            };
+        } else {
+            return switch (id) {
+                case 95 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "   │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│    F  F  F    │\n" +
+                        "└───────────────┘";
+                case 96 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "   │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│    P  P  P    │\n" +
+                        "└───────────────┘";
+                case 97 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "   │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│    A  A  A    │\n" +
+                        "└───────────────┘";
+                case 98 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "   │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│    I  I  I    │\n" +
+                        "└───────────────┘";
+                case 99 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "   │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│    M  Q  N    │\n" +
+                        "└───────────────┘";
+                //🥃
+                case 100 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "  │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│      M  M     │\n" +
+                        "└───────────────┘";
+                case 101 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "  │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│      N  N     │\n" +
+                        "└───────────────┘";
+                case 102 -> "┌───────────────┐\n" +
+                        "│ id:" + id + "  pt:" + points + "  │\n" +
+                        "│               │\n" +
+                        "│ resources:    │\n" +
+                        "│      Q  Q     │\n" +
+                        "└───────────────┘";
+                default -> "error";
+            };
+        }
+
     }
 }

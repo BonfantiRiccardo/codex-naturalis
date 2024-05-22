@@ -89,29 +89,54 @@ public class LShape extends PlacementBoundObjective {
         return requestedPosition;
     }
 
-    public String toString(){
+    public String toString(boolean utfActive){
         int points = this.getPointsGiven();
         int id= this.getId();
         String res;
-        if(this.cardColourThatTriggersCheck==Resource.INSECT){
-            res="🦋";
-        } else if (this.cardColourThatTriggersCheck==Resource.ANIMAL) {
-            res="🐺";
-        } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
-            res="🍁";
-        }   else{       //fungi
-            res="🍄";
-        }
         String leg;
-        if(this.otherResource==Resource.INSECT){
-            leg="🦋";
-        } else if (this.otherResource==Resource.ANIMAL) {
-            leg="🐺";
-        } else if (this.otherResource==Resource.PLANT) {
-            leg="🍁";
-        }   else{       //fungi
-            leg="🍄";
+
+        if (utfActive) {
+            if(this.cardColourThatTriggersCheck==Resource.INSECT){
+                res="🦋";
+            } else if (this.cardColourThatTriggersCheck==Resource.ANIMAL) {
+                res="🐺";
+            } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
+                res="🍁";
+            }   else{       //fungi
+                res="🍄";
+            }
+
+            if(this.otherResource==Resource.INSECT){
+                leg="🦋";
+            } else if (this.otherResource==Resource.ANIMAL) {
+                leg="🐺";
+            } else if (this.otherResource==Resource.PLANT) {
+                leg="🍁";
+            }   else{       //fungi
+                leg="🍄";
+            }
+        } else {
+            if(this.cardColourThatTriggersCheck==Resource.INSECT){
+                res="I ";
+            } else if (this.cardColourThatTriggersCheck==Resource.ANIMAL) {
+                res="A ";
+            } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
+                res="P ";
+            }   else{       //fungi
+                res="F ";
+            }
+
+            if(this.otherResource==Resource.INSECT){
+                leg="I ";
+            } else if (this.otherResource==Resource.ANIMAL) {
+                leg="A ";
+            } else if (this.otherResource==Resource.PLANT) {
+                leg="P ";
+            }   else{       //fungi
+                leg="F ";
+            }
         }
+
 
         if(this.direction==Direction.TOPLEFT){
             //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|      "+leg+"       |\n|      "+leg+"       |\n|        "+res+"     |\n—————————————————";

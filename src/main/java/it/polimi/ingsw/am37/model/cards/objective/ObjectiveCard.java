@@ -45,4 +45,6 @@ public abstract class ObjectiveCard extends Card {
     public String toString() {
         return super.toString() + ", points: " + pointsGivenPerCompletion;
     }
+
+    public abstract String toString(boolean utfActive);
 }

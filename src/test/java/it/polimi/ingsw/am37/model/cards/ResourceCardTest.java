@@ -94,7 +94,8 @@ class ResourceCardTest {
         while (!rd.isEmpty()) {
             rc = rd.drawCard();
             System.out.println(rc.getId());
-            System.out.println(rc);
+            System.out.println(rc.toString(true));
+            System.out.println(rc.toString(false));
         }
 
     }

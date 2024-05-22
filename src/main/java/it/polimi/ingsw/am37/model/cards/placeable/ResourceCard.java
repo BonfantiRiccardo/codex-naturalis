@@ -23,11 +23,11 @@ public class ResourceCard extends StandardCard {
         super(id, front, back);
     }
 
-    public String toString() {
+    public String toString(boolean utfActive) {
 
         int points = this.getFront().getPointsGivenOnPlacement();
 
-        Map<Resource, String> resMap = Card.resourceToString();
+        Map<Resource, String> resMap = Card.resourceToString(utfActive);
 
         return  "┌────" + (getFront().getTL().getVisibility() ? "┬": "─") + "─────────────" + (getFront().getTR().getVisibility() ? "┬": "─") + "────┐" +                                                                                                                                          "    ┌────┬─────────────┬────┐\n" +
                 "│" + (getFront().getTL().getVisibility() ? " " + resMap.get(getFront().getTL().getResource()) + " │      " : "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀") + points +  (getFront().getTR().getVisibility() ? "⠀⠀⠀⠀⠀│ " + resMap.get(getFront().getTR().getResource()) + " " : "⠀⠀⠀⠀ ⠀⠀⠀ ⠀") + "│" +            "    │    │ ⠀⠀   ⠀⠀⠀⠀⠀ │    │\n" +

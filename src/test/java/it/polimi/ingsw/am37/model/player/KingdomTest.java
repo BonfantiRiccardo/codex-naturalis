@@ -97,7 +97,7 @@ class KingdomTest {
         assertSame(rC.getBack(), p.getMyKingdom().getPlacedSides().get(1));
         assertSame(gC.getFront(), p.getMyKingdom().getPlacedSides().get(2));
 
-        String[][] field = p.getMyKingdom().getVisual();
+        String[][] field = p.getMyKingdom().getVisual(true);
 
         for (String[] strings : field) {
             for (int j = 0; j < field[0].length; j++)

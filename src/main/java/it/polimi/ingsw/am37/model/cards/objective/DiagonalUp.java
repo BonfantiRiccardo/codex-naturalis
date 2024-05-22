@@ -76,19 +76,33 @@ public class DiagonalUp extends PlacementBoundObjective {
         return numSatisfied;
     }
 
-    public String toString(){
+    public String toString(boolean utfActive){
         int points = this.getPointsGiven();
         int id= this.getId();
         String res;
-        if(this.cardColourThatTriggersCheck==Resource.INSECT){
-            res="🦋";
-        } else if (this.cardColourThatTriggersCheck==Resource.ANIMAL) {
-            res="🐺";
-        } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
-            res="🍁";
-        }   else{       //fungi
-            res="🍄";
+
+        if (utfActive) {
+            if(this.cardColourThatTriggersCheck==Resource.INSECT){
+                res="🦋";
+            } else if (this.cardColourThatTriggersCheck==Resource.ANIMAL) {
+                res="🐺";
+            } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
+                res="🍁";
+            }   else{       //fungi
+                res="🍄";
+            }
+        } else {
+            if(this.cardColourThatTriggersCheck==Resource.INSECT){
+                res="I ";
+            } else if (this.cardColourThatTriggersCheck==Resource.ANIMAL) {
+                res="A ";
+            } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
+                res="P ";
+            }   else{       //fungi
+                res="F ";
+            }
         }
+
 
         //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|            "+res+" |\n|        "+res+"     |\n|    "+res+"         |\n—————————————————";
         return  "┌───────────────┐\n" +
