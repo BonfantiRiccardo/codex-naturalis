@@ -9,6 +9,7 @@ import it.polimi.ingsw.am37.model.game.Resource;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
+import it.polimi.ingsw.am37.server.RMIServer;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -19,20 +20,19 @@ import java.util.Map;
 public class RMIVirtualView implements VirtualView{
 
     private final RMIClientSkeleton cs;
+    private final RMIServer rmiServer;
 
-    public RMIVirtualView (RMIClientSkeleton cs){
+    public RMIVirtualView (RMIClientSkeleton cs, RMIServer rmiServer){
         this.cs=cs;
-    }
-
-    public RMIClientSkeleton getCs() {
-        return cs;
+        this.rmiServer=rmiServer;
     }
 
     public void acknowledgePlayer(Player p, String s){
         try {
             cs.notifyPlayer(s);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
 
     }
@@ -44,7 +44,8 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.updateLobbyView(receiver.getNickname(), nicknames, lobbyNum, maxPlayers);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
@@ -52,7 +53,8 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.playerAdded(p.getNickname());
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
@@ -80,7 +82,8 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.updateInitialPhase(cGoldId,cResourceId,sc.getId(),handId,publicObjId,privateObjId,goldDeckBack,resourceDeckBack);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
@@ -89,7 +92,8 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.sendNowUnavailableToken(p.getNickname(),t);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
@@ -102,7 +106,8 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.sendPlayersInOrder(nicknames);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
@@ -110,7 +115,8 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.notifyPlayer("your turn");
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
@@ -119,7 +125,8 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.updateDeckView(deck,back);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
@@ -128,7 +135,8 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.updateHandAndDeckView(deck,topOfDeck,cardId);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
@@ -140,7 +148,8 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.updateAvailable(deck,topOfDeck,listChanged,availableId);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
@@ -148,7 +157,8 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.updateKingdom(p.getNickname(),c,s,pos);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
@@ -164,16 +174,18 @@ public class RMIVirtualView implements VirtualView{
         try {
             cs.showResults(playersPoints, playersCompletions);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Client disconnected");
+            rmiServer.playerDisconnected(cs);
         }
     }
 
     @Override
     public void playerDisconnection() {
         try {
+            rmiServer.getMultipleMatchesHandler().removeClient(cs);
             cs.playerDisconnection();
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.out.println("Handling client disconnection");
         }
     }
 }

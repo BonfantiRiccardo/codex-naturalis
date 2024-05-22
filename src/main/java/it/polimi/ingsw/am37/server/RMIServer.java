@@ -48,7 +48,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
 
             multipleMatchesHandler.addLobby(controller.hashCode(), controller);
 
-            controller.setVirtualView(p, new RMIVirtualView(client));
+            controller.setVirtualView(p, new RMIVirtualView(client, this));
 
             controller.getPlayerViews().get(p).updateLobbyView(p, controller.getAddedPlayers(), controller.hashCode(), controller.getNumOfPlayers());
 
@@ -77,7 +77,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
                 synchronized (controller) {
                     controller.addPlayer(p);
 
-                    controller.setVirtualView(p, new RMIVirtualView(client));
+                    controller.setVirtualView(p, new RMIVirtualView(client, this));
                 }
 
                 multipleMatchesHandler.addClient(client, controller);
@@ -112,7 +112,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
     @Override
     public void placeCard(int clientId, String player, int cardId, String side, Position pos) throws RemoteException {
         boolean placed = false;
-        GameController c = multipleMatchesHandler.getmapRMI().get(clients.get(clientId));
+        GameController c = multipleMatchesHandler.getMapRMI().get(clients.get(clientId));
         if (c == null) {
             clients.get(clientId).errorMessage("You are not logged");
             return;
@@ -182,7 +182,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
 
     @Override
     public void chooseToken(int clientId, String player, Token token) throws RemoteException {
-        GameController c = multipleMatchesHandler.getmapRMI().get(clients.get(clientId));
+        GameController c = multipleMatchesHandler.getMapRMI().get(clients.get(clientId));
         if (c == null) {
             clients.get(clientId).errorMessage("You are not logged");
             return;
@@ -211,7 +211,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
 
     @Override
     public void chooseObjective(int clientId, String player, int cardId) throws RemoteException {
-        GameController c = multipleMatchesHandler.getmapRMI().get(clients.get(clientId));
+        GameController c = multipleMatchesHandler.getMapRMI().get(clients.get(clientId));
 
         if (c == null) {
             clients.get(clientId).errorMessage("You are not logged / Controller not found");
@@ -253,7 +253,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
 
     @Override
     public void drawCardFromDeck(int clientId, String player, String  deck) throws RemoteException {
-        GameController c = multipleMatchesHandler.getmapRMI().get(clients.get(clientId));
+        GameController c = multipleMatchesHandler.getMapRMI().get(clients.get(clientId));
         if (c == null) {
             clients.get(clientId).errorMessage("You are not logged");
             return;
@@ -301,7 +301,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
                             c.getPlayerViews().get(pl).sendResults(results);
 
                             multipleMatchesHandler.removeClient(clients.get(clientId));
-                            clients.remove(clientId);
+                            leave(clientId, clients.get(clientId));
                         }
 
                         return;             //SEND RESULTS IF THE GAME IS OVER
@@ -352,7 +352,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
 
     @Override
     public void drawCardFromAvailable(int clientId, String player, int cardId) throws RemoteException {
-        GameController c = multipleMatchesHandler.getmapRMI().get(clients.get(clientId));
+        GameController c = multipleMatchesHandler.getMapRMI().get(clients.get(clientId));
         boolean drawnGold = false;
         boolean drawnResource = false;
 
@@ -395,7 +395,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
                                 c.getPlayerViews().get(pl).sendResults(results);
 
                                 multipleMatchesHandler.removeClient(clients.get(clientId));
-                                clients.remove(clientId);
+                                leave(clientId, clients.get(clientId));
                             }
                             return;             //SEND RESULTS IF THE GAME IS OVER
                         }
@@ -440,5 +440,19 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    public void playerDisconnected(RMIClientSkeleton cs) {
+        GameController c = multipleMatchesHandler.getMapRMI().get(cs);
+
+        if (c != null) {
+            for (Player p: c.getAddedPlayers())
+                c.getPlayerViews().get(p).playerDisconnection();
+
+        }
+
+    }
+
+    public MultipleMatchesHandler getMultipleMatchesHandler() {
+        return multipleMatchesHandler;
+    }
 }
 

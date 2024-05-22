@@ -61,7 +61,7 @@ public class ClientTCP implements ClientConnectionInterface{
                 message.decodeAndExecute(v);
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Thread detached from read operation.");
+            System.out.println("\nConnection with server was lost, closing application.\n");
             System.exit(0);
         }
     }

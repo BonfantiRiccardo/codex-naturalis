@@ -15,6 +15,7 @@ import it.polimi.ingsw.am37.view.RMIVirtualServer;
 import it.polimi.ingsw.am37.view.View;
 import it.polimi.ingsw.am37.view.ViewState;
 
+import java.beans.PropertyChangeEvent;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -34,6 +35,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         this.v = v;
     }
 
+    @Override
     public void startClient() throws RemoteException {
         Registry reg = LocateRegistry.getRegistry(ip, port);
 
@@ -44,11 +46,15 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
             RMIVirtualServer vs = new RMIVirtualServer(server, this);
             v.setVirtualServer(vs);
 
-            v.handleGame();
+            while (true) {
+                boolean choice = v.handleGame();
+
+                if (!choice)
+                    break;
+            }
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
-
+            System.out.println("\nConnection to server was lost, closing program\n");
         }
     }
 
@@ -209,6 +215,15 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
 
             case "draw ok" -> v.setState(ViewState.NOT_TURN); //TO DELETE SINCE I CAN'T JUST NOTIFY THE PLAYER, I HAVE TO SEND THE NEW CARD
                                                     //MAYBE USEFUL IN DRAW FROM AVAILABLE
+            case  "endgame" -> {
+                //add to updates
+                PropertyChangeEvent evt = new PropertyChangeEvent(
+                        this,
+                        "ENDGAME",
+                        null,
+                        null);
+                v.propertyChange(evt);
+            }
         }
     }
 
@@ -324,11 +339,19 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
 
 
     @Override
-    public void showResults(Map<String, Integer> PlayerPoints, Map<String, Integer> PlayerNumCompletedObjectives) throws RemoteException {
+    public void showResults(Map<String, Integer> playerPoints, Map<String, Integer> playerNumCompletedObjectives) throws RemoteException {
         for(ClientSidePlayer p : v.getLocalGameInstance().getPlayers()) {
-            p.setObjectivesCompleted(PlayerNumCompletedObjectives.get(p.getNickname()));
-            p.setFinalPoints(PlayerPoints.get(p.getNickname()));
+            p.setObjectivesCompleted(playerNumCompletedObjectives.get(p.getNickname()));
+            p.setFinalPoints(playerPoints.get(p.getNickname()));
         }
+
+        for(String name: playerPoints.keySet())
+            if (v.getLocalGameInstance().getMe().getNickname().equals(name)) {
+                v.getLocalGameInstance().getMe().setFinalPoints(playerPoints.get(name));
+                v.getLocalGameInstance().getMe().setObjectivesCompleted(playerNumCompletedObjectives.get(name));
+            }
+
+
         v.setState(ViewState.SHOW_RESULTS);
     }
 

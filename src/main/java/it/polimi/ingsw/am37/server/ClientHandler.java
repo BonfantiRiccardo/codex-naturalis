@@ -54,7 +54,7 @@ public class ClientHandler implements ClientInterface{
             out.close();
             socket.close();
         } catch (final IOException e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage() + " warning CLOSING CLIENT HANDLE");
         }
     }
 
@@ -66,25 +66,25 @@ public class ClientHandler implements ClientInterface{
             out.flush();
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + " closing message sender");
         }
     }
 
     public void disconnectAndCloseGame() {
         //CONNECTION CLOSED WITH THE CLIENT, NOTIFY ALL THE OTHER CLIENTS CONNECTED TO THIS GAME CONTROLLER
         //THAT THE GAME IS OVER
+        System.out.println("Disconnecting others from game");
         GameController c = multipleMatchesHandler.getMap().get(this);
 
         if (c != null) {
+            if (multipleMatchesHandler.getLobbyList().containsKey(c.hashCode()))
+                multipleMatchesHandler.removeLobby(c.hashCode());
+
             multipleMatchesHandler.removeClient(this);
 
             for (Player p: c.getAddedPlayers())
                 c.getPlayerViews().get(p).playerDisconnection();
         }
-    }
-
-    public Socket getSocket() {
-        return socket;
     }
 
     public MultipleMatchesHandler getMultipleMatchesHandler() {

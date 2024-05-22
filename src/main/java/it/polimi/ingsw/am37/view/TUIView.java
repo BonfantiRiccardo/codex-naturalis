@@ -16,6 +16,8 @@ public class TUIView extends View implements PropertyChangeListener {
     private final Scanner stdIn;
     private final List<String> updates;
 
+    private boolean utf8EncodingEnabled;
+
     public TUIView(ViewState state) {
         super(state);
         stdIn = new Scanner(System.in);
@@ -23,7 +25,13 @@ public class TUIView extends View implements PropertyChangeListener {
     }
 
     public boolean handleGame() {
-        //
+
+        System.out.print("This games uses emojis to better visualize cards. This are some emojis: ⬜🐺📜\n" +
+                            "If the terminal correctly displays them type 'y', otherwise type  'n': ");
+        if (stdIn.nextLine().equals("n"))
+            utf8EncodingEnabled = false;
+        else
+            utf8EncodingEnabled = true;
 
         preLobby();
 
@@ -33,17 +41,20 @@ public class TUIView extends View implements PropertyChangeListener {
             System.out.println("Now waiting for all players.");
         }
 
-        synchronized (this) {
-            while (state.equals(ViewState.WAIT_IN_LOBBY)) {
-                try {
+        //synchronized (this) {
+        int players = localGameInstance.getPlayers().size();
+            while (state.equals(ViewState.WAIT_IN_LOBBY)) { Thread.onSpinWait();
+                /*try {
                     this.wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
-                }
-                if (state.equals(ViewState.WAIT_IN_LOBBY))
+                }*/
+                if (players != localGameInstance.getPlayers().size()) {
                     printMyLobby();
+                    players = localGameInstance.getPlayers().size();
+                }
             }
-        }
+        //}
         new Thread(this::handleUpdates).start();
 
         while (!state.equals(ViewState.SHOW_RESULTS) && !state.equals(ViewState.DISCONNECTION)) {
@@ -72,7 +83,7 @@ public class TUIView extends View implements PropertyChangeListener {
         if (state.equals(ViewState.SHOW_RESULTS))
             printResults();
         else if (state.equals(ViewState.DISCONNECTION))
-            System.out.println("One of the player was disconnected from the game, the game is now ending for everyone...");
+            System.out.println("\nOne of the player was disconnected from the game, the game is now ending for everyone...\n");
 
         return gameOver();
     }
@@ -197,7 +208,7 @@ public class TUIView extends View implements PropertyChangeListener {
                                                         "Print Available (pa), Chat (ch), Cancel (c)");
 
             case NOT_TURN -> System.out.println("Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), Print Private Objective (pro), " +
-                                        "Print Decks (pd), Print Available (pa),\nPrint Scoreboard, Print Player Info, Chat (ch), Cancel (c)");
+                                        "Print Decks (pd), Print Available (pa),\nPrint Scoreboard (ps), Print Player Info (ppi), Chat (ch), Cancel (c)");
 
             case PLACE -> System.out.println("Place (p), Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), " +
                                         "Print Private Objective (pro), Print Decks (pd), Print Available (pa),\nPrint Scoreboard (ps), " +
@@ -357,7 +368,7 @@ public class TUIView extends View implements PropertyChangeListener {
             }
 
         for (ClientSidePlayer p: localGameInstance.getPlayers())
-            while (p.getKingdom() == null) Thread.onSpinWait();
+            while (p.getKingdom() == null && !state.equals(ViewState.DISCONNECTION)) Thread.onSpinWait();
     }
 
     private void tokenQueries() {
@@ -411,7 +422,7 @@ public class TUIView extends View implements PropertyChangeListener {
             }
 
         for (ClientSidePlayer p: localGameInstance.getPlayers())
-            while (p.getToken() == null) Thread.onSpinWait();
+            while (p.getToken() == null && !state.equals(ViewState.DISCONNECTION)) Thread.onSpinWait();
 
     }
 
@@ -887,6 +898,8 @@ public class TUIView extends View implements PropertyChangeListener {
 
         for(ClientSidePlayer p : playerTable)
             System.out.println(p.getNickname() + " has achieved " + p.getPoints() + " points and completed " + p.getObjectivesCompleted() + " objectives");
+
+        System.out.println();
     }
 
     @Override

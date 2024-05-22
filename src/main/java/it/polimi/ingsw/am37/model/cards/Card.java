@@ -33,14 +33,25 @@ public abstract class Card {
 
     public static Map<Resource,String> resourceToString() {
         Map<Resource,String> resourceMap = new HashMap<>();
-        resourceMap.put(Resource.ANIMAL, "🐺");
-        resourceMap.put(Resource.PLANT, "🍁");
-        resourceMap.put(Resource.INSECT, "🦋");
-        resourceMap.put(Resource.FUNGI, "🍄");
-        resourceMap.put(Resource.INKWELL, "🖋️");
+        resourceMap.put(Resource.ANIMAL,     "🐺");
+        resourceMap.put(Resource.PLANT,      "🍁");
+        resourceMap.put(Resource.INSECT,     "🦋");
+        resourceMap.put(Resource.FUNGI,      "🍄");
+        resourceMap.put(Resource.INKWELL,    "🖋️");
         resourceMap.put(Resource.MANUSCRIPT, "📜");
-        resourceMap.put(Resource.QUILL, "🪶");
-        resourceMap.put(Resource.EMPTY, "⠀⠀"); //"⬜"
+        resourceMap.put(Resource.QUILL,      "🪶");
+        resourceMap.put(Resource.EMPTY,      "⠀⠀");
+
+        /*
+        resourceMap.put(Resource.ANIMAL,     "A ");
+        resourceMap.put(Resource.PLANT,      "P ");
+        resourceMap.put(Resource.INSECT,     "I ");
+        resourceMap.put(Resource.FUNGI,      "F ");
+        resourceMap.put(Resource.INKWELL,    "W ");
+        resourceMap.put(Resource.MANUSCRIPT, "M ");
+        resourceMap.put(Resource.QUILL,      "Q ");
+        resourceMap.put(Resource.EMPTY,      "⠀⠀");*/
+
         return resourceMap;
     }
 

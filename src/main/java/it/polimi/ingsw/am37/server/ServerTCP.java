@@ -45,9 +45,4 @@ public class ServerTCP {
         }
         executor.shutdown();
     }
-
-    public int getPort() {
-        return port;
-    }
-
 }

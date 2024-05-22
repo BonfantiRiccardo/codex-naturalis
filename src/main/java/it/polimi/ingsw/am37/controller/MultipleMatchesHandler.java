@@ -23,7 +23,7 @@ public class MultipleMatchesHandler {
 
     }
 
-    public synchronized Map<RMIClientSkeleton, GameController> getmapRMI (){
+    public synchronized Map<RMIClientSkeleton, GameController> getMapRMI(){
         return mapRMI;
     }
 
