@@ -226,7 +226,7 @@ public class Player {
     }
 
     /**
-     * The drawCardFromDeck(deck) method adds a Card to the hand of the player by drawing it from the deck given as a
+     * The drawCardFromDeck(deck) method adds a Resource Card to the hand of the player by drawing it from the deck given as a
      * parameter.
      * @param deck The deck from which the Player has chosen to draw the Card.
      * @throws NoCardsException when the deck is empty.
@@ -239,7 +239,13 @@ public class Player {
             hand.add(deck.drawCard());
         }
     }
-
+    /**
+     * The drawCardFromDeck(deck) method adds a Gold Card to the hand of the player by drawing it from the deck given as a
+     * parameter.
+     * @param deck The deck from which the Player has chosen to draw the Card.
+     * @throws NoCardsException when the deck is empty.
+     * @throws IncorrectUserActionException when the player already has 3 cards in his hands.
+     */
     public void drawCardFromDeck(GoldDeck deck) throws NoCardsException, IncorrectUserActionException {
         if (hand.size() >= 3)
             throw new IncorrectUserActionException ("You cannot draw, you already have 3 Cards in your hand");

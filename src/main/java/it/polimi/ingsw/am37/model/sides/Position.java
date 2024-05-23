@@ -41,6 +41,11 @@ public class Position implements Serializable {
         return y;
     }
 
+    /**
+     * the equals method checks if the position equals the position given.
+     * @param obj is the position given.
+     * @return if they are equals or not.
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj.getClass() != Position.class) {
@@ -51,6 +56,10 @@ public class Position implements Serializable {
         }
     }
 
+    /**
+     * the toString method is used for debugging and prints the position of the card.
+     * @return a string with the coordinates of the card.
+     */
     @Override
     public String toString() {
         return "{x = " + x + ", y = " + y + '}';

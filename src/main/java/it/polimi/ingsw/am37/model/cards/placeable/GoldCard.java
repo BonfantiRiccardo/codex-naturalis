@@ -22,6 +22,11 @@ public class GoldCard extends StandardCard {
         super(id, front, back);
     }
 
+    /**
+     * the toString method prints the gold card corresponding to the id.
+     * @param utfActive tells if the encoding is enable or not.
+     * @return the gold card corresponding to the id.
+     */
     public String toString(boolean utfActive){
         String bonus;
         String plc;

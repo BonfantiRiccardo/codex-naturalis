@@ -44,7 +44,11 @@ public class ResourceDeck extends Deck {
 
         shuffle();
     }
-
+    /**
+     * the drawCard method gives to the player the first resource card of the deck and proceed to remove it from the deck.
+     * @return the resource card.
+     * @throws NoCardsException if there's no cards left in the deck.
+     */
     public StandardCard drawCard() throws NoCardsException {
         if (!cards.isEmpty())  {
             StandardCard c = (StandardCard) cards.get(0);

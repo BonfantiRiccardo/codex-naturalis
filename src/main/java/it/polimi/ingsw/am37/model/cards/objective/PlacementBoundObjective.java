@@ -57,6 +57,10 @@ public abstract class PlacementBoundObjective extends ObjectiveCard {
      */
     public abstract int calculateNumOfCompletion(Kingdom kingdom);
 
+    /**
+     * the toString() method is used to debug.
+     * @return the colour of the cards required to complete the objective.
+     */
     @Override
     public String toString() {
         return super.toString() + ", cardCheckColour: " + cardColourThatTriggersCheck + ", otherCardColour: " + otherResource;

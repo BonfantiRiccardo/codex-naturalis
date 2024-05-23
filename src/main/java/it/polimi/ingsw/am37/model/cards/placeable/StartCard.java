@@ -38,6 +38,11 @@ public class StartCard extends GameCard {
         return backResource;
     }
 
+    /**
+     * the toString method shows to the player his starting card.
+     * @param utfActive tells if the encoding is enable or not.
+     * @return a string representing the starting card.
+     */
     public String toString(boolean utfActive){
         int id = this.getId();
 

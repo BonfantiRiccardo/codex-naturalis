@@ -20,10 +20,19 @@ public abstract class StandardCard extends GameCard {
         super(id, front, back);
     }
 
+    /**
+     * the toString method returns front and back of each card.
+     * @return front and back of each card.
+     */
     @Override
     public String toString() {
         return super.toString();
     }
 
+    /**
+     * the toString method is used to show the cards to the player.
+     * @param utfActive tells if the encoding is enable or not.
+     * @return the cards.
+     */
     public abstract String toString(boolean utfActive);
 }

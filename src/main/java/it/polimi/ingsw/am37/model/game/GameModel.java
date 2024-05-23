@@ -103,10 +103,18 @@ public class GameModel {
         oDeck = new ObjectiveDeck(cardCreator);
     }
 
+    /**
+     * the getCurrentStatus method returns the current status of the game.
+     * @return the current status of the game.
+     */
     public GameStatus getCurrentStatus() {
         return currentStatus;
     }
 
+    /**
+     * the setCurrentStatus method sets the current status of the game.
+     * @param currentStatus is the current status of the game.
+     */
     public void setCurrentStatus(GameStatus currentStatus) {
         this.currentStatus = currentStatus;
     }
@@ -251,6 +259,10 @@ public class GameModel {
         }
     }
 
+    /**
+     * the setupPlayPhase sets the turn counter and proceed to randomly create the order of the player's turns, setting then
+     * the current turn.
+     */
     public void setupPlayPhase() {
         turnCounter = 1;
         Collections.shuffle(participantsInOrder);
@@ -287,10 +299,17 @@ public class GameModel {
         }
     }
 
+    /**
+     * the setupEndGame method calculate which is going to be the number of the last turn.
+     */
     public void setupEndGame() {
         lastTurn = turnCounter + (participantsInOrder.size() - participantsInOrder.indexOf(currentTurn) - 1) + participantsInOrder.size();
     }
 
+    /**
+     * the getLastTurn method returns the last turn of the game.
+     * @return the number of the last turn.
+     */
     public int getLastTurn() {
         return lastTurn;
     }

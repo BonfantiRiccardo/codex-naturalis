@@ -47,6 +47,10 @@ public abstract class GameCard extends Card {
         return back;
     }
 
+    /**
+     * the toString method prints front and back of the card.
+     * @return a string representing the front and back of the card.
+     */
     @Override
     public String toString() {
         return super.toString() + " | FRONT: " + front.toString() + " | BACK: " + back.toString();

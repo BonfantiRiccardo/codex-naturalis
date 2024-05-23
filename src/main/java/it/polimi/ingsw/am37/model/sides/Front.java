@@ -94,7 +94,10 @@ public class Front extends Side {
         }
         return check;
     }
-
+    /**
+     * the toString method is used for debugging and prints  the front side of the card and where it's placed.
+     * @return a string representing the front side of the card.
+     */
     @Override
     public String toString() {
         return super.toString() + ((pointsGivenOnPlacement>0) ? (", pointsGOP: " + pointsGivenOnPlacement) : "") +

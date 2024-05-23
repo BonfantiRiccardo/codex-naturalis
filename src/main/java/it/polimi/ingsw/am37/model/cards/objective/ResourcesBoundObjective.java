@@ -56,6 +56,11 @@ public class ResourcesBoundObjective extends ObjectiveCard {
         return completion;
     }
 
+    /**
+     * the toString method shows the amount and type of resources the objective requires.
+     * @param utfActive is a boolean which tells if the encoding is enable.
+     * @return a String showing the resources required in each objective.
+     */
     public String toString(boolean utfActive){
         int points = this.getPointsGiven();
         int id= this.getId();

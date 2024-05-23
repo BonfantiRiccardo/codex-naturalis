@@ -66,6 +66,10 @@ public class Corner {
         this.linkedSide = linkedSide;
     }
 
+    /**
+     * the toString method is used for debugging and prints the status of the corner.
+     * @return a string with all the infos about the corner.
+     */
     @Override
     public String toString() {
         return "Corner{" + "isVisible=" + isVisible + ", resource=" + resource +

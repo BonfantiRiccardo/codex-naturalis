@@ -56,7 +56,11 @@ public class ObjectiveDeck extends Deck {
 
         shuffle();
     }
-
+    /**
+     * the drawCard method gives to the player the first objective card of the deck and proceed to remove it from the deck.
+     * @return the objective card.
+     * @throws NoCardsException if there's no cards left in the deck.
+     */
     public ObjectiveCard drawCard() throws NoCardsException {
         if (!cards.isEmpty())  {
             ObjectiveCard c = (ObjectiveCard) cards.get(0);

@@ -76,6 +76,11 @@ public class DiagonalUp extends PlacementBoundObjective {
         return numSatisfied;
     }
 
+    /**
+     * the toString method shows the placement of the cards the objective requires.
+     * @param utfActive is a boolean which tells if the encoding is enable.
+     * @return a String showing the placement the player has to achieve.
+     */
     public String toString(boolean utfActive){
         int points = this.getPointsGiven();
         int id= this.getId();
@@ -88,7 +93,7 @@ public class DiagonalUp extends PlacementBoundObjective {
                 res="🐺";
             } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
                 res="🍁";
-            }   else{       //fungi
+            }   else{
                 res="🍄";
             }
         } else {
@@ -103,8 +108,6 @@ public class DiagonalUp extends PlacementBoundObjective {
             }
         }
 
-
-        //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|            "+res+" |\n|        "+res+"     |\n|    "+res+"         |\n—————————————————";
         return  "┌───────────────┐\n" +
                 "│ id:" + id + "   pt:" + points + "  │\n" +
                 "│    ⠀⠀⠀⠀⠀" + res + "⠀  │\n" +

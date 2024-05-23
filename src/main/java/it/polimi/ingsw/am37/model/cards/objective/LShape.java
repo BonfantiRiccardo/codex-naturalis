@@ -88,7 +88,11 @@ public class LShape extends PlacementBoundObjective {
     public Position getRequestedPosition() {
         return requestedPosition;
     }
-
+    /**
+     * the toString method shows the placement of the cards the objective requires.
+     * @param utfActive is a boolean which tells if the encoding is enable.
+     * @return a String showing the placement the player has to achieve.
+     */
     public String toString(boolean utfActive){
         int points = this.getPointsGiven();
         int id= this.getId();

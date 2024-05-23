@@ -22,7 +22,11 @@ public class ResourceCard extends StandardCard {
     public ResourceCard(int id, Front front, Back back){
         super(id, front, back);
     }
-
+    /**
+     * the toString method prints the resource card corresponding to the id.
+     * @param utfActive tells if the encoding is enable or not.
+     * @return the resource card corresponding to the id.
+     */
     public String toString(boolean utfActive) {
 
         int points = this.getFront().getPointsGivenOnPlacement();

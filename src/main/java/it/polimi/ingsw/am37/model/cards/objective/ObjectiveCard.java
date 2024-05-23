@@ -41,10 +41,19 @@ public abstract class ObjectiveCard extends Card {
      */
     public abstract int calculateNumOfCompletion(Kingdom kingdom);
 
+    /**
+     * the toString() method is used to debug.
+     * @return the points given for each completion of an objective.
+     */
     @Override
     public String toString() {
         return super.toString() + ", points: " + pointsGivenPerCompletion;
     }
 
+    /**
+     * the toString() is used to show the objectives to the player.
+     * @param utfActive is a boolean which tells if the encoding is enable.
+     * @return the objectives.
+     */
     public abstract String toString(boolean utfActive);
 }

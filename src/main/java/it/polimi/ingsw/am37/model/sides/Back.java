@@ -23,6 +23,10 @@ public class Back extends Side implements Serializable {
         super(tl, tr, bl, br, mainResource);
     }
 
+    /**
+     * the toString method is used for debugging and prints the back side of the card and where it's placed.
+     * @return a string representing the back side of the card.
+     */
     @Override
     public String toString() {
         return super.toString();

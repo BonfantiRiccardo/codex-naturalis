@@ -188,6 +188,10 @@ public abstract class Side {
         isPlaced = true;
     }
 
+    /**
+     * the toString method is used for debugging and prints a side of the card and where it's placed.
+     * @return a string representing the side of the card.
+     */
     @Override
     public String toString() {
         return "{" +

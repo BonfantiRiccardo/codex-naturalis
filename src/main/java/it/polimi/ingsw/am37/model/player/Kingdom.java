@@ -185,6 +185,11 @@ public class Kingdom {
         this.placedSides.add(sidePlaced);
     }
 
+    /**
+     * the getVisual method prints the kingdom of the player based on the encoding chosen.
+     * @param utfActive tells if the encoding is enabled or not.
+     * @return a string representing the kingdom of the player.
+     */
     public String[][] getVisual(boolean utfActive) {
         String[][] field = new String[100][100];
         Map<Resource, String> colourMap = new HashMap<>();
@@ -323,11 +328,6 @@ public class Kingdom {
         String[][] reducedField = new String[maxX - minX + 1][maxY - minY + 1];
         for (int i = 0; i < maxX - minX + 1; i++)
             if (maxY - minY + 1 >= 0) System.arraycopy(field[minX + i], minY, reducedField[i], 0, maxY - minY + 1);
-
-        /* SAME AS:
-        for (int i = 0; i < maxX - minX + 1; i++)
-            for (int j = 0; j < maxY - minY + 1; j++)
-                reducedField[i][j] = field[minX + i][minY + j];*/
 
         return reducedField;
     }

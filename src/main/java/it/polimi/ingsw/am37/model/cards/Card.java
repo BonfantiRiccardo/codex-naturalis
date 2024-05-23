@@ -31,6 +31,12 @@ public abstract class Card {
         return id;
     }
 
+    /**
+     * the resourceToString method associates each kind of resource with the relative emoji or letter depending on the
+     * status of the encoding.
+     * @param utfActive tells if the encoding is enable or not.
+     * @return the resultant map of the encoding.
+     */
     public static Map<Resource,String> resourceToString(boolean utfActive) {
         Map<Resource,String> resourceMap = new HashMap<>();
 
@@ -57,6 +63,10 @@ public abstract class Card {
         return resourceMap;
     }
 
+    /**
+     * the toString method prints the id of each card.
+     * @return the id the card.
+     */
     @Override
     public String toString() {
         return "id: " + id;

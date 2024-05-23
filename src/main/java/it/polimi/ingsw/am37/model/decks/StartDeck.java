@@ -43,7 +43,11 @@ public class StartDeck extends Deck {
 
         shuffle();
     }
-
+    /**
+     * the drawCard method gives to the player the first starting card of the deck and proceed to remove it from the deck.
+     * @return the starting card.
+     * @throws NoCardsException if there's no cards left in the deck.
+     */
     public StartCard drawCard() throws NoCardsException {
         if (!cards.isEmpty())  {
             StartCard c = (StartCard) cards.get(0);
