@@ -7,7 +7,7 @@ public abstract class View implements PropertyChangeListener {
 
     protected ViewState state;
     protected VirtualServer virtualServer;
-    protected final ClientSideGameModel localGameInstance;
+    protected ClientSideGameModel localGameInstance;
 
     public View(ViewState state) {
         this.state = state;

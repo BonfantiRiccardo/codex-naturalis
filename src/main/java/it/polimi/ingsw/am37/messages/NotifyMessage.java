@@ -52,6 +52,15 @@ public class NotifyMessage extends MessageToClient{
                             null);
                     v.propertyChange(evt);
                 }
+                case  "last turn" -> {
+                    //add to updates
+                    PropertyChangeEvent evt = new PropertyChangeEvent(
+                            this,
+                            "LAST_TURN",
+                            null,
+                            null);
+                    v.propertyChange(evt);
+                }
             }
         }
     }

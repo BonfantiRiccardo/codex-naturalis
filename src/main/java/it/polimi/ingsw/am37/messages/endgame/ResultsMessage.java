@@ -6,6 +6,7 @@ import it.polimi.ingsw.am37.view.ClientSidePlayer;
 import it.polimi.ingsw.am37.view.View;
 import it.polimi.ingsw.am37.view.ViewState;
 
+import java.beans.PropertyChangeEvent;
 import java.util.Map;
 
 public class ResultsMessage extends MessageToClient {
@@ -31,6 +32,13 @@ public class ResultsMessage extends MessageToClient {
             }
 
         v.setState(ViewState.SHOW_RESULTS);
+
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "RESULTS",
+                null, null);
+        v.propertyChange(evt);
+
         synchronized (v) {
             v.notify();
         }

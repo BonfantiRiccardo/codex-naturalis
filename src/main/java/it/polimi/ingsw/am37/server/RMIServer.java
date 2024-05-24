@@ -259,6 +259,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
             return;
         }
 
+        boolean inEndGame = c.isEndGameStarted();
         boolean drawn = false;
         List<Integer> currentHand = new ArrayList<>();
 
@@ -335,9 +336,16 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
                     }
 
                     //notify if endgame
-                    if (c.isEndGameStarted()) {
+                    if (c.isEndGameStarted() && !inEndGame) {
                         for (Player pl: c.getGameInstance().getParticipants()) {
                             c.getPlayerViews().get(pl).acknowledgePlayer(pl, "endgame");
+                        }
+                    }
+
+                    //notify last turn
+                    if (c.getGameInstance().getTurnCounter() == c.getGameInstance().getLastTurn()) { //LAST TURN MIGHT BE UNINITIALIZED
+                        for (Player pl: c.getGameInstance().getParticipants()) {
+                            c.getPlayerViews().get(pl).acknowledgePlayer(pl, "last turn");
                         }
                     }
 
@@ -361,6 +369,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
             return;
         }
 
+        boolean inEndGame = c.isEndGameStarted();
         boolean goldEmpty = c.getGameInstance().getRDeck().isEmpty();
         boolean resourceEmpty = c.getGameInstance().getGDeck().isEmpty();
 
@@ -421,9 +430,16 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
                         }
 
                         //notify if endgame
-                        if (c.isEndGameStarted()) {
+                        if (c.isEndGameStarted() && !inEndGame) {
                             for (Player pl: c.getGameInstance().getParticipants()) {
                                 c.getPlayerViews().get(pl).acknowledgePlayer(pl, "endgame");
+                            }
+                        }
+
+                        //notify last turn
+                        if (c.getGameInstance().getTurnCounter() == c.getGameInstance().getLastTurn()) { //LAST TURN MIGHT BE UNINITIALIZED
+                            for (Player pl: c.getGameInstance().getParticipants()) {
+                                c.getPlayerViews().get(pl).acknowledgePlayer(pl, "last turn");
                             }
                         }
 

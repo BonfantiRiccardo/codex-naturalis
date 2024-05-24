@@ -28,10 +28,8 @@ public class TUIView extends View implements PropertyChangeListener {
 
         System.out.print("This games uses emojis to better visualize cards. This are some emojis: ⬜🐺📜\n" +
                             "If the terminal correctly displays them type 'y', otherwise type  'n': ");
-        if (stdIn.nextLine().equals("n"))
-            utf8EncodingEnabled = false;
-        else
-            utf8EncodingEnabled = true;
+        utf8EncodingEnabled = !stdIn.nextLine().equals("n");  //equals: if (stdIn.nextLine().equals("n")) utf8EncodingEnabled = false;
+                                                                     // else utf8EncodingEnabled = true;
 
         preLobby();
 
@@ -505,8 +503,10 @@ public class TUIView extends View implements PropertyChangeListener {
 
             boolean choiceOk = false;
             for (StandardCard c: localGameInstance.getMyHand())
-                if (c.getId() == inputNum)
+                if (c.getId() == inputNum) {
                     choiceOk = true;
+                    break;
+                }
 
             if (choiceOk) {
                 //Choose a side by typing f or b (type r for return to the id)
@@ -688,12 +688,17 @@ public class TUIView extends View implements PropertyChangeListener {
     }
 
     public boolean gameOver() {
+
         System.out.println("Play again? ('yes' or 'no')");
         while (true) {
             final String inputLine = stdIn.nextLine();
 
             if (inputLine.equalsIgnoreCase("yes")) {
                 state = ViewState.CREATE_JOIN;
+                //RESETS THE CLIENT MODEL
+                localGameInstance = new ClientSideGameModel();
+                localGameInstance.setListener(this);
+
                 return true;
             } else if (inputLine.equalsIgnoreCase("no"))
                 return false;
@@ -769,9 +774,9 @@ public class TUIView extends View implements PropertyChangeListener {
         System.out.println("Your kingdom: ");
         String[][] field = localGameInstance.getMe().getKingdom().getVisual(utf8EncodingEnabled);
 
-        for (int i = 0; i < field.length; i++) {
+        for (String[] strings : field) {
             for (int j = 0; j < field[0].length; j++)
-                System.out.print(field[i][j]);
+                System.out.print(strings[j]);
             System.out.println();
         }
 
@@ -825,9 +830,9 @@ public class TUIView extends View implements PropertyChangeListener {
                 System.out.println(p.getNickname() + "'s kingdom: ");
                 String[][] field = p.getKingdom().getVisual(utf8EncodingEnabled);
 
-                for (int i = 0; i < field.length; i++) {
+                for (String[] strings : field) {
                     for (int j = 0; j < field[0].length; j++)
-                        System.out.print(field[i][j]);
+                        System.out.print(strings[j]);
                     System.out.println();
                 }
 
@@ -894,6 +899,7 @@ public class TUIView extends View implements PropertyChangeListener {
             players.remove(playerTable.get(i));
         }
 
+        System.out.println();
         System.out.println("THE WINNER IS: " + playerTable.getFirst().getNickname());
 
         for(ClientSidePlayer p : playerTable)
@@ -957,6 +963,20 @@ public class TUIView extends View implements PropertyChangeListener {
                 //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
                 synchronized (updates) {
                    updates.add("One of the players reached 20 points, we are now in the ENDGAME");
+                }
+                break;
+            }
+            case "LAST_TURN": {
+                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
+                synchronized (updates) {
+                    updates.add("This will be the last turn");
+                }
+                break;
+            }
+            case "RESULTS": {
+                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
+                synchronized (updates) {
+                    updates.add("The game is OVER, press ENTER to check the results");
                 }
                 break;
             }

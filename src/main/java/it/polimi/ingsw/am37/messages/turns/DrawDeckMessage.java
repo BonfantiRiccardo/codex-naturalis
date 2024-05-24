@@ -31,6 +31,8 @@ public class DrawDeckMessage extends MessageToServer {
             return;
         }
 
+        boolean inEndGame = c.isEndGameStarted();
+
         boolean drawn = false;
         List<Integer> currentHand = new ArrayList<>();
 
@@ -104,9 +106,16 @@ public class DrawDeckMessage extends MessageToServer {
                     }
 
                     //notify if endgame
-                    if (c.isEndGameStarted()) {
+                    if (c.isEndGameStarted() && !inEndGame) {
                         for (Player pl: c.getGameInstance().getParticipants()) {
                             c.getPlayerViews().get(pl).acknowledgePlayer(pl, "endgame");
+                        }
+                    }
+
+                    //notify last turn
+                    if (c.getGameInstance().getTurnCounter() == c.getGameInstance().getLastTurn()) { //LAST TURN MIGHT BE UNINITIALIZED
+                        for (Player pl: c.getGameInstance().getParticipants()) {
+                            c.getPlayerViews().get(pl).acknowledgePlayer(pl, "last turn");
                         }
                     }
 

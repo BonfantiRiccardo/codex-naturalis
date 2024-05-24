@@ -224,6 +224,15 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
                         null);
                 v.propertyChange(evt);
             }
+            case  "last turn" -> {
+                //add to updates
+                PropertyChangeEvent evt = new PropertyChangeEvent(
+                        this,
+                        "LAST_TURN",
+                        null,
+                        null);
+                v.propertyChange(evt);
+            }
         }
     }
 
@@ -351,6 +360,12 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
                 v.getLocalGameInstance().getMe().setObjectivesCompleted(playerNumCompletedObjectives.get(name));
             }
 
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "RESULTS",
+                null,
+                null);
+        v.propertyChange(evt);
 
         v.setState(ViewState.SHOW_RESULTS);
     }

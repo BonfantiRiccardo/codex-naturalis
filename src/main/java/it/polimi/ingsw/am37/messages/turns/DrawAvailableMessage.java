@@ -31,6 +31,7 @@ public class DrawAvailableMessage extends MessageToServer {
             return;
         }
 
+        boolean inEndGame = c.isEndGameStarted();
         boolean goldEmpty = c.getGameInstance().getRDeck().isEmpty();
         boolean resourceEmpty = c.getGameInstance().getGDeck().isEmpty();
 
@@ -99,9 +100,16 @@ public class DrawAvailableMessage extends MessageToServer {
                     }
 
                     //notify if endgame
-                    if (c.isEndGameStarted()) {
+                    if (c.isEndGameStarted() && !inEndGame) {
                         for (Player pl: c.getGameInstance().getParticipants()) {
                             c.getPlayerViews().get(pl).acknowledgePlayer(pl, "endgame");
+                        }
+                    }
+
+                    //notify last turn
+                    if (c.getGameInstance().getTurnCounter() == c.getGameInstance().getLastTurn()) { //LAST TURN MIGHT BE UNINITIALIZED
+                        for (Player pl: c.getGameInstance().getParticipants()) {
+                            c.getPlayerViews().get(pl).acknowledgePlayer(pl, "last turn");
                         }
                     }
 
