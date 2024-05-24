@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am37.controller;
 
 import it.polimi.ingsw.am37.controller.states.*;
+import it.polimi.ingsw.am37.controller.virtualview.VirtualView;
 import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.objective.ObjectiveCard;
 import it.polimi.ingsw.am37.model.cards.placeable.*;

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.am37.controller;
 
-import it.polimi.ingsw.am37.client.RMIClientSkeleton;
-import it.polimi.ingsw.am37.messages.MessageToServer;
-import it.polimi.ingsw.am37.server.ClientHandler;
+import it.polimi.ingsw.am37.network.client.RMIClientSkeleton;
+import it.polimi.ingsw.am37.network.messages.MessageToServer;
+import it.polimi.ingsw.am37.network.server.ClientHandler;
 
 import java.util.HashMap;
 import java.util.Map;

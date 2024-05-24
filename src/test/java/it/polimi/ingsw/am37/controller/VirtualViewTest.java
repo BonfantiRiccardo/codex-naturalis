@@ -1,12 +1,9 @@
 package it.polimi.ingsw.am37.controller;
 
+import it.polimi.ingsw.am37.controller.virtualview.VirtualView;
 import it.polimi.ingsw.am37.exceptions.*;
-import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.player.Player;
-import it.polimi.ingsw.am37.model.player.Token;
-import it.polimi.ingsw.am37.model.sides.Position;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
