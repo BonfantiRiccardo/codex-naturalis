@@ -701,6 +701,7 @@ public class TUIView extends View implements PropertyChangeListener {
                 //RESETS THE CLIENT MODEL
                 localGameInstance = new ClientSideGameModel();
                 localGameInstance.setListener(this);
+                updates.clear();
 
                 return true;
             } else if (inputLine.equalsIgnoreCase("no"))
