@@ -3,10 +3,12 @@ package it.polimi.ingsw.am37.view;
 import it.polimi.ingsw.am37.view.clientmodel.ClientSideGameModel;
 import it.polimi.ingsw.am37.view.virtualserver.VirtualServer;
 
+import javafx.application.Application;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public abstract class View implements PropertyChangeListener {
+public abstract class View extends Application implements PropertyChangeListener {
 
     protected ViewState state;
     protected VirtualServer virtualServer;

@@ -1,10 +1,17 @@
 package it.polimi.ingsw.am37.view.GUI;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +55,12 @@ public class JoinGameController {
     }
 
     @FXML
-    public void joinGameClick(){
-
+    public void joinGameClick(ActionEvent joinClick) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) joinClick.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root, 800, 500));
+        stage.show();
     }
 
 
