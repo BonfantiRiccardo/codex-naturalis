@@ -1,64 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor" stylesheets="@loginStyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am37.view.GUI.LobbyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor" stylesheets="@loginStyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am37.view.GUI.controllers.LobbyController">
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane prefHeight="249.0" prefWidth="600.0">
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="TOP_CENTER" layoutY="-48.8" prefHeight="356.0" prefWidth="600.0" AnchorPane.bottomAnchor="-58.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-49.0">
                      <children>
-                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                        <VBox alignment="TOP_CENTER" prefHeight="71.0" prefWidth="600.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wainting in lobby....">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting in lobby...." wrappingWidth="374.7802734375">
                                  <font>
                                     <Font name="System Bold" size="42.0" />
                                  </font>
                               </Text>
                            </children>
                         </VBox>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Num of lobby:">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="lobbyNumber" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font name="System Italic" size="24.0" />
-                           </font>
-                        </Text>
-                        <Button fx:id="message" mnemonicParsing="false" onAction="#onMessageReceived" text="Message" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="You:">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="playerName" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font name="System Italic" size="24.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total players needed for the game to start: ">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="playersNeededToStart" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font name="System Italic" size="24.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Now waiting for all the players">
-                           <font>
-                              <Font name="System Bold Italic" size="24.0" />
-                           </font>
-                        </Text>
+                        <HBox alignment="CENTER" prefHeight="43.0" prefWidth="600.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Num of lobby:" wrappingWidth="155.83984375">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="lobbyNumber" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="201.5999665260315">
+                                 <font>
+                                    <Font name="System Italic" size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="You:" wrappingWidth="59.71331477165222">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="playerName" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="298.39998149871826">
+                                 <font>
+                                    <Font name="System Italic" size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0">
+                           <children>
+                              <Text fx:id="namesOfPlayers" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="363.19993019104004">
+                                 <font>
+                                    <Font name="System Italic" size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="47.0" prefWidth="600.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total players needed for the game to start: " wrappingWidth="464.2633377075199">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="playersNeededToStart" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="44.79998850822449">
+                                 <font>
+                                    <Font name="System Italic" size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Now waiting for all the players" wrappingWidth="350.4609375">
+                                 <font>
+                                    <Font name="System Bold Italic" size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>

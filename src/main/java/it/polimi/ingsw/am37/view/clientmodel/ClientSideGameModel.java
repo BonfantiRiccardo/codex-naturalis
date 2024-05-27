@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientSideGameModel {
-    PropertyChangeListener listener;
+    private PropertyChangeListener listener;
     private final List<ResourceCard> resourceCards;
     private final List<GoldCard> goldCards;
     private final List<ObjectiveCard> objectiveCards;
@@ -84,6 +84,10 @@ public class ClientSideGameModel {
         this.listener = listener;
     }
 
+    public PropertyChangeListener getListener() {
+        return listener;
+    }
+
     public List<ResourceCard> getResourceCards() {
         return resourceCards;
     }
@@ -116,6 +120,13 @@ public class ClientSideGameModel {
     }
 
     public void setListOfLobbies(List<Integer> listOfLobbies) {
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "LOBBIES",
+                this.listOfLobbies,
+                listOfLobbies);
+        this.listener.propertyChange(evt);
+
         this.listOfLobbies = listOfLobbies;
     }
 
@@ -144,6 +155,13 @@ public class ClientSideGameModel {
 
     public void addPlayer(ClientSidePlayer newPlayer) {
         players.add(newPlayer);
+
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "NEW_PLAYER",
+                null,
+                newPlayer);
+        this.listener.propertyChange(evt);
     }
 
     public ClientSidePlayer getMe() {

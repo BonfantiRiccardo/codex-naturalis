@@ -1,23 +1,29 @@
 package it.polimi.ingsw.am37.view.GUI;
 
+import it.polimi.ingsw.am37.view.GUI.controllers.GUIController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.image.*;
+
 
 public class GUIViewApplication extends Application{
+    private static GUIView guiReference;
 
     @Override
     public void start (Stage primaryStage) throws Exception{
-        /*FXMLLoader fxmlLoader = new FXMLLoader(GUIViewApplication.class.getResource("/it/polimi/ingsw/am37/view/loginPhase/login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 500);
-        primaryStage.setTitle("Codex Naturalis");
-        primaryStage.setScene(scene);
-        primaryStage.show();*/
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/am37/view/GUI/login.fxml"));
+        Parent root = fxmlLoader.load();
 
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        GUIController.setGuiReference(guiReference);
+
         primaryStage.setTitle("Codex Naturalis");
+
+        Image icon = new Image("/it/polimi/ingsw/am37/view/GUI/logo.png");
+        primaryStage.getIcons().add(icon);
+
         primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();
     }
@@ -25,4 +31,9 @@ public class GUIViewApplication extends Application{
     public static void main (String[] args){
         launch(args);
     }
+
+    public static void setGUI(GUIView gui) {
+        guiReference = gui;
+    }
+
 }

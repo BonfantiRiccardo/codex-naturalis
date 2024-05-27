@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.network.client;
 
+import it.polimi.ingsw.am37.view.GUI.GUIView;
 import it.polimi.ingsw.am37.view.TUI.TUIView;
 import it.polimi.ingsw.am37.view.ViewState;
 
@@ -19,15 +20,15 @@ public class ClientMain {
                 if (view.equalsIgnoreCase("tui"))
                     client = new ClientTCP(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN));
                 else
-                    client = new ClientTCP(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN)); //GUI
+                    client = new ClientTCP(hostName, portNumber, new GUIView(ViewState.CREATE_JOIN)); //GUI
             } else if (protocol.equalsIgnoreCase("rmi")) {
                 if (view.equalsIgnoreCase("tui"))
                     client = new ClientRMI(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN));
                 else
-                    client = new ClientRMI(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN)); //GUI
+                    client = new ClientRMI(hostName, portNumber, new GUIView(ViewState.CREATE_JOIN)); //GUI
             } else {
                 System.out.println("Wrong protocol system, starting default configuration");
-                client = new ClientTCP(hostName, portNumber, new TUIView(ViewState.CREATE_JOIN)); //GUI
+                client = new ClientTCP(hostName, portNumber, new GUIView(ViewState.CREATE_JOIN)); //GUI
             }
 
 

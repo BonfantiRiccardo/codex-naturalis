@@ -36,7 +36,8 @@ public class UpdateLobbyMessage extends MessageToClient {
 
             v.getLocalGameInstance().setNumOfPlayers(totalPlayers);
 
-            v.setState(ViewState.WAIT_IN_LOBBY);
+            if (!v.getState().equals(ViewState.PLACE_SC))
+                v.setState(ViewState.WAIT_IN_LOBBY);
             v.notify();
         }
     }

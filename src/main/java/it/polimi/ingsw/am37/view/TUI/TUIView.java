@@ -9,7 +9,6 @@ import it.polimi.ingsw.am37.view.clientmodel.ClientSideGameModel;
 import it.polimi.ingsw.am37.view.clientmodel.ClientSidePlayer;
 import it.polimi.ingsw.am37.view.View;
 import it.polimi.ingsw.am37.view.ViewState;
-import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -1008,8 +1007,4 @@ public class TUIView extends View implements PropertyChangeListener {
         }
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-
-    }
 }
