@@ -55,7 +55,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     /**
-     * the startClient method is called by the ClientMain to connect the Client and the view.
+     * the startClient method implements the usage of the method from the ClientConnectionInterface.
      * @throws RemoteException when the connection is lost.
      */
     @Override
@@ -81,8 +81,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         }
     }
     /**
-     * the updateLobbyView method sends to the player all the infos about the lobby, for example the nicknames of the players
-     * in the lobby, the number of players in the lobby or the maximum capacity of the lobby.
+     * the updateLobbyView method implements the usage of method from the RMIClientSkeleton Interface.
      * @param yourNickname is the player receiving the message.
      * @param playerNickname is the list of players in the lobby.
      * @param lobbyNum is the number of players in the lobby.
@@ -104,7 +103,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     /**
-     * the receiveLobbies method sets the list of available lobbies and change the state of the view to "choose_lobby".
+     * the receiveLobbies method implements the usage of method from the RMIClientSkeleton Interface.
      * @param Lobbies is the list of Lobbies.
      * @throws RemoteException when the connection is lost.
      */
@@ -114,7 +113,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         v.setState(ViewState.CHOOSE_LOBBY);
     }
     /**
-     * the playerAdded method adds a player to the lobby and notifies the other player about it.
+     * the playerAdded method implements the usage of method from the RMIClientSkeleton Interface.
      * @param player is the player added.
      */
     @Override
@@ -125,8 +124,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         }
     }
     /**
-     * the sendInitial method sends to the player the starting setup of the game, including the available gold and resource
-     * cards on the field, the top of the decks, his hand, his starting card, the public and private objectives.
+     * the sendInitial method implements the usage of method from the RMIClientSkeleton Interface.
      * @param availableGold is the list of available gold cards the player can draw.
      * @param availableResource is the list of available resource cards the player can draw.
      * @param startCard is the player's starting card.
@@ -223,8 +221,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         }
     }
     /**
-     * the nowUnavailableToken method set to the player the token he chose, removing it from the list of the available
-     * ones to choose from.
+     * the nowUnavailableToken method implements the usage of method from the RMIClientSkeleton Interface.
      * @param player is the player choosing the token.
      * @param token is the token chosen.
      */
@@ -237,8 +234,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         v.getLocalGameInstance().removeToken(token);
     }
     /**
-     * the sendPlayersInOrder method sends a randomly generated list of the players, ordered according to their
-     * turns in the game.
+     * the sendPlayersInOrder method implements the usage of method from the RMIClientSkeleton Interface.
      * @param playersInOrder is the ordered list of the players.
      */
     @Override
@@ -255,9 +251,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     /**
-     * the notifyPlayer method sends to the player confirmations about the previews action of the player, for example
-     * if the player has drawn a card, if he has placed a card, if he has chosen the objectives, if he has chosen
-     * his token or if it's his turn.
+     * the notifyPlayer method implements the usage of method from the RMIClientSkeleton Interface.
      * @param message is the message notified to the player.
      */
     @Override
@@ -300,8 +294,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     /**
-     * the updatesPlayersKingdomView method places a card and update the View of the player right after placing it,
-     * either if it's a starting card or another card.
+     * the updatesPlayersKingdomView method implements the usage of method from the RMIClientSkeleton Interface.
      * @param player is the player who places the card.
      * @param cardId is the cardId of the card to be placed.
      * @param side is the side of the card to be placed.
@@ -343,8 +336,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     /**
-     * the updatePlayerHandAndDeckView method updates the player's hand and the new top of the deck right after the player
-     * has drawn a card from the deck.
+     * the updatePlayerHandAndDeckView method implements the usage of method from the RMIClientSkeleton Interface.
      * @param deck is a parameter which gives information about the nature of the deck, if it's gold or resource.
      * @param resource is the new top of the deck requested.
      * @param cardId is the card the player has drawn and that now is in his hand.
@@ -373,7 +365,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     /**
-     * the updatesDeckView sends to the player the top of the resource or gold deck, based on which one is requested.
+     * the updatesDeckView method implements the usage of method from the RMIClientSkeleton Interface.
      * @param deck is a parameter which gives information about the nature of the deck, if it's gold or resource.
      * @param resource is the top of the deck requested.
      */
@@ -388,7 +380,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     /**
-     * the updatesAvailableCardView method sends to the player the new available cards on the field.
+     * the updatesAvailableCardView method implements the usage of method from the RMIClientSkeleton Interface.
      * @param deck is a parameter which gives information about the nature of the deck, if it's gold or resource.
      * @param topOfDeck is the resource of the new top of the deck requested.
      * @param availableChanged is the new available card that has changed.
@@ -433,7 +425,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     /**
-     * the sendResults method calculates and shows the final points of each player.
+     * the sendResults method implements the usage of method from the RMIClientSkeleton Interface.
      * @param playerPoints is a map of each player's points.
      * @param playerNumCompletedObjectives is a map of the number of objectives completed by each player.
      */
@@ -461,7 +453,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     /**
-     * the error message method prints the error message given in the description.
+     * the error message method implements the usage of method from the RMIClientSkeleton Interface.
      * @param description is the message sent.
      * @throws RemoteException when the connection is lost.
      */
@@ -472,7 +464,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     }
 
     /**
-     * the playerDisconnection method sets the status of a player to "disconnected"
+     * the playerDisconnection method implements the usage of method from the RMIClientSkeleton Interface.
      * @throws RemoteException when the connection is lost.
      */
     @Override

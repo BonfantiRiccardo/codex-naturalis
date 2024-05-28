@@ -5,8 +5,15 @@ import it.polimi.ingsw.am37.view.TUI.TUIView;
 import it.polimi.ingsw.am37.view.ViewState;
 
 import java.io.IOException;
-
+/**
+ * the ClientMain class handles the first connection of the client to the server.
+ */
 public class ClientMain {
+    /**
+     * the main method sets the connection between the client and the server selecting the kind of view and inserting the
+     * server's ip and port.
+     * @param args is a vector with server's ip, server's port and kind of protocol in it.
+     */
     public static void main(String[] args) {
         try {
             String hostName = args[0];

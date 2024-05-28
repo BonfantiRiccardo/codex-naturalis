@@ -41,7 +41,7 @@ public class ClientTCP implements ClientConnectionInterface{
     }
 
     /**
-     * the startClient method is called by the ClientMain to connect the Client and the view.
+     * the startClient method implements the usage of the method from the ClientConnectionInterface.
      * @throws IOException when the input is wrong.
      */
     public void startClient() throws IOException {
