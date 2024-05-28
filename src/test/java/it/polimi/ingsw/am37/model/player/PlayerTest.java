@@ -425,16 +425,4 @@ class PlayerTest {
 
     }
 
-    /**
-     * Tests the get and set methods for the isDisconnected attribute.
-     */
-    @Test
-    void testConnection() {
-        assertFalse(p.isDisconnected());
-        p.setDisconnected(true);
-        assertTrue(p.isDisconnected());
-        p.setDisconnected(false);
-        assertFalse(p.isDisconnected());
-    }
-
 }

@@ -201,7 +201,10 @@ class DiagonalUpTest {
 
         ObjectiveCard oc;
         while (!od.isEmpty())
-            if ( (oc = od.drawCard()) instanceof DiagonalUp)
-                System.out.println(oc);
+            if ( (oc = od.drawCard()) instanceof DiagonalUp) {
+                System.out.println(oc.getId());
+                System.out.println(oc.toString(true));
+                System.out.println(oc.toString(false));
+            }
     }
 }

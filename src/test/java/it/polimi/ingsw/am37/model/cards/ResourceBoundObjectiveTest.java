@@ -166,8 +166,11 @@ public class ResourceBoundObjectiveTest {
         ObjectiveCard oc;
         while (!od.isEmpty()) {
             oc = od.drawCard();
-            if (oc.getId() >= 95 && oc.getId() <= 102)
-                System.out.println(oc);
+            if (oc.getId() >= 95 && oc.getId() <= 102) {
+                System.out.println(oc.getId());
+                System.out.println(oc.toString(true));
+                System.out.println(oc.toString(false));
+            }
         }
     }
 }

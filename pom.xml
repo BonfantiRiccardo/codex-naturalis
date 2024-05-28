@@ -67,7 +67,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>it.polimi.ingsw.am37/it.polimi.ingsw.am37.HelloApplication</mainClass>
+              <mainClass>it.polimi.ingsw.am37/it.polimi.ingsw.am37.network.client.ClientMain</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
@@ -78,6 +78,26 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <mainClass>it.polimi.ingsw.am37.network.client.ClientMain</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
     </plugins>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory
+        ></resource>
+    </resources>
   </build>
 </project>

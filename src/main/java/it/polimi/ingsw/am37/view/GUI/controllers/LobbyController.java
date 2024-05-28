@@ -21,6 +21,11 @@ public class LobbyController extends GUIController implements PropertyChangeList
     public void onLoad(){
         playerName.setText(guiReference.getLocalGameInstance().getMe().getNickname());
         lobbyNumber.setText(String.valueOf(guiReference.getLocalGameInstance().getNumOfLobby()));
+
+        getInfo();
+    }
+
+    public void getInfo() {
         playersNeededToStart.setText(String.valueOf((guiReference.getLocalGameInstance().getNumOfPlayers()
                 - 1 - guiReference.getLocalGameInstance().getPlayers().size())));
 
@@ -46,26 +51,7 @@ public class LobbyController extends GUIController implements PropertyChangeList
         switch (evt.getPropertyName()) {
             case "NEW_PLAYER": {
                 //LOAD THE OTHER VIEW IF PLAYERS REACHED
-                Platform.runLater( () -> {
-                    playersNeededToStart.setText(String.valueOf((guiReference.getLocalGameInstance().getNumOfPlayers()
-                            - 1 - guiReference.getLocalGameInstance().getPlayers().size())));
-
-                    StringBuilder text = new StringBuilder();
-                    if (!guiReference.getLocalGameInstance().getPlayers().isEmpty()) {
-                        text.append("These players have joined: ");
-                        int count = guiReference.getLocalGameInstance().getPlayers().size();
-                        for (ClientSidePlayer p : guiReference.getLocalGameInstance().getPlayers()) {
-                            text.append(p.getNickname());
-                            if (count > 1) {
-                                text.append(", ");
-                                count--;
-                            }
-                        }
-                    } else
-                        text.append("No player joined yet");
-
-                    namesOfPlayers.setText(String.valueOf(text));
-                });
+                Platform.runLater(this::getInfo);
             }
         }
     }

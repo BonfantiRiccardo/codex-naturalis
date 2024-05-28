@@ -36,6 +36,7 @@ module it.polimi.ingsw.am37 {
     exports it.polimi.ingsw.am37.view;
     exports it.polimi.ingsw.am37.view.clientmodel;
     exports it.polimi.ingsw.am37.view.GUI;
+    exports it.polimi.ingsw.am37.view.GUI.controllers;
     exports it.polimi.ingsw.am37.view.TUI;
     exports it.polimi.ingsw.am37.view.virtualserver;
     exports it.polimi.ingsw.am37.view.GUITest;
@@ -61,10 +62,9 @@ module it.polimi.ingsw.am37 {
     opens it.polimi.ingsw.am37.view to javafx.fxml;
     opens it.polimi.ingsw.am37.view.GUITest to javafx.fxml;
     opens it.polimi.ingsw.am37.view.GUI to javafx.fxml;
+    opens it.polimi.ingsw.am37.view.GUI.controllers to javafx.fxml;
     opens it.polimi.ingsw.am37.view.TUI to javafx.fxml;
     opens it.polimi.ingsw.am37.view.clientmodel to javafx.fxml;
     opens it.polimi.ingsw.am37.view.virtualserver to javafx.fxml;
-    exports it.polimi.ingsw.am37.view.GUI.controllers;
-    opens it.polimi.ingsw.am37.view.GUI.controllers to javafx.fxml;
 
 }

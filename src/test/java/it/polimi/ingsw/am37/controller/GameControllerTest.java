@@ -268,20 +268,4 @@ class GameControllerTest {
         assertEquals(c2.getState().getClass(), GameOver.class);
         assertEquals(c2.getGameInstance().getCurrentStatus(), GameStatus.OVER);
     }
-
-    @Test
-    void disconnectionTest() throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
-        c2.addPlayer(p2);
-        c2.addPlayer(p3);
-
-        c2.handleDisconnection(p);
-
-        assertTrue(p.isDisconnected());
-        assertTrue(c2.getGameInstance().getDisconnectedPlayers().contains(p));
-
-        c2.handleReconnection(p);
-
-        assertFalse(p.isDisconnected());
-        assertFalse(c2.getGameInstance().getDisconnectedPlayers().contains(p));
-    }
 }

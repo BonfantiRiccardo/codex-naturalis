@@ -149,26 +149,6 @@ class GameModelTest {
     }
 
     /**
-     * Tests the set and get method for the disconnectedPlayer list.
-     */
-    @Test
-    void reconnectionTest() {
-        assertTrue(g.getDisconnectedPlayers().isEmpty());
-
-        g.setDisconnected(pl1);
-
-        assertEquals(1, g.getDisconnectedPlayers().size());
-        assertTrue(g.getDisconnectedPlayers().contains(pl1));
-        assertTrue(pl1.isDisconnected());
-
-        g.reconnect(pl1);
-
-        assertEquals(0, g.getDisconnectedPlayers().size());
-        assertFalse(g.getDisconnectedPlayers().contains(pl1));
-        assertFalse(pl1.isDisconnected());
-    }
-
-    /**
      * Tests the method that returns the final ranking of the match
      */
     @RepeatedTest (value = 100)//@Test

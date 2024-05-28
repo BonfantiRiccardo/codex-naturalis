@@ -70,10 +70,6 @@ public class GameModel {
      * phase.
      */
     private int lastTurn;
-    /**
-     * The disconnectedPlayer attribute is a list of Player that are currently disconnected from the game.
-     */
-    private final List<Player> disconnectedPlayers;
 
     /**
      * The GameModel(participantsInOrder) constructor sets the participantsInOrder attribute to the list of player
@@ -84,8 +80,6 @@ public class GameModel {
      */
     public GameModel(List<Player> participantsInOrder) {
         this.participantsInOrder = participantsInOrder;
-
-        disconnectedPlayers = new ArrayList<>();
 
         for (Player p : participantsInOrder) {
             try {
@@ -358,32 +352,5 @@ public class GameModel {
             i++;
         }
         return finalPoints;
-    }
-
-    /**
-     * The getDisconnectedPlayers() method returns the list of player that are currently disconnected from the game.
-     * @return The disconnectedPlayers attribute.
-     */
-    public List<Player> getDisconnectedPlayers() {
-        return disconnectedPlayers;
-    }
-
-    /**
-     * The setDisconnected(p) method adds the Player p given as a parameter to the list of disconnectedPlayers.
-     * @param p The Player that has to be added to the disconnectedPlayers.
-     */
-    public void setDisconnected(Player p) {
-        disconnectedPlayers.add(p);
-        p.setDisconnected(true);
-    }
-
-    /**
-     * The reconnect(p) method removes the Player given as a parameter from the disconnectedPlayers list and sets his
-     * isDisconnected attribute to false.
-     * @param p The Player that has to be removed from the disconnectedPlayers.
-     */
-    public void reconnect(Player p) {
-        disconnectedPlayers.remove(p);
-        p.setDisconnected(false);
     }
 }

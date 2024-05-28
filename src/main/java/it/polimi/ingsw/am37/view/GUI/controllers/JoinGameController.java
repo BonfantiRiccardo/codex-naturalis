@@ -59,7 +59,7 @@ public class JoinGameController extends GUIController implements PropertyChangeL
     public void createGameClick(ActionEvent createClick) throws IOException {
         guiReference.setState(ViewState.CREATE_JOIN);
 
-        changeScene("/it/polimi/ingsw/am37/view/GUI/createGame.fxml", "create", createClick);
+        changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/createGame.fxml", "create", createClick);
     }
 
     @Override
@@ -100,7 +100,8 @@ public class JoinGameController extends GUIController implements PropertyChangeL
                         lobbyList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
                             @Override
                             public void changed(ObservableValue<? extends Integer> observableValue, Integer integer, Integer t1) {
-                                selectedLobbyValue = lobbyList.getSelectionModel().getSelectedItem();
+                                if (lobbyList.getSelectionModel().getSelectedItem()!=null)
+                                    selectedLobbyValue = lobbyList.getSelectionModel().getSelectedItem();
                                 lobbySelected.setText(String.valueOf(selectedLobbyValue));
                             }
                         });
@@ -109,7 +110,14 @@ public class JoinGameController extends GUIController implements PropertyChangeL
                 break;
             }
             case "ERROR": {
-                waitingText.setText((String) evt.getNewValue());
+                Platform.runLater(() -> {
+                    waitingText.setText((String) evt.getNewValue());
+                    if(evt.getNewValue().equals("There are no active games.")) {
+                        lobbySelected.setText("");
+                        lobbyList.getItems().clear();
+                    }
+                });
+
                 guiReference.setState(ViewState.CHOOSE_LOBBY);
                 break;
             }
@@ -117,7 +125,7 @@ public class JoinGameController extends GUIController implements PropertyChangeL
                 if(evt.getNewValue().equals(ViewState.WAIT_IN_LOBBY)) {
                     Platform.runLater( () -> {
                         try {
-                            changeScene("/it/polimi/ingsw/am37/view/GUI/lobby.fxml", "lobby", event);
+                            changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/lobby.fxml", "lobby", event);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }

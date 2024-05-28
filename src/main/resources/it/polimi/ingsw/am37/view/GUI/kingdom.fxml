@@ -30,22 +30,22 @@
                                              <children>
                                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                                    <children>
-                                                      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
+                                                      <ImageView fx:id="publicObjective1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                                                          <image>
-                                                            <Image url="@../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/098.png" />
+                                                            <Image url="@../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/098.png" />
                                                          </image>
                                                       </ImageView>
-                                                      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
+                                                      <ImageView fx:id="resourceDeck" fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                                                          <image>
                                                             <Image url="@../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_back/032.png" />
                                                          </image>
                                                       </ImageView>
-                                                      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
+                                                      <ImageView fx:id="availableResource1" fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                                                          <image>
                                                             <Image url="@../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/007.png" />
                                                          </image>
                                                       </ImageView>
-                                                      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
+                                                      <ImageView fx:id="availableResource2" fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                                                          <image>
                                                             <Image url="@../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/007.png" />
                                                          </image>
@@ -57,22 +57,22 @@
                                                 </VBox>
                                                 <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                                    <children>
-                                                      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
+                                                      <ImageView fx:id="publicObjective2" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                                                          <image>
                                                             <Image url="@../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/099.png" />
                                                          </image>
                                                       </ImageView>
-                                                      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
+                                                      <ImageView fx:id="goldDeck" fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                                                          <image>
                                                             <Image url="@../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_back/063.png" />
                                                          </image>
                                                       </ImageView>
-                                                      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
+                                                      <ImageView fx:id="availableGold1" fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                                                          <image>
                                                             <Image url="@../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/077.png" />
                                                          </image>
                                                       </ImageView>
-                                                      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
+                                                      <ImageView fx:id="availableGold2" fitHeight="150.0" fitWidth="200.0" layoutX="10.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                                                          <image>
                                                             <Image url="@../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/059.png" />
                                                          </image>

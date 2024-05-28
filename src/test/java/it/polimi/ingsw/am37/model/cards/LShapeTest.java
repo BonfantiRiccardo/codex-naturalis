@@ -157,7 +157,10 @@ public class LShapeTest {
 
         ObjectiveCard oc;
         while (!od.isEmpty())
-            if ( (oc = od.drawCard()) instanceof LShape)
-                System.out.println(oc);
+            if ( (oc = od.drawCard()) instanceof LShape) {
+                System.out.println(oc.getId());
+                System.out.println(oc.toString(true));
+                System.out.println(oc.toString(false));
+            }
     }
 }

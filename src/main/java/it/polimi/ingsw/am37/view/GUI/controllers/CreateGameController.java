@@ -61,7 +61,7 @@ public class CreateGameController extends GUIController implements PropertyChang
 
     public void joinButtonClicked(ActionEvent joinClicked) throws IOException {
         guiReference.setState(ViewState.CHOOSE_LOBBY);
-        changeScene("/it/polimi/ingsw/am37/view/GUI/joinGame.fxml", "join", joinClicked);
+        changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/joinGame.fxml", "join", joinClicked);
     }
 
     @FXML
@@ -92,7 +92,7 @@ public class CreateGameController extends GUIController implements PropertyChang
                 if (evt.getNewValue().equals(ViewState.WAIT_IN_LOBBY)) {
                     Platform.runLater(() -> {
                         try {
-                            changeScene("/it/polimi/ingsw/am37/view/GUI/lobby.fxml", "lobby", event);
+                            changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/lobby.fxml", "lobby", event);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }

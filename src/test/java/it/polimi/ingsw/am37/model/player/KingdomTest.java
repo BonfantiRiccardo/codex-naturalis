@@ -398,4 +398,53 @@ class KingdomTest {
         }
 
     }
+
+    @Test
+    void toStringTest() throws NoCardsException, IncorrectUserActionException, AlreadyAssignedException {
+        Player p = new Player("Riccardo");
+        StartCard sc = sD.drawCard();
+
+        p.instantiateMyKingdom(sc, sc.getFront());
+
+        for (int i = 0; i<10; i++) {
+            StandardCard sdc = rD.drawCard();
+            if (i%2 == 0) {
+                sdc.getFront().placeInPosition(p.getMyKingdom().getActivePositions().getFirst().getX(), p.getMyKingdom().getActivePositions().getFirst().getY());
+                p.getMyKingdom().updateKingdom(sdc, sdc.getFront(), p.getMyKingdom().getActivePositions().getFirst());
+            } else {
+
+                sdc.getBack().placeInPosition(p.getMyKingdom().getActivePositions().getFirst().getX(), p.getMyKingdom().getActivePositions().getFirst().getY());
+                p.getMyKingdom().updateKingdom(sdc, sdc.getBack(), p.getMyKingdom().getActivePositions().getFirst());
+            }
+        }
+
+        for (int i = 0; i<10; i++) {
+            StandardCard sdc = gD.drawCard();
+            if (i%2 == 0) {
+
+                sdc.getFront().placeInPosition(p.getMyKingdom().getActivePositions().getFirst().getX(), p.getMyKingdom().getActivePositions().getFirst().getY());
+                p.getMyKingdom().updateKingdom(sdc, sdc.getFront(), p.getMyKingdom().getActivePositions().getFirst());
+            } else {
+
+                sdc.getBack().placeInPosition(p.getMyKingdom().getActivePositions().getFirst().getX(), p.getMyKingdom().getActivePositions().getFirst().getY());
+                p.getMyKingdom().updateKingdom(sdc, sdc.getBack(), p.getMyKingdom().getActivePositions().getFirst());
+            }
+        }
+
+        String[][] field = p.getMyKingdom().getVisual(true);
+
+        for (String[] strings : field) {
+            for (int j = 0; j < field[0].length; j++)
+                System.out.print(strings[j]);
+            System.out.println();
+        }
+
+        String[][] field2 = p.getMyKingdom().getVisual(false);
+
+        for (String[] strings : field2) {
+            for (int j = 0; j < field2[0].length; j++)
+                System.out.print(strings[j]);
+            System.out.println();
+        }
+    }
 }
