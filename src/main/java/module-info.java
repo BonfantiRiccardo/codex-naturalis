@@ -64,5 +64,7 @@ module it.polimi.ingsw.am37 {
     opens it.polimi.ingsw.am37.view.TUI to javafx.fxml;
     opens it.polimi.ingsw.am37.view.clientmodel to javafx.fxml;
     opens it.polimi.ingsw.am37.view.virtualserver to javafx.fxml;
+    exports it.polimi.ingsw.am37.view.GUI.controllers;
+    opens it.polimi.ingsw.am37.view.GUI.controllers to javafx.fxml;
 
 }

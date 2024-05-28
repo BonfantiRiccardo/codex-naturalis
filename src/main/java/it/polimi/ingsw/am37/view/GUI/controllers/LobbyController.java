@@ -18,8 +18,6 @@ public class LobbyController extends GUIController implements PropertyChangeList
     @FXML
     private Text playersNeededToStart;
 
-
-
     public void onLoad(){
         playerName.setText(guiReference.getLocalGameInstance().getMe().getNickname());
         lobbyNumber.setText(String.valueOf(guiReference.getLocalGameInstance().getNumOfLobby()));
