@@ -17,16 +17,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * the RMIVirtualVIew implements the methods of the VirtualView Interface in case the player chooses an RMI connection.
+ */
 public class RMIVirtualView implements VirtualView {
-
+    /**
+     * the cs attribute is the reference to the player's ClientSkeleton.
+     */
     private final RMIClientSkeleton cs;
+    /**
+     * the rmiServer attribute is the reference to the server the player is connected to.
+     */
     private final RMIServer rmiServer;
 
+    /**
+     * RMIVirtualView is a setter method for the ClientSkeleton and of the Server.
+     * @param cs is the ClientSkeleton
+     * @param rmiServer is the Server.
+     */
     public RMIVirtualView (RMIClientSkeleton cs, RMIServer rmiServer){
         this.cs=cs;
         this.rmiServer=rmiServer;
     }
 
+    /**
+     * the acknowledgePlayer method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param p is the player notified.
+     * @param s is the message notified to the player.
+     */
     public void acknowledgePlayer(Player p, String s){
         try {
             cs.notifyPlayer(s);
@@ -37,6 +56,14 @@ public class RMIVirtualView implements VirtualView {
 
     }
 
+    /**
+     * the updateLobbyView method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param receiver is the player receiving the message.
+     * @param joined is the list of players in the lobby.
+     * @param lobbyNum is the number of players in the lobby.
+     * @param maxPlayers is the maximum number of players the lobby can contain.
+     */
     public void updateLobbyView(Player receiver, List<Player> joined, int lobbyNum, int maxPlayers){
         List<String> nicknames = new ArrayList<>();
         for (Player p : joined)
@@ -49,6 +76,11 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
+    /**
+     * the playerAdded method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param p is the player added.
+     */
     public void playerAdded(Player p) {
         try {
             cs.playerAdded(p.getNickname());
@@ -58,6 +90,18 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
+    /**
+     * the sendInitial method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param cGold is the available gold cards the player can draw.
+     * @param cResource is the available resource cards the player can draw.
+     * @param sc is the player's starting card.
+     * @param hand is the player's hand.
+     * @param publicObjectives is the public objectives the player has to complete.
+     * @param objToChooseFrom is the private objectives the player has to choose from.
+     * @param goldDeckBack is the top of the gold deck from which the player can draw.
+     * @param resourceDeckBack is the top of the gold deck from which the player can draw.
+     */
     public void sendInitial(List<StandardCard> cGold, List<StandardCard> cResource, StartCard sc, List<StandardCard> hand,
                      ObjectiveCard[] publicObjectives, ObjectiveCard[] objToChooseFrom, Resource goldDeckBack, Resource resourceDeckBack){
         List<Integer> cGoldId = new ArrayList<>();
@@ -87,7 +131,12 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
-
+    /**
+     * the nowUnavailableToken method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param p is the player choosing the token.
+     * @param t is the token chosen.
+     */
     public void nowUnavailableToken(Player p, Token t){
         try {
             cs.sendNowUnavailableToken(p.getNickname(),t);
@@ -97,6 +146,11 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
+    /**
+     * the sendPLayersInOrder method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param players is the ordered list of the players.
+     */
     @Override
     public void sendPlayersInOrder(List<Player> players) {
         List<String> nicknames = new ArrayList<>();
@@ -111,6 +165,11 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
+    /**
+     * the notifyTurn method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param p is the player notified.
+     */
     public void notifyTurn(Player p){
         try {
             cs.notifyPlayer("your turn");
@@ -120,6 +179,12 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
+    /**
+     * the updatesDeckView method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param deck is a parameter which gives information about the nature of the deck, if it's gold or resource.
+     * @param back is the top of the deck requested.
+     */
     @Override
     public void updatesDeckView(String deck, Resource back) {
         try {
@@ -130,6 +195,13 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
+    /**
+     * the updatePlayerHandAndDeckView method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param deck is a parameter which gives information about the nature of the deck, if it's gold or resource.
+     * @param topOfDeck is the new top of the deck requested.
+     * @param cardId is the card the player has drawn and that now is in his hand.
+     */
     @Override
     public void updatePlayerHandAndDeckView(String deck, Resource topOfDeck, int cardId) {
         try {
@@ -140,6 +212,14 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
+    /**
+     * the updatesAvailableCardView method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param deck is a parameter which gives information about the nature of the deck, if it's gold or resource.
+     * @param topOfDeck is the resource of the new top of the deck requested.
+     * @param listChanged is the new available card that has changed.
+     * @param cardList is the new list of the available cards on the field.
+     */
     @Override
     public void updatesAvailableCardView(String deck, Resource topOfDeck, String listChanged, List<StandardCard> cardList) {
         List<Integer> availableId = new ArrayList<>();
@@ -153,6 +233,14 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
+    /**
+     * the updatesPlayersKingdomView method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param p is the player who places the card.
+     * @param c is the cardId of the card to be placed.
+     * @param s is the side of the card to be placed.
+     * @param pos is the position where the player wants to place the card.
+     */
     public void updatesPlayersKingdomView(Player p, int c, String s, Position pos){
         try {
             cs.updateKingdom(p.getNickname(),c,s,pos);
@@ -162,6 +250,11 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
+    /**
+     * the sendResults method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     * @param results is the points of the players.
+     */
     public void sendResults(PlayerPoints[] results){
         Map<String, Integer> playersPoints = new HashMap<>();
         Map<String, Integer> playersCompletions = new HashMap<>();
@@ -179,6 +272,10 @@ public class RMIVirtualView implements VirtualView {
         }
     }
 
+    /**
+     * the playerDisconnection method implements the usage of the method in the VirtualView Interface, for the players
+     * with an RMI connection.
+     */
     @Override
     public void playerDisconnection() {
         try {

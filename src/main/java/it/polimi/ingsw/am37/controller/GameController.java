@@ -342,30 +342,4 @@ public class GameController implements Observable {
         return gameInstance.getCurrentTurn().equals(p);
     }
 
-    /**
-     * the handleDisconnection method set the state of the connection of the player.
-     * @param p is the player disconnected.
-     */
-    public void handleDisconnection(Player p) {
-        gameInstance.setDisconnected(p);
-    }
-
-    //IMPLEMENT DISCONNECTIONS WITH TIMEOUTS HANDLING IN SERVER
-    /**
-     * the method checkConnection
-     * @param p ...
-     * @return ...
-     */
-    public boolean checkConnection(Player p) {
-        return true;
-    }
-
-    /**
-     *
-     * @param p ...
-     */
-    public void handleReconnection(Player p) {
-        gameInstance.reconnect(p);
-    }
-
 }

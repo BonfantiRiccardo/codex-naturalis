@@ -365,22 +365,4 @@ public class Player {
         game.getScoreboard().addPoints(this, toAdd);
     }
 
-    /**
-     * The isDisconnected() method returns the current state of the connection with the player's client.
-     * @return true if the player is disconnected, false if the player is connected.
-     */
-    public boolean isDisconnected() {
-        return isDisconnected;
-    }
-
-    /**
-     * The setDisconnected(connectionStatus) method updates the connection status of the player's client to the one
-     * given as a parameter.
-     * @param connectionStatus A boolean that is true if the player's client has disconnected, false if it has
-     *                         reconnected.
-     */
-    public void setDisconnected(boolean connectionStatus) {
-        isDisconnected = connectionStatus;
-    }
-
 }

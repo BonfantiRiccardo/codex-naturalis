@@ -7,17 +7,24 @@ import it.polimi.ingsw.am37.model.game.GameStatus;
  * the GameOver class implements the State interface and manages the last state of the game.
  */
 public class GameOver implements State {
+    /**
+     * the controller attribute is the reference to the controller of the game.
+     */
     GameController controller;
 
+    /**
+     * the GameOver method sets the current status of the game to "over"
+     * @param controller is the reference to the controller of the game.
+     */
     public GameOver(GameController controller) {
         this.controller = controller;
         this.controller.getGameInstance().setCurrentStatus(GameStatus.OVER);
-
-        //this.controller.sendResults(this.controller.getGameInstance().getGameWinner());
     }
 
+    /**
+     * the gamePhaseHandler method is empty because the game is over.
+     */
     @Override
     public void gamePhaseHandler() {
-        //EMPTY BECAUSE THE GAME IS OVER.
     }
 }

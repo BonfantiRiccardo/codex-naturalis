@@ -28,7 +28,7 @@ public class LobbyState implements State{
      * @throws AlreadyAssignedException if we accidentally try to initialize the game twice.
      * @throws NoCardsException if there's no cards to set up the game.
      */
-    @Override   //SYNCHRONIZED
+    @Override
     public synchronized void gamePhaseHandler() throws AlreadyAssignedException, NoCardsException {
         if (controller.getAddedPlayers().size() == controller.getNumOfPlayers()) {
             controller.setGameInstance(new GameModel(controller.getAddedPlayers()));
