@@ -27,11 +27,11 @@ Guarda il file dei problemi noti: [Known Issues](KNOWN_ISSUES.txt)
 |  Basic rules     |  :white_check_mark:     |
 |  Complete rules  |  :white_check_mark:     |
 |  Socket TCP      |  :white_check_mark:     |
-|  RMI             |  :gear:                 |
+|  RMI             |  :white_check_mark:     |
 |  CLI             |  :white_check_mark:     |
 |  GUI             |  :gear:                 |
-|  Multiple games  |  :gear:                 |
-|  Chat            |  :alarm_clock:          |
+|  Multiple games  |  :white_check_mark:     |
+|  Chat            |  :no_entry:             |
 |  Persistence     |  :no_entry:             |
 |  Resilience      |  :no_entry:             |
 
