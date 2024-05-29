@@ -70,7 +70,6 @@ public class TUIView extends View implements PropertyChangeListener {
             if (state.equals(ViewState.SHOW_RESULTS) || state.equals(ViewState.DISCONNECTION))
                 break;
 
-            System.out.println("Synchronizing...");
             String inputLine;
             synchronized (this) {
                 System.out.println("Choose an action from the list: ");
@@ -89,7 +88,6 @@ public class TUIView extends View implements PropertyChangeListener {
         return gameOver();
     }
 
-    @Override
     public void preLobby() {
         boolean error = false;
 
@@ -201,23 +199,23 @@ public class TUIView extends View implements PropertyChangeListener {
 
     private void activeActions() {
         switch (state) {
-            case PLACE_SC -> System.out.println("Place Start Card (psc), Print Available (pa), Chat (ch), Cancel (c)");
+            case PLACE_SC -> System.out.println("Place Start Card (psc), Print Available (pa), Cancel (c)");
 
-            case CHOOSE_TOKEN -> System.out.println("Choose Token (ct), Print Available (pa), Chat (ch), Cancel (c)");
+            case CHOOSE_TOKEN -> System.out.println("Choose Token (ct), Print Available (pa), Cancel (c)");
 
             case CHOOSE_OBJECTIVE -> System.out.println("Choose Objective (co), Print Hand (ph), Print Public Objectives (ppo), Print Decks (pd), " +
-                                                        "Print Available (pa), Chat (ch), Cancel (c)");
+                                                        "Print Available (pa), Cancel (c)");
 
             case NOT_TURN -> System.out.println("Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), Print Private Objective (pro), " +
-                                        "Print Decks (pd), Print Available (pa),\nPrint Scoreboard (ps), Print Player Info (ppi), Chat (ch), Cancel (c)");
+                                        "Print Decks (pd), Print Available (pa),\nPrint Scoreboard (ps), Print Player Info (ppi), Cancel (c)");
 
             case PLACE -> System.out.println("Place (p), Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), " +
                                         "Print Private Objective (pro), Print Decks (pd), Print Available (pa),\nPrint Scoreboard (ps), " +
-                                        "Print Player Info (ppi), Chat (ch), Cancel (c)");
+                                        "Print Player Info (ppi), Cancel (c)");
 
             case DRAW -> System.out.println("Draw (d), Print Kingdom (pk), Print Hand (ph), Print Public Objectives (ppo), " +
                                         "Print Private Objective (pro), Print Decks (pd), Print Available (pa),\nPrint Scoreboard (ps), " +
-                                        "Print Player Info (ppi), Chat (ch), Cancel (c)");
+                                        "Print Player Info (ppi), Cancel (c)");
         }
     }
 
@@ -312,11 +310,8 @@ public class TUIView extends View implements PropertyChangeListener {
                     System.out.println("The action you chose is not valid");
                 break;
             }
-            case "ch": {
-                //ask receiver, ask message, print message
-                break;
-            }
             case "c": {
+                System.out.println("Action canceled");
                 break;
             }
             default: {
@@ -380,7 +375,7 @@ public class TUIView extends View implements PropertyChangeListener {
             System.out.print("Choose the Token you want (type 'b' for blue, 'y' for yellow, 'r' for red, 'g' for green): ");
             inputLine = stdIn.nextLine();
 
-            if (inputLine.equalsIgnoreCase("b"))      //CHANGE
+            if (inputLine.equalsIgnoreCase("b"))
                 virtualServer.chooseToken(localGameInstance.getMe().getNickname(), Token.BLUE);
             else if (inputLine.equalsIgnoreCase("y"))
                 virtualServer.chooseToken(localGameInstance.getMe().getNickname(), Token.YELLOW);

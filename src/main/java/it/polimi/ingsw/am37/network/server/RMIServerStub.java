@@ -25,4 +25,5 @@ public interface RMIServerStub extends Remote {
 
     void drawCardFromAvailable(int clientId, String p, int cardId) throws RemoteException;
 
+    void ping(int clientId) throws RemoteException;
 }

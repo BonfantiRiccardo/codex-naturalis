@@ -3,6 +3,7 @@ package it.polimi.ingsw.am37.network.messages;
 import java.io.Serializable;
 
 public enum MessageId implements Serializable {
+    PING,
     CREATE,
     REQUEST_LOBBY,
     LOBBIES,

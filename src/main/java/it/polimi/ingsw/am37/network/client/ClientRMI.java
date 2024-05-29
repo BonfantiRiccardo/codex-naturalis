@@ -16,13 +16,12 @@ import it.polimi.ingsw.am37.view.View;
 import it.polimi.ingsw.am37.view.ViewState;
 
 import java.beans.PropertyChangeEvent;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * the ClientRMI class implements the RMIClientSkeleton and implements the method called by the player during the game.
@@ -41,6 +40,9 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
      */
     private final View v;
 
+    boolean disconnected = false;
+    private Timer disconnectionTimer;
+
     /**
      * ClientRMI is a setter method for the server's port and ip, and the for the view.
      * @param ip is the server's ip.
@@ -52,6 +54,8 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         this.ip = ip;
         this.port = port;
         this.v = v;
+
+        disconnectionTimer = new Timer();
     }
 
     /**
@@ -68,6 +72,9 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
 
             RMIVirtualServer vs = new RMIVirtualServer(server, this);
             v.setVirtualServer(vs);
+
+            //Thread to handle pinging to server
+            new Thread(() -> startPinging(server)).start();
 
             while (true) {
                 boolean choice = v.handleGame();
@@ -472,4 +479,35 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         v.setState(ViewState.DISCONNECTION);
     }
 
+    private void startPinging(RMIServerStub server) {
+        while (!disconnected) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                System.err.println("Ping thread interrupted");
+            }
+
+            try {
+                server.ping(this.hashCode());
+            } catch (IOException e) {
+                System.err.println("Error while pinging client");
+            }
+        }
+    }
+
+    @Override
+    public void ping() throws RemoteException {
+        //TimerTask to handle pinging from server (save in parameter to cancel it later and restart it)
+         disconnectionTimer.cancel();
+         disconnectionTimer = new Timer();
+         disconnectionTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                v.setState(ViewState.DISCONNECTION);
+                disconnected = true;
+                System.out.println("\nConnection with server was lost, closing application.");
+                System.exit(0);
+            }
+         }, 15000);
+    }
 }

@@ -14,27 +14,31 @@ import it.polimi.ingsw.am37.model.sides.Position;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
     private final Map<Integer, RMIClientSkeleton> clients;
 
     private final MultipleMatchesHandler multipleMatchesHandler;
 
+    private final Thread pingThread;
+    private final Map<Integer, Timer> disconnectionTimer = new HashMap<>();
+
     public RMIServer(MultipleMatchesHandler multipleMatchesHandler) throws RemoteException {
         clients = new HashMap<>();
         this.multipleMatchesHandler = multipleMatchesHandler;
+
+        pingThread = new Thread(this::startPingingClient);
     }
 
     public synchronized void join(int id, RMIClientSkeleton client) throws RemoteException {
         clients.put(id, client);
+        disconnectionTimer.put(id, new Timer());
     }
 
     public synchronized void leave(int id, RMIClientSkeleton client) throws RemoteException {
         clients.remove(id, client);
+        disconnectionTimer.put(id, new Timer());
     }
 
     @Override
@@ -114,12 +118,13 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
     public void placeCard(int clientId, String player, int cardId, String side, Position pos) throws RemoteException {
         boolean placed = false;
         GameController c = multipleMatchesHandler.getMapRMI().get(clients.get(clientId));
-        if (c == null) {
+        if (c == null && clients.get(clientId) != null) {
             clients.get(clientId).errorMessage("You are not logged");
             return;
         }
 
         try {
+            assert c != null;
             for (Player p: c.getGameInstance().getParticipants()) {
                 if (p.getNickname().equalsIgnoreCase(player)) {
                     if (86>=cardId && cardId>=81) {
@@ -457,8 +462,25 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    public void ping(int clientId) throws RemoteException {
+        if (disconnectionTimer.get(clientId) != null) {
+            disconnectionTimer.get(clientId).cancel();
+            disconnectionTimer.put(clientId, new Timer());
+
+            disconnectionTimer.get(clientId).schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("\nOne of the player did not send a ping to the server for 15 seconds, it is considered disconnected.");
+                    playerDisconnected(clients.get(clientId));
+                    pingThread.interrupt();
+                }
+            }, 15000);
+        }
+    }
+
     public void playerDisconnected(RMIClientSkeleton cs) {
         GameController c = multipleMatchesHandler.getMapRMI().get(cs);
+        clients.remove(cs.hashCode(), cs);
 
         if (c != null) {
             for (Player p: c.getAddedPlayers())
@@ -466,6 +488,25 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
 
         }
 
+    }
+
+    public void startPingingClient() {
+        while (true) {
+            try {
+                Thread.sleep(5000);
+                for (RMIClientSkeleton cs: clients.values()) {
+                    new Thread(() -> {
+                        try {
+                            cs.ping();
+                        } catch (RemoteException e) {
+                            playerDisconnected(cs);
+                        }
+                    });
+                }
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public MultipleMatchesHandler getMultipleMatchesHandler() {

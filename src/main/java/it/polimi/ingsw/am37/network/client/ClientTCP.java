@@ -1,6 +1,9 @@
 package it.polimi.ingsw.am37.network.client;
 
+import it.polimi.ingsw.am37.network.messages.MessageId;
 import it.polimi.ingsw.am37.network.messages.MessageToClient;
+import it.polimi.ingsw.am37.network.messages.PingToServer;
+import it.polimi.ingsw.am37.view.ViewState;
 import it.polimi.ingsw.am37.view.virtualserver.TCPVirtualServer;
 import it.polimi.ingsw.am37.view.View;
 
@@ -8,8 +11,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.NoSuchElementException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * the ClientTCP class implements the ClientConnectionInterface and handles all the messages sent by the player.
@@ -27,6 +31,10 @@ public class ClientTCP implements ClientConnectionInterface{
      * the v attribute is the view connecting to.
      */
     private final View v;
+    /**
+     * the disconnectionTimer attribute is the timer that handles the disconnection of the client.
+     */
+    private Timer disconnectionTimer;
 
     /**
      * ClientTCP is a setter method for the server's port and ip, and the for the view.
@@ -38,6 +46,8 @@ public class ClientTCP implements ClientConnectionInterface{
         this.ip = ip;
         this.port = port;
         this.v = v;
+
+        disconnectionTimer = new Timer();
     }
 
     /**
@@ -58,7 +68,10 @@ public class ClientTCP implements ClientConnectionInterface{
         final ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
 
         try {
+            //Thread to handle pinging to server
+            new Thread(() -> startPingingServer(socketOut)).start();
 
+            //Thread to handle server messages
             new Thread(() -> handleServer(socketIn)).start();
 
             while (true) {
@@ -78,7 +91,7 @@ public class ClientTCP implements ClientConnectionInterface{
     }
 
     /**
-     * the handleServer method handles all the messages that the server sent.
+     * the handleServer method handles all the messages that the server sends.
      * @param socketIn is the object input stream of the socket.
      */
     private void handleServer(ObjectInputStream socketIn) {
@@ -86,11 +99,45 @@ public class ClientTCP implements ClientConnectionInterface{
         try {
             while ( (message = (MessageToClient) socketIn.readObject()) != null) {
                 message.decodeAndExecute(v);
+
+                handleTimers();
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("\nConnection with server was lost, closing application.\n");
             System.exit(0);
         }
+    }
+
+
+    private void startPingingServer(final ObjectOutputStream socketOut) {
+        while (true) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                System.err.println("Ping thread interrupted");
+            }
+            synchronized (socketOut) {
+                try {
+                    socketOut.writeObject(new PingToServer(MessageId.PING));
+                    socketOut.flush();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    private void handleTimers() {
+        disconnectionTimer.cancel();
+        disconnectionTimer = new Timer();
+        disconnectionTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                v.setState(ViewState.DISCONNECTION);
+                System.out.println("\nConnection with server was lost, closing application.");
+                System.exit(0);
+            }
+        }, 15000);
     }
 
 }

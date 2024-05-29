@@ -131,4 +131,5 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      */
     void playerDisconnection() throws RemoteException;
 
+    void ping() throws RemoteException;
 }
