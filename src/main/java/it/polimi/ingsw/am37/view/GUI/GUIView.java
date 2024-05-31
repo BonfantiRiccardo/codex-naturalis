@@ -19,10 +19,6 @@ public class GUIView extends View {
         return false;
     }
 
-    @Override
-    public void preLobby() {
-
-    }
 
     @Override
     public boolean gameOver() {

@@ -171,132 +171,132 @@ public class GoldCard extends StandardCard {
         } else {
             plc = switch (this.getId()) {
                 case 41 -> {
-                    bonus = "1  Q";
-                    yield "⠀ ⠀ F F A   ";
+                    bonus = "1 Q";
+                    yield "    F F A    ";
                 }
                 case 42 -> {
-                    bonus = "1  N";
-                    yield "⠀ ⠀ F F P ⠀ ";
+                    bonus = "1 N";
+                    yield "    F F P    ";
                 }
                 case 43 -> {
-                    bonus = "1  M";
-                    yield "⠀ ⠀ F F I   ";
+                    bonus = "1 M";
+                    yield "     F F I   ";
                 }
                 case 44 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀F F F A ⠀";
+                    bonus = "2 C";
+                    yield "   F F F A   ";
                 }
                 case 45 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀F F F P ⠀";
+                    bonus = "2 C";
+                    yield "   F F F P   ";
                 }
                 case 46 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀F F F I ⠀";
+                    bonus = "2 C";
+                    yield "   F F F I   ";
                 }
                 case 47, 48, 49 -> {
-                    bonus = "  3⠀";
-                    yield "⠀ ⠀ F F F    ";
+                    bonus = " 3 ";
+                    yield "    F F F    ";
                 }
                 case 50 -> {
-                    bonus = "  5⠀";
-                    yield "⠀F⠀F⠀F⠀F F  ";
+                    bonus = " 5 ";
+                    yield "  F F F F F  ";
                 }
                 case 51 -> {
-                    bonus = "1  Q";
-                    yield "⠀ ⠀ P P I   ";
+                    bonus = "1 Q";
+                    yield "    P P I    ";
                 }
                 case 52 -> {
-                    bonus = "1  M";
-                    yield "⠀ ⠀ P P F  ⠀";
+                    bonus = "1 M";
+                    yield "    P P F    ";
                 }
                 case 53 -> {
-                    bonus = "1  N";
-                    yield "⠀ ⠀ P P A   ";
+                    bonus = "1 N";
+                    yield "    P P A    ";
                 }
                 case 54 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀P P P I ⠀";
+                    bonus = "2 C";
+                    yield "   P P P I   ";
                 }
                 case 55 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀P P P A ⠀";
+                    bonus = "2 C";
+                    yield "   P P P A   ";
                 }
                 case 56 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀P P P F ⠀";
+                    bonus = "2 C";
+                    yield "   P P P F   ";
                 }
                 case 57, 58, 59 -> {
-                    bonus = "  3⠀";
-                    yield "⠀ ⠀ P P P  ⠀";
+                    bonus = " 3 ";
+                    yield "    P P P    ";
                 }
                 case 60 -> {
-                    bonus = "  5⠀";
-                    yield "⠀P⠀P⠀P⠀P P  ";
+                    bonus = " 5 ";
+                    yield "  P P P P P  ";
                 }
                 case 61 -> {
-                    bonus = "1  N";
-                    yield "⠀ ⠀ A A I ⠀ ";
+                    bonus = "1 N";
+                    yield "    A A I    ";
                 }
                 case 62 -> {
-                    bonus = "1  M";
-                    yield "⠀ ⠀ A A P   ";
+                    bonus = "1 M";
+                    yield "    A A P    ";
                 }
                 case 63 -> {
-                    bonus = "1  Q";
-                    yield "⠀ ⠀ A A F  ⠀";
+                    bonus = "1 Q";
+                    yield "    A A F    ";
                 }
                 case 64 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀A A A I ⠀";
+                    bonus = "2 C";
+                    yield "   A A A I   ";
                 }
                 case 65 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀A A A F ⠀";
+                    bonus = "2 C";
+                    yield "   A A A F   ";
                 }
                 case 66 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀A A A P ⠀";
+                    bonus = "2 C";
+                    yield "   A A A P   ";
                 }
                 case 67, 68, 69 -> {
-                    bonus = "  3⠀";
-                    yield "⠀ ⠀ A A A ⠀ ";
+                    bonus = " 3 ";
+                    yield "    A A A    ";
                 }
                 case 70 -> {
-                    bonus = "  5⠀";
-                    yield "⠀A⠀A⠀A⠀A A  ";
+                    bonus = " 5 ";
+                    yield "  A A A A A  ";
                 }
                 case 71 -> {
-                    bonus = "1  Q";
-                    yield "⠀ ⠀ I I P  ⠀";
+                    bonus = "1 Q";
+                    yield "    I I P    ";
                 }
                 case 72 -> {
-                    bonus = "1  M";
-                    yield "⠀ ⠀ I I A ⠀ ";
+                    bonus = "1 M";
+                    yield "    I I A    ";
                 }
                 case 73 -> {
-                    bonus = "1  N";
-                    yield "⠀ ⠀ I I F  ⠀";
+                    bonus = "1 N";
+                    yield "    I I F    ";
                 }
                 case 74 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀I I I A ⠀";
+                    bonus = "2 C";
+                    yield "   I I I A   ";
                 }
                 case 75 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀I I I P ⠀";
+                    bonus = "2 C";
+                    yield "   I I I P   ";
                 }
                 case 76 -> {
-                    bonus = "2  C";
-                    yield "⠀ ⠀I I I F ⠀";
+                    bonus = "2 C";
+                    yield "   I I I F   ";
                 }
                 case 77, 78, 79 -> {
-                    bonus = "  3⠀";
-                    yield "⠀ ⠀ I I I  ⠀";
+                    bonus = " 3 ";
+                    yield "    I I I    ";
                 }
                 case 80 -> {
-                    bonus = "  5⠀";
-                    yield "⠀I⠀I⠀I⠀I I  ";
+                    bonus = " 5 ";
+                    yield "  I I I I I  ";
                 }
                 default -> {
                     bonus = "error";
@@ -305,13 +305,22 @@ public class GoldCard extends StandardCard {
             };
         }
 
-        return  "┌────" + (getFront().getTL().getVisibility() ? "┬": "─") + "─────────────" + (getFront().getTR().getVisibility() ? "┬": "─") + "────┐" +                                                                                                                           "    ┌────┬─────────────┬────┐\n"+
-                "│" + (getFront().getTL().getVisibility() ? " " + resMap.get(getFront().getTL().getResource()) + " │" : "     ") + "    " + bonus + "    " + (getFront().getTR().getVisibility() ? "│ " + resMap.get(getFront().getTR().getResource()) + " " : "     ") + "│"   +  "    │    │            │    │\n" +
-                (getFront().getTL().getVisibility() ? "├────┘" : "│     ") + "            " + (getFront().getTR().getVisibility() ? "└────┤" : "     │") +                                                                                                                         "    ├────┘             └────┤\n" +
-                "│                       │" +                                                                                                                                                                                                                                       "    │          " + (resMap.get(getBack().getMainResource()))+ "⠀⠀⠀⠀⠀⠀    │\n" +
-                (getFront().getBL().getVisibility() ? "├────┐" : "│     ") + "            " + (getFront().getBR().getVisibility() ? "┌────┤" : "     │") +                                                                                                                         "    ├────┐             ┌────┤\n" +
-                "│" + (getFront().getBL().getVisibility() ? " " + resMap.get(getFront().getBL().getResource()) + " │" : "     ") + plc + (getFront().getBR().getVisibility() ? "│ " + resMap.get(getFront().getBR().getResource()) + " " : "     ") + "│" +                         "    │    │            │    │\n" +
-                "└────" + (getFront().getBL().getVisibility() ? "┴":"─") + "─────────────" + (getFront().getBR().getVisibility() ? "┴":"─") + "────┘" +                                                                                                                             "    └────┴─────────────┴────┘";
+        if (utfActive)
+            return  "┌────" + (getFront().getTL().getVisibility() ? "┬": "─") + "─────────────" + (getFront().getTR().getVisibility() ? "┬": "─") + "────┐" +                                                                                                                           "    ┌────┬─────────────┬────┐\n"+
+                    "│" + (getFront().getTL().getVisibility() ? " " + resMap.get(getFront().getTL().getResource()) + " │" : "   ⠀ ") + "   ⠀" + bonus + "⠀⠀⠀⠀" + (getFront().getTR().getVisibility() ? "│ " + resMap.get(getFront().getTR().getResource()) + " " : "   ⠀ ") + "│"   +  "    │    │⠀⠀ ⠀⠀ ⠀⠀⠀⠀  │    │\n" +
+                     (getFront().getTL().getVisibility() ? "├────┘" : "│     ") + "             " + (getFront().getTR().getVisibility() ? "└────┤" : "     │") +                                                                                                                        "    ├────┘             └────┤\n" +
+                    "│                       │" +                                                                                                                                                                                                                                       "    │          " + (resMap.get(getBack().getMainResource()))+ "⠀⠀⠀⠀⠀⠀    │\n" +
+                     (getFront().getBL().getVisibility() ? "├────┐" : "│     ") + "             " + (getFront().getBR().getVisibility() ? "┌────┤" : "     │") +                                                                                                                        "    ├────┐             ┌────┤\n" +
+                    "│" + (getFront().getBL().getVisibility() ? " " + resMap.get(getFront().getBL().getResource()) + " │" : "   ⠀ ") + plc + (getFront().getBR().getVisibility() ? "│ " + resMap.get(getFront().getBR().getResource()) + " " : "   ⠀ ") + "│" +                         "    │    │⠀⠀⠀⠀⠀ ⠀⠀⠀ ⠀⠀│    │\n" +
+                    "└────" + (getFront().getBL().getVisibility() ? "┴":"─") + "─────────────" + (getFront().getBR().getVisibility() ? "┴":"─") + "────┘" +                                                                                                                             "    └────┴─────────────┴────┘";
+        else
+            return  "┌────" + (getFront().getTL().getVisibility() ? "┬": "─") + "─────────────" + (getFront().getTR().getVisibility() ? "┬": "─") + "────┐" +                                                                                                                           "    ┌────┬─────────────┬────┐\n"+
+                    "│" + (getFront().getTL().getVisibility() ? " " + resMap.get(getFront().getTL().getResource()) + " │" : "     ") + "     " + bonus + "     " + (getFront().getTR().getVisibility() ? "│ " + resMap.get(getFront().getTR().getResource()) + " " : "     ") + "│"  +  "    │    │             │    │\n" +
+                     (getFront().getTL().getVisibility() ? "├────┘" : "│     ") + "             " + (getFront().getTR().getVisibility() ? "└────┤" : "     │") +                                                                                                                        "    ├────┘             └────┤\n" +
+                    "│                       │" +                                                                                                                                                                                                                                       "    │           " + (resMap.get(getBack().getMainResource()))+ "          │\n" +
+                    (getFront().getBL().getVisibility() ? "├────┐" : "│     ") + "             " + (getFront().getBR().getVisibility() ? "┌────┤" : "     │") +                                                                                                                         "    ├────┐             ┌────┤\n" +
+                    "│" + (getFront().getBL().getVisibility() ? " " + resMap.get(getFront().getBL().getResource()) + " │" : "     ") + plc + (getFront().getBR().getVisibility() ? "│ " + resMap.get(getFront().getBR().getResource()) + " " : "     ") + "│" +                         "    │    │             │    │\n" +
+                    "└────" + (getFront().getBL().getVisibility() ? "┴":"─") + "─────────────" + (getFront().getBR().getVisibility() ? "┴":"─") + "────┘" +                                                                                                                             "    └────┴─────────────┴────┘";
     }
 
 }

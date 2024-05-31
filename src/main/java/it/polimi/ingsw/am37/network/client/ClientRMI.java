@@ -479,6 +479,10 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         v.setState(ViewState.DISCONNECTION);
     }
 
+    /**
+     * the startPinging method implements the pinging to the server.
+     * @param server is the server to ping.
+     */
     private void startPinging(RMIServerStub server) {
         while (!disconnected) {
             try {
@@ -495,6 +499,10 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
         }
     }
 
+    /**
+     * the ping method implements the usage of method from the RMIClientSkeleton Interface.
+     * @throws RemoteException when the connection is lost.
+     */
     @Override
     public void ping() throws RemoteException {
         //TimerTask to handle pinging from server (save in parameter to cancel it later and restart it)

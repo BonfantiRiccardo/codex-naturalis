@@ -490,6 +490,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
 
     }
 
+    /**
+     * This method is used to start the pinging thread that checks if the clients are still connected to the server.
+     */
     public void startPingingClient() {
         while (true) {
             try {

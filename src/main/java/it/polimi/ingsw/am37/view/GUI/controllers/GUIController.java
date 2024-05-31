@@ -21,6 +21,10 @@ public abstract class GUIController {
         Parent root = loader.load();
 
         switch (controller) {
+            case "login": {
+                guiReference.setState(ViewState.CREATE_JOIN);
+                break;
+            }
             case "create": {
                 CreateGameController createGameController = loader.getController();
                 guiReference.getLocalGameInstance().setListener(createGameController);
@@ -40,6 +44,23 @@ public abstract class GUIController {
                 guiReference.getLocalGameInstance().setListener(lobbyController);
 
                 lobbyController.onLoad();
+                break;
+            }
+
+            case "initialization": {
+
+            }
+
+            case "kingdom": {
+                KingdomController kingdomController = loader.getController();
+                guiReference.getLocalGameInstance().setListener(kingdomController);
+                kingdomController.onLoad();
+                break;
+            }
+
+            case "results": {
+                ShowResultsController showResultsController = loader.getController();
+                showResultsController.loadResults();
                 break;
             }
 

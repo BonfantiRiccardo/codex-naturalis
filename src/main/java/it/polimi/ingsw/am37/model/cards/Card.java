@@ -57,7 +57,7 @@ public abstract class Card {
             resourceMap.put(Resource.INKWELL,    "N ");
             resourceMap.put(Resource.MANUSCRIPT, "M ");
             resourceMap.put(Resource.QUILL,      "Q ");
-            resourceMap.put(Resource.EMPTY,      "⠀⠀");
+            resourceMap.put(Resource.EMPTY,      "  ");
         }
 
         return resourceMap;

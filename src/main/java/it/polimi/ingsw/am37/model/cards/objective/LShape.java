@@ -146,33 +146,33 @@ public class LShape extends PlacementBoundObjective {
             //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|      "+leg+"       |\n|      "+leg+"       |\n|        "+res+"     |\n—————————————————";
             return  "┌───────────────┐\n" +
                     "│ id:" + id + "   pt:" + points + "  │\n" +
-                    "│     "+leg+"       │\n" +
-                    "│     "+leg+"       │\n" +
-                    "│       "+res+"     │\n" +
+                    "│     "+leg+"        │\n" +
+                    "│     "+leg+"        │\n" +
+                    "│       "+res+"      │\n" +
                     "└───────────────┘";
         } else if (this.direction==Direction.TOPRIGHT) {
             //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|        "+leg+"     |\n|        "+leg+"     |\n|     "+res+"        |\n—————————————————";
             return  "┌───────────────┐\n" +
                     "│ id:" + id + "   pt:" + points + "  │\n" +
-                    "│       "+leg+"     │\n" +
-                    "│       "+leg+"     │\n" +
-                    "│     "+res+"       │\n" +
+                    "│       "+leg+"      │\n" +
+                    "│       "+leg+"      │\n" +
+                    "│     "+res+"        │\n" +
                     "└───────────────┘";
         } else if (this.direction==Direction.BOTTOMLEFT) {
             //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|        "+res+"     |\n|     "+res+"        |\n|     "+res+"        |\n—————————————————";
             return  "┌───────────────┐\n" +
                     "│ id:" + id + "   pt:" + points + "  │\n" +
-                    "│        "+res+"    │\n" +
-                    "│     "+leg+"       │\n" +
-                    "│     "+leg+"       │\n" +
+                    "│        "+res+"     │\n" +
+                    "│     "+leg+"        │\n" +
+                    "│     "+leg+"        │\n" +
                     "└───────────────┘";
         } else {
             //return "—————————————————\n| id:"+id+"  pt:"+points+"    |\n|      "+res+"       |\n|         "+res+"    |\n|         "+res+"    |\n—————————————————";
             return  "┌───────────────┐\n" +
                     "│ id:" + id + "   pt:" + points + "  │\n" +
-                    "│    "+res+"        │\n" +
-                    "│       "+leg+"     │\n" +
-                    "│       "+leg+"     │\n" +
+                    "│    "+res+"         │\n" +
+                    "│       "+leg+"      │\n" +
+                    "│       "+leg+"      │\n" +
                     "└───────────────┘";
         }
     }
