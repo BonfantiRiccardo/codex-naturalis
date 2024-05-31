@@ -112,9 +112,9 @@ public class DiagonalDown extends PlacementBoundObjective {
         //return "—————————————————\n| id:"+id+"  pt:"+points+"   |\n|    "+res+"         |\n|        "+res+"     |\n|            "+res+" |\n—————————————————";
         return  "┌───────────────┐\n" +
                 "│ id:" + id + "   pt:" + points + "  │\n" +
-                "│    "+res+"⠀⠀⠀⠀⠀⠀  │\n" +
-                "│      ⠀"+res+"⠀⠀⠀⠀⠀│\n" +
-                "│    ⠀⠀⠀⠀⠀"+res+"⠀  │\n" +
+                "│    "+res+"        │\n" +
+                "│       "+res+"     │\n" +
+                "│         "+res+"   │\n" +
                 "└───────────────┘";
 
     }

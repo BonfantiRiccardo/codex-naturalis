@@ -9,6 +9,10 @@ import it.polimi.ingsw.am37.view.ViewState;
 import java.beans.PropertyChangeEvent;
 import java.util.Map;
 
+/**
+ * the ResultsMessage class implements the MessageToClient Interface and
+ * handles the messages in the endgame that gives information about the resulting points of each player.
+ */
 public class ResultsMessage extends MessageToClient {
     private final Map<String, Integer> playerPoints;
     private final Map<String, Integer> playerObjectivesCompleted;

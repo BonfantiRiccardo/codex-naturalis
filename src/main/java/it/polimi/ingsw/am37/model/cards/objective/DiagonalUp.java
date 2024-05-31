@@ -110,9 +110,9 @@ public class DiagonalUp extends PlacementBoundObjective {
 
         return  "┌───────────────┐\n" +
                 "│ id:" + id + "   pt:" + points + "  │\n" +
-                "│    ⠀⠀⠀⠀⠀" + res + "⠀  │\n" +
-                "│      ⠀" + res + "⠀⠀⠀⠀⠀│\n" +
-                "│    " + res + "⠀⠀⠀⠀⠀⠀  │\n" +
+                "│         " + res + "   │\n" +
+                "│       " + res + "     │\n" +
+                "│    " + res + "        │\n" +
                 "└───────────────┘";
     }
 }
