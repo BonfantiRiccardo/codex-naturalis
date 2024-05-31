@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.view.GUI;
 
+import it.polimi.ingsw.am37.view.GUI.GUIView;
 import it.polimi.ingsw.am37.view.GUI.controllers.GUIController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

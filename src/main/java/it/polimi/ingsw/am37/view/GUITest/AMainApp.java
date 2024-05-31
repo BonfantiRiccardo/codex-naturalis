@@ -10,7 +10,7 @@ public class AMainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("aaa.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/am37/view/GUI/fxml/preparationPhase.fxml.fxml"));
         primaryStage.setTitle("JavaFX Example");
         primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();

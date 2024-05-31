@@ -8,7 +8,7 @@ module it.polimi.ingsw.am37 {
     requires java.desktop;
 
 
-    exports it.polimi.ingsw.am37;
+    //exports it.polimi.ingsw.am37;
 
     exports it.polimi.ingsw.am37.controller;
     exports it.polimi.ingsw.am37.controller.states;
