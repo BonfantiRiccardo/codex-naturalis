@@ -7,7 +7,16 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/**
+ * This class is used to launch the server.
+ */
 public class ServerMain {
+    /**
+     * This method is used to launch the server.
+     * @param args The arguments that are passed to the server.
+     * @throws RemoteException If there is an error in the communication.
+     * @throws AlreadyBoundException If the server is already bound.
+     */
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
         int tcpPort = Integer.parseInt(args[0]);
         int rmiPort = Integer.parseInt(args[1]);

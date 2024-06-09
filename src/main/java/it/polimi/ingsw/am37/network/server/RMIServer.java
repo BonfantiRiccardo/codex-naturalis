@@ -16,14 +16,37 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
+/**
+ * This class is the server that manages the RMI connections with the clients.
+ * It implements the RMIServerStub interface.
+ */
 public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
+    /**
+     * This map contains the clients that are connected to the server.
+     * The key is the client's id and the value is the client's RMIClientSkeleton.
+     */
     private final Map<Integer, RMIClientSkeleton> clients;
 
+    /**
+     * This object is used to manage the multiple matches that are played at the same time.
+     */
     private final MultipleMatchesHandler multipleMatchesHandler;
 
+    /**
+     * This thread is used to start the pinging thread that checks if the clients are still connected to the server.
+     */
     private final Thread pingThread;
+    /**
+     * This map contains the timers that are used to check if the clients are still connected to the server.
+     * The key is the client's id and the value is the client's Timer.
+     */
     private final Map<Integer, Timer> disconnectionTimer = new HashMap<>();
 
+    /**
+     * This constructor initializes the RMIServer.
+     * @param multipleMatchesHandler This object is used to manage the multiple matches that are played at the same time.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     public RMIServer(MultipleMatchesHandler multipleMatchesHandler) throws RemoteException {
         clients = new HashMap<>();
         this.multipleMatchesHandler = multipleMatchesHandler;
@@ -31,16 +54,46 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         pingThread = new Thread(this::startPingingClient);
     }
 
+    /**
+     * This method is used to start the server.
+     * It starts the pinging thread that checks if the clients are still connected to the server.
+     * It also starts the RMI registry.
+     * @param id This is the id of the client that is connected to the server.
+     * @param client This is the RMIClientSkeleton of the client that is connected to the server.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     public synchronized void join(int id, RMIClientSkeleton client) throws RemoteException {
         clients.put(id, client);
         disconnectionTimer.put(id, new Timer());
     }
 
+    /**
+     * This method is used to stop the server.
+     * It stops the pinging thread that checks if the clients are still connected to the server.
+     * It also stops the RMI registry.
+     * @param id This is the id of the client that is connected to the server.
+     * @param client This is the RMIClientSkeleton of the client that is connected to the server.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     public synchronized void leave(int id, RMIClientSkeleton client) throws RemoteException {
         clients.remove(id, client);
         disconnectionTimer.put(id, new Timer());
     }
 
+    /**
+     * This method is used to create a new game.
+     * It creates a new game controller and adds it to the multipleMatchesHandler.
+     * It also adds the client to the multipleMatchesHandler.
+     * It sets the virtual view of the player and updates the lobby view.
+     * It also sends a message to the other players that a new player has joined the game.
+     * If the number of players is invalid, it sends an error message to the client.
+     * It also sends an error message to the client if there is a problem with the connection.
+     * @param client This is the RMIClientSkeleton of the client that is connected to the server.
+     * @param clientId This is the id of the client that is connected to the server.
+     * @param name This is the name of the player that is creating the game.
+     * @param numOfPlayers This is the number of players that will play the game.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     @Override
     public void createGame(RMIClientSkeleton client, int clientId, String name, int numOfPlayers) throws RemoteException {
         System.out.println("Received RMI call: id createGame | client: " + clientId + " | name: " + name + " | numPlayers: " + numOfPlayers);
@@ -62,6 +115,14 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
             client.errorMessage("The player number is invalid, game not created." );
     }
 
+    /**
+     * This method is used to get the available lobbies.
+     * It sends the available lobbies to the client.
+     * If there are no available lobbies, it sends an error message to the client.
+     * It also sends an error message to the client if there is a problem with the connection.
+     * @param client This is the RMIClientSkeleton of the client that is connected to the server.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     public void availableLobbies(RMIClientSkeleton client) throws RemoteException {
         System.out.println("Received RMI call: id availableLobbies");
         if(multipleMatchesHandler.getLobbyList().isEmpty()) {
@@ -71,6 +132,18 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    /**
+     * This method is used to join a game.
+     * It adds the player to the game controller and sets the virtual view of the player.
+     * It also sends a message to the other players that a new player has joined the game.
+     * If the lobby is not active, it sends an error message to the client.
+     * It also sends an error message to the client if there is a problem with the connection.
+     * @param client This is the RMIClientSkeleton of the client that is connected to the server.
+     * @param clientId This is the id of the client that is connected to the server.
+     * @param controllerHash This is the hash of the game controller that the player wants to join.
+     * @param name This is the name of the player that is joining the game.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     @Override
     public void joinGame(RMIClientSkeleton client, int clientId, int controllerHash, String name) throws RemoteException {
         try {
@@ -114,6 +187,19 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    /**
+     * This method is used to place a card.
+     * It places the card in the player's kingdom.
+     * It also sends a message to the other players that a player has placed a card.
+     * If the card is not placed, it sends an error message to the client.
+     * It also sends an error message to the client if there is a problem with the connection.
+     * @param clientId This is the id of the client that is connected to the server.
+     * @param player This is the name of the player that is placing the card.
+     * @param cardId This is the id of the card that is being placed.
+     * @param side This is the side of the card that is being placed.
+     * @param pos This is the position of the card that is being placed.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     @Override
     public void placeCard(int clientId, String player, int cardId, String side, Position pos) throws RemoteException {
         boolean placed = false;
@@ -186,6 +272,16 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    /**
+     * This method is used to make the player choose a token.
+     * It also updates the other players that a player has chosen a token.
+     * If the token is not chosen, it sends an error message to the client.
+     * It also sends an error message to the client if there is a problem with the connection.
+     * @param clientId This is the id of the client that is connected to the server.
+     * @param player This is the name of the player that is choosing the token.
+     * @param token This is the token that is being chosen.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     @Override
     public void chooseToken(int clientId, String player, Token token) throws RemoteException {
         GameController c = multipleMatchesHandler.getMapRMI().get(clients.get(clientId));
@@ -215,6 +311,16 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    /**
+     * This method is used to make the player choose an objective.
+     * It also updates the other players that a player has chosen an objective.
+     * If the objective is not chosen, it sends an error message to the client.
+     * It also sends an error message to the client if there is a problem with the connection.
+     * @param clientId This is the id of the client that is connected to the server.
+     * @param player This is the name of the player that is choosing the objective.
+     * @param cardId This is the id of the objective that is being chosen.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     @Override
     public void chooseObjective(int clientId, String player, int cardId) throws RemoteException {
         GameController c = multipleMatchesHandler.getMapRMI().get(clients.get(clientId));
@@ -257,6 +363,20 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    /**
+     * This method is used to make the player draw a card from the deck.
+     * If the player is not logged, it sends an error message to the client.
+     * It also updates the other players that a player has drawn a card from the deck.
+     * If the card is not drawn, it sends an error message to the client.
+     * It also sends an error message to the client if there is a problem with the connection.
+     * if in the endgame, it sends the results to the players.
+     * if it is the last turn, it sends a message to the players that it is the last turn.
+     * notifies the turn to the players.
+     * @param clientId This is the id of the client that is connected to the server.
+     * @param player This is the name of the player that is drawing the card.
+     * @param deck This is the deck from which the card is being drawn.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     @Override
     public void drawCardFromDeck(int clientId, String player, String  deck) throws RemoteException {
         GameController c = multipleMatchesHandler.getMapRMI().get(clients.get(clientId));
@@ -272,7 +392,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         for (Player p: c.getGameInstance().getParticipants()) {
             if (p.getNickname().equalsIgnoreCase(player)) {
 
-                //SAVE THE HAND IDS SO THAT I KNOW WHAT CaRD WAS ADDED
                 for (StandardCard card: p.getHand())
                     currentHand.add(card.getId());
 
@@ -311,7 +430,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
                             leave(clientId, clients.get(clientId));
                         }
 
-                        return;             //SEND RESULTS IF THE GAME IS OVER
+                        return;
                     }
 
 
@@ -341,21 +460,21 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
                         }
                     }
 
-                    //notify if endgame
+
                     if (c.isEndGameStarted() && !inEndGame) {
                         for (Player pl: c.getGameInstance().getParticipants()) {
                             c.getPlayerViews().get(pl).acknowledgePlayer(pl, "endgame");
                         }
                     }
 
-                    //notify last turn
-                    if (c.getGameInstance().getTurnCounter() == c.getGameInstance().getLastTurn()) { //LAST TURN MIGHT BE UNINITIALIZED
+
+                    if (c.getGameInstance().getTurnCounter() == c.getGameInstance().getLastTurn()) {
                         for (Player pl: c.getGameInstance().getParticipants()) {
                             c.getPlayerViews().get(pl).acknowledgePlayer(pl, "last turn");
                         }
                     }
 
-                    //notify next turn
+
                     c.getPlayerViews().get(c.getGameInstance().getCurrentTurn()).notifyTurn(c.getGameInstance().getCurrentTurn());
                 }
 
@@ -364,6 +483,20 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    /**
+     * This method is used to make the player draw a card from the available cards.
+     * If the player is not logged, it sends an error message to the client.
+     * It also updates the other players that a player has drawn a card from the available cards.
+     * If the card is not drawn, it sends an error message to the client.
+     * It also sends an error message to the client if there is a problem with the connection.
+     * if in the endgame, it sends the results to the players.
+     * if it is the last turn, it sends a message to the players that it is the last turn.
+     * notifies the turn to the players.
+     * @param clientId This is the id of the client that is connected to the server.
+     * @param player This is the name of the player that is drawing the card.
+     * @param cardId This is the id of the card that is being drawn.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     @Override
     public void drawCardFromAvailable(int clientId, String player, int cardId) throws RemoteException {
         GameController c = multipleMatchesHandler.getMapRMI().get(clients.get(clientId));
@@ -412,7 +545,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
                                 multipleMatchesHandler.removeClient(clients.get(clientId));
                                 leave(clientId, clients.get(clientId));
                             }
-                            return;             //SEND RESULTS IF THE GAME IS OVER
+                            return;
                         }
 
                         for (Player pl: c.getGameInstance().getParticipants()) {
@@ -435,21 +568,21 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
                             }
                         }
 
-                        //notify if endgame
+
                         if (c.isEndGameStarted() && !inEndGame) {
                             for (Player pl: c.getGameInstance().getParticipants()) {
                                 c.getPlayerViews().get(pl).acknowledgePlayer(pl, "endgame");
                             }
                         }
 
-                        //notify last turn
+
                         if (c.getGameInstance().getTurnCounter() == c.getGameInstance().getLastTurn()) { //LAST TURN MIGHT BE UNINITIALIZED
                             for (Player pl: c.getGameInstance().getParticipants()) {
                                 c.getPlayerViews().get(pl).acknowledgePlayer(pl, "last turn");
                             }
                         }
 
-                        //notify turn
+
                         c.getPlayerViews().get(c.getGameInstance().getCurrentTurn()).notifyTurn(c.getGameInstance().getCurrentTurn());
                     }
 
@@ -462,6 +595,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    /**
+     * This method is used to send a message to the player to make sure that the connection is still active.
+     * If the player is disconnected, it sends a message to the other players that the player is disconnected.
+     * @param clientId This is the id of the client that is connected to the server.
+     * @throws RemoteException This exception is thrown when there is a problem with the connection.
+     */
     public void ping(int clientId) throws RemoteException {
         if (disconnectionTimer.get(clientId) != null) {
             disconnectionTimer.get(clientId).cancel();
@@ -478,6 +617,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    /**
+     * This method is used to disconnect the player from the server.
+     * It removes the player from the clients map.
+     * It also sends a message to the other players that the player is disconnected.
+     * @param cs This is the RMIClientSkeleton of the client that is disconnected from the server.
+     */
     public void playerDisconnected(RMIClientSkeleton cs) {
         GameController c = multipleMatchesHandler.getMapRMI().get(cs);
         clients.remove(cs.hashCode(), cs);
@@ -492,6 +637,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
 
     /**
      * This method is used to start the pinging thread that checks if the clients are still connected to the server.
+     * It sends a ping to the clients every 5 seconds.
      */
     public void startPingingClient() {
         while (true) {
@@ -512,6 +658,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         }
     }
 
+    /**
+     * This method is used to get the multipleMatchesHandler.
+     * @return The multipleMatchesHandler.
+     */
     public MultipleMatchesHandler getMultipleMatchesHandler() {
         return multipleMatchesHandler;
     }

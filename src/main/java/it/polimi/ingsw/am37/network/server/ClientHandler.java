@@ -13,18 +13,51 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
+/**
+ * This class is used to handle the connection with the client.
+ * It implements the ClientInterface and the Handler is used to send messages to the client.
+ * It also handles the disconnection of the client and the ping messages.
+ */
 public class ClientHandler implements ClientInterface{
+    /**
+     * The socket used to communicate with the client.
+     */
     private final Socket socket;
+    /**
+     * The MultipleMatchesHandler used to handle the multiple matches.
+     */
     private final MultipleMatchesHandler multipleMatchesHandler;
+    /**
+     * The ObjectInputStream used to read messages from the client.
+     */
     private ObjectInputStream in = null;
+    /**
+     * The ObjectOutputStream used to send messages to the client.
+     */
     private ObjectOutputStream out = null;
+    /**
+     * The lock used to synchronize the output stream.
+     */
     private final Lock lockOutput;
+    /**
+     * The Timer used to handle the disconnection of the client.
+     */
 
     private Timer disconnectionTimer;
+    /**
+     * The Thread used to ping the client.
+     */
     private Thread pingThread;
+    /**
+     * The boolean used to check if the client is disconnected.
+     */
     private boolean disconnected = false;
 
+    /**
+     * The constructor of the class.
+     * @param socket The socket used to communicate with the client.
+     * @param multipleMatchesHandler The MultipleMatchesHandler used to handle the multiple matches.
+     */
     public ClientHandler(Socket socket, MultipleMatchesHandler multipleMatchesHandler) {
         this.socket = socket;
         this.multipleMatchesHandler = multipleMatchesHandler;
@@ -34,6 +67,13 @@ public class ClientHandler implements ClientInterface{
         disconnectionTimer = new Timer();
     }
 
+    /**
+     * This method is used to handle the connection with the client.
+     * It reads the messages from the client and sends them to the MultipleMatchesHandler.
+     * It also sends the messages to the client.
+     * If the client is disconnected, it closes the connection with the client.
+     * If the client is disconnected, it notifies all the other clients connected to the game controller that the game is over.
+     */
     public void handle() {
         try {
             try {
@@ -82,6 +122,10 @@ public class ClientHandler implements ClientInterface{
         }
     }
 
+    /**
+     * This method is used to send a message to the client.
+     * @param m The message to send.
+     */
     public void send(Message m) {
         assert out != null;
 
@@ -96,9 +140,17 @@ public class ClientHandler implements ClientInterface{
         lockOutput.unlock();
     }
 
+    /**
+     * This method is used to close the connection with the client.
+     * It also notifies all the other clients connected to the game controller that the game is over.
+     * It sets the boolean disconnected to true.
+     * It cancels the disconnection timer.
+     * It interrupts the ping thread.
+     * It removes the client from the MultipleMatchesHandler.
+     * It removes the game controller from the MultipleMatchesHandler.
+     * It removes the lobby from the MultipleMatchesHandler.
+     */
     public void disconnectAndCloseGame() {
-        //CONNECTION CLOSED WITH THE CLIENT, NOTIFY ALL THE OTHER CLIENTS CONNECTED TO THIS GAME CONTROLLER
-        //THAT THE GAME IS OVER
         disconnected = true;
         disconnectionTimer.cancel();
         System.out.println("Disconnecting others from game");
@@ -115,6 +167,16 @@ public class ClientHandler implements ClientInterface{
         }
     }
 
+    /**
+     * This method is used to close the connection with the client.
+     * It sets the boolean disconnected to true.
+     * It cancels the disconnection timer.
+     * It interrupts the ping thread.
+     * It removes the client from the MultipleMatchesHandler.
+     * It removes the game controller from the MultipleMatchesHandler.
+     * It removes the lobby from the MultipleMatchesHandler.
+     * It closes the socket.
+     */
     private void startPingingClient() {
         while (!disconnected) {
             try {
@@ -136,6 +198,13 @@ public class ClientHandler implements ClientInterface{
         }
     }
 
+    /**
+     * This method is used to handle the disconnection timer.
+     * It cancels the disconnection timer and creates a new one.
+     * If the client does not send a ping to the server for 15 seconds, it is considered disconnected and
+     * the method calls the disconnectAndCloseGame method.
+     * It also interrupts the ping thread.
+     */
     private void handleTimers() {
         disconnectionTimer.cancel();
         disconnectionTimer = new Timer();
@@ -149,6 +218,10 @@ public class ClientHandler implements ClientInterface{
         }, 15000);
     }
 
+    /**
+     * This method is used to get the MultipleMatchesHandler.
+     * @return The MultipleMatchesHandler.
+     */
     public MultipleMatchesHandler getMultipleMatchesHandler() {
         return multipleMatchesHandler;
     }
