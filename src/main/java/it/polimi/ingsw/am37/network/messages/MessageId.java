@@ -1,7 +1,9 @@
 package it.polimi.ingsw.am37.network.messages;
 
 import java.io.Serializable;
-
+/**
+ * Enumerates all the possible message types
+ */
 public enum MessageId implements Serializable {
     PING,
     CREATE,

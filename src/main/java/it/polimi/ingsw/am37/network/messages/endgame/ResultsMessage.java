@@ -14,15 +14,33 @@ import java.util.Map;
  * handles the messages in the endgame that gives information about the resulting points of each player.
  */
 public class ResultsMessage extends MessageToClient {
+    /**
+     * A map that associates each player's nickname with their final points.
+     */
     private final Map<String, Integer> playerPoints;
+    /**
+     * A map that associates each player's nickname with the number of objectives they completed.
+     */
     private final Map<String, Integer> playerObjectivesCompleted;
-
+    /**
+     * The constructor creates a new ResultsMessage.
+     * @param id the message id
+     * @param playerPoints a map that associates each player's nickname with their final points
+     * @param playerNumCompletedObjectives a map that associates each player's nickname with the number of objectives they completed
+     */
     public ResultsMessage(MessageId id, Map<String, Integer> playerPoints, Map<String, Integer> playerNumCompletedObjectives){
         super(id);
         this.playerPoints = playerPoints;
         this.playerObjectivesCompleted = playerNumCompletedObjectives;
     }
 
+    /**
+     * This method is called by the client to decode the message and execute the action.
+     * It sets the final points and the number of objectives completed for each player.
+     * It also sets the final points and the number of objectives completed for the local player.
+     * It then sets the view state to SHOW_RESULTS and notifies the view.
+     * @param v the view that has to execute the action
+     */
     public void decodeAndExecute(View v){
         for(ClientSidePlayer p : v.getLocalGameInstance().getPlayers()) {
             p.setObjectivesCompleted(playerObjectivesCompleted.get(p.getNickname()));

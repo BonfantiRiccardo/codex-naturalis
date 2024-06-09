@@ -8,13 +8,36 @@ import it.polimi.ingsw.am37.model.sides.Position;
 import it.polimi.ingsw.am37.network.messages.MessageId;
 import it.polimi.ingsw.am37.network.messages.MessageToServer;
 import it.polimi.ingsw.am37.network.server.ClientHandler;
-
+/**
+ * This message is sent by the client to the server when the player wants to place a card.
+ * The server will place the card in the player's kingdom and send the updated kingdom view to all the players in the game.
+ */
 public class PlaceMessage extends MessageToServer {
+    /**
+     * The nickname of the player.
+     */
     private final String player;
+    /**
+     * The id of the card.
+     */
     private final int cardId;
+    /**
+     * The side of the card.
+     */
     private final String side;
+    /**
+     * The position of the card.
+     */
     private final Position pos;
 
+    /**
+     * Constructor.
+     * @param id The message id.
+     * @param player The nickname of the player.
+     * @param cardId The id of the card.
+     * @param side The side of the card.
+     * @param pos The position of the card.
+     */
     public PlaceMessage(MessageId id, String player, int cardId, String side, Position pos) {
         super(id);
         this.player = player;
@@ -23,6 +46,12 @@ public class PlaceMessage extends MessageToServer {
         this.pos = pos;
     }
 
+    /**
+     * This method will place the card in the player's kingdom and send the updated kingdom view to all the players in the game.
+     * If the player is not logged, the server will send an error message to the client.
+     * @param c The game controller.
+     * @param ch The client handler.
+     */
     @Override
     public void decodeAndExecute(GameController c, ClientHandler ch) {
         if (c == null) {

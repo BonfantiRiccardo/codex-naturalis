@@ -14,16 +14,41 @@ import it.polimi.ingsw.am37.network.server.ClientHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Message used to draw a card from the deck.
+ */
 public class DrawDeckMessage extends MessageToServer {
+    /**
+     * The player that wants to draw a card.
+     */
     private final String player;
+    /**
+     * The deck from which the player wants to draw the card.
+     */
     private final String deck;
 
+    /**
+     * Constructor of the message.
+     * @param id The id of the message.
+     * @param player The player that wants to draw a card.
+     * @param deck The deck from which the player wants to draw the card.
+     */
     public DrawDeckMessage(MessageId id, String player, String deck) {
         super(id);
         this.player = player;
         this.deck = deck;
     }
 
+    /**
+     * Method that decodes the message and executes the action.
+     * If the player is not logged, it sends an error message.
+     * If the player is logged, it puts the card from the deck to the player's hand
+     * If the deck is empty, it sends an error message.
+     * If the deck is not empty, it sends the new card to the player and the new deck to the other players.
+     * If the game is over, it sends the results to the players.
+     * @param c The controller of the game.
+     * @param ch The client handler that sent the message.
+     */
     @Override
     public void decodeAndExecute(GameController c, ClientHandler ch) {
         if (c == null) {
@@ -39,7 +64,6 @@ public class DrawDeckMessage extends MessageToServer {
         for (Player p: c.getGameInstance().getParticipants()) {
             if (p.getNickname().equalsIgnoreCase(player)) {
 
-                //SAVE THE HAND IDS SO THAT I KNOW WHAT CaRD WAS ADDED
                 for (StandardCard card: p.getHand())
                     currentHand.add(card.getId());
 
@@ -75,7 +99,7 @@ public class DrawDeckMessage extends MessageToServer {
                         for (Player pl: c.getGameInstance().getParticipants())
                             c.getPlayerViews().get(pl).sendResults(results);
 
-                        return;             //SEND RESULTS IF THE GAME IS OVER
+                        return;
                     }
 
 
@@ -128,6 +152,10 @@ public class DrawDeckMessage extends MessageToServer {
         }
     }
 
+    /**
+     * Method that returns the player that wants to draw a card.
+     * @return The player that wants to draw a card.
+     */
     @Override
     public String toString() {
         return "Received: " + super.toString() + " | player: " + player + " | deck: " + deck;

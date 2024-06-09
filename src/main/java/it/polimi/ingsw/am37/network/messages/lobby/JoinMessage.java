@@ -9,17 +9,39 @@ import it.polimi.ingsw.am37.network.messages.MessageToServer;
 import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.network.server.ClientHandler;
 
-
+/**
+ * This message is sent by the client to the server when the player wants to join a lobby.
+ * The server will add the player to the lobby and send the updated lobby view to all the players in the lobby.
+ * If the lobby is full, the server will send the initial game state to all the players in the lobby.
+ */
 public class JoinMessage extends MessageToServer {
+    /**
+     * The hash of the lobby the player wants to join.
+     */
     private final int controllerHash;
+    /**
+     * The nickname of the player.
+     */
     private final String nick;
 
+    /**
+     * Constructor.
+     * @param id The message id.
+     * @param controllerHash The hash of the lobby the player wants to join.
+     * @param nick The nickname of the player.
+     */
     public JoinMessage(MessageId id, int controllerHash, String nick) {
         super(id);
         this.controllerHash = controllerHash;
         this.nick = nick;
     }
 
+    /**
+     * This method will add the player to the lobby and send the updated lobby view to all the players in the lobby.
+     * If the lobby is full, the server will send the initial game state to all the players in the lobby.
+     * @param c The game controller.
+     * @param ch The client handler.
+     */
     @Override
     public void decodeAndExecute(GameController c, ClientHandler ch) {
         try {
@@ -62,6 +84,9 @@ public class JoinMessage extends MessageToServer {
         }
     }
 
+    /**
+     * @return The number of the lobby the player wants to join.
+     */
     @Override
     public String toString() {
         return "Received: " + super.toString() + " | hash: " + controllerHash + " | nick: " + nick;
