@@ -15,18 +15,47 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+/**
+ * This class is the text user interface of the game.
+ */
 public class TUIView extends View implements PropertyChangeListener {
+    /**
+     * The scanner for the standard input.
+     */
     private final Scanner stdIn;
+    /**
+     * The list of updates.
+     */
     private final List<String> updates;
+    /**
+     * The boolean that checks if the utf8 encoding is enabled.
+     */
     private boolean utf8EncodingEnabled;
 
+    /**
+     * Constructor.
+     * @param state The state of the view.
+     */
     public TUIView(ViewState state) {
         super(state);
         stdIn = new Scanner(System.in);
         updates = new ArrayList<>();
     }
 
+    /**
+     * This method handles all the game.
+     * it firstly asks the user if the terminal supports utf8 encoding.
+     * Then calls the preLobby method.
+     * Then prints the lobby.
+     * Then waits for all players to join.
+     * Then starts a new thread that handles the updates.
+     * Then waits for the user to press enter to request an action.
+     * Then calls the activeActions method.
+     * Then calls the choice method.
+     * If the state is SHOW_RESULTS or DISCONNECTION it prints the results or a disconnection message.
+     * finally it calls the gameOver method.
+     * @return true if the user wants to play again, false otherwise.
+     */
     public boolean handleGame() {
 
         System.out.print("This games uses emojis to better visualize cards. This are some emojis: ⬜🐺📜\n" +
@@ -88,6 +117,15 @@ public class TUIView extends View implements PropertyChangeListener {
         return gameOver();
     }
 
+    /**
+     * This method asks the player to choose between creating or joining a lobby.
+     * If the player chooses to join a lobby it calls the joinQueries method.
+     * If the player chooses to create a lobby it calls the creationQueries method.
+     * If the player types something different it prints an error message.
+     * If the state is ERROR it prints an error message.
+     * If the state is different from CREATE_JOIN it waits for the player to choose again.
+     * If the state is ERROR it sets the state to CREATE_JOIN.
+     */
     public void preLobby() {
         boolean error = false;
 
@@ -124,6 +162,13 @@ public class TUIView extends View implements PropertyChangeListener {
 
     }       //SHOULDN'T BE PUBLIC AND SHOULDN'T OVERRIDE
 
+    /**
+     * This method asks for the nickname and the number of players during the creation of the lobby.
+     * If the nickname is empty it prints an error message.
+     * If the number of players is not a number it prints an error message.
+     * If the number of players is a number it calls the createLobby method.
+     *
+     */
     private void creationQueries() {
         String inputLine2;
         do {
@@ -150,6 +195,12 @@ public class TUIView extends View implements PropertyChangeListener {
         } while (!ok);
     }
 
+    /**
+     * This method shows the lobbies available and asks the player to choose one.
+     * If the player types something different it prints an error message.
+     * If the player types a number it asks for the player's nickname and calls the joinLobby method.
+     *
+     */
     private void joinQueries() {
         virtualServer.askLobbies();
 
@@ -197,6 +248,10 @@ public class TUIView extends View implements PropertyChangeListener {
         virtualServer.joinLobby(inputNum, inputLine);
     }
 
+    /**
+     * This method handles the active actions.
+     * It prints the actions available based on the state.
+     */
     private void activeActions() {
         switch (state) {
             case PLACE_SC -> System.out.println("Place Start Card (psc), Print Available (pa), Cancel (c)");
@@ -219,6 +274,24 @@ public class TUIView extends View implements PropertyChangeListener {
         }
     }
 
+    /**
+     * This method handles the choices of the player.
+     * if the player wants to place the start card it calls the startCardQueries method.
+     * if the player wants to choose a token it calls the tokenQueries method.
+     * if the player wants to choose an objective it calls the objectiveQueries method.
+     * if the player wants to place a card it calls the placeQueries method.
+     * if the player wants to draw a card it calls the drawQueries method.
+     * if the player wants to print the kingdom it calls the printKingdom method.
+     * if the player wants to print the hand it calls the printHand method.
+     * if the player wants to print the public objectives it calls the printPublicObjectives method.
+     * if the player wants to print the private objective it calls the printMyPrivateObjective method.
+     * if the player wants to print the top of the decks it calls the printTopOfResourceDeck and printTopOfGoldDeck methods.
+     * if the player wants to print the scoreboard it calls the printScoreboard method.
+     * if the player wants to print the player info it calls the printPlayerInfo method.
+     * if the player wants to cancel it prints a message.
+     * if the player types something different it prints an error message.
+     * @param s The string that represents the choice of the player.
+     */
     private void choice(String s) {
         switch (s) {
             case "psc": {
@@ -321,6 +394,15 @@ public class TUIView extends View implements PropertyChangeListener {
         }
     }
 
+    /**
+     * This method handles the choice of the start card.
+     * It asks the player to choose the side of the start card.
+     * If the player types something different it prints an error message.
+     * If the player types a valid side it calls the placeStartCard method.
+     * If the state is ERROR it sets the state to PLACE_SC.
+     * If the player chooses the front side it sets the kingdom of the player to the front side of the start card.
+     * If the player chooses the back side it sets the kingdom of the player to the back side of the start card.
+     */
     private void startCardQueries() {
         String inputLine;
         printStartCard();
@@ -367,6 +449,14 @@ public class TUIView extends View implements PropertyChangeListener {
             while (p.getKingdom() == null && !state.equals(ViewState.DISCONNECTION)) Thread.onSpinWait();
     }
 
+    /**
+     * This method handles the choice of the token.
+     * It asks the player to choose a token.
+     * If the player types something different it prints an error message.
+     * If the player types a valid token it calls the chooseToken method.
+     * If the state is ERROR it sets the state to CHOOSE_TOKEN.
+     * Then waits for all players to choose a token.
+     */
     private void tokenQueries() {
         String inputLine;
         while (state.equals(ViewState.CHOOSE_TOKEN)) {
@@ -422,6 +512,16 @@ public class TUIView extends View implements PropertyChangeListener {
 
     }
 
+    /**
+     * This method handles the choice of the objective.
+     * It asks the player to choose an objective.
+     * If the player types something different it prints an error message.
+     * If the player types a valid objective it calls the chooseObjective method.
+     * If the state is ERROR it sets the state to CHOOSE_OBJECTIVE.
+     * If the player chooses the first objective it sets the private objective of the player to the first objective.
+     * If the player chooses the second objective it sets the private objective of the player to the second objective.
+     * Then waits for all players to choose an objective.
+     */
     private void objectiveQueries() {
         String inputLine;
         while (state.equals(ViewState.CHOOSE_OBJECTIVE)) {
@@ -471,6 +571,17 @@ public class TUIView extends View implements PropertyChangeListener {
 
     }
 
+    /**
+     * This method handles the placement of the cards.
+     * It asks the player to choose a card from the hand.
+     * If the player types something different it prints an error message.
+     * If the player types a valid card it asks the player to choose a side.
+     * Then asks the player to choose the side of the card and the position.
+     * If the player types something different it prints an error message.
+     * If the player types a valid position it calls the placeCard method and informs the player the card has been placed.
+     * If the state is ERROR it sets the state to PLACE.
+     * If the state is different from PLACE it waits for the player to choose again.
+     */
     private void placeQueries() {
         String inputLine;
 
@@ -569,6 +680,22 @@ public class TUIView extends View implements PropertyChangeListener {
         }
     }
 
+    /**
+     * This method handles the drawing of the cards.
+     * It asks the player to choose between drawing from the deck or from the available cards.
+     * If the player types something different it prints an error message.
+     * If the player chooses to draw from the deck it asks the player to choose between the resource deck and the gold deck.
+     * If the player types something different it prints an error message.
+     * If the player chooses to draw from the resource deck it calls the drawCardFromDeck method.
+     * If the player chooses to draw from the gold deck it calls the drawCardFromDeck method.
+     * If the state is ERROR it sets the state to DRAW.
+     * If the player chooses to draw from the available cards it asks the player to choose a card by typing the id.
+     * If the player types something different it prints an error message.
+     * If the player types a valid card it calls the drawCardFromAvailable method.
+     * If the state is ERROR it sets the state to DRAW.
+     * If the player types 'b' it goes back to the previous choice.
+     * If the state is different from DRAW it waits for the player to choose again.
+     */
     private void drawQueries() {
         //these are the top of the decks
         printTopOfResourceDeck();
@@ -685,6 +812,14 @@ public class TUIView extends View implements PropertyChangeListener {
 
     }
 
+    /**
+     * This method handles the end of the game.
+     * It asks the player if he wants to play again.
+     * If the player types something different it prints an error message.
+     * If the player types 'yes' it sets the state to CREATE_JOIN and resets the client model.
+     * If the player types 'no' it returns false.
+     * @return true if the player wants to play again, false otherwise.
+     */
     public boolean gameOver() {
 
         System.out.println("Play again? ('yes' or 'no')");
@@ -709,11 +844,17 @@ public class TUIView extends View implements PropertyChangeListener {
 
     //------------------------------------------------------------------------------------------------------------
 
+    /**
+     * This method prints the active lobbies.
+     */
     @Override
     public synchronized void printLobbies() {
         System.out.println("Active lobbies: " + localGameInstance.getListOfLobbies());
     }
 
+    /**
+     * This method prints the infos of the lobby requested.
+     */
     @Override
     public synchronized void printMyLobby() {
         System.out.println();
@@ -737,6 +878,9 @@ public class TUIView extends View implements PropertyChangeListener {
                                                                                 - 1 - localGameInstance.getPlayers().size()));
     }
 
+    /**
+     * This method prints the available resource and gold cards.
+     */
     @Override
     public synchronized void printAvail() {
         System.out.println("Available resource cards: ");
@@ -751,22 +895,34 @@ public class TUIView extends View implements PropertyChangeListener {
         System.out.println(localGameInstance.getAvailableGoldCards().get(1).toString(utf8EncodingEnabled));
     }
 
+    /**
+     * This method prints the top card of the gold deck.
+     */
     @Override
     public synchronized void printTopOfGoldDeck() {
         System.out.println("Card at the top of the gold deck is: " + localGameInstance.getTopOfGoldDeck());
     }
 
+    /**
+     * This method prints the top card of the resource deck.
+     */
     @Override
     public synchronized void printTopOfResourceDeck() {
         System.out.println("Card at the top of the resource deck is: " + localGameInstance.getTopOfResourceDeck());
     }
 
+    /**
+     * This method prints the start card of the player.
+     */
     @Override
     public synchronized void printStartCard() {
         System.out.println("Your start card: ");
         System.out.println(localGameInstance.getMyStartCard().toString(utf8EncodingEnabled));
     }
 
+    /**
+     * This method prints the token, the kingdom, the resources and the active positions in the kingdom of the player.
+     */
     @Override
     public synchronized void printKingdom() {
         System.out.println("Your token: " + localGameInstance.getMe().getToken()+ (localGameInstance.getMe().hasBlackToken()? (" and " + Token.BLACK) : "" ));
@@ -808,6 +964,9 @@ public class TUIView extends View implements PropertyChangeListener {
 
     }
 
+    /**
+     * This method prints the points the player and the scoreboard of the game.
+     */
     @Override
     public synchronized void printScoreboard() {
         System.out.println("Your points: " + localGameInstance.getMe().getPoints());
@@ -816,6 +975,11 @@ public class TUIView extends View implements PropertyChangeListener {
             System.out.println(p.getNickname() + "'s points: " + p.getPoints());
     }
 
+    /**
+     * This method prints the info of the player requested.
+     * If the nickname of the player requested does not exist it prints an error message.
+     * If the nickname of the player requested exists it prints the token, the kingdom, the resources of the player requested.
+     */
     @Override
     public synchronized void printPlayerInfo() {
         String inputLine;
@@ -853,6 +1017,9 @@ public class TUIView extends View implements PropertyChangeListener {
 
     }
 
+    /**
+     * This method prints the hand of the player.
+     */
     @Override
     public synchronized void printHand() {
         System.out.println("Your hand: ");
@@ -862,6 +1029,9 @@ public class TUIView extends View implements PropertyChangeListener {
         }
     }
 
+    /**
+     * This method prints the public objectives of the game.
+     */
     @Override
     public synchronized void printPublicObjectives() {
         System.out.println("The public objectives are: ");
@@ -869,18 +1039,28 @@ public class TUIView extends View implements PropertyChangeListener {
         System.out.println(localGameInstance.getPublicObjectives().get(1).toString(utf8EncodingEnabled));
     }
 
+    /**
+     * This method prints the private objectives available to the player.
+     */
     @Override
     public synchronized void printPrivateObjectives() {
         System.out.println(localGameInstance.getPrivateObjectives().get(0).toString(utf8EncodingEnabled));
         System.out.println(localGameInstance.getPrivateObjectives().get(1).toString(utf8EncodingEnabled));
     }
 
+    /**
+     * This method prints the private objective of the player.
+     */
     @Override
     public synchronized void printMyPrivateObjective() {
         System.out.println("Your private objective:");
         System.out.println(localGameInstance.getMyPrivateObjective().toString(utf8EncodingEnabled));
     }
 
+    /**
+     * This method prints the results of the game.
+     * It prints the winner of the game and the points and the objectives completed of each player.
+     */
     @Override
     public synchronized void printResults(){
         List<ClientSidePlayer> players = new ArrayList<>(getLocalGameInstance().getPlayers());
@@ -907,11 +1087,20 @@ public class TUIView extends View implements PropertyChangeListener {
         System.out.println();
     }
 
+    /**
+     * This method prints the error message.
+     * @param e The error message to print.
+     */
     @Override
     public void printError(String e) {
         System.out.println("Error message: " + e);
     }
 
+    /**
+     * This method is used to notify the player of a new event in the game.
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -982,6 +1171,10 @@ public class TUIView extends View implements PropertyChangeListener {
         }
     }
 
+    /**
+     * This method is used to handle the updates received from the server.
+     * If the state is SHOW_RESULTS it breaks the loop.
+     */
     private void handleUpdates() {
         while (true) {
             while (updates.isEmpty()) Thread.onSpinWait();

@@ -131,5 +131,9 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      */
     void playerDisconnection() throws RemoteException;
 
+    /**
+     * the ping method is used to check if the connection is still active.
+     * @throws RemoteException when the connection is lost.
+     */
     void ping() throws RemoteException;
 }

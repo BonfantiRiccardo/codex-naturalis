@@ -12,27 +12,71 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
+/**
+ * This class is the controller for the createGame.fxml file.
+ * It handles the creation of a new lobby and the joining of an existing one.
+ */
 public class CreateGameController extends GUIController implements PropertyChangeListener {
+    /**
+     * The following are the FXML elements used in the controller.
+     */
     @FXML
+    /**
+     * The number of players.
+     */
     private MenuButton pl_num;
     @FXML
+    /**
+     * The second player of the game.
+     */
     private MenuItem pl2;
     @FXML
+    /**
+     * The third player of the game.
+     */
     private MenuItem pl3;
     @FXML
+    /**
+     * The fourth player of the game.
+     */
     private MenuItem pl4;
     @FXML
+    /**
+     * The create button.
+     */
     private Button createButton;
     @FXML
+    /**
+     * The join button.
+     */
     private Button joinButton;
     @FXML
+    /**
+     * The nickname of the player.
+     */
     private TextField nick;
     @FXML
+    /**
+     * The text that shows the information.
+     */
     private Text infoText;
 
+    /**
+     * The following are the variables used in the controller.
+     */
+    /**
+     * The nickname of the player.
+     */
     private String nickname;
+    /**
+     * The number of players.
+     */
     private int numPlayers;
+    /**
+     * The event that is triggered when the create button is clicked.
+     */
     private ActionEvent event;
+
 
 
     @FXML

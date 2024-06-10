@@ -40,7 +40,13 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
      */
     private final View v;
 
+    /**
+     * the disconnected attribute is a boolean that is true when the connection is lost.
+     */
     boolean disconnected = false;
+    /**
+     * the disconnectionTimer attribute is a timer that is used to ping the server.
+     */
     private Timer disconnectionTimer;
 
     /**

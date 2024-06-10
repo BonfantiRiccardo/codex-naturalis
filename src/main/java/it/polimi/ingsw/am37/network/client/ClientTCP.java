@@ -109,6 +109,12 @@ public class ClientTCP implements ClientConnectionInterface{
     }
 
 
+    /**
+     * the startPingingServer method sends a ping message to the server every 5 seconds.
+     * If the server doesn't receive any message in 15 seconds, the client disconnects.
+     * If the server sends a message, the timer is reset.
+     * @param socketOut is the object output stream of the socket.
+     */
     private void startPingingServer(final ObjectOutputStream socketOut) {
         while (true) {
             try {
@@ -127,6 +133,11 @@ public class ClientTCP implements ClientConnectionInterface{
         }
     }
 
+    /**
+     * the handleTimers method handles the disconnection of the client.
+     * It sets a timer of 15 seconds, if the server doesn't send any message in that time, the client disconnects.
+     * If the server sends a message, the timer is reset.
+     */
     private void handleTimers() {
         disconnectionTimer.cancel();
         disconnectionTimer = new Timer();
