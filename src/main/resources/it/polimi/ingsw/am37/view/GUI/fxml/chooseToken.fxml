@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor" stylesheets="@../loginStyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am37.view.GUI.controllers.ChooseTokenController">
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Choose Your Token">
+               <font>
+                  <Font name="System Bold" size="48.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuButton fx:id="tokenMenu" mnemonicParsing="false" text="Choose Token">
+               <VBox.margin>
+                  <Insets top="40.0" />
+               </VBox.margin>
+            </MenuButton>
+            <Button fx:id="confirmButton" mnemonicParsing="false" text="Confirm!" />
+            <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
