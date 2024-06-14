@@ -1,12 +1,16 @@
 package it.polimi.ingsw.am37.view.GUI.controllers;
 
+import it.polimi.ingsw.am37.view.ViewState;
 import it.polimi.ingsw.am37.view.clientmodel.ClientSidePlayer;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 
 public class LobbyController extends GUIController implements PropertyChangeListener {
     @FXML
@@ -17,10 +21,23 @@ public class LobbyController extends GUIController implements PropertyChangeList
     private Text namesOfPlayers;
     @FXML
     private Text playersNeededToStart;
+    @FXML
+    private Text playersText;
+    @FXML
+    private Button continueButton;
+    @FXML
+    private Button disconnection;
 
     public void onLoad(){
         playerName.setText(guiReference.getLocalGameInstance().getMe().getNickname());
         lobbyNumber.setText(String.valueOf(guiReference.getLocalGameInstance().getNumOfLobby()));
+
+        if (guiReference.getLocalGameInstance().getNumOfPlayers() - 1 - guiReference.getLocalGameInstance().getPlayers().size() == 0) {
+            playersText.setText("The game is ready to start. Click on continue to start the game!");
+        } else {
+            continueButton.setVisible(false);
+        }
+        disconnection.setVisible(false);
 
         getInfo();
     }
@@ -53,6 +70,40 @@ public class LobbyController extends GUIController implements PropertyChangeList
                 //LOAD THE OTHER VIEW IF PLAYERS REACHED
                 Platform.runLater(this::getInfo);
             }
+
+            case "CHANGED_STATE": {
+                if (guiReference.getState().equals(ViewState.PLACE_SC)) {
+                    playersText.setText("The game is ready to start. Click on continue to start the game!");
+                    continueButton.setVisible(true);
+                } else if (guiReference.getState().equals(ViewState.DISCONNECTION)) {
+                    playersText.setText("One of the player was disconnected, the game ended for everyone.");
+                    disconnection.setVisible(true);
+                }
+            }
+        }
+    }
+
+    public void onContinueClick(ActionEvent actionEvent) {
+        if (guiReference.getState().equals(ViewState.PLACE_SC)) {
+            Platform.runLater(() -> {
+                try {
+                    changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/chooseStartCard.fxml", "startCard", actionEvent);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+    }
+
+    public void onReturnToLobbyClicked(ActionEvent actionEvent) {
+        if (guiReference.getState().equals(ViewState.DISCONNECTION)) {
+            Platform.runLater(() -> {
+                try {
+                    changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/login.fxml", "login", actionEvent);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 }

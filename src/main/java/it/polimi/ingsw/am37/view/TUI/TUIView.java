@@ -73,12 +73,9 @@ public class TUIView extends View implements PropertyChangeListener {
 
         //synchronized (this) {
         int players = localGameInstance.getPlayers().size();
-            while (state.equals(ViewState.WAIT_IN_LOBBY)) { Thread.onSpinWait();
-                /*try {
-                    this.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }*/
+            while (state.equals(ViewState.WAIT_IN_LOBBY)) {
+                Thread.onSpinWait();
+
                 if (players != localGameInstance.getPlayers().size()) {
                     printMyLobby();
                     players = localGameInstance.getPlayers().size();
@@ -126,7 +123,7 @@ public class TUIView extends View implements PropertyChangeListener {
      * If the state is different from CREATE_JOIN it waits for the player to choose again.
      * If the state is ERROR it sets the state to CREATE_JOIN.
      */
-    public void preLobby() {
+    private void preLobby() {
         boolean error = false;
 
         while (state.equals(ViewState.CREATE_JOIN)) {
@@ -160,7 +157,7 @@ public class TUIView extends View implements PropertyChangeListener {
 
         }
 
-    }       //SHOULDN'T BE PUBLIC AND SHOULDN'T OVERRIDE
+    }
 
     /**
      * This method asks for the nickname and the number of players during the creation of the lobby.

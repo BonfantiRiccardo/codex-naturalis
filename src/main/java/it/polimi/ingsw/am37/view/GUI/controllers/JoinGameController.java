@@ -122,7 +122,7 @@ public class JoinGameController extends GUIController implements PropertyChangeL
                 break;
             }
             case "CHANGED_STATE": {
-                if(evt.getNewValue().equals(ViewState.WAIT_IN_LOBBY)) {
+                if(evt.getNewValue().equals(ViewState.WAIT_IN_LOBBY) || evt.getNewValue().equals(ViewState.PLACE_SC)) {
                     Platform.runLater( () -> {
                         try {
                             changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/lobby.fxml", "lobby", event);
@@ -130,9 +130,15 @@ public class JoinGameController extends GUIController implements PropertyChangeL
                             throw new RuntimeException(e);
                         }
                     });
-                } else if (evt.getNewValue().equals(ViewState.PLACE_SC)) {
-                    //LOAD THE OTHER VIEW
-                } //else if DISCONNECTION load create - join page // or close everything if he was disconnected
+                } else if (evt.getNewValue().equals(ViewState.DISCONNECTION)) {
+                    Platform.runLater( () -> {
+                        try {
+                            changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/login.fxml", "login", new ActionEvent(joinGame, null));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                }
                 break;
             }
         }

@@ -17,53 +17,48 @@ import java.io.IOException;
  * It handles the creation of a new lobby and the joining of an existing one.
  */
 public class CreateGameController extends GUIController implements PropertyChangeListener {
-    /**
-     * The following are the FXML elements used in the controller.
-     */
-    @FXML
+
     /**
      * The number of players.
      */
-    private MenuButton pl_num;
     @FXML
+    private MenuButton pl_num;
     /**
      * The second player of the game.
      */
-    private MenuItem pl2;
     @FXML
+    private MenuItem pl2;
     /**
      * The third player of the game.
      */
-    private MenuItem pl3;
     @FXML
+    private MenuItem pl3;
     /**
      * The fourth player of the game.
      */
-    private MenuItem pl4;
     @FXML
+    private MenuItem pl4;
     /**
      * The create button.
      */
-    private Button createButton;
     @FXML
+    private Button createButton;
     /**
      * The join button.
      */
-    private Button joinButton;
     @FXML
+    private Button joinButton;
     /**
      * The nickname of the player.
      */
-    private TextField nick;
     @FXML
+    private TextField nick;
     /**
      * The text that shows the information.
      */
+    @FXML
     private Text infoText;
 
-    /**
-     * The following are the variables used in the controller.
-     */
     /**
      * The nickname of the player.
      */

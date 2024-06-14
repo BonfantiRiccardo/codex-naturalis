@@ -237,7 +237,7 @@ public class Kingdom {
             resMap.put(Resource.INKWELL,    "N");
             resMap.put(Resource.MANUSCRIPT, "M");
             resMap.put(Resource.QUILL,      "Q");
-            resMap.put(Resource.EMPTY,      "⠀");
+            resMap.put(Resource.EMPTY,      " ");
         }
 
 

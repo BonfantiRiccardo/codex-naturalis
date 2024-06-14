@@ -6,6 +6,7 @@ import it.polimi.ingsw.am37.model.cards.CardCreator;
 import it.polimi.ingsw.am37.model.cards.objective.*;
 import it.polimi.ingsw.am37.model.cards.placeable.*;
 import it.polimi.ingsw.am37.model.game.Resource;
+import it.polimi.ingsw.am37.model.player.Kingdom;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
 import it.polimi.ingsw.am37.model.sides.Side;
@@ -518,7 +519,16 @@ public class ClientSideGameModel {
         this.myHand = myHand;
     }
 
-    //HANDLE PLACING
+    public void initializeKingdom(ClientSidePlayer player, StartCard placed, Side placedSide) {
+        player.setKingdom(new Kingdom(placed, placedSide));
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "START_CARD_PLACED",
+                null,
+                placedSide);
+        this.listener.propertyChange(evt);
+    }
+
     /**
      * Places a card on the player's kingdom.
      * It notifies the listener that the kingdom has changed.

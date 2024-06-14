@@ -15,6 +15,7 @@ import it.polimi.ingsw.am37.model.sides.Position;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class is the server that manages the RMI connections with the clients.
@@ -48,7 +49,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
      * @throws RemoteException This exception is thrown when there is a problem with the connection.
      */
     public RMIServer(MultipleMatchesHandler multipleMatchesHandler) throws RemoteException {
-        clients = new HashMap<>();
+        clients = new ConcurrentHashMap<>();
         this.multipleMatchesHandler = multipleMatchesHandler;
 
         pingThread = new Thread(this::startPingingClient);

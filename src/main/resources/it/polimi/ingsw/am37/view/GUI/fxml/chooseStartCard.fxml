@@ -38,13 +38,13 @@
                         <ImageView fx:id="frontStartCard" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="frontButton" mnemonicParsing="false" text="Front" />
+                              <Button fx:id="frontButton" mnemonicParsing="false" onAction="#onFrontClick" text="Front" />
                            </children>
                         </HBox>
                         <ImageView fx:id="backStartCard" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="backButton" mnemonicParsing="false" text="Back" />
+                              <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
                            </children>
                         </HBox>
                      </children>
@@ -71,8 +71,8 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
-                  <Button fx:id="confirmButton" mnemonicParsing="false" text="Confirm!" />
-                  <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#onConfirmClick" text="Confirm!" />
+                  <Text fx:id="infoText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="303.20006704330444" />
                </children>
                <padding>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

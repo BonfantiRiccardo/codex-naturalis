@@ -6,7 +6,6 @@ import it.polimi.ingsw.am37.model.cards.placeable.ResourceCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.cards.placeable.StartCard;
 import it.polimi.ingsw.am37.model.game.Resource;
-import it.polimi.ingsw.am37.model.player.Kingdom;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
 import it.polimi.ingsw.am37.network.server.RMIServerStub;
@@ -71,6 +70,10 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
     @Override
     public void startClient() throws RemoteException {
         Registry reg = LocateRegistry.getRegistry(ip, port);
+
+        //Set the hostname to avoid issues with the RMI server
+        System.setProperty("java.rmi.server.hostname", ip);
+        //System.out.println("Property set");
 
         try {
             RMIServerStub server = (RMIServerStub) reg.lookup("RMIServer");
@@ -328,9 +331,9 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
             for (ClientSidePlayer p : v.getLocalGameInstance().getPlayers()) {
                 if (p.getNickname().equals(player)) {
                     if (side.equalsIgnoreCase("f"))
-                        p.setKingdom(new Kingdom(placed, placed.getFront()));
+                        v.getLocalGameInstance().initializeKingdom(p, placed, placed.getFront());
                     else if (side.equalsIgnoreCase("b"))
-                        p.setKingdom(new Kingdom(placed, placed.getBack()));
+                        v.getLocalGameInstance().initializeKingdom(p, placed, placed.getBack());
 
                     break;
                 }
@@ -338,9 +341,9 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
 
             if (v.getLocalGameInstance().getMe().getNickname().equals(player)) {
                 if (side.equalsIgnoreCase("f"))
-                    v.getLocalGameInstance().getMe().setKingdom(new Kingdom(placed, placed.getFront()));
+                    v.getLocalGameInstance().initializeKingdom(v.getLocalGameInstance().getMe(), placed, placed.getFront());
                 else if (side.equalsIgnoreCase("b"))
-                    v.getLocalGameInstance().getMe().setKingdom(new Kingdom(placed, placed.getBack()));
+                    v.getLocalGameInstance().initializeKingdom(v.getLocalGameInstance().getMe(), placed, placed.getBack());
 
             }
 

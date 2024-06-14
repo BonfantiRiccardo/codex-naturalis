@@ -22,6 +22,11 @@ public abstract class GUIController {
 
         switch (controller) {
             case "login": {
+                if (guiReference.getState().equals(ViewState.DISCONNECTION)) {
+                    LoginController loginController = loader.getController();
+                    loginController.setDisconnectionText("One of the player was disconnected, the game ended for everyone.");
+                    guiReference.resetAfterDisconnection();
+                }
                 guiReference.setState(ViewState.CREATE_JOIN);
                 break;
             }
@@ -47,8 +52,17 @@ public abstract class GUIController {
                 break;
             }
 
-            case "initialization": {
+            case "startCard": {
+                ChooseStartCardController chooseStartCardController = loader.getController();
+                guiReference.getLocalGameInstance().setListener(chooseStartCardController);
 
+                chooseStartCardController.onLoad();
+                break;
+            }
+
+            case "token": {
+
+                break;
             }
 
             case "kingdom": {
@@ -64,9 +78,6 @@ public abstract class GUIController {
                 break;
             }
 
-            case "game": {
-                break;
-            }
         }
 
         double x = ((Node) event.getSource()).getScene().getWidth();      //Open the new scene with the same size

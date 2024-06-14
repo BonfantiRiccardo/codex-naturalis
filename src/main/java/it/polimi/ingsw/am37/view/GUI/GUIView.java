@@ -1,7 +1,9 @@
 package it.polimi.ingsw.am37.view.GUI;
 
+import it.polimi.ingsw.am37.model.sides.Position;
 import it.polimi.ingsw.am37.view.View;
 import it.polimi.ingsw.am37.view.ViewState;
+import it.polimi.ingsw.am37.view.clientmodel.ClientSideGameModel;
 
 import java.beans.PropertyChangeEvent;
 
@@ -32,6 +34,10 @@ public class GUIView extends View {
         return false;
     }
 
+    public void resetAfterDisconnection() {
+        localGameInstance = new ClientSideGameModel();
+        localGameInstance.setListener(this);
+    }
 
     /**
      * This method is called when the game is over.
@@ -67,6 +73,10 @@ public class GUIView extends View {
      * @param numOfPlayers the number of players in the lobby.
      */
     public void createLobby(String nickname, int numOfPlayers) { virtualServer.createLobby(nickname, numOfPlayers);}
+
+    public void chooseStartCard(String selectedSide) {
+        virtualServer.placeStartCard(localGameInstance.getMe().getNickname(), localGameInstance.getMyStartCard().getId(), selectedSide, new Position(0,0));
+    }
 
     //-------------------------------------------------------------------------------
     /**
@@ -242,5 +252,4 @@ public class GUIView extends View {
             }
         }
     }
-
 }

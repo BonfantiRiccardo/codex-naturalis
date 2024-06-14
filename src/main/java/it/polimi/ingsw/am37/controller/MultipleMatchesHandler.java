@@ -73,7 +73,7 @@ public class MultipleMatchesHandler {
      * getMap is a getter method that returns the map of ClientHandlers and their associated Controller.
      * @return the map attribute.
      */
-    public Map<ClientHandler, GameController> getMap() {
+    public synchronized Map<ClientHandler, GameController> getMap() {
         return map;
     }
 

@@ -16,6 +16,11 @@
                   <Font name="System Bold" size="48.0" />
                </font>
             </Text>
+            <Text fx:id="disconnectionText" layoutX="76.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="271.99997568130493">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
          </children>
       </VBox>
       <AnchorPane prefHeight="200.0" prefWidth="604.0">

@@ -31,6 +31,10 @@ public class ServerMain {
         //LAUNCH RMI SERVER
         RMIServer rmiServer = new RMIServer(multipleMatchesHandler);
         Registry registry = LocateRegistry.createRegistry(rmiPort);
+
+        // Set the hostname to localhost to avoid issues with the RMI server
+        System.setProperty("java.rmi.server.hostname", "localhost");
+
         registry.bind("RMIServer", rmiServer);
         System.out.println("RMI Server bound and ready on port: " + rmiPort);
     }
