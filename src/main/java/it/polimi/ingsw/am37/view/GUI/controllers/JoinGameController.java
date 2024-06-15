@@ -37,6 +37,7 @@ public class JoinGameController extends GUIController implements PropertyChangeL
 
     private int selectedLobbyValue = 0;
     private ActionEvent event;
+    private boolean changingState = false;
 
     @FXML
     public void refreshClicked(){
@@ -123,13 +124,16 @@ public class JoinGameController extends GUIController implements PropertyChangeL
             }
             case "CHANGED_STATE": {
                 if(evt.getNewValue().equals(ViewState.WAIT_IN_LOBBY) || evt.getNewValue().equals(ViewState.PLACE_SC)) {
-                    Platform.runLater( () -> {
-                        try {
-                            changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/lobby.fxml", "lobby", event);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
+                    if (!changingState) {
+                        changingState = true;
+                        Platform.runLater(() -> {
+                            try {
+                                changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/lobby.fxml", "lobby", event);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                    }
                 } else if (evt.getNewValue().equals(ViewState.DISCONNECTION)) {
                     Platform.runLater( () -> {
                         try {

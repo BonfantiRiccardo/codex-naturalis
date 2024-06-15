@@ -229,6 +229,12 @@ public class ClientSideGameModel {
      */
     public void removeToken(Token t) {
         tokens.remove(t);
+        PropertyChangeEvent evt = new PropertyChangeEvent(
+                this,
+                "TOKEN_REMOVED",
+                t,
+                null);
+        listener.propertyChange(evt);
     }
 
     //-------------------------------------------------------------------------------------------

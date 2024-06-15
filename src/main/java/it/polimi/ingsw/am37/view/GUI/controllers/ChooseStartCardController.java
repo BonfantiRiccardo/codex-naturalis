@@ -46,7 +46,7 @@ public class ChooseStartCardController extends GUIController implements Property
 
     private String selectedSide;
     private String sideSent;
-    private ActionEvent event = new ActionEvent();
+    private ActionEvent event = new ActionEvent(goldCard1, null);
 
     public void onLoad() {
         String resource = "/it/polimi/ingsw/am37/view/GUI/back/" +
@@ -122,16 +122,16 @@ public class ChooseStartCardController extends GUIController implements Property
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             case "CHANGED_STATE": {
-                if (guiReference.getState().equals(ViewState.CHOOSE_TOKEN)) {
+                if (evt.getNewValue().equals(ViewState.CHOOSE_TOKEN)) {
                     if (sideSent.equalsIgnoreCase("f"))
                         guiReference.getLocalGameInstance().getMe().setKingdom(new Kingdom(guiReference.getLocalGameInstance().getMyStartCard(),
                                 guiReference.getLocalGameInstance().getMyStartCard().getFront()));
                     else if (sideSent.equalsIgnoreCase("b"))
                         guiReference.getLocalGameInstance().getMe().setKingdom(new Kingdom(guiReference.getLocalGameInstance().getMyStartCard(),
                                 guiReference.getLocalGameInstance().getMyStartCard().getBack()));
-
+                    Platform.runLater(() -> confirmButton.setVisible(false));
                     checkOtherPlayers();
-                } else if (guiReference.getState().equals(ViewState.DISCONNECTION)) {
+                } else if (evt.getNewValue().equals(ViewState.DISCONNECTION)) {
                     Platform.runLater(() -> {
                         try {
                             changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/login.fxml", "login", event);
@@ -139,6 +139,10 @@ public class ChooseStartCardController extends GUIController implements Property
                             throw new RuntimeException(e);
                         }
                     });
+                } else if (evt.getNewValue().equals(ViewState.ERROR)) {
+                    infoText.setText("Error: " + evt.getNewValue());
+                    //ERROR STATE IS UNRECOVERABLE FOR NOW
+                    //guiReference.setState((ViewState) evt.getOldValue());
                 }
                 break;
             }
@@ -164,7 +168,7 @@ public class ChooseStartCardController extends GUIController implements Property
                 stillToPlay.add(p.getNickname());
             }
 
-        if (stillToPlay.isEmpty()) {
+        if (stillToPlay.isEmpty() && guiReference.getLocalGameInstance().getMe().getKingdom() != null) {
             Platform.runLater(() -> {
                 try {
                     changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/chooseToken.fxml", "token", event);
@@ -172,8 +176,10 @@ public class ChooseStartCardController extends GUIController implements Property
                     throw new RuntimeException(e);
                 }
             });
-        } else {
-            infoText.setText("Waiting for: " + stillToPlay.toString() + " to place their start card");
+        } else if (guiReference.getLocalGameInstance().getMe().getKingdom() != null) {
+            Platform.runLater(() -> {
+                infoText.setText("Waiting for: " + stillToPlay.toString() + " to place their start card");
+            });
         }
     }
 

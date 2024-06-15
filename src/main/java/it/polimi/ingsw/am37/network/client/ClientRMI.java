@@ -493,6 +493,7 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
      * @param server is the server to ping.
      */
     private void startPinging(RMIServerStub server) {
+        int i = 0;
         while (!disconnected) {
             try {
                 Thread.sleep(5000);
@@ -502,8 +503,14 @@ public class ClientRMI extends UnicastRemoteObject implements RMIClientSkeleton,
 
             try {
                 server.ping(this.hashCode());
+                i = 0;
             } catch (IOException e) {
-                System.err.println("Error while pinging client");
+                i++;
+                System.err.println("Error while pinging server");
+                if (i == 5) {
+                    System.out.println("\nConnection with server was lost, closing application.");
+                    System.exit(0);
+                }
             }
         }
     }

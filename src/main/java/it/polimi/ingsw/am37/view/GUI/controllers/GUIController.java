@@ -61,7 +61,10 @@ public abstract class GUIController {
             }
 
             case "token": {
+                ChooseTokenController chooseTokenController = loader.getController();
+                guiReference.getLocalGameInstance().setListener(chooseTokenController);
 
+                //chooseTokenController.initialize();
                 break;
             }
 

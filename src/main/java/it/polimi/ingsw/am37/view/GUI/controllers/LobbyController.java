@@ -69,17 +69,24 @@ public class LobbyController extends GUIController implements PropertyChangeList
             case "NEW_PLAYER": {
                 //LOAD THE OTHER VIEW IF PLAYERS REACHED
                 Platform.runLater(this::getInfo);
+                break;
             }
 
             case "CHANGED_STATE": {
-                if (guiReference.getState().equals(ViewState.PLACE_SC)) {
-                    playersText.setText("The game is ready to start. Click on continue to start the game!");
-                    continueButton.setVisible(true);
-                } else if (guiReference.getState().equals(ViewState.DISCONNECTION)) {
-                    playersText.setText("One of the player was disconnected, the game ended for everyone.");
-                    disconnection.setVisible(true);
+                if (evt.getNewValue().equals(ViewState.PLACE_SC)) {
+                    Platform.runLater(() -> {
+                        playersText.setText("The game is ready to start. Click on continue to start the game!");
+                        continueButton.setVisible(true);
+                    });
+                } else if (evt.getNewValue().equals(ViewState.DISCONNECTION)) {
+                    Platform.runLater(() -> {
+                        continueButton.setVisible(false);
+                        playersText.setText("One of the player was disconnected, the game ended for everyone.");
+                        disconnection.setVisible(true);
+                    });
                 }
             }
+            break;
         }
     }
 

@@ -48,7 +48,7 @@ public abstract class Card {
             resourceMap.put(Resource.INKWELL,    "🖋️");
             resourceMap.put(Resource.MANUSCRIPT, "📜");
             resourceMap.put(Resource.QUILL,      "🪶");
-            resourceMap.put(Resource.EMPTY,      "⠀⠀");
+            resourceMap.put(Resource.EMPTY,      "  ");
         } else {
             resourceMap.put(Resource.ANIMAL,     "A ");
             resourceMap.put(Resource.PLANT,      "P ");

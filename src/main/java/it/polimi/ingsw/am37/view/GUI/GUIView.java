@@ -1,5 +1,6 @@
 package it.polimi.ingsw.am37.view.GUI;
 
+import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Position;
 import it.polimi.ingsw.am37.view.View;
 import it.polimi.ingsw.am37.view.ViewState;
@@ -76,6 +77,10 @@ public class GUIView extends View {
 
     public void chooseStartCard(String selectedSide) {
         virtualServer.placeStartCard(localGameInstance.getMe().getNickname(), localGameInstance.getMyStartCard().getId(), selectedSide, new Position(0,0));
+    }
+
+    public void chooseToken(Token token) {
+        virtualServer.chooseToken(localGameInstance.getMe().getNickname(), token);
     }
 
     //-------------------------------------------------------------------------------
