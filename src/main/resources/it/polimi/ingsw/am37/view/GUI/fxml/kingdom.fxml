@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am37.view.GUI.controllers.kingdomController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am37.view.GUI.controllers.KingdomController">
    <children>
       <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -40,7 +40,7 @@
                                                    <children>
                                                       <VBox alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="NEVER">
                                                          <children>
-                                                            <ImageView fx:id="secondGoldCardAvailableImage1" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
+                                                            <ImageView fx:id="publicObj1" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                                                                <image>
                                                                   <Image url="@../../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/001.png" />
                                                                </image>
@@ -56,17 +56,17 @@
                                                                      </effect></ImageView>
                                                                </graphic>
                                                             </Button>
-                                                            <Button fx:id="firstResCardAvailableButton" alignment="CENTER" layoutX="20.0" layoutY="10.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#firstResCardAvailableButtonClicked" prefHeight="145.64" prefWidth="218.46">
+                                                            <Button fx:id="availableResCard1Button" alignment="CENTER" layoutX="20.0" layoutY="10.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#firstResCardAvailableButtonClicked" prefHeight="145.64" prefWidth="218.46">
                                                                <graphic>
-                                                                  <ImageView fx:id="firstResCardAvailableImage" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
+                                                                  <ImageView fx:id="availableResCard1Image" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                      <effect>
                                                                         <DropShadow />
                                                                      </effect></ImageView>
                                                                </graphic>
                                                             </Button>
-                                                            <Button fx:id="secondResCardAvailableButton" alignment="CENTER" layoutX="20.0" layoutY="167.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#secondResCardAvailableButtonClicked" prefHeight="145.64" prefWidth="218.46">
+                                                            <Button fx:id="availableResCard2Button" alignment="CENTER" layoutX="20.0" layoutY="167.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#secondResCardAvailableButtonClicked" prefHeight="145.64" prefWidth="218.46">
                                                                <graphic>
-                                                                  <ImageView fx:id="secondResCardAvailableImage" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
+                                                                  <ImageView fx:id="availableResCard2Image" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                      <effect>
                                                                         <DropShadow />
                                                                      </effect></ImageView>
@@ -76,7 +76,7 @@
                                                       </VBox>
                                                       <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" spacing="10.0" HBox.hgrow="NEVER">
                                                          <children>
-                                                            <ImageView fx:id="secondGoldCardAvailableImage2" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
+                                                            <ImageView fx:id="publicObj2" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                <image>
                                                                   <Image url="@../../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/001.png" />
                                                                </image>
@@ -92,9 +92,9 @@
                                                                      </effect></ImageView>
                                                                </graphic>
                                                             </Button>
-                                                            <Button fx:id="firstGoldCardAvailableButton" alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
+                                                            <Button fx:id="availableGoldCard1Button" alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
                                                                <graphic>
-                                                                  <ImageView fx:id="firstGoldCardAvailableImage" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
+                                                                  <ImageView fx:id="availableGoldCard1Image" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                      <effect>
                                                                         <DropShadow />
                                                                      </effect>
@@ -103,9 +103,9 @@
                                                                      </image></ImageView>
                                                                </graphic>
                                                             </Button>
-                                                            <Button fx:id="secondGoldCardAvailableButton" alignment="CENTER" layoutX="10.0" layoutY="167.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
+                                                            <Button fx:id="availableGoldCard2Button" alignment="CENTER" layoutX="10.0" layoutY="167.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
                                                                <graphic>
-                                                                  <ImageView fx:id="secondGoldCardAvailableImage" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
+                                                                  <ImageView fx:id="availableGoldCard2Image" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                      <image>
                                                                         <Image url="@../../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/001.png" />
                                                                      </image>
@@ -125,7 +125,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </HBox>
-                                                <GridPane gridLinesVisible="true" styleClass="points_vector" stylesheets="@../loginStyle.css" VBox.vgrow="NEVER">
+                                                <GridPane fx:id="player1Info" gridLinesVisible="true" styleClass="points_vector" stylesheets="@../loginStyle.css" VBox.vgrow="NEVER">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -140,7 +140,7 @@
                                                          <children>
                                                             <HBox stylesheets="@../loginStyle.css">
                                                                <children>
-                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                                                                  <Text fx:id="player1Username" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
                                                                      <font>
                                                                         <Font name="System Bold" size="14.0" />
                                                                      </font>
@@ -149,7 +149,7 @@
                                                             </HBox>
                                                             <HBox>
                                                                <children>
-                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                                                                  <Text fx:id="player1Points" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
                                                                      <font>
                                                                         <Font name="System Bold" size="14.0" />
                                                                      </font>
@@ -168,7 +168,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player1AnimalPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -185,7 +185,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player1FungiPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -202,7 +202,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player1InsectPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -219,7 +219,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player1PlantPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -236,7 +236,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player1InkwellPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -253,7 +253,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player1ManuscriptPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -270,7 +270,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player1QuillPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -289,7 +289,7 @@
                                                       </VBox>
                                                    </children>
                                                 </GridPane>
-                                                <GridPane gridLinesVisible="true" VBox.vgrow="NEVER">
+                                                <GridPane fx:id="player2Info" gridLinesVisible="true" VBox.vgrow="NEVER">
                                                    <columnConstraints>
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                                                    </columnConstraints>
@@ -301,7 +301,7 @@
                                                          <children>
                                                             <HBox VBox.vgrow="NEVER">
                                                                <children>
-                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                                                                  <Text fx:id="player2Username" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
                                                                      <font>
                                                                         <Font name="System Bold" size="14.0" />
                                                                      </font>
@@ -310,7 +310,7 @@
                                                             </HBox>
                                                             <HBox VBox.vgrow="NEVER">
                                                                <children>
-                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                                                                  <Text fx:id="player2Points" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
                                                                      <font>
                                                                         <Font name="System Bold" size="14.0" />
                                                                      </font>
@@ -329,7 +329,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player2AnimalPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -346,7 +346,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player2FungiPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -363,7 +363,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player2InsectPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -380,7 +380,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player2PlantPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -397,7 +397,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player2InkwellPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -414,7 +414,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player2ManuscriptPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -431,7 +431,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player2QuillPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -450,7 +450,7 @@
                                                       </VBox>
                                                    </children>
                                                 </GridPane>
-                                                <GridPane gridLinesVisible="true" VBox.vgrow="NEVER">
+                                                <GridPane fx:id="player3Info" gridLinesVisible="true" VBox.vgrow="NEVER">
                                                    <columnConstraints>
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                                                    </columnConstraints>
@@ -462,7 +462,7 @@
                                                          <children>
                                                             <HBox VBox.vgrow="NEVER">
                                                                <children>
-                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                                                                  <Text fx:id="player3Username" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
                                                                      <font>
                                                                         <Font name="System Bold" size="14.0" />
                                                                      </font>
@@ -471,7 +471,7 @@
                                                             </HBox>
                                                             <HBox VBox.vgrow="NEVER">
                                                                <children>
-                                                                  <Text fx:id="pointsText11" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS" />
+                                                                  <Text fx:id="player3Points" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS" />
                                                                </children>
                                                             </HBox>
                                                             <HBox alignment="CENTER_LEFT" spacing="15.0">
@@ -486,7 +486,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player3AnimalPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -503,7 +503,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player3FungiPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -520,7 +520,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player3InsectPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -537,7 +537,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player3PlantPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -554,7 +554,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player3InkwellPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -571,7 +571,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player3ManuscriptPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -588,7 +588,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player3QuillPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -607,7 +607,7 @@
                                                       </VBox>
                                                    </children>
                                                 </GridPane>
-                                                <GridPane gridLinesVisible="true" VBox.vgrow="NEVER">
+                                                <GridPane fx:id="player4Info" gridLinesVisible="true" VBox.vgrow="NEVER">
                                                    <columnConstraints>
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                                                    </columnConstraints>
@@ -619,12 +619,12 @@
                                                          <children>
                                                             <HBox VBox.vgrow="NEVER">
                                                                <children>
-                                                                  <Text fx:id="usernameText12" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS" />
+                                                                  <Text fx:id="player4Username" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS" />
                                                                </children>
                                                             </HBox>
                                                             <HBox VBox.vgrow="NEVER">
                                                                <children>
-                                                                  <Text fx:id="pointsText12" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS" />
+                                                                  <Text fx:id="player4Points" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS" />
                                                                </children>
                                                             </HBox>
                                                             <HBox spacing="15.0">
@@ -639,7 +639,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player4AnimalPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -656,7 +656,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player4FungiPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -673,7 +673,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player4InsectPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -690,7 +690,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player4PlantPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -707,7 +707,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player4InkwellPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -724,7 +724,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player4ManuscriptPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -741,7 +741,7 @@
                                                                               <DropShadow />
                                                                            </effect>
                                                                         </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                                                        <Text fx:id="player4QuillPoints" strokeType="OUTSIDE" strokeWidth="0.0">
                                                                            <font>
                                                                               <Font name="System Bold" size="14.0" />
                                                                            </font>
@@ -785,9 +785,9 @@
                                                          <children>
                                                             <TabPane VBox.vgrow="ALWAYS">
                                                                <tabs>
-                                                                  <Tab closable="false">
+                                                                  <Tab fx:id="player1Tab" closable="false">
                                                                      <content>
-                                                                        <GridPane fx:id="kingdomGrid" alignment="CENTER" styleClass="kingdom_background" stylesheets="@../loginStyle.css">
+                                                                        <GridPane fx:id="player1KingdomGrid" alignment="CENTER" styleClass="kingdom_background" stylesheets="@../loginStyle.css">
                                                                           <columnConstraints>
                                                                               <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
@@ -805,6 +805,183 @@
                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
                                                                         </rowConstraints>
+                                                                           <children>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/13.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/83.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/7.png" />
+                                                                                 </image>
+                                                                                 <effect>
+                                                                                    <DropShadow />
+                                                                                 </effect>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/38.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/73.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="66.3" prefWidth="102.5" text="Place Here!" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                                           </children>
+                                                                           <opaqueInsets>
+                                                                              <Insets />
+                                                                           </opaqueInsets>
+                                                                           <padding>
+                                                                              <Insets left="35.0" right="35.0" />
+                                                                           </padding>
+                                                                        </GridPane>
+                                                                     </content>
+                                                                  </Tab>
+                                                                  <Tab fx:id="player2Tab" closable="false">
+                                                                     <content>
+                                                                        <GridPane fx:id="player2KingdomGrid" alignment="CENTER" styleClass="kingdom_background" stylesheets="@../loginStyle.css">
+                                                                           <columnConstraints>
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                           </columnConstraints>
+                                                                           <rowConstraints>
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                           </rowConstraints>
+                                                                           <children>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/13.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/83.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/7.png" />
+                                                                                 </image>
+                                                                                 <effect>
+                                                                                    <DropShadow />
+                                                                                 </effect>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/38.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/73.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="66.3" prefWidth="102.5" text="Place Here!" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                                           </children>
+                                                                           <opaqueInsets>
+                                                                              <Insets />
+                                                                           </opaqueInsets>
+                                                                           <padding>
+                                                                              <Insets left="35.0" right="35.0" />
+                                                                           </padding>
+                                                                        </GridPane>
+                                                                     </content>
+                                                                  </Tab>
+                                                                  <Tab fx:id="player3Tab" closable="false">
+                                                                     <content>
+                                                                        <GridPane fx:id="player3KingdomGrid" alignment="CENTER" styleClass="kingdom_background" stylesheets="@../loginStyle.css">
+                                                                           <columnConstraints>
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                           </columnConstraints>
+                                                                           <rowConstraints>
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                           </rowConstraints>
+                                                                           <children>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/13.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/83.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/7.png" />
+                                                                                 </image>
+                                                                                 <effect>
+                                                                                    <DropShadow />
+                                                                                 </effect>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/38.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                                                 <image>
+                                                                                    <Image url="@../front/73.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                              <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="66.3" prefWidth="102.5" text="Place Here!" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                                                           </children>
+                                                                           <opaqueInsets>
+                                                                              <Insets />
+                                                                           </opaqueInsets>
+                                                                           <padding>
+                                                                              <Insets left="35.0" right="35.0" />
+                                                                           </padding>
+                                                                        </GridPane>
+                                                                     </content>
+                                                                  </Tab>
+                                                                  <Tab fx:id="player4Tab" closable="false">
+                                                                     <content>
+                                                                        <GridPane fx:id="player4KingdomGrid" alignment="CENTER" styleClass="kingdom_background" stylesheets="@../loginStyle.css">
+                                                                           <columnConstraints>
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="162.0" prefWidth="162.0" />
+                                                                           </columnConstraints>
+                                                                           <rowConstraints>
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                              <RowConstraints maxHeight="-Infinity" minHeight="84.0" prefHeight="84.0" vgrow="NEVER" />
+                                                                           </rowConstraints>
                                                                            <children>
                                                                               <ImageView fitHeight="150.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                                                                                  <image>
@@ -873,41 +1050,41 @@
                                                                      <children>
                                                                         <VBox alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="NEVER">
                                                                            <children>
-                                                                              <Button fx:id="firstResHandButton" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
+                                                                              <Button fx:id="handRes1Button" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
                                                                                  <graphic>
-                                                                                    <ImageView fx:id="firstResHandImage" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
+                                                                                    <ImageView fx:id="handRes1Image" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                                        <effect>
                                                                                           <DropShadow />
                                                                                        </effect></ImageView>
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="firstResHandFlipButton" alignment="CENTER" mnemonicParsing="false" text="Flip" />
+                                                                              <Button fx:id="handRes1Flip" alignment="CENTER" mnemonicParsing="false" text="Flip" />
                                                                            </children>
                                                                         </VBox>
                                                                         <VBox alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="NEVER">
                                                                            <children>
-                                                                              <Button fx:id="secondResHandButton" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
+                                                                              <Button fx:id="handRes2Button" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
                                                                                  <graphic>
-                                                                                    <ImageView fx:id="secondResHandImage" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
+                                                                                    <ImageView fx:id="handRes2Image" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                                        <effect>
                                                                                           <DropShadow />
                                                                                        </effect></ImageView>
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="secondResHandFlipButton" alignment="CENTER" mnemonicParsing="false" text="Flip" />
+                                                                              <Button fx:id="handRes2Flip" alignment="CENTER" mnemonicParsing="false" text="Flip" />
                                                                            </children>
                                                                         </VBox>
                                                                         <VBox alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="NEVER">
                                                                            <children>
-                                                                              <Button fx:id="goldHandButton" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
+                                                                              <Button fx:id="handGoldButton" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
                                                                                  <graphic>
-                                                                                    <ImageView fx:id="goldHandImage" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
+                                                                                    <ImageView fx:id="handGoldImage" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                                        <effect>
                                                                                           <DropShadow />
                                                                                        </effect></ImageView>
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="goldHandFlipButton" alignment="CENTER" mnemonicParsing="false" text="Flip" />
+                                                                              <Button fx:id="handGoldFlip" alignment="CENTER" mnemonicParsing="false" text="Flip" />
                                                                            </children>
                                                                         </VBox>
                                                                      </children>
@@ -927,7 +1104,7 @@
                                                          <content>
                                                             <HBox alignment="TOP_CENTER" stylesheets="@../loginStyle.css">
                                                                <children>
-                                                                  <ImageView fx:id="secondGoldCardAvailableImage3" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
+                                                                  <ImageView fx:id="privateObj" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                      <image>
                                                                         <Image url="@../../../../../../../../../../../GUI%20graphics/Images/cards/images/CODEX_cards_gold_front/001.png" />
                                                                      </image>
