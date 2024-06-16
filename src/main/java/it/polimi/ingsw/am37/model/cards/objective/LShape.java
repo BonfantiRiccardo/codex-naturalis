@@ -105,7 +105,7 @@ public class LShape extends PlacementBoundObjective {
             } else if (this.cardColourThatTriggersCheck==Resource.ANIMAL) {
                 res="🐺";
             } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
-                res="🍁";
+                res="🍀";
             }   else{       //fungi
                 res="🍄";
             }
@@ -115,7 +115,7 @@ public class LShape extends PlacementBoundObjective {
             } else if (this.otherResource==Resource.ANIMAL) {
                 leg="🐺";
             } else if (this.otherResource==Resource.PLANT) {
-                leg="🍁";
+                leg="🍀";
             }   else{       //fungi
                 leg="🍄";
             }

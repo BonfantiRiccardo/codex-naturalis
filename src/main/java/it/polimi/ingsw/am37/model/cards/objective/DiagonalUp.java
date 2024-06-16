@@ -92,7 +92,7 @@ public class DiagonalUp extends PlacementBoundObjective {
             } else if (this.cardColourThatTriggersCheck==Resource.ANIMAL) {
                 res="🐺";
             } else if (this.cardColourThatTriggersCheck==Resource.PLANT) {
-                res="🍁";
+                res="🍀";
             }   else{
                 res="🍄";
             }

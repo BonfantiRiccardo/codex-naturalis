@@ -77,7 +77,7 @@ public class ResourcesBoundObjective extends ObjectiveCard {
                         "│ id:" + id + "  pt:" + points + "   │\n" +
                         "│               │\n" +
                         "│ resources:    │\n" +
-                        "│   🍁 🍁 🍁    │\n" +
+                        "│   🍀 🍀 🍀    │\n" +
                         "└───────────────┘";
                 case 97 -> "┌───────────────┐\n" +
                         "│ id:" + id + "  pt:" + points + "   │\n" +
@@ -95,9 +95,9 @@ public class ResourcesBoundObjective extends ObjectiveCard {
                         "│ id:" + id + "  pt:" + points + "   │\n" +
                         "│               │\n" +
                         "│ resources:    │\n" +
-                        "│   📜 🪶 🖋️    │\n" +
+                        "│   📜 🪶 ♟️️    │\n" +
                         "└───────────────┘";
-                //🥃
+                //🥃♟️
                 case 100 -> "┌───────────────┐\n" +
                         "│ id:" + id + "  pt:" + points + "  │\n" +
                         "│               │\n" +
@@ -108,7 +108,7 @@ public class ResourcesBoundObjective extends ObjectiveCard {
                         "│ id:" + id + "  pt:" + points + "  │\n" +
                         "│               │\n" +
                         "│ resources:    │\n" +
-                        "│     🖋️ 🖋️     │\n" +
+                        "│     ♟️️ ♟️️     │\n" +
                         "└───────────────┘";
                 case 102 -> "┌───────────────┐\n" +
                         "│ id:" + id + "  pt:" + points + "  │\n" +
