@@ -64,13 +64,21 @@ public abstract class GUIController {
                 ChooseTokenController chooseTokenController = loader.getController();
                 guiReference.getLocalGameInstance().setListener(chooseTokenController);
 
-                //chooseTokenController.initialize();
+                break;
+            }
+
+            case "objective": {
+                ChoosePrivateObjectiveController choosePrivateObjectiveController = loader.getController();
+                guiReference.getLocalGameInstance().setListener(choosePrivateObjectiveController);
+
+                choosePrivateObjectiveController.onLoad();
                 break;
             }
 
             case "kingdom": {
                 KingdomController kingdomController = loader.getController();
                 guiReference.getLocalGameInstance().setListener(kingdomController);
+
                 kingdomController.onLoad();
                 break;
             }

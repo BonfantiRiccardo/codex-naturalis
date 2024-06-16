@@ -1,26 +1,33 @@
 package it.polimi.ingsw.am37.view.GUI.controllers;
 
+import it.polimi.ingsw.am37.view.ViewState;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.Objects;
 
 public class ChoosePrivateObjectiveController extends GUIController implements PropertyChangeListener {
     @FXML
     private Button confirmButton;
     @FXML
-    private Button frontButton;
+    private Button firstObjectiveButton;
     @FXML
-    private Button backButton;
+    private ImageView firstObjective;
     @FXML
-    private Text errorText;
+    private Button secondObjectiveButton;
     @FXML
-    private ImageView frontStartCard;
+    private ImageView secondObjective;
     @FXML
-    private ImageView backStartCard;
+    private Text infoText;
+
     @FXML
     private ImageView topResourceDeck;
     @FXML
@@ -34,15 +41,145 @@ public class ChoosePrivateObjectiveController extends GUIController implements P
     @FXML
     private ImageView goldCard2;
     @FXML
-    private ImageView playerResourceCard1;
+    private ImageView playerCard1;
     @FXML
-    private ImageView playerResourceCard2;
+    private ImageView playerCard2;
     @FXML
-    private ImageView playerGoldCard;
+    private ImageView playerCard3;
 
+    @FXML
+    private Button returnToLobby;
+
+    private int objectiveSelected = -1;
+    private int objectiveSent;
+    private ActionEvent event = new ActionEvent(confirmButton, null);
+
+
+
+    public void onLoad() {
+        returnToLobby.setVisible(false);
+
+        firstObjective.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/it/polimi/ingsw/am37/view/GUI/front/"+
+                        guiReference.getLocalGameInstance().getPrivateObjectives().get(0).getId()
+                        + ".png"))));
+
+        secondObjective.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/it/polimi/ingsw/am37/view/GUI/front/"+
+                        guiReference.getLocalGameInstance().getPrivateObjectives().get(1).getId()
+                        + ".png"))));
+
+        String resource = "/it/polimi/ingsw/am37/view/GUI/back/" +
+                switch (guiReference.getLocalGameInstance().getTopOfGoldDeck()) {
+                    default -> "defaultBack";
+                    case PLANT -> "PlantBackGold";
+                    case ANIMAL -> "AnimalBackGold";
+                    case FUNGI -> "FungiBackGold";
+                    case INSECT -> "InsectBackGold";
+                }
+                + ".png";
+        topGoldDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(resource))));
+
+        topResourceDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/it/polimi/ingsw/am37/view/GUI/back/" +
+                switch (guiReference.getLocalGameInstance().getTopOfResourceDeck()) {
+                    default -> "defaultBack";
+                    case PLANT -> "PlantBackResource";
+                    case ANIMAL -> "AnimalBackResource";
+                    case FUNGI -> "FungiBackResource";
+                    case INSECT -> "InsectBackResource";
+                }
+                + ".png"))));
+
+        goldCard1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(
+                "/it/polimi/ingsw/am37/view/GUI/front/"+
+                        guiReference.getLocalGameInstance().getAvailableGoldCards().get(0).getId()
+                        + ".png"))));
+        goldCard2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(
+                "/it/polimi/ingsw/am37/view/GUI/front/"+
+                        guiReference.getLocalGameInstance().getAvailableGoldCards().get(1).getId()
+                        + ".png"))));
+
+        resourceCard1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(
+                "/it/polimi/ingsw/am37/view/GUI/front/"+
+                        guiReference.getLocalGameInstance().getAvailableResourceCards().get(0).getId()
+                        + ".png"))));
+        resourceCard2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(
+                "/it/polimi/ingsw/am37/view/GUI/front/"+
+                        guiReference.getLocalGameInstance().getAvailableResourceCards().get(0).getId()
+                        + ".png"))));
+
+        playerCard1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/it/polimi/ingsw/am37/view/GUI/front/"+
+                        guiReference.getLocalGameInstance().getMyHand().get(0).getId()
+                        + ".png"))));
+
+        playerCard2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/it/polimi/ingsw/am37/view/GUI/front/"+
+                        guiReference.getLocalGameInstance().getMyHand().get(1).getId()
+                        + ".png"))));
+
+        playerCard3.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/it/polimi/ingsw/am37/view/GUI/front/"+
+                        guiReference.getLocalGameInstance().getMyHand().get(2).getId()
+                        + ".png"))));
+    }
+
+    public void onFirstButtonClick(ActionEvent actionEvent) {
+        objectiveSelected = 1;
+        infoText.setText("You have selected the first private objective. Press confirm to continue.");
+    }
+
+    public void onSecondButtonClick(ActionEvent actionEvent) {
+        objectiveSelected = 2;
+        infoText.setText("You have selected the second private objective. Press confirm to continue.");
+    }
+
+    public void onConfirmClick(ActionEvent actionEvent) {
+        if (objectiveSelected == 1) {
+            objectiveSent = objectiveSelected;
+            event = actionEvent;
+            guiReference.choosePrivateObjective(guiReference.getLocalGameInstance().getPrivateObjectives().get(0).getId());
+        } else if (objectiveSelected == 2) {
+            objectiveSent = objectiveSelected;
+            event = actionEvent;
+            guiReference.choosePrivateObjective(guiReference.getLocalGameInstance().getPrivateObjectives().get(1).getId());
+        } else {
+            infoText.setText("You have not chosen a private objective yet. Please select one.");
+        }
+    }
+
+    public void onReturnToLobbyClick(ActionEvent actionEvent) {
+        Platform.runLater(() -> {
+            try {
+                changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/login.fxml", "login", actionEvent);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("CHANGED_STATE")) {
+            if (evt.getNewValue().equals(ViewState.NOT_TURN)) {
+                if (objectiveSent == 1) {
+                    guiReference.getLocalGameInstance().setMyPrivateObjective(guiReference.getLocalGameInstance().getPrivateObjectives().get(0));
+                } else if (objectiveSent == 2) {
+                    guiReference.getLocalGameInstance().setMyPrivateObjective(guiReference.getLocalGameInstance().getPrivateObjectives().get(1));
+                }
 
+                Platform.runLater(() -> {
+                    try {
+                        changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/kingdom.fxml", "kingdom", event);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            } else if (evt.getNewValue().equals(ViewState.DISCONNECTION)) {
+                Platform.runLater(() -> {
+                    infoText.setText("One of the player was disconnected, the game ended for everyone.");
+                    returnToLobby.setVisible(true);
+                    confirmButton.setVisible(false);
+                    firstObjectiveButton.setVisible(false);
+                    secondObjectiveButton.setVisible(false);
+                });
+            }
+        }
     }
+
 }

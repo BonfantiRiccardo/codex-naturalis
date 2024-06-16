@@ -42,6 +42,8 @@ public class ChooseStartCardController extends GUIController implements Property
     private ImageView goldCard1;
     @FXML
     private ImageView goldCard2;
+    @FXML
+    private Button returnToLobby;
 
 
     private String selectedSide;
@@ -49,6 +51,8 @@ public class ChooseStartCardController extends GUIController implements Property
     private ActionEvent event = new ActionEvent(goldCard1, null);
 
     public void onLoad() {
+        returnToLobby.setVisible(false);
+
         String resource = "/it/polimi/ingsw/am37/view/GUI/back/" +
                 switch (guiReference.getLocalGameInstance().getTopOfGoldDeck()) {
                     default -> "defaultBack";
@@ -116,6 +120,15 @@ public class ChooseStartCardController extends GUIController implements Property
         event = actionEvent;
     }
 
+    public void onReturnToLobby(ActionEvent actionEvent) {
+        Platform.runLater(() -> {
+            try {
+                changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/login.fxml", "login", actionEvent);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
 
     @Override
@@ -132,13 +145,9 @@ public class ChooseStartCardController extends GUIController implements Property
                     Platform.runLater(() -> confirmButton.setVisible(false));
                     checkOtherPlayers();
                 } else if (evt.getNewValue().equals(ViewState.DISCONNECTION)) {
-                    Platform.runLater(() -> {
-                        try {
-                            changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/login.fxml", "login", event);
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
+                    infoText.setText("One or more players disconnected, press the button to return to the lobby");
+                    Platform.runLater(() -> returnToLobby.setVisible(true));
+                    Platform.runLater(() -> confirmButton.setVisible(false));
                 } else if (evt.getNewValue().equals(ViewState.ERROR)) {
                     infoText.setText("Error: " + evt.getNewValue());
                     //ERROR STATE IS UNRECOVERABLE FOR NOW

@@ -79,6 +79,10 @@ public class GUIView extends View {
         virtualServer.placeStartCard(localGameInstance.getMe().getNickname(), localGameInstance.getMyStartCard().getId(), selectedSide, new Position(0,0));
     }
 
+    public void choosePrivateObjective(int id) {
+        virtualServer.chooseObjective(localGameInstance.getMe().getNickname(), id);
+    }
+
     public void chooseToken(Token token) {
         virtualServer.chooseToken(localGameInstance.getMe().getNickname(), token);
     }

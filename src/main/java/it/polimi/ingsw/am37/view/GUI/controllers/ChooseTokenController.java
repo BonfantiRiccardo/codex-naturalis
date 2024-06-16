@@ -23,6 +23,8 @@ public class ChooseTokenController extends GUIController implements PropertyChan
     private Text infoText;
     @FXML
     private Button confirmButton;
+    @FXML
+    private Button returnToLobby;
 
     private int tokenSelected = -1;
     private int tokenSent;
@@ -35,6 +37,8 @@ public class ChooseTokenController extends GUIController implements PropertyChan
 
 
     public void initialize(){
+        returnToLobby.setVisible(false);
+
         int i = -1;
         for (Token option : guiReference.getLocalGameInstance().getTokens()) {
             i++;
@@ -102,6 +106,16 @@ public class ChooseTokenController extends GUIController implements PropertyChan
         }
     }
 
+    public void onReturnToLobbyClick(ActionEvent actionEvent) {
+        Platform.runLater(() -> {
+            try {
+                changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/login.fxml", "login", actionEvent);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -123,8 +137,10 @@ public class ChooseTokenController extends GUIController implements PropertyChan
 
                 } else if (evt.getNewValue().equals(ViewState.DISCONNECTION)) {
                     Platform.runLater(() -> {
-                        //playersText.setText("One of the player was disconnected, the game ended for everyone.");
-                        //disconnection.setVisible(true);
+                        infoText.setText("One of the player was disconnected, the game ended for everyone.");
+                        returnToLobby.setVisible(true);
+                        confirmButton.setVisible(false);
+                        tokenMenu.setVisible(false);
                     });
                 }
                 break;
@@ -176,6 +192,5 @@ public class ChooseTokenController extends GUIController implements PropertyChan
             });
         }
     }
-
 
 }

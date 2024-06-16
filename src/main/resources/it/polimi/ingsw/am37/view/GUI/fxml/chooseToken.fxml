@@ -13,9 +13,9 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchor" stylesheets="@../loginStyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.am37.view.GUI.controllers.ChooseTokenController">
    <top>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Choose Your Token">
+            <Label prefHeight="65.0" prefWidth="438.0" text="Choose Your Token">
                <font>
                   <Font name="System Bold" size="48.0" />
                </font>
@@ -32,8 +32,14 @@
                </VBox.margin>
             </MenuButton>
             <Region prefHeight="42.0" prefWidth="553.0" />
-            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#onConfirmClick" text="Confirm!" />
-            <Text fx:id="infoText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="461.60003662109375" />
+            <HBox alignment="CENTER" prefHeight="31.0" prefWidth="600.0">
+               <children>
+                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#onConfirmClick" text="Confirm!" />
+                  <Region prefHeight="31.0" prefWidth="39.0" />
+                  <Button fx:id="returnToLobby" mnemonicParsing="false" onAction="#onReturnToLobbyClick" text="Return to Lobby" />
+               </children>
+            </HBox>
+            <Text fx:id="infoText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="476.00006103515625" />
          </children>
       </VBox>
    </center>
