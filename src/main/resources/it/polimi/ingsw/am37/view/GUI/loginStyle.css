@@ -1,4 +1,12 @@
-.anchor{
+.background{
     -fx-background-image: url("background.png");
+    -fx-background-size: 100% 100%;
+}
+.points_vector{
+    -fx-background-image: url("background_vector_points.jpg");
+    -fx-background-size: 100% 100%;
+}
+.kingdom_background {
+    -fx-background-image: url("cutted_background_kingdom.png");
     -fx-background-size: 100% 100%;
 }
