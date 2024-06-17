@@ -129,7 +129,6 @@ public class ChooseTokenController extends GUIController implements PropertyChan
                             guiReference.getLocalGameInstance().getMe().setToken(Token.YELLOW);
                     else if (tokenSent == green)
                             guiReference.getLocalGameInstance().getMe().setToken(Token.GREEN);
-                    System.out.println("Token set: " + guiReference.getLocalGameInstance().getMe().getToken());
 
                     Platform.runLater(() -> confirmButton.setVisible(false));
                     Platform.runLater(() -> tokenMenu.setVisible(false));

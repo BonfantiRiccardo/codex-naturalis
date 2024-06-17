@@ -1,6 +1,7 @@
 package it.polimi.ingsw.am37.view.GUI.controllers;
 
 import it.polimi.ingsw.am37.view.clientmodel.ClientSidePlayer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -37,7 +38,8 @@ public class ShowResultsController extends GUIController {
 
     public void onCloseClick() {
         System.out.println();
-        System.out.println("Closing application...");
+        System.out.println("\n\nClosing application...");
+        Platform.exit();
         System.exit(0);
     }
 
