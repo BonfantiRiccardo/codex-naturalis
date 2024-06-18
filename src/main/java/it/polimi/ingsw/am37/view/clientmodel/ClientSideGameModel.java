@@ -491,7 +491,6 @@ public class ClientSideGameModel {
         this.myPrivateObjective = myPrivateObjective;
     }
 
-    //HANDLE START CARD
     /**
      * Gets the start card that the player has chosen.
      * @return the start card that the player has chosen.
@@ -508,7 +507,6 @@ public class ClientSideGameModel {
         this.myStartCard = myStartCard;
     }
 
-    //HANDLE HAND
     /**
      * Gets the hand of the player.
      * @return the hand of the player.
@@ -652,7 +650,6 @@ public class ClientSideGameModel {
     public void setPlayersInOrder(List<String> playersInOrder) {
         this.playersInOrder = playersInOrder;
         currentPlayer = playersInOrder.getFirst();
-
         PropertyChangeEvent evt = new PropertyChangeEvent(
                 this,
                 "NEW_TURN",

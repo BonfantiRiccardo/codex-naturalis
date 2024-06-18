@@ -121,6 +121,12 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </HBox>
+                                                <HBox prefHeight="7.0" prefWidth="464.0">
+                                                   <children>
+                                                      <Text fx:id="infoText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="354.1367778778076" />
+                                                      <Button fx:id="returnToLobby" mnemonicParsing="false" onAction="#onReturnToLobbyClick" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: red;" text="Return to Lobby" textFill="WHITE" />
+                                                   </children>
+                                                </HBox>
                                                 <GridPane fx:id="p1Info" gridLinesVisible="true" styleClass="points_vector" stylesheets="@../loginStyle.css" VBox.vgrow="NEVER">
                                                    <VBox.margin>
                                                       <Insets />
@@ -285,7 +291,7 @@
                                                       </VBox>
                                                    </children>
                                                 </GridPane>
-                                                <GridPane fx:id="p2Info" gridLinesVisible="true" VBox.vgrow="NEVER">
+                                                <GridPane fx:id="p2Info" gridLinesVisible="true" styleClass="points_vector" stylesheets="@../loginStyle.css" VBox.vgrow="NEVER">
                                                    <columnConstraints>
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                                                    </columnConstraints>
@@ -446,7 +452,7 @@
                                                       </VBox>
                                                    </children>
                                                 </GridPane>
-                                                <GridPane fx:id="p3Info" gridLinesVisible="true" VBox.vgrow="NEVER">
+                                                <GridPane fx:id="p3Info" gridLinesVisible="true" styleClass="points_vector" stylesheets="@../loginStyle.css" VBox.vgrow="NEVER">
                                                    <columnConstraints>
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                                                    </columnConstraints>
@@ -603,7 +609,7 @@
                                                       </VBox>
                                                    </children>
                                                 </GridPane>
-                                                <GridPane fx:id="p4Info" gridLinesVisible="true" VBox.vgrow="NEVER">
+                                                <GridPane fx:id="p4Info" gridLinesVisible="true" styleClass="points_vector" stylesheets="@../loginStyle.css" VBox.vgrow="NEVER">
                                                    <columnConstraints>
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                                                    </columnConstraints>
@@ -1054,7 +1060,7 @@
                                                                      <children>
                                                                         <VBox alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="NEVER">
                                                                            <children>
-                                                                              <Button fx:id="handCard1Button" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
+                                                                              <Button fx:id="handCard1Button" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSelectCard1Click" prefHeight="145.64" prefWidth="218.46">
                                                                                  <graphic>
                                                                                     <ImageView fx:id="handCard1" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                                        <effect>
@@ -1062,12 +1068,12 @@
                                                                                        </effect></ImageView>
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="flipCard1Button" alignment="CENTER" mnemonicParsing="false" text="Flip" />
+                                                                              <Button fx:id="flipCard1Button" alignment="CENTER" mnemonicParsing="false" onAction="#onFlipCard1Click" text="Flip" />
                                                                            </children>
                                                                         </VBox>
                                                                         <VBox alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="NEVER">
                                                                            <children>
-                                                                              <Button fx:id="handCard2Button" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
+                                                                              <Button fx:id="handCard2Button" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSelectCard2Click" prefHeight="145.64" prefWidth="218.46">
                                                                                  <graphic>
                                                                                     <ImageView fx:id="handCard2" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                                        <effect>
@@ -1075,12 +1081,12 @@
                                                                                        </effect></ImageView>
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="flipCard2Button" alignment="CENTER" mnemonicParsing="false" text="Flip" />
+                                                                              <Button fx:id="flipCard2Button" alignment="CENTER" mnemonicParsing="false" onAction="#onFlipCard2Click" text="Flip" />
                                                                            </children>
                                                                         </VBox>
                                                                         <VBox alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="NEVER">
                                                                            <children>
-                                                                              <Button fx:id="handCard3Button" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="145.64" prefWidth="218.46">
+                                                                              <Button fx:id="handCard3Button" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSelectCard3Click" prefHeight="145.64" prefWidth="218.46">
                                                                                  <graphic>
                                                                                     <ImageView fx:id="handCard3" fitHeight="144.81" fitWidth="218.46" pickOnBounds="true" preserveRatio="true">
                                                                                        <effect>
@@ -1088,7 +1094,7 @@
                                                                                        </effect></ImageView>
                                                                                  </graphic>
                                                                               </Button>
-                                                                              <Button fx:id="flipCard3Button" alignment="CENTER" mnemonicParsing="false" text="Flip" />
+                                                                              <Button fx:id="flipCard3Button" alignment="CENTER" mnemonicParsing="false" onAction="#onFlipCard3Click" text="Flip" />
                                                                            </children>
                                                                         </VBox>
                                                                      </children>

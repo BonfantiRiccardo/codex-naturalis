@@ -16,7 +16,7 @@
                   <Font name="System Bold" size="48.0" />
                </font>
             </Text>
-            <Text fx:id="disconnectionText" layoutX="76.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="271.99997568130493">
+            <Text fx:id="disconnectionText" layoutX="76.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="505.5999207496643">
                <font>
                   <Font size="14.0" />
                </font>

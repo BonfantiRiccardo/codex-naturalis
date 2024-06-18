@@ -142,7 +142,11 @@ public class ChooseStartCardController extends GUIController implements Property
                     else if (sideSent.equalsIgnoreCase("b"))
                         guiReference.getLocalGameInstance().getMe().setKingdom(new Kingdom(guiReference.getLocalGameInstance().getMyStartCard(),
                                 guiReference.getLocalGameInstance().getMyStartCard().getBack()));
-                    Platform.runLater(() -> confirmButton.setVisible(false));
+                    Platform.runLater(() -> {
+                        confirmButton.setVisible(false);
+                        frontButton.setVisible(false);
+                        backButton.setVisible(false);
+                    });
                     checkOtherPlayers();
                 } else if (evt.getNewValue().equals(ViewState.DISCONNECTION)) {
                     infoText.setText("One or more players disconnected, press the button to return to the lobby");

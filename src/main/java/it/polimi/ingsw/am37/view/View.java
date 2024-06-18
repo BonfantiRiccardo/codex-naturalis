@@ -50,13 +50,13 @@ public abstract class View implements PropertyChangeListener {
      */
     public void setState(ViewState state) {
         synchronized (localGameInstance) { //CREATE A LOCK FOR THIS?
-            if (this.state == ViewState.NOT_TURN && state == ViewState.PLACE) { //ASTRARRE CON UN EVENTO CHANGED_STATE CHE POI VIENE GESTITO IN
-                PropertyChangeEvent evt = new PropertyChangeEvent(              //propertyChange(evt); PERCHè mi serve anche per fase iniziale
+            if (this.state == ViewState.NOT_TURN && state == ViewState.PLACE) {
+                PropertyChangeEvent evt = new PropertyChangeEvent(
                         this,
                         "CHANGED_TURN",
                         this.state,
                         state);
-                propertyChange(evt);
+                localGameInstance.getListener().propertyChange(evt);
             } else {
                 PropertyChangeEvent evt = new PropertyChangeEvent(
                         this,
