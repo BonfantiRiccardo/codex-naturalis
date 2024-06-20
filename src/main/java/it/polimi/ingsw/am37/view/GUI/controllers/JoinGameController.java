@@ -15,36 +15,73 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.List;
 
-
+/**
+ * This class is the controller of the joinGame.fxml file
+ * It manages the join game scene
+ */
 public class JoinGameController extends GUIController implements PropertyChangeListener {
-
+    /**
+     * list of the lobbies received from server
+     */
     @FXML
     private ListView<Integer> lobbyList;
+    /**
+     * refresh button to refresh the list of lobbies
+     */
     @FXML
     private Button refresh;
+    /**
+     * join game button to join the selected lobby
+     */
     @FXML
     private Button joinGame;
+    /**
+     * create game button to create a new lobby
+     */
     @FXML
     private Button createGame;
+    /**
+     * text field to insert information
+     */
     @FXML
     private Text waitingText;
+    /**
+     * text field to show the selected lobby
+     */
     @FXML
     private Text lobbySelected;
+    /**
+     * text field to insert the nickname
+     */
     @FXML
     private TextField nicknameSelected;
 
-    //private ArrayList<Integer> lobby;   //lista delle lobby che deve essere inizializzata e aggiornata
-
+    /**
+     * selected lobby value
+     */
     private int selectedLobbyValue = 0;
+    /**
+     * action event
+     */
     private ActionEvent event;
+    /**
+     * boolean to check if the state is changing
+     */
     private boolean changingState = false;
 
+    /**
+     * Method to refresh the list of lobbies
+     */
     @FXML
     public void refreshClicked(){
         guiReference.getLobbies();
         waitingText.setText("Wait for server response");
     }
 
+    /**
+     * Method to join the selected lobby
+     * @param joinClick event fired when the join game button is clicked
+     */
     @FXML
     public void joinGameClick(ActionEvent joinClick){
         String nickname = nicknameSelected.getText();
@@ -56,6 +93,11 @@ public class JoinGameController extends GUIController implements PropertyChangeL
             waitingText.setText("Lobby or nickname invalid");
     }
 
+    /**
+     * Method to change the scene to the "create game" scene
+     * @param createClick event fired when the create game button is clicked
+     * @throws IOException if the file is not found
+     */
     @FXML
     public void createGameClick(ActionEvent createClick) throws IOException {
         guiReference.setState(ViewState.CREATE_JOIN);
@@ -63,6 +105,10 @@ public class JoinGameController extends GUIController implements PropertyChangeL
         changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/createGame.fxml", "create", createClick);
     }
 
+    /**
+     * Handles the property change event
+     * @param evt A PropertyChangeEvent object describing the event source and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -147,6 +193,4 @@ public class JoinGameController extends GUIController implements PropertyChangeL
             }
         }
     }
-
-
 }

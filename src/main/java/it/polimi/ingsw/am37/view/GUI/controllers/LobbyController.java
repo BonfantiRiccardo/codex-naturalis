@@ -12,22 +12,52 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
+/**
+ * This class is the controller of the lobby.fxml file
+ * It manages the lobby scene
+ */
 public class LobbyController extends GUIController implements PropertyChangeListener {
+    /**
+     * text containing the player name
+     */
     @FXML
     private Text playerName;
+    /**
+     * text containing the lobby number
+     */
     @FXML
     private Text lobbyNumber;
+    /**
+     * text containing the names of the players
+     */
     @FXML
     private Text namesOfPlayers;
+    /**
+     * text containing the number of players needed to start the game
+     */
     @FXML
     private Text playersNeededToStart;
+    /**
+     * text containing the number of players
+     */
     @FXML
     private Text playersText;
+    /**
+     * button to continue to the next scene
+     */
     @FXML
     private Button continueButton;
+    /**
+     * button to return to the login scene
+     */
     @FXML
     private Button disconnection;
 
+    /**
+     * This method is called when the scene is loaded
+     * It sets the player name, the lobby number and the number of players needed to start the game
+     * It also sets the names of the players
+     */
     public void onLoad(){
         playerName.setText(guiReference.getLocalGameInstance().getMe().getNickname());
         lobbyNumber.setText(String.valueOf(guiReference.getLocalGameInstance().getNumOfLobby()));
@@ -42,6 +72,9 @@ public class LobbyController extends GUIController implements PropertyChangeList
         getInfo();
     }
 
+    /**
+     * This method gets all the info necessary to set the number of players needed to start the game and the names of the players
+     */
     public void getInfo() {
         playersNeededToStart.setText(String.valueOf((guiReference.getLocalGameInstance().getNumOfPlayers()
                 - 1 - guiReference.getLocalGameInstance().getPlayers().size())));
@@ -63,6 +96,10 @@ public class LobbyController extends GUIController implements PropertyChangeList
         namesOfPlayers.setText(String.valueOf(text));
     }
 
+    /**
+     * Handles the property change events
+     * @param evt the property change event
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -90,6 +127,10 @@ public class LobbyController extends GUIController implements PropertyChangeList
         }
     }
 
+    /**
+     * Handles the continue button click event
+     * @param actionEvent the event
+     */
     public void onContinueClick(ActionEvent actionEvent) {
         if (guiReference.getState().equals(ViewState.PLACE_SC)) {
             Platform.runLater(() -> {
@@ -102,6 +143,10 @@ public class LobbyController extends GUIController implements PropertyChangeList
         }
     }
 
+    /**
+     * Handles the return to lobby button click event
+     * @param actionEvent the event
+     */
     public void onReturnToLobbyClicked(ActionEvent actionEvent) {
         if (guiReference.getState().equals(ViewState.DISCONNECTION)) {
             Platform.runLater(() -> {

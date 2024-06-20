@@ -17,39 +17,92 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Controller for the choose start card scene.
+ */
 public class ChooseStartCardController extends GUIController implements PropertyChangeListener {
+    /**
+     * The confirm button.
+     */
     @FXML
     private Button confirmButton;
+    /**
+     * The front button.
+     */
     @FXML
     private Button frontButton;
+    /**
+     * The back button.
+     */
     @FXML
     private Button backButton;
+    /**
+     * Text box to display information.
+     */
     @FXML
     private Text infoText;
+    /**
+     * The front start card image.
+     */
     @FXML
     private ImageView frontStartCard;
+    /**
+     * The back start card image.
+     */
     @FXML
     private ImageView backStartCard;
+    /**
+     * The top resource deck image.
+     */
     @FXML
     private ImageView topResourceDeck;
+    /**
+     * The first resource card image.
+     */
     @FXML
     private ImageView resourceCard1;
+    /**
+     * The second resource card image.
+     */
     @FXML
     private ImageView resourceCard2;
+    /**
+     * The top gold deck image.
+     */
     @FXML
     private ImageView topGoldDeck;
+    /**
+     * The first gold card image.
+     */
     @FXML
     private ImageView goldCard1;
+    /**
+     * The second gold card image.
+     */
     @FXML
     private ImageView goldCard2;
+    /**
+     * The return to lobby button.
+     */
     @FXML
     private Button returnToLobby;
 
-
+    /**
+     * The selected side of the card.
+     */
     private String selectedSide;
+    /**
+     * The side of the card sent to the server.
+     */
     private String sideSent;
+    /**
+     * The event that triggered the confirm button.
+     */
     private ActionEvent event = new ActionEvent(goldCard1, null);
 
+    /**
+     * Initializes the scene.
+     */
     public void onLoad() {
         returnToLobby.setVisible(false);
 
@@ -102,24 +155,38 @@ public class ChooseStartCardController extends GUIController implements Property
                         + ".png"))));
     }
 
+    /**
+     * Handles the front button click.
+     * @param actionEvent the event that triggered the action.
+     */
     public void onFrontClick(ActionEvent actionEvent) {
         infoText.setText("You have chosen the front side of the card. Press confirm to continue");
         selectedSide = "f";
     }
 
-
+    /**
+     * Handles the back button click.
+     * @param actionEvent the event that triggered the action.
+     */
     public void onBackClick(ActionEvent actionEvent) {
         infoText.setText("You have chosen the back side of the card. Press confirm to continue");
         selectedSide = "b";
     }
 
-
+    /**
+     * Handles the confirm button click.
+     * @param actionEvent the event that triggered the action.
+     */
     public void onConfirmClick(ActionEvent actionEvent) {
         sideSent = selectedSide;
         guiReference.chooseStartCard(selectedSide);
         event = actionEvent;
     }
 
+    /**
+     * Handles the return to lobby button click.
+     * @param actionEvent the event that triggered the action.
+     */
     public void onReturnToLobby(ActionEvent actionEvent) {
         Platform.runLater(() -> {
             try {
@@ -130,7 +197,10 @@ public class ChooseStartCardController extends GUIController implements Property
         });
     }
 
-
+    /**
+     * Handles the property change event.
+     * @param evt the event that triggered the action.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -174,6 +244,9 @@ public class ChooseStartCardController extends GUIController implements Property
         }
     }
 
+    /**
+     * Checks if other players have placed their start card.
+     */
     private void checkOtherPlayers() {
         List<String> stillToPlay = new ArrayList<>();
         for (ClientSidePlayer p: guiReference.getLocalGameInstance().getPlayers())
@@ -195,5 +268,4 @@ public class ChooseStartCardController extends GUIController implements Property
             });
         }
     }
-
 }

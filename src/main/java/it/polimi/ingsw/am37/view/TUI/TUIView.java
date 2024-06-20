@@ -844,7 +844,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the active lobbies.
      */
-    @Override
     public synchronized void printLobbies() {
         System.out.println("Active lobbies: " + localGameInstance.getListOfLobbies());
     }
@@ -852,7 +851,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the infos of the lobby requested.
      */
-    @Override
     public synchronized void printMyLobby() {
         System.out.println();
         System.out.println("Num of lobby: " + localGameInstance.getNumOfLobby() + " | you: " + localGameInstance.getMe().getNickname());
@@ -878,7 +876,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the available resource and gold cards.
      */
-    @Override
     public synchronized void printAvail() {
         System.out.println("Available resource cards: ");
         System.out.println("id: " + localGameInstance.getAvailableResourceCards().get(0).getId());
@@ -895,7 +892,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the top card of the gold deck.
      */
-    @Override
     public synchronized void printTopOfGoldDeck() {
         System.out.println("Card at the top of the gold deck is: " + localGameInstance.getTopOfGoldDeck());
     }
@@ -903,7 +899,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the top card of the resource deck.
      */
-    @Override
     public synchronized void printTopOfResourceDeck() {
         System.out.println("Card at the top of the resource deck is: " + localGameInstance.getTopOfResourceDeck());
     }
@@ -911,7 +906,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the start card of the player.
      */
-    @Override
     public synchronized void printStartCard() {
         System.out.println("Your start card: ");
         System.out.println(localGameInstance.getMyStartCard().toString(utf8EncodingEnabled));
@@ -920,7 +914,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the token, the kingdom, the resources and the active positions in the kingdom of the player.
      */
-    @Override
     public synchronized void printKingdom() {
         System.out.println("Your token: " + localGameInstance.getMe().getToken()+ (localGameInstance.getMe().hasBlackToken()? (" and " + Token.BLACK) : "" ));
         System.out.println("Your kingdom: ");
@@ -964,7 +957,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the points the player and the scoreboard of the game.
      */
-    @Override
     public synchronized void printScoreboard() {
         System.out.println("Your points: " + localGameInstance.getMe().getPoints());
 
@@ -977,7 +969,6 @@ public class TUIView extends View implements PropertyChangeListener {
      * If the nickname of the player requested does not exist it prints an error message.
      * If the nickname of the player requested exists it prints the token, the kingdom, the resources of the player requested.
      */
-    @Override
     public synchronized void printPlayerInfo() {
         String inputLine;
         System.out.print("Write the name of the player you want to request info: ");
@@ -1017,7 +1008,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the hand of the player.
      */
-    @Override
     public synchronized void printHand() {
         System.out.println("Your hand: ");
         for (StandardCard sc: localGameInstance.getMyHand()) {
@@ -1029,7 +1019,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the public objectives of the game.
      */
-    @Override
     public synchronized void printPublicObjectives() {
         System.out.println("The public objectives are: ");
         System.out.println(localGameInstance.getPublicObjectives().get(0).toString(utf8EncodingEnabled));
@@ -1039,7 +1028,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the private objectives available to the player.
      */
-    @Override
     public synchronized void printPrivateObjectives() {
         System.out.println(localGameInstance.getPrivateObjectives().get(0).toString(utf8EncodingEnabled));
         System.out.println(localGameInstance.getPrivateObjectives().get(1).toString(utf8EncodingEnabled));
@@ -1048,7 +1036,6 @@ public class TUIView extends View implements PropertyChangeListener {
     /**
      * This method prints the private objective of the player.
      */
-    @Override
     public synchronized void printMyPrivateObjective() {
         System.out.println("Your private objective:");
         System.out.println(localGameInstance.getMyPrivateObjective().toString(utf8EncodingEnabled));
@@ -1058,7 +1045,6 @@ public class TUIView extends View implements PropertyChangeListener {
      * This method prints the results of the game.
      * It prints the winner of the game and the points and the objectives completed of each player.
      */
-    @Override
     public synchronized void printResults(){
         List<ClientSidePlayer> players = new ArrayList<>(getLocalGameInstance().getPlayers());
         List<ClientSidePlayer> playerTable = new ArrayList<>(getLocalGameInstance().getPlayers());

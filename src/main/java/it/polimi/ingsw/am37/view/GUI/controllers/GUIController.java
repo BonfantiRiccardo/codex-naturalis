@@ -11,11 +11,29 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * This class is the superclass of all the controllers of the GUI.
+ * It handles the change of scene.
+ */
 public abstract class GUIController {
+    /**
+     *
+     */
     protected static GUIView guiReference;
 
+    /**
+     * Sets the guiReference attribute to the given GUIView object.
+     * @param guiRef the GUIView object to set as reference
+     */
     public static void setGuiReference(GUIView guiRef) { guiReference = guiRef; }
 
+    /**
+     * Changes the scene to the one specified by the fxmlName and controller parameters.
+     * @param fxmlName the name of the fxml file to load
+     * @param controller the name of the controller to load
+     * @param event the event that triggered the change of scene
+     * @throws IOException if the fxml file is not found
+     */
     public void changeScene(String fxmlName, String controller, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlName));
         Parent root = loader.load();

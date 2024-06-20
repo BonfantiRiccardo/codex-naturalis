@@ -35,6 +35,9 @@ public class GUIView extends View {
         return false;
     }
 
+    /**
+     * This method is used to reset the client model after after a game.
+     */
     public void resetAfterDisconnection() {
         localGameInstance = new ClientSideGameModel();
         localGameInstance.setListener(this);
@@ -75,131 +78,61 @@ public class GUIView extends View {
      */
     public void createLobby(String nickname, int numOfPlayers) { virtualServer.createLobby(nickname, numOfPlayers);}
 
+    /**
+     * This method is used to place the start card. It asks the virtual server to place the start card.
+     */
     public void chooseStartCard(String selectedSide) {
         virtualServer.placeStartCard(localGameInstance.getMe().getNickname(), localGameInstance.getMyStartCard().getId(), selectedSide, new Position(0,0));
     }
 
-    public void choosePrivateObjective(int id) {
-        virtualServer.chooseObjective(localGameInstance.getMe().getNickname(), id);
-    }
-
+    /**
+     * This method is used to choose a token.
+     * It asks the virtual server to choose a token.
+     * @param token the chosen token.
+     */
     public void chooseToken(Token token) {
         virtualServer.chooseToken(localGameInstance.getMe().getNickname(), token);
     }
 
+    /**
+     * This method is used to choose a private objective.
+     * It asks the virtual server to choose a private objective.
+     * @param id the id of the private objective.
+     */
+    public void choosePrivateObjective(int id) {
+        virtualServer.chooseObjective(localGameInstance.getMe().getNickname(), id);
+    }
+
+    /**
+     * This method is used to draw from a deck.
+     * It asks the virtual server to draw a card from the deck.
+     * @param deck the code of the deck from which we are drawing.
+     */
+    public void drawFromDeck(String deck) {
+        virtualServer.drawCardFromDeck(localGameInstance.getMe().getNickname(), deck);
+    }
+
+    /**
+     * This method is used to draw from the available cards.
+     * It asks the virtual server to draw a card from the available cards.
+     * @param cardId the id of the card to draw.
+     */
+    public void drawFromAvail(int cardId) {
+        virtualServer.drawCardFromAvailable(localGameInstance.getMe().getNickname(), cardId);
+    }
+
+    /**
+     * This method is used to place a card.
+     * It asks the virtual server to place a card.
+     * @param cardId the id of the card to place.
+     * @param side the side of the card.
+     * @param position the position of the card.
+     */
+    public void placeCard(int cardId, String side, Position position) {
+        virtualServer.placeCard(localGameInstance.getMe().getNickname(), cardId, side, position);
+    }
+
     //-------------------------------------------------------------------------------
-    /**
-     * This method is used to print all the lobbies.
-     */
-    @Override
-    public void printLobbies() {
-
-    }
-
-    /**
-     * This method is used to print the lobby of the player.
-     */
-    @Override
-    public void printMyLobby() {
-
-    }
-
-    /**
-     * This method is used to print the available cards on the field.
-     */
-    @Override
-    public void printAvail() {
-
-    }
-
-    /**
-     * This method is used to print the top of the gold deck.
-     */
-    @Override
-    public void printTopOfGoldDeck() {
-
-    }
-
-    /**
-     * This method is used to print the top of the resource deck.
-     */
-    @Override
-    public void printTopOfResourceDeck() {
-
-    }
-
-    /**
-     * This method is used to print the Starting card of the player.
-     */
-    @Override
-    public void printStartCard() {
-
-    }
-
-    /**
-     * This method is used to print the Kingdom of the player.
-     */
-    @Override
-    public void printKingdom() {
-
-    }
-
-    /**
-     * This method is used to print the scoreboard of the game.
-     */
-    @Override
-    public void printScoreboard() {
-
-    }
-
-    /**
-     * This method is used to print all the information of the player.??
-     */
-    @Override
-    public void printPlayerInfo() {
-
-    }
-
-    /**
-     * This method is used to print the hand of the player.
-     */
-    @Override
-    public void printHand() {
-
-    }
-
-    /**
-     * This method is used to print the public objectives of the game.
-     */
-    @Override
-    public void printPublicObjectives() {
-
-    }
-
-    /**
-     * This method is used to print the private objectives available to choose from.
-     */
-    @Override
-    public void printPrivateObjectives() {
-
-    }
-
-    /**
-     * This method is used to print the private objective of the player.
-     */
-    @Override
-    public void printMyPrivateObjective() {
-
-    }
-
-    /**
-     * This method is used to print the results of the game.
-     */
-    @Override
-    public void printResults() {
-
-    }
-
     /**
      * This method is used to print an error message.
      * It sends the error message to the listener.
@@ -210,7 +143,7 @@ public class GUIView extends View {
         PropertyChangeEvent evt = new PropertyChangeEvent(
                 this,
                 "ERROR",
-                null,
+                state,
                 e);
         localGameInstance.getListener().propertyChange(evt);
     }
@@ -222,43 +155,6 @@ public class GUIView extends View {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()) {
-            case "CHANGED_TURN": {
-                //ADD UPDATE STRING THAT WILL BE PRINTED TO LET THE THREAD KNOW THE KINGDOM HAS BEEN UPDATED
 
-            }
-            case "CHANGED_KINGDOM": {
-                //ADD UPDATE STRING THAT WILL BE PRINTED TO LET THE THREAD KNOW THE KINGDOM HAS BEEN UPDATED
-
-            }
-            case "CHANGED_DECK": {
-                //SET A VARIABLE TO LET THE THREAD KNOW THE DECK HAS BEEN UPDATED
-
-            }
-            case "CHANGED_AVAILABLE": {
-                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
-
-            }
-            case "CHANGED_HAND": {
-                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
-
-            }
-            case "NEW_TURN": {
-                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
-
-            }
-            case "ENDGAME": {
-                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
-
-            }
-            case "LAST_TURN": {
-                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
-
-            }
-            case "RESULTS": {
-                //SET A VARIABLE TO LET THE THREAD KNOW THE HAND HAS BEEN UPDATED
-
-            }
-        }
     }
 }

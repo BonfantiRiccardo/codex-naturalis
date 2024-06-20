@@ -73,7 +73,9 @@ public class CreateGameController extends GUIController implements PropertyChang
     private ActionEvent event;
 
 
-
+    /**
+     * Initializes the controller.
+     */
     @FXML
     public void initialize() {
         pl2.setOnAction(event -> updateMenuButtonText(pl2));
@@ -81,12 +83,23 @@ public class CreateGameController extends GUIController implements PropertyChang
         pl4.setOnAction(event -> updateMenuButtonText(pl4));
     }
 
+    /**
+     * Saves the item selected by the player.
+     *
+     * @param selectedItem the item that has been selected
+     */
     private void updateMenuButtonText(MenuItem selectedItem) {
         pl_num.setText(selectedItem.getText());
         String[] toParse = selectedItem.getText().split(" ");
         numPlayers = Integer.parseInt(toParse[0]);
     }
 
+    /**
+     * Handles the creation of a new lobby.
+     *
+     * @param createClicked the event that is triggered when the create button is clicked
+     * @throws IOException if the file is not found
+     */
     public void createButtonClicked(ActionEvent createClicked) throws IOException {
         nickname = nick.getText();
 
@@ -98,32 +111,62 @@ public class CreateGameController extends GUIController implements PropertyChang
 
     }
 
+    /**
+     * Changes scene to the join lobby one.
+     *
+     * @param joinClicked the event that is triggered when the join button is clicked
+     * @throws IOException if the file is not found
+     */
     public void joinButtonClicked(ActionEvent joinClicked) throws IOException {
         guiReference.setState(ViewState.CHOOSE_LOBBY);
         changeScene("/it/polimi/ingsw/am37/view/GUI/fxml/joinGame.fxml", "join", joinClicked);
     }
 
+    /**
+     * Handles the selection of the number of players.
+     */
     @FXML
     private void getPl2(){
         numPlayers=2;
     }
+    /**
+     * Handles the selection of the number of players.
+     */
     @FXML
     private void getPl3(){
         numPlayers=3;
     }
+    /**
+     * Handles the selection of the number of players.
+     */
     @FXML
     private void getPl4(){
         numPlayers=4;
     }
 
+    /**
+     * Returns the number of players.
+     *
+     * @return the number of players
+     */
     public int getNumPlayers(){
         return numPlayers;
     }
 
+    /**
+     * Returns the nickname of the player.
+     *
+     * @return the nickname of the player
+     */
     public String getNickname(){
         return nickname;
     }
 
+    /**
+     * Handles the property change.
+     *
+     * @param evt the event that is triggered when a property changes
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {

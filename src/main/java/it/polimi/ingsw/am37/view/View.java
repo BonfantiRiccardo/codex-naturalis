@@ -50,6 +50,7 @@ public abstract class View implements PropertyChangeListener {
      */
     public void setState(ViewState state) {
         synchronized (localGameInstance) { //CREATE A LOCK FOR THIS?
+            System.out.println("STATE CHANGED: " + this.state + " -> " + state);
             if (this.state == ViewState.NOT_TURN && state == ViewState.PLACE) {
                 PropertyChangeEvent evt = new PropertyChangeEvent(
                         this,
@@ -109,75 +110,7 @@ public abstract class View implements PropertyChangeListener {
      */
     public abstract boolean gameOver();
 
-    /**
-     * This method is used to get the lobbies and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printLobbies();
 
-    /**
-     * This method is used to print infos about the lobby of the player and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printMyLobby();
-
-    /**
-     * This method is used to print the available cards and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printAvail();
-
-    /**
-     * This method is used to print the Top of the gold deck and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printTopOfGoldDeck();
-
-    /**
-     * This method is used to print the Top of the resource deck and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printTopOfResourceDeck();
-
-    /**
-     * This method is used to print the start card of the player and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printStartCard();
-
-    /**
-     * This method is used to print the kingdom of the player and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printKingdom();
-
-    /**
-     * This method is used to print the scoreboard of the game and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printScoreboard();
-
-    /**
-     * This method is used to print a player info and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printPlayerInfo();
-
-    /**
-     * This method is used to print the hand of the player and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printHand();
-
-    /**
-     * This method is used to print the public objectives of the game and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printPublicObjectives();
-
-    /**
-     * This method is used to print the private objectives available to the player and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printPrivateObjectives();
-
-    /**
-     * This method is used to print the private objective of the player and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printMyPrivateObjective();
-
-    /**
-     * This method is used to print the results of the game and is implemented in the TUIView and GUIView classes.
-     */
-    public abstract void printResults();
 
     /**
      * This method is used to print an error message and is implemented in the TUIView and GUIView classes.

@@ -357,7 +357,7 @@ public class ClientSideGameModel {
         PropertyChangeEvent evt = new PropertyChangeEvent(
                 this,
                 "CHANGED_AVAILABLE",
-                this.availableResourceCards,
+                "r",
                 availableResourceCards);
 
         this.availableResourceCards = availableResourceCards;
@@ -382,7 +382,7 @@ public class ClientSideGameModel {
         PropertyChangeEvent evt = new PropertyChangeEvent(
                 this,
                 "CHANGED_AVAILABLE",
-                this.availableGoldCards,
+                "g",
                 availableGoldCards);
 
         this.availableGoldCards = availableGoldCards;
@@ -408,7 +408,7 @@ public class ClientSideGameModel {
         PropertyChangeEvent evt = new PropertyChangeEvent(
                 this,
                 "CHANGED_DECK",
-                this.topOfGoldDeck,
+                "g",
                 topOfGoldDeck);
 
         this.topOfGoldDeck = topOfGoldDeck;
@@ -433,7 +433,7 @@ public class ClientSideGameModel {
         PropertyChangeEvent evt = new PropertyChangeEvent(
                 this,
                 "CHANGED_DECK",
-                this.topOfResourceDeck,
+                "r",
                 topOfResourceDeck);
 
 
@@ -618,8 +618,8 @@ public class ClientSideGameModel {
                         PropertyChangeEvent evt = new PropertyChangeEvent(
                                 this,
                                 "CHANGED_KINGDOM",
-                                p.getKingdom(),
-                                p.getKingdom());
+                                p,
+                                place.getId());
 
 
                         this.listener.propertyChange(evt);

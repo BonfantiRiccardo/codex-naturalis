@@ -16,26 +16,65 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is the controller for the chooseToken.fxml file
+ * It allows the player to choose a token from the available ones and sends it to the server.
+ */
 public class ChooseTokenController extends GUIController implements PropertyChangeListener {
+    /**
+     * The tokenMenu is the menu that contains the available tokens
+     */
     @FXML
     private MenuButton tokenMenu;
+    /**
+     * The infoText is the text that will be displayed to the player
+     */
     @FXML
     private Text infoText;
+    /**
+     * The confirmButton is the button that the player will press to confirm his choice
+     */
     @FXML
     private Button confirmButton;
+    /**
+     * The returnToLobby is the button that the player will press to return to the lobby
+     */
     @FXML
     private Button returnToLobby;
 
+    /**
+     * The tokenSelected is the index of the token that the player has selected
+     */
     private int tokenSelected = -1;
+    /**
+     * The tokenSent is the index of the token that the player has sent to the server
+     */
     private int tokenSent;
+    /**
+     * The red is the index of the red token
+     */
     private int red;
+    /**
+     * The blue is the index of the blue token
+     */
     private int blue;
+    /**
+     * The yellow is the index of the yellow token
+     */
     private int yellow;
+    /**
+     * The green is the index of the green token
+     */
     private int green;
+    /**
+     * The event is the event that will be triggered when the player presses the confirmButton
+     */
     private ActionEvent event = new ActionEvent(confirmButton, null);
 
 
-
+    /**
+     * This method initializes the controller
+     */
     public void initialize(){
         returnToLobby.setVisible(false);
 
@@ -84,6 +123,11 @@ public class ChooseTokenController extends GUIController implements PropertyChan
         }
     }
 
+    /**
+     * This method is called when the player presses the confirmButton
+     * It sends the token to the server
+     * @param actionEvent event fired by the click on the button
+     */
     public void onConfirmClick(ActionEvent actionEvent) {
         if (tokenSelected == red) {
             guiReference.chooseToken(Token.RED);
@@ -106,6 +150,11 @@ public class ChooseTokenController extends GUIController implements PropertyChan
         }
     }
 
+    /**
+     * This method is called when the player presses the returnToLobby button
+     * It returns the player to the login screen
+     * @param actionEvent event fired by the click on the button
+     */
     public void onReturnToLobbyClick(ActionEvent actionEvent) {
         Platform.runLater(() -> {
             try {
@@ -116,6 +165,10 @@ public class ChooseTokenController extends GUIController implements PropertyChan
         });
     }
 
+    /**
+     * This method handles the property changes
+     * @param evt property change event
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -170,6 +223,9 @@ public class ChooseTokenController extends GUIController implements PropertyChan
         }
     }
 
+    /**
+     * This method checks if the other players have chosen their tokens
+     */
     private void checkOtherPlayers() {
         List<String> stillToPlay = new ArrayList<>();
         for (ClientSidePlayer p: guiReference.getLocalGameInstance().getPlayers())
