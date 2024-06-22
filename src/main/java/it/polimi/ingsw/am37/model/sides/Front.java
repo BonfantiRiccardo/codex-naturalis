@@ -74,7 +74,7 @@ public class Front extends Side {
     }
 
     /**
-     * The isPlacementConditionSatisfied (Hashtable<Resource, Integer> myRes) method verifies that the player has
+     * The isPlacementConditionSatisfied() method verifies that the player has
      * enough resources in the Kingdom to be able to place the GoldCard by confronting the amount of resources in the
      * Hashtable myRes given as parameter and the Hashtable resourcePlacementCondition.
      * @param myRes A Hash Table that contains how many visible resources the player has in his Kingdom.

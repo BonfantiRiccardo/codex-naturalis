@@ -701,6 +701,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the return to lobby button, changes the scene to the login
+     * @param actionEvent the event of the button click
      */
     public void onReturnToLobbyClick(ActionEvent actionEvent) {
         Platform.runLater(() -> {
@@ -714,6 +715,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the results button, changes the scene to the results
+     * @param actionEvent the event of the button click
      */
     public void onResultsClick(ActionEvent actionEvent) {
         Platform.runLater(() -> {
@@ -727,6 +729,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the handCard1 button, changes the selected card to the one in the first position of the hand
+     * @param actionEvent the event of the button click
      */
     public void onSelectCard1Click(ActionEvent actionEvent) {
         selectedCard = handCards.get(handCard1);
@@ -737,6 +740,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the flipCard1 button, flips the first card of the hand
+     * @param actionEvent the event of the button click
      */
     public void onFlipCard1Click(ActionEvent actionEvent) {
         card1SideShown = flip(card1SideShown, handCard1, handCards.get(handCard1));
@@ -746,6 +750,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the handCard2 button, changes the selected card to the one in the second position of the hand
+     * @param actionEvent the event of the button click
      */
     public void onSelectCard2Click(ActionEvent actionEvent) {
         selectedCard = handCards.get(handCard2);
@@ -756,6 +761,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the flipCard2 button, flips the second card of the hand
+     * @param actionEvent the event of the button click
      */
     public void onFlipCard2Click(ActionEvent actionEvent) {
         card2SideShown = flip(card2SideShown, handCard2, handCards.get(handCard2));
@@ -765,6 +771,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the handCard3 button, changes the selected card to the one in the third position of the hand
+     * @param actionEvent the event of the button click
      */
     public void onSelectCard3Click(ActionEvent actionEvent) {
         selectedCard = handCards.get(handCard3);
@@ -775,6 +782,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the flipCard3 button, flips the third card of the hand
+     * @param actionEvent the event of the button click
      */
     public void onFlipCard3Click(ActionEvent actionEvent) {
         card3SideShown = flip(card3SideShown, handCard3, handCards.get(handCard3));
@@ -807,6 +815,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 //----------------------------------------------------------------------------------------------------Deck and avail Buttons
     /**
      * Action of the topResDeck button, draws a card from the resource deck
+     * @param actionEvent the event of the button click
      */
     public void resDeckClicked(ActionEvent actionEvent) {
         if(guiReference.getState().equals(ViewState.DRAW)) {
@@ -824,6 +833,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the availRes1 button, draws the first available resource card
+     * @param actionEvent the event of the button click
      */
     public void availRes1Clicked(ActionEvent actionEvent) {
         if(guiReference.getState().equals(ViewState.DRAW)) {
@@ -843,6 +853,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the availRes2 button, draws the second available resource card
+     * @param actionEvent the event of the button click
      */
     public void availRes2Clicked(ActionEvent actionEvent) {
         if(guiReference.getState().equals(ViewState.DRAW)) {
@@ -862,6 +873,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the topGoldDeck button, draws a card from the gold deck
+     * @param actionEvent the event of the button click
      */
     public void goldDeckClicked(ActionEvent actionEvent) {
         if(guiReference.getState().equals(ViewState.DRAW)) {
@@ -878,6 +890,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the availGold1 button, draws the first available gold card
+     * @param actionEvent the event of the button click
      */
     public void availGold1Clicked(ActionEvent actionEvent) {
         if(guiReference.getState().equals(ViewState.DRAW)) {
@@ -897,6 +910,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
 
     /**
      * Action of the availGold2 button, draws the second available gold card
+     * @param actionEvent the event of the button click
      */
     public void availGold2Clicked(ActionEvent actionEvent) {
         if(guiReference.getState().equals(ViewState.DRAW)) {

@@ -523,6 +523,13 @@ public class ClientSideGameModel {
         this.myHand = myHand;
     }
 
+    /**
+     * Initializes the kingdom of the player.
+     * It notifies the listener that the kingdom of the player has changed.
+     * @param player the player that is initializing the kingdom.
+     * @param placed the start card that the player has placed.
+     * @param placedSide the side of the start card that the player has placed.
+     */
     public void initializeKingdom(ClientSidePlayer player, StartCard placed, Side placedSide) {
         player.setKingdom(new Kingdom(placed, placedSide));
         PropertyChangeEvent evt = new PropertyChangeEvent(

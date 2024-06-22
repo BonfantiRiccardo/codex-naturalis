@@ -39,7 +39,6 @@ module it.polimi.ingsw.am37 {
     exports it.polimi.ingsw.am37.view.GUI.controllers;
     exports it.polimi.ingsw.am37.view.TUI;
     exports it.polimi.ingsw.am37.view.virtualserver;
-    exports it.polimi.ingsw.am37.view.GUITest;
 
 
     opens it.polimi.ingsw.am37.model.cards to com.google.gson;
@@ -60,7 +59,6 @@ module it.polimi.ingsw.am37 {
     opens it.polimi.ingsw.am37.network.messages.turns to javafx.fxml;
 
     opens it.polimi.ingsw.am37.view to javafx.fxml;
-    opens it.polimi.ingsw.am37.view.GUITest to javafx.fxml;
     opens it.polimi.ingsw.am37.view.GUI to javafx.fxml;
     opens it.polimi.ingsw.am37.view.GUI.controllers to javafx.fxml;
     opens it.polimi.ingsw.am37.view.TUI to javafx.fxml;

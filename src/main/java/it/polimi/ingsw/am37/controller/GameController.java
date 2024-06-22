@@ -158,6 +158,11 @@ public class GameController implements Observable {
         return playerViews;
     }
 
+    /**
+     * the method setVirtualView sets the Virtual View of the player passed by parameter.
+     * @param p is the player who's virtual view is set.
+     * @param vv is the virtual view of the player.
+     */
     public void setVirtualView(Player p, VirtualView vv) { playerViews.put(p, vv); }
 
 
@@ -249,6 +254,7 @@ public class GameController implements Observable {
      * @throws AlreadyAssignedException if the player has already chosen an objective.
      * @throws WrongGamePhaseException if the player tries to choose the objective in the wrong phase of the game.
      * @throws IncorrectUserActionException if the player tries to choose another player's objective.
+     * @throws NoCardsException if there's no cards left.
      */
     public void playerChoosesObjective(Player p, ObjectiveCard c) throws AlreadyAssignedException, WrongGamePhaseException, IncorrectUserActionException, NoCardsException {
         if (gameInstance.getCurrentStatus().equals(GameStatus.WAIT_OBJECTIVE)) {
@@ -270,6 +276,8 @@ public class GameController implements Observable {
      * @param pos is the position where the player's placing the card.
      * @throws IncorrectUserActionException if it's not the player's turn.
      * @throws WrongGamePhaseException if the player tries to place a card in the wrong phase of the game.
+     * @throws NoCardsException if there's no cards left.
+     * @throws AlreadyAssignedException if the gamePhase handler throws it.
      */
     public void playerPlacesCard(Player p, StandardCard c, Side s, Position pos) throws IncorrectUserActionException, WrongGamePhaseException, NoCardsException, AlreadyAssignedException {
         if (checkCurrentTurn(p)) {
@@ -286,7 +294,9 @@ public class GameController implements Observable {
      * @param p is the player drawing the card.
      * @param d is the card drawn by the player.
      * @throws IncorrectUserActionException if the player tries to draw the card when it's not his turn.
-     * @throws WrongGamePhaseException if the player tries to draw a card imn the wrong phase of the game.
+     * @throws WrongGamePhaseException if the player tries to draw a card in the wrong phase of the game.
+     * @throws AlreadyAssignedException if the gamePhase handler throws it.
+     * @throws NoCardsException if there's no cards left.
      */
     public void playerDrawsCardFromDeck(Player p, ResourceDeck d) throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         if(checkCurrentTurn(p)) {
@@ -304,6 +314,8 @@ public class GameController implements Observable {
      * @param d is the card drawn by the player.
      * @throws IncorrectUserActionException if the player tries to draw the card when it's not his turn.
      * @throws WrongGamePhaseException if the player tries to draw a card imn the wrong phase of the game.
+     * @throws AlreadyAssignedException if the gamePhase handler throws it.
+     * @throws NoCardsException if there's no cards left.
      */
     public void playerDrawsCardFromDeck(Player p, GoldDeck d) throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         if(checkCurrentTurn(p)) {
@@ -322,6 +334,8 @@ public class GameController implements Observable {
      * @param c is the card drawn by the player.
      * @throws IncorrectUserActionException if the player tries to draw when it's not his turn.
      * @throws WrongGamePhaseException if the player tries to draw when in the wrong phase of the game.
+     * @throws AlreadyAssignedException if the gamePhase handler throws it.
+     * @throws NoCardsException if there's no cards left.
      */
     public void playerDrawsCardFromAvailable(Player p, StandardCard c) throws IncorrectUserActionException, WrongGamePhaseException, AlreadyAssignedException, NoCardsException {
         if (checkCurrentTurn(p)) {

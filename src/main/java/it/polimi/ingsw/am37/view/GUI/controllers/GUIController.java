@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public abstract class GUIController {
     /**
-     *
+     * The reference to the GUIView object.
      */
     protected static GUIView guiReference;
 

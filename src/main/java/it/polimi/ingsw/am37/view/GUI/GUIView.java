@@ -80,6 +80,7 @@ public class GUIView extends View {
 
     /**
      * This method is used to place the start card. It asks the virtual server to place the start card.
+     * @param selectedSide the side of the start card.
      */
     public void chooseStartCard(String selectedSide) {
         virtualServer.placeStartCard(localGameInstance.getMe().getNickname(), localGameInstance.getMyStartCard().getId(), selectedSide, new Position(0,0));

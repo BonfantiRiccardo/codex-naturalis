@@ -28,6 +28,7 @@ public abstract class Deck {
      * The abstract method initializeDeck(cc) uses the object CardCreator to create the list of cards by reading them
      * from a .json file specified in the subclass. It is an abstract method that will be implemented in the subclasses.
      * It has package visibility and will be called only once, at the end of the Constructor of the subclasses.
+     * @param cc the CardCreator object that will create the cards.
      */
     protected abstract void initializeDeck(CardCreator cc);
 

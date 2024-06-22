@@ -22,6 +22,7 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      * @param playerNickname is the list of players in the lobby.
      * @param lobbyNum is the number of players in the lobby.
      * @param totalPlayers is the maximum number of players the lobby can contain.
+     * @throws RemoteException when the connection is lost.
      */
     void updateLobbyView(String yourNickname, List<String> playerNickname, int lobbyNum, int totalPlayers) throws RemoteException;
 
@@ -35,6 +36,7 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
     /**
      * the playerAdded method adds a player to the lobby and notifies the other player about it.
      * @param player is the player added.
+     * @throws RemoteException when the connection is lost.
      */
     void playerAdded(String player) throws RemoteException;
 
@@ -49,6 +51,7 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      * @param privateObjectives is the private objectives the player has to choose from.
      * @param goldDeckBack is the top of the gold deck from which the player can draw.
      * @param resourceDeckBack is the top of the gold deck from which the player can draw.
+     * @throws RemoteException when the connection is lost.
      */
     void updateInitialPhase(List<Integer> availableGold, List<Integer> availableResource, int startCard, List<Integer> hand,
                             List<Integer> publicObjectives, List<Integer> privateObjectives, Resource goldDeckBack, Resource resourceDeckBack) throws RemoteException;
@@ -58,6 +61,7 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      * ones to choose from.
      * @param player is the player choosing the token.
      * @param token is the token chosen.
+     * @throws RemoteException when the connection is lost.
      */
     void sendNowUnavailableToken(String player, Token token) throws RemoteException;
 
@@ -65,6 +69,7 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      * the sendPlayersInOrder method sends a randomly generated list of the players, ordered according to their
      * turns in the game.
      * @param playersInOrder is the ordered list of the players.
+     * @throws RemoteException when the connection is lost.
      */
     void sendPlayersInOrder(List<String> playersInOrder) throws RemoteException;
 
@@ -73,6 +78,7 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      * if the player has drawn a card, if he has placed a card, if he has chosen the objectives, if he has chosen
      * his token or if it's his turn.
      * @param message is the message notified to the player.
+     * @throws RemoteException when the connection is lost.
      */
     void notifyPlayer (String message) throws RemoteException;
 
@@ -83,6 +89,7 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      * @param cardId is the cardId of the card to be placed.
      * @param side is the side of the card to be placed.
      * @param pos is the position where the player wants to place the card.
+     * @throws RemoteException when the connection is lost.
      */
     void updateKingdom(String player, int cardId, String side, Position pos) throws RemoteException;
 
@@ -92,6 +99,7 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      * @param deck is a parameter which gives information about the nature of the deck, if it's gold or resource.
      * @param resource is the new top of the deck requested.
      * @param cardId is the card the player has drawn and that now is in his hand.
+     * @throws RemoteException when the connection is lost.
      */
     void updateHandAndDeckView(String deck, Resource resource, int cardId) throws RemoteException;
 
@@ -99,6 +107,7 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      * the updatesDeckView sends to the player the top of the resource or gold deck, based on which one is requested.
      * @param deck is a parameter which gives information about the nature of the deck, if it's gold or resource.
      * @param resource is the top of the deck requested.
+     * @throws RemoteException when the connection is lost.
      */
     void updateDeckView(String deck, Resource resource) throws RemoteException;
 
@@ -108,25 +117,27 @@ public interface RMIClientSkeleton extends Remote, ClientInterface {
      * @param topOfDeck is the resource of the new top of the deck requested.
      * @param availableChanged is the new available card that has changed.
      * @param available is the new list of the available cards on the field.
+     * @throws RemoteException when the connection is lost.
      */
     void updateAvailable(String deck, Resource topOfDeck, String availableChanged, List<Integer> available) throws RemoteException;
 
     /**
-     * the sendResults method calculates and shows the final points of each player.
+     * the sendResults method sends the final points of each player.
      * @param PlayerPoints is a map of each player's points.
      * @param PlayerNumCompletedObjectives is a map of the number of objectives completed by each player.
+     * @throws RemoteException when the connection is lost.
      */
     void showResults(Map<String, Integer> PlayerPoints, Map<String, Integer> PlayerNumCompletedObjectives) throws RemoteException;
 
     /**
-     * the error message method prints the error message given in the description.
+     * the error message method sends the error message given in the description.
      * @param description is the message sent.
      * @throws RemoteException when the connection is lost.
      */
     void errorMessage(String description) throws RemoteException;
 
     /**
-     * the playerDisconnection method sets the status of a player to "disconnected"
+     * the playerDisconnection method notifies the disconnection of a player
      * @throws RemoteException when the connection is lost.
      */
     void playerDisconnection() throws RemoteException;

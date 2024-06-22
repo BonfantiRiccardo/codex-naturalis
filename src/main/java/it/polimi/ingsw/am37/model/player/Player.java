@@ -47,19 +47,14 @@ public class Player {
      * the sides of the cards placed by the player and his resources.
      */
     private Kingdom myKingdom;
-    /**
-     * The isDisconnected attribute gives information about the current state of connection with the player.
-     */
-    private boolean isDisconnected;
 
     /**
      * The Player(nickname, token) constructor sets the nickname and the token of the player to the ones given as
-     * parameters. It also sets the isDisconnected attribute to false.
+     * parameters.
      * @param nickname A string that uniquely identifies the player.
      */
     public Player(String nickname) {
         this.nickname = nickname;
-        isDisconnected = false;
     }
 
     /**
@@ -209,6 +204,7 @@ public class Player {
      * @param sC The StartCard that the Player drew.
      * @param startSide The StartCard Side that the Player chose.
      * @throws AlreadyAssignedException Throws this exception if the Kingdom has already been created.
+     * @throws IncorrectUserActionException Throws this exception if the Kingdom cannot be created.
      */
     public void instantiateMyKingdom(StartCard sC, Side startSide) throws AlreadyAssignedException, IncorrectUserActionException {
         if (this.myKingdom != null)

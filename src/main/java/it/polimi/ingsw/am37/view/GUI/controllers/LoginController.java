@@ -44,6 +44,7 @@ public class LoginController extends GUIController {
 
     /**
      * This method is called when the user is redirected here after another player in his lobby has disconnected
+     * @param text the message to display to the user
      */
     public void setDisconnectionText(String text) {
         disconnectionText.setText(text);

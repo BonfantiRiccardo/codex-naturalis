@@ -1,5 +1,8 @@
 package it.polimi.ingsw.am37.model.game;
 
+/**
+ * the GameStatus is the enumeration of the possible status of the game.
+ */
 public enum GameStatus {
     /**
      * the wait_start_card_side Status is the phase of the game where the player gets his starting card.
