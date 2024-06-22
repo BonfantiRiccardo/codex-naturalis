@@ -25,4 +25,9 @@ class PositionTest {
         assertNotEquals(p, c);
     }
 
+    @Test
+    void toStringTest() {
+        System.out.println(p);
+    }
+
 }

@@ -478,7 +478,10 @@
                                                             </HBox>
                                                             <HBox VBox.vgrow="NEVER">
                                                                <children>
-                                                                  <Text fx:id="p3Points" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS" />
+                                                                  <Text fx:id="p3Points" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                                                                     <font>
+                                                                        <Font name="System Bold" size="14.0" />
+                                                                     </font></Text>
                                                                </children>
                                                             </HBox>
                                                             <HBox alignment="CENTER_LEFT" spacing="15.0">
@@ -626,12 +629,18 @@
                                                          <children>
                                                             <HBox VBox.vgrow="NEVER">
                                                                <children>
-                                                                  <Text fx:id="p4Name" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS" />
+                                                                  <Text fx:id="p4Name" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                                                                     <font>
+                                                                        <Font size="14.0" />
+                                                                     </font></Text>
                                                                </children>
                                                             </HBox>
                                                             <HBox VBox.vgrow="NEVER">
                                                                <children>
-                                                                  <Text fx:id="p4Points" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS" />
+                                                                  <Text fx:id="p4Points" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                                                                     <font>
+                                                                        <Font size="14.0" />
+                                                                     </font></Text>
                                                                </children>
                                                             </HBox>
                                                             <HBox spacing="15.0">

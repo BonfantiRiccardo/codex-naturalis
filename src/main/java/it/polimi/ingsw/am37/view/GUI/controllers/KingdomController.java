@@ -665,7 +665,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
                 p3Name.setText(p.getNickname());
                 p3Points.setText("Points: " + p.getPoints());
                 playerInfos.put(p.getNickname(), p3Info);
-                updateResources(p2Info, p);
+                updateResources(p3Info, p);
             } else if (i == 2) {
                 player4Tab.setText(p.getNickname());
                 player4Grid.add(ivPl, 3,3);
@@ -675,7 +675,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
                 p4Name.setText(p.getNickname());
                 p4Points.setText("Points: " + p.getPoints());
                 playerInfos.put(p.getNickname(), p4Info);
-                updateResources(p2Info, p);
+                updateResources(p4Info, p);
             }
             GridPane.setConstraints(ivPl, 3, 3, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER);
             i++;
@@ -975,11 +975,6 @@ public class KingdomController extends GUIController implements PropertyChangeLi
                         availResCard1Button.setDisable(false);
                         availResCard2Button.setDisable(false);
                     });
-                } else if (evt.getNewValue().equals(ViewState.NOT_TURN)) {
-                    /*Platform.runLater(() -> {                //IF STATE = NOT TURN, SET TEXT AND DISABLE BUTTONS IN THE GRID
-                        infoText.setText("It's not your turn. Wait for the other players to draw a card.");
-                        //SET ALL THE BUTTONS IN THE LIST TO INVISIBLE
-                    });*/
                 } else if (evt.getNewValue().equals(ViewState.SHOW_RESULTS)) {
                     Platform.runLater(() -> {
                         infoText.setText("The game has ended. Press the button to see the results.");
@@ -990,10 +985,7 @@ public class KingdomController extends GUIController implements PropertyChangeLi
                 if (evt.getNewValue().equals(ViewState.DISCONNECTION)) {
                     infoText.setText("One or more players disconnected, press the button to return to the lobby");
                     Platform.runLater(() -> returnToLobby.setVisible(true));
-                } else if (evt.getNewValue().equals(ViewState.ERROR)) {
-                    //SHOULD B ABLE TO GO BACK TO PLACE
                 }
-
                 break;
             }
 
@@ -1022,7 +1014,9 @@ public class KingdomController extends GUIController implements PropertyChangeLi
                                 }
                             });
                             if (p.getX() + playerGridDimensions.get(guiReference.getLocalGameInstance().getMe().getNickname())/2 < 0 ||
-                                    -p.getY() + playerGridDimensions.get(guiReference.getLocalGameInstance().getMe().getNickname())/2 < 0) {
+                                    -p.getY() + playerGridDimensions.get(guiReference.getLocalGameInstance().getMe().getNickname())/2 < 0 ||
+                                    p.getX() + playerGridDimensions.get(guiReference.getLocalGameInstance().getMe().getNickname())/2 > playerGridDimensions.get(guiReference.getLocalGameInstance().getMe().getNickname()) -1 ||
+                                    -p.getY() + playerGridDimensions.get(guiReference.getLocalGameInstance().getMe().getNickname())/2 > playerGridDimensions.get(guiReference.getLocalGameInstance().getMe().getNickname()) -1) {
                                 redrawGrid(player1Grid, guiReference.getLocalGameInstance().getMe());
                                 success = false;
                                 break;
@@ -1068,7 +1062,9 @@ public class KingdomController extends GUIController implements PropertyChangeLi
                                 "/it/polimi/ingsw/am37/view/GUI/back/" + getBackResource((int) evt.getNewValue()) + ".png"))));
 
                     if (-placed.getY() + playerGridDimensions.get(((ClientSidePlayer) evt.getOldValue()).getNickname())/2 < 0 ||
-                            placed.getX() + playerGridDimensions.get(((ClientSidePlayer) evt.getOldValue()).getNickname())/2 < 0)
+                            placed.getX() + playerGridDimensions.get(((ClientSidePlayer) evt.getOldValue()).getNickname())/2 < 0 ||
+                            -placed.getY() + playerGridDimensions.get(((ClientSidePlayer) evt.getOldValue()).getNickname())/2 > playerGridDimensions.get(((ClientSidePlayer) evt.getOldValue()).getNickname()) - 1 ||
+                            placed.getX() + playerGridDimensions.get(((ClientSidePlayer) evt.getOldValue()).getNickname())/2 > playerGridDimensions.get(((ClientSidePlayer) evt.getOldValue()).getNickname()) - 1)
                         redrawGrid(playerGrids.get(((ClientSidePlayer) evt.getOldValue()).getNickname()), (ClientSidePlayer) evt.getOldValue());
                     else {
                         iv.setPreserveRatio(true);
@@ -1143,16 +1139,12 @@ public class KingdomController extends GUIController implements PropertyChangeLi
             }
 
             case "ENDGAME": {
-                Platform.runLater(() -> {
-                    infoText.setText("A player has reached 20 points. We have entered the endgame.");
-                });
+                Platform.runLater(() -> infoText.setText("A player has reached 20 points. We have entered the endgame."));
                 break;
             }
 
             case "LAST_TURN": {
-                Platform.runLater(() -> {
-                    infoText.setText("This will be the last turn.");
-                });
+                Platform.runLater(() -> infoText.setText("This will be the last turn."));
                 break;
             }
         }
@@ -1378,6 +1370,15 @@ public class KingdomController extends GUIController implements PropertyChangeLi
         }
 
         grid.getChildren().clear();
+        grid.getColumnConstraints().clear();
+        grid.getRowConstraints().clear();
+        int i = 0;
+        while (i < newDimension) {
+            grid.getColumnConstraints().add(new ColumnConstraints(162, 162, 162));
+            grid.getRowConstraints().add(new RowConstraints(84, 84, 84));
+            i++;
+        }
+
         for (Side s: player.getKingdom().getPlacedSides()) {
             ImageView iv;
             int id = getIdFromSide(s);
@@ -1392,8 +1393,8 @@ public class KingdomController extends GUIController implements PropertyChangeLi
             iv.setPreserveRatio(true);
             iv.setFitWidth(205);
 
-            grid.getColumnConstraints().add(new ColumnConstraints(162, 162, 162));
-            grid.getRowConstraints().add(new RowConstraints(84, 84, 84));
+            //grid.getColumnConstraints().add(new ColumnConstraints(162, 162, 162));
+            //grid.getRowConstraints().add(new RowConstraints(84, 84, 84));
             grid.add(iv, s.getPositionInKingdom().getX() + newDimension/2, -s.getPositionInKingdom().getY() + newDimension/2);
             GridPane.setConstraints(iv, s.getPositionInKingdom().getX() + newDimension/2, -s.getPositionInKingdom().getY() + newDimension/2, 1, 1, HPos.CENTER, VPos.CENTER, Priority.NEVER, Priority.NEVER);
         }

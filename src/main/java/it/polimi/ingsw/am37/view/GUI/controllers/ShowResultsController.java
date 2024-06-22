@@ -93,10 +93,24 @@ public class ShowResultsController extends GUIController {
 
     /**
      * Method that sets the winner of the game
-     * @param winner String that contains the name of the winner
+     * @param playerTable List of players
      */
-    public void setWinner(String winner) {
-        this.winner.setText("The winner is: " + winner);
+    public void setWinner(List<ClientSidePlayer> playerTable) {
+        StringBuilder winner;
+        int maxPoints = playerTable.getFirst().getPoints();
+        int maxObjectives = playerTable.getFirst().getObjectivesCompleted();
+        List<ClientSidePlayer> winners = new ArrayList<>(playerTable);
+
+        winner = new StringBuilder(playerTable.get(0).getNickname());
+        winners.remove(0);
+
+        for (ClientSidePlayer p: winners) {
+            if (p.getPoints() == maxPoints && p.getObjectivesCompleted() == maxObjectives) {
+                winner.append(" and ").append(p.getNickname());
+            } else
+                break;
+        }
+        this.winner.setText(winner.toString());
     }
 
     /**
@@ -104,23 +118,36 @@ public class ShowResultsController extends GUIController {
      */
     public void loadResults() {
         List<ClientSidePlayer> players = new ArrayList<>(guiReference.getLocalGameInstance().getPlayers());
-        List<ClientSidePlayer> playerTable = new ArrayList<>(guiReference.getLocalGameInstance().getPlayers());
-        int max;
+        List<ClientSidePlayer> finalOrder = new ArrayList<>();
 
         players.add(guiReference.getLocalGameInstance().getMe());
-        playerTable.add(guiReference.getLocalGameInstance().getMe());
-        for(int i = 0; i < players.size(); i++) {
-            max = players.getFirst().getPoints();
-            for (ClientSidePlayer p : players) {
-                if (max < p.getPoints())
-                    playerTable.set(i, p);
+
+        for(ClientSidePlayer p: players) {
+            if (finalOrder.isEmpty())
+                finalOrder.add(p);
+            else {
+                boolean inserted = false;
+                for (ClientSidePlayer p2 : finalOrder) {
+                    if (p.getPoints() > p2.getPoints()) {
+                        finalOrder.add(finalOrder.indexOf(p2), p);
+                        inserted = true;
+                        break;
+                    } else if (p.getPoints() == p2.getPoints()) {
+                        if (p.getObjectivesCompleted() >= p2.getObjectivesCompleted()) {
+                            finalOrder.add(finalOrder.indexOf(p2), p);
+                            inserted = true;
+                            break;
+                        }
+                    }
+                }
+                if (!inserted)
+                    finalOrder.add(p);
             }
-            players.remove(playerTable.get(i));
         }
 
-        setWinner(playerTable.getFirst().getNickname());
+        setWinner(finalOrder);
         int i = 1;
-        for (ClientSidePlayer p: playerTable) {
+        for (ClientSidePlayer p: finalOrder) {
             if (i == 1) {
                 player1.setText(i + "°: " + p.getNickname());
                 pointsAndCompletion1.setText("Points: " + p.getPoints() + " Completions: " + p.getObjectivesCompleted());

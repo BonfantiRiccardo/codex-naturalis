@@ -50,7 +50,6 @@ public abstract class View implements PropertyChangeListener {
      */
     public void setState(ViewState state) {
         synchronized (localGameInstance) { //CREATE A LOCK FOR THIS?
-            System.out.println("STATE CHANGED: " + this.state + " -> " + state);
             if (this.state == ViewState.NOT_TURN && state == ViewState.PLACE) {
                 PropertyChangeEvent evt = new PropertyChangeEvent(
                         this,

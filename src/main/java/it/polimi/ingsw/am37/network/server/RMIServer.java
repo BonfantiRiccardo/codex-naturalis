@@ -626,7 +626,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
      */
     public void playerDisconnected(RMIClientSkeleton cs) {
         GameController c = multipleMatchesHandler.getMapRMI().get(cs);
-        clients.remove(cs.hashCode(), cs);
+        if (cs != null)
+            clients.remove(cs.hashCode(), cs);
 
         if (c != null) {
             for (Player p: c.getAddedPlayers())

@@ -198,23 +198,24 @@ public class ChooseTokenController extends GUIController implements PropertyChan
                 break;
             }
             case "TOKEN_REMOVED": {
-
-                switch ((Token) evt.getOldValue()) {
-                    case Token.RED: {
-                        Platform.runLater(() -> tokenMenu.getItems().remove(red));
-                        break;
-                    }
-                    case Token.BLUE: {
-                        Platform.runLater(() -> tokenMenu.getItems().remove(blue));
-                        break;
-                    }
-                    case Token.YELLOW: {
-                        Platform.runLater(() -> tokenMenu.getItems().remove(yellow));
-                        break;
-                    }
-                    case Token.GREEN: {
-                        Platform.runLater(() -> tokenMenu.getItems().remove(green));
-                        break;
+                if (guiReference.getState().equals(ViewState.CHOOSE_TOKEN)) {
+                    switch ((Token) evt.getOldValue()) {
+                        case Token.RED: {
+                            Platform.runLater(() -> tokenMenu.getItems().get(red).setVisible(false));
+                            break;
+                        }
+                        case Token.BLUE: {
+                            Platform.runLater(() -> tokenMenu.getItems().get(blue).setVisible(false));
+                            break;
+                        }
+                        case Token.YELLOW: {
+                            Platform.runLater(() -> tokenMenu.getItems().get(yellow).setVisible(false));
+                            break;
+                        }
+                        case Token.GREEN: {
+                            Platform.runLater(() -> tokenMenu.getItems().get(green).setVisible(false));
+                            break;
+                        }
                     }
                 }
                 checkOtherPlayers();
@@ -242,9 +243,7 @@ public class ChooseTokenController extends GUIController implements PropertyChan
                 }
             });
         } else if (guiReference.getLocalGameInstance().getMe().getToken() != null) {
-            Platform.runLater(() -> {
-                infoText.setText("Waiting for: " + stillToPlay.toString() + " to choose their token");
-            });
+            Platform.runLater(() -> infoText.setText("Waiting for: " + stillToPlay + " to choose their token"));
         }
     }
 

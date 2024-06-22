@@ -1,6 +1,8 @@
 package it.polimi.ingsw.am37.controller;
 
 import it.polimi.ingsw.am37.controller.states.*;
+import it.polimi.ingsw.am37.controller.virtualview.TCPVirtualView;
+import it.polimi.ingsw.am37.controller.virtualview.VirtualView;
 import it.polimi.ingsw.am37.exceptions.*;
 import it.polimi.ingsw.am37.model.cards.placeable.StandardCard;
 import it.polimi.ingsw.am37.model.game.GameModel;
@@ -9,8 +11,10 @@ import it.polimi.ingsw.am37.model.player.Player;
 import it.polimi.ingsw.am37.model.player.Token;
 import it.polimi.ingsw.am37.model.sides.Back;
 import it.polimi.ingsw.am37.model.sides.Position;
+import it.polimi.ingsw.am37.network.server.ClientHandler;
 import org.junit.jupiter.api.Test;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +32,13 @@ class GameControllerTest {
         assertSame(c.getAddedPlayers().get(0), p);
         assertEquals(3, c.getNumOfPlayers());
         assertFalse(c.isGameStarted());
+        assertFalse(c.isEndGameStarted());
         assertEquals(c.getState().getClass(), LobbyState.class);
+
+        VirtualView vv = new TCPVirtualView(new ClientHandler(new Socket(), new MultipleMatchesHandler()));
+        c.setVirtualView(p, vv);
+        assertEquals(vv, c.getPlayerViews().get(p));
+
     }
 
     public List<Player> createList() {
