@@ -7,6 +7,7 @@ import java.util.EventListener;
 
 /**
  * This interface is used to define the methods that the VirtualServer must implement.
+ * The VirtualServer is the class that sends the messages to the server.
  */
 public interface VirtualServer extends EventListener {
     /**
