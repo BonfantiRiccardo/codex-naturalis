@@ -29,7 +29,7 @@ Guarda il file dei problemi noti: [Known Issues](KNOWN_ISSUES.txt)
 |  Socket TCP      |  :white_check_mark:     |
 |  RMI             |  :white_check_mark:     |
 |  CLI             |  :white_check_mark:     |
-|  GUI             |  :gear:                 |
+|  GUI             |  :white_check_mark:                 |
 |  Multiple games  |  :white_check_mark:     |
 |  Chat            |  :no_entry:             |
 |  Persistence     |  :no_entry:             |
