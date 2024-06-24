@@ -45,7 +45,7 @@ public class ServerMain {
                     InetAddress i = (InetAddress) ee.nextElement();
                     if (count == 0 && i.getHostAddress().contains("wireless"))
                         found = true;
-                    else if (count == 1 && found) {
+                    else if (count == 1 && found && i.getHostAddress().contains("172")) {
                         System.setProperty("java.rmi.server.hostname", i.getHostAddress());
                         System.out.println("RMI Server hostname set to: " + i.getHostAddress());
                         break;

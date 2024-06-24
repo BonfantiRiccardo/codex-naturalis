@@ -102,7 +102,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
         if ((2 <= numOfPlayers) && (numOfPlayers <= 4)) {
             GameController controller = new GameController(p,numOfPlayers);
 
-            multipleMatchesHandler.addClient(client, controller );//DON'T SAVE THE CLIENT, ONLY SAVE CONTROLLER_HASH (PLAYER ID WITH NAME)
+            multipleMatchesHandler.addClient(client, controller );
             join(clientId, client);
 
             multipleMatchesHandler.addLobby(controller.hashCode(), controller);
@@ -612,7 +612,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerStub {
                 public void run() {
                     System.out.println("\nOne of the player did not send a ping to the server for 15 seconds, it is considered disconnected.");
                     playerDisconnected(clients.get(clientId));
-                    pingThread.interrupt();
+                    //pingThread.interrupt();
                 }
             }, 15000);
         }

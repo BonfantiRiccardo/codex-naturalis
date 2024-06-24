@@ -745,7 +745,8 @@ public class KingdomController extends GUIController implements PropertyChangeLi
     public void onFlipCard1Click(ActionEvent actionEvent) {
         card1SideShown = flip(card1SideShown, handCard1, handCards.get(handCard1));
         selectedCard = -1;
-        Platform.runLater(() -> infoText.setText("Select a card by clicking on it."));
+        if(guiReference.getState().equals(ViewState.PLACE) || guiReference.getState().equals(ViewState.ERROR))
+            Platform.runLater(() -> infoText.setText("Select a card by clicking on it."));
     }
 
     /**
@@ -766,7 +767,8 @@ public class KingdomController extends GUIController implements PropertyChangeLi
     public void onFlipCard2Click(ActionEvent actionEvent) {
         card2SideShown = flip(card2SideShown, handCard2, handCards.get(handCard2));
         selectedCard = -1;
-        Platform.runLater(() -> infoText.setText("Select a card by clicking on it."));
+        if(guiReference.getState().equals(ViewState.PLACE) || guiReference.getState().equals(ViewState.ERROR))
+            Platform.runLater(() -> infoText.setText("Select a card by clicking on it."));
     }
 
     /**
@@ -787,7 +789,8 @@ public class KingdomController extends GUIController implements PropertyChangeLi
     public void onFlipCard3Click(ActionEvent actionEvent) {
         card3SideShown = flip(card3SideShown, handCard3, handCards.get(handCard3));
         selectedCard = -1;
-        Platform.runLater(() -> infoText.setText("Select a card by clicking on it."));
+        if(guiReference.getState().equals(ViewState.PLACE) || guiReference.getState().equals(ViewState.ERROR))
+            Platform.runLater(() -> infoText.setText("Select a card by clicking on it."));
     }
 
     /**
