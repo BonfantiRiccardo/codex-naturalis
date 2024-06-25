@@ -939,7 +939,7 @@ public class TUIView extends View implements PropertyChangeListener {
         System.out.print("Your active positions: ");
         int newLine = 0;
         for (Position p: localGameInstance.getMe().getKingdom().getActivePositions()) {
-            if (newLine == 8) {
+            if (newLine == 7) {
                 System.out.println();
                 newLine = 0;
             }

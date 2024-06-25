@@ -41,7 +41,7 @@ public class GoldCard extends StandardCard {
                 }
                 case 42 -> {
                     bonus = "1 💧";
-                    yield "   🍄🍄🍁    ";
+                    yield "   🍄🍄🍀    ";
                 }
                 case 43 -> {
                     bonus = "1 📜";
@@ -53,7 +53,7 @@ public class GoldCard extends StandardCard {
                 }
                 case 45 -> {
                     bonus = "2 🔲";
-                    yield "  🍄🍄🍄🍁   ";
+                    yield "  🍄🍄🍄🍀   ";
                 }
                 case 46 -> {
                     bonus = "2 🔲";
@@ -69,35 +69,35 @@ public class GoldCard extends StandardCard {
                 }
                 case 51 -> {
                     bonus = "1 🪶";
-                    yield "   🍁🍁🦋    ";
+                    yield "   🍀🍀🦋    ";
                 }
                 case 52 -> {
                     bonus = "1 📜";
-                    yield "   🍁🍁🍄    ";
+                    yield "   🍀🍀🍄    ";
                 }
                 case 53 -> {
                     bonus = "1 💧";
-                    yield "   🍁🍁🐺    ";
+                    yield "   🍀🍀🐺    ";
                 }
                 case 54 -> {
                     bonus = "2 🔲";
-                    yield "  🍁🍁🍁🦋   ";
+                    yield "  🍀🍀🍀🦋   ";
                 }
                 case 55 -> {
                     bonus = "2 🔲";
-                    yield "  🍁🍁🍁🐺   ";
+                    yield "  🍀🍀🍀🐺   ";
                 }
                 case 56 -> {
                     bonus = "2 🔲";
-                    yield "  🍁🍁🍁🍄   ";
+                    yield "  🍀🍀🍀🍄   ";
                 }
                 case 57, 58, 59 -> {
                     bonus = "  3 ";
-                    yield "   🍁🍁🍁    ";
+                    yield "   🍀🍀🍀    ";
                 }
                 case 60 -> {
                     bonus = "  5 ";
-                    yield " 🍁🍁🍁🍁🍁  ";
+                    yield " 🍀🍀🍀🍀🍀  ";
                 }
                 case 61 -> {
                     bonus = "1 💧";
@@ -105,7 +105,7 @@ public class GoldCard extends StandardCard {
                 }
                 case 62 -> {
                     bonus = "1 📜";
-                    yield "   🐺🐺🍁    ";
+                    yield "   🐺🐺🍀    ";
                 }
                 case 63 -> {
                     bonus = "1 🪶";
@@ -121,7 +121,7 @@ public class GoldCard extends StandardCard {
                 }
                 case 66 -> {
                     bonus = "2 🔲";
-                    yield "  🐺🐺🐺🍁   ";
+                    yield "  🐺🐺🐺🍀   ";
                 }
                 case 67, 68, 69 -> {
                     bonus = "  3 ";
@@ -133,7 +133,7 @@ public class GoldCard extends StandardCard {
                 }
                 case 71 -> {
                     bonus = "1 🪶";
-                    yield "   🦋🦋🍁    ";
+                    yield "   🦋🦋🍀    ";
                 }
                 case 72 -> {
                     bonus = "1 📜";
@@ -149,7 +149,7 @@ public class GoldCard extends StandardCard {
                 }
                 case 75 -> {
                     bonus = "2 🔲";
-                    yield "  🦋🦋🦋🍁   ";
+                    yield "  🦋🦋🦋🍀   ";
                 }
                 case 76 -> {
                     bonus = "2 🔲";

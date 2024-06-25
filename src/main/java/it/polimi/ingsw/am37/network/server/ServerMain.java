@@ -32,7 +32,7 @@ public class ServerMain {
         }).start();
 
         // Set the hostname to localhost to avoid issues with the RMI server
-
+        System.out.println("RMI Server will only work if the IP address starts with 172.B.C.D (it will always work on localhost).");
         Enumeration e;
         try {
             e = NetworkInterface.getNetworkInterfaces();
