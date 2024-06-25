@@ -43,7 +43,7 @@ public class ServerMain {
                 boolean found = false;
                 while (ee.hasMoreElements()) {
                     InetAddress i = (InetAddress) ee.nextElement();
-                    if (count == 0 && i.getHostAddress().contains("wireless"))
+                    if (count == 0 && (i.getHostAddress().contains("wireless") || i.getHostAddress().contains("wifi0")))
                         found = true;
                     else if (count == 1 && found && i.getHostAddress().contains("172")) {
                         System.setProperty("java.rmi.server.hostname", i.getHostAddress());
