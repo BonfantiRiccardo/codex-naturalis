@@ -56,16 +56,18 @@ public class LShape extends PlacementBoundObjective {
 
         for(Side s: cards){
             if(s.getMainResource().equals(this.getCardColourThatTriggersCheck()) && !s.getUsedLCorner()){
-                if(s.getCorners().get(direction).getLinkedSide()!=null){
-                    if(s.getCorners().get(direction).getLinkedSide().getMainResource().equals(getOtherResource()) && !s.getCorners().get(direction).getLinkedSide().getUsedLLeg()){
+                for (Side s1: cards) {
+                    if(direction.createPosition(s.getPositionInKingdom()).equals(s1.getPositionInKingdom()) && s1.getMainResource().equals(getOtherResource()) && !s1.getUsedLLeg()){
                         for(Side check: cards){
                             if(check.getMainResource().equals(getOtherResource()) && !check.getUsedLLeg() && check.getPositionInKingdom().getX()==s.getPositionInKingdom().getX()+requestedPosition.getX() && check.getPositionInKingdom().getY()==s.getPositionInKingdom().getY()+requestedPosition.getY()){
                                 numSatisfied++;
                                 check.setUsedLLeg(true);
-                                s.getCorners().get(direction).getLinkedSide().setUsedLLeg(true);
+                                s1.setUsedLLeg(true);
                                 s.setUsedLCorner(true);
+                                break;
                             }
                         }
+                        break;
                     }
                 }
             }
