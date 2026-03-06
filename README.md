@@ -49,3 +49,9 @@ Guarda il file dei problemi noti: [Known Issues](KNOWN_ISSUES.txt)
 3. Open the terminal and launch the server -> `java -jar Server_Codex_Naturalis.jar TCPport RMIport` <br>(where TCPport and RMIport are whatever ports you want to open for connection)
 4. Launch the clients in another terminal: specify which user interface (UI) you want to play with ("gui" or "tui") and the connection protocol (PROTOCOL) you want to play with ("tcp" or "rmi") <br>
 -> `java -jar Client_Codex_Naturalis.jar ServerIP PORT UI PROTOCOL` <br>(where ServerIP is the address of the server and PORT is the port of the server that is open for connaction for the specified protocol)
+
+
+[**CodexNaturalis**](https://www.craniocreations.it/prodotto/codex-naturalis) is property of [_Cranio Creations_] and all of the copyrighted graphical assets used in this project were supplied by [**Politecnico di Milano**] in collaboration with their rights' holders.
+
+[_Cranio Creations_]: https://www.craniocreations.it/
+[**Politecnico di Milano**]: https://www.polimi.it/
